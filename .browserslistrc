@@ -1,0 +1,9 @@
+### ------------------------------------------------------------------------------------------------
+##  .browserslistrc
+##  ---------------
+##  @author  brikcss  <https://github.com/brikcss>
+##  @description  Official browser support policy. See [BrowsersList](https://github.com/ai/browserslist).
+### ------------------------------------------------------------------------------------------------
+
+Last 2 versions
+IE 11

@@ -1,0 +1,29 @@
+/** ------------------------------------------------------------------------------------------------
+ *  _sidebars.init.scss
+ *  -------------------
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  Sidebars init with default options.
+ ** --------------------------------------------------------------------------------------------- */
+
+@if $sidebars-init == true {
+	.#{$sidebars__base} {
+		display: flex;
+	}
+
+	.#{$sidebars__base}__content {
+		flex-grow: 1;
+		width: 100%;
+	}
+
+	@if $sidebars-left == true {
+		.#{$sidebars__base}__left {
+			@include sidebar($pin-at: 1080px);
+		}
+	}
+
+	@if $sidebars-right == true {
+		.#{$sidebars__base}__right {
+			@include sidebar($side: right);
+		}
+	}
+}

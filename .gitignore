@@ -1,0 +1,15 @@
+### ------------------------------------------------------------------------------------------------
+##  .gitignore
+##  ----------
+##  @author  brikcss  <https://github.com/brikcss>
+##  @description  Files to have ignored by [git](https://git-scm.com).
+### ------------------------------------------------------------------------------------------------
+
+# Node
+node_modules
+
+# MacOS
+.DS_Store
+
+# App
+.temp

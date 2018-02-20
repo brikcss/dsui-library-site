@@ -1,0 +1,131 @@
+module.exports = (brik, { file, tim }) => {
+	// ------------------
+	// Package.json base.
+	// Merges with existing package.json.
+	//
+	// Base properties.
+	let pkg = {
+		name: '@brikcss/dsui-library-site',
+		description: 'DirectScale UI Library site, built with BrikCSS.',
+		version: '0.0.0-development',
+		author: 'DirectScale <https://directscale.com>',
+		contributors: ['The Zimmee <thezimmee@gmail.com>'],
+		homepage: 'https://github.com/brikcss/dsui-library-site',
+		repository: {
+			type: 'git',
+			url: 'https://github.com/brikcss/dsui-library-site.git',
+		},
+		bugs: {
+			url: 'https://github.com/brikcss/dsui-library-site/issues',
+		},
+		// keywords: [],
+		// main: '',
+		// module: '',
+		// files: [],
+		// scripts: {},
+		// dependencies: {},
+		// devDependencies: {}
+		// peerDependencies: {}
+	};
+	// Merge with existing.
+	if (file.existing) {
+		pkg = Object.assign({}, file.existing, pkg);
+	}
+
+	// ------------
+	// NPM scripts.
+	//
+	pkg.scripts = {
+		// -----------
+		// `npm start`
+		// Run a dev build, watch files, and serve it up locally.
+		//
+		start: 'npm run dev && concurrently --raw "npm run watch" "npm run serve"',
+
+		// ----------
+		// `npm test`
+		// Run all tests.
+		test:
+			'npm prune && cross-env NODE_ENV=production concurrently --kill-others-on-fail --names=sasslint,jslint "npm run sasslint" "npm run jslint" || npm run test:fail',
+		pretest: 'echo "Running linters...\n"',
+		posttest: 'echo "\n[ok] Tests complete.\n"',
+		'test:fail': 'echo "\n[FAIL] Tests failed.\n" && exit 1',
+
+		// ---------------
+		// `npm run watch`
+		// Watch files and recompile when they change.
+		watch:
+			'concurrently --raw "npm run watch:js" "npm run watch:sass" "npm run watch:templates" "npm run watch:config" "npm run watch:brikrc"',
+
+		// -------------
+		// `npm run dev`
+		// Run a dev build. Intended for speedy local development only.
+		dev:
+			'npm run compile:pkg && concurrently --raw --names=sass,js,templates --kill-others-on-fail "npm run compile:sass" "npm run compile:js -- --no-stats" "npm run compile:templates" || npm run prod:fail',
+
+		// --------------
+		// `npm run prod`
+		// Run a production build.
+		prod:
+			'cross-env NODE_ENV=production concurrently --raw --names=sass,js,templates --kill-others-on-fail "npm run compile:sass -- --env=prod" "npm run compile:js" "npm run compile:templates" || npm run prod:fail',
+		preprod: 'npm run test && echo "\nStarting production build...\n" && npm run prod:clean',
+		postprod: 'echo "\n[ok] Production build complete.\n"',
+		'prod:clean': 'rimraf dist .dist .temp --glob=false',
+		'prod:fail': 'echo "\n[FAIL] Build failed.\n" && exit 1',
+
+		// ---------------
+		// `npm run serve`
+		// Runs browser-sync, a local development server.
+		serve: 'browser-sync start --config ./.browsersync.js',
+
+		// -------------
+		// Helper tasks.
+		// You shouldn't typically need to run these on their own.
+		// Template compilers. Compiles EJS, XJS and XJSON templates.
+		'watch:brikrc': 'chokidar ./.brikrc.js --command "npm run dev"',
+		'compile:pkg': 'tim xjson src/package.xjson --output=package.json',
+		'watch:pkg':
+			'chokidar ./src/package.xjson --command "tim xjson {path} --output=./package.json"',
+		'compile:homepage': 'tim ejs src/angularjs/home.html --output=dist/angularjs/index.html',
+		'watch:homepage':
+			'chokidar "./src/**/*.ejs.html" "./src/angularjs/home.html" --command "npm run compile:homepage"',
+		'compile:templates': 'concurrently --raw "npm run compile:pkg" "npm run compile:homepage"',
+		'watch:templates': 'concurrently --raw "npm run watch:pkg" "npm run watch:homepage"',
+
+		// JS compiler.
+		'compile:js': 'tim js',
+		'watch:js': 'tim js --watch',
+
+		// SASS compiler.
+		'compile:sass': 'tim sass',
+		'watch:sass': 'chokidar "src/**/*.scss" -c "tim sass --run-file={path}"',
+
+		// Unit testing.
+		'test:unit': "mocha './**/*.spec.js' --reporter=mocha-better-spec-reporter --colors",
+		'test:coverage': "nyc mocha './**/*.spec.js' --reporter=mocha-better-spec-reporter --colors",
+
+		// JS linter.
+		jslint: 'node_modules/.bin/eslint src/**/*.{.js,.xjs,.xjson} --format=stylish',
+		postjslint: 'echo "[ok] JS lint complete."',
+		'watch:jslint':
+			"chokidar src/**/*.{.js,.xjs,.xjson} --command 'node_modules/.bin/eslint {path} --format=stylish && npm run postjslint'",
+
+		// SASS linter.
+		sasslint: 'node_modules/.bin/stylelint src/**/*.{.css,.scss} --format=stylish',
+		postsasslint: 'echo "[ok] SASS lint complete."',
+		'watch:sasslint':
+			"chokidar src/**/*.{.css,.scss} --command 'node_modules/.bin/stylelint {path} --format=stylish && npm run postsasslint'",
+
+		// Publish to GitHub pages.
+		'gh-pages':
+			'gh-pages -d ./dist/angularjs --repo https://thezimmee@github.com/brikcss/dsui-library-site.git',
+
+		// Auto release. Automagically release to NPM and github.
+		release: 'semantic-release',
+	};
+
+	// Sort scripts.
+	pkg.scripts = tim.sortObject(pkg.scripts);
+
+	return pkg;
+};

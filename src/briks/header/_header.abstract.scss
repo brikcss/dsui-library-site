@@ -1,0 +1,28 @@
+/** ------------------------------------------------------------------------------------------------
+ *  header.scss
+ *  -----------
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  Global header.
+ ** --------------------------------------------------------------------------------------------- */
+
+// -------------
+// Header setup.
+//
+$header-init: true !default;
+$header__base: header !default;
+$header__height: 2rem !default;
+$header__padding: 0 0.5rem !default;
+$header__bg: hsl(199, 98%, 48%) !default;
+
+/**
+ *  Create page header.
+ */
+@mixin header($height: $header__height, $padding: $header__padding, $bg: $header__bg) {
+	display: flex;
+	align-items: center;
+	position: relative;
+	height: $height;
+	padding: $padding;
+	background-color: $bg;
+	@include elevate(4);
+}

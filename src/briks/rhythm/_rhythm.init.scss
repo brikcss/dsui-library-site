@@ -1,0 +1,16 @@
+/** ------------------------------------------------------------------------------------------------
+ *  _rhythm.init.scss
+ *  -----------------
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  Rhythm init.
+ ** --------------------------------------------------------------------------------------------- */
+
+@if ($rhythm-init) {
+	@include rhythms();
+}
+
+@if ($rhythm-grid) {
+	.#{$rhythm__base}__grid {
+		@include rhythm-grid();
+	}
+}

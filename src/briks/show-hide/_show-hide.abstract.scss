@@ -1,0 +1,63 @@
+// ----------------
+// Show hide setup.
+//
+$showhide-init: true !default;
+$showhide__base: show-hide !default;
+
+/**
+ *  Show hide element.
+ */
+@mixin showhide($add-icons: true, $icon-size: 0.45rem, $icon-line-width: pxrem(2), $icon-color: hsl(0, 0%, 70%), $base: $showhide__base) {
+	$duration: 300ms;
+
+	overflow: hidden;
+	position: relative;
+	transition: height $duration cubic-bezier(0.3, 0.2, 0.2, 1.15);
+
+	@if ($add-icons == true) {
+		&__icon {
+			height: $icon-size;
+			width: $icon-size;
+			display: inline-block;
+			position: absolute;
+			right: 0.5rem;
+			top: calc(50% - #{$icon-size / 2});
+			transition: transform ($duration * 0.75) cubic-bezier(0.3, 0.2, 0.2, 1);
+
+			// stylelint-disable selector-max-type
+			&:before,
+			&:after {
+				background-color: $icon-color;
+				content: ' ';
+				display: inline-block;
+				position: absolute;
+			}
+
+			&:before {
+				height: $icon-line-width;
+				width: 100%;
+				top: calc(50% - #{$icon-line-width / 2});
+			}
+
+			&:after {
+				height: 94%;
+				width: $icon-line-width;
+				top: 3%;
+				right: calc(50% - #{$icon-line-width / 2});
+				transform: scale(1);
+				transition: transform $duration cubic-bezier(0.3, 0.2, 0.2, 1);
+			}
+			// stylelint-enable selector-max-type
+		}
+
+		&--is-active {
+			.#{$base}__icon {
+				transform: rotate(180deg);
+
+				&:after {
+					transform: scale(0);
+				}
+			}
+		}
+	}
+}

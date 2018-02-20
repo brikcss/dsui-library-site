@@ -1,0 +1,194 @@
+/** ------------------------------------------------------------------------------------------------
+ *  _rhythm.abstract.scss
+ *  ---------------------
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  Establishes a vertical rhythm grid. This offers the following benefits:
+ *      - Easily manage vertical rhythm and dimensional properties (see "@tutorial" for list of
+ *        dimensional properties) with `rem` units (see
+ *        https://webdesign.tutsplus.com/articles/improving-layout-with-vertical-rhythm--webdesign-14070).
+ *      - Easily manage responsive typography with `em` units.
+ *
+ *  @tutorial  It is extremely important to follow these rules in order to keep the vertical grid "in rhythm".
+ *      - Definitions:
+ *          - List of "dimensional properties": height, width, margin, padding, line-height, border.
+ *          - 1rem = 1 vertical line unit.
+ *          - 1em = 1 base font size unit.
+ *      - Rules:
+ *          - ALWAYS use `rem` units for dimensional properties.
+ *          - ALWAYS use `em` units for the `font-size` property.
+ *          - Whole numbers should be **highly** favored when applying `rem` units.
+ *          - If desired, fractional numbers may be applied, but **only** in divisions of two (2).
+ *            In other words, a `rem` unit can be applied in fractional divisions of 2, 4, 8, 16,
+ *            etc. However, it is strongly discouraged to apply fractional numbers in divisions of
+ *            more than 4. To illustrate:
+ *              ```
+ *              1rem // Whole numbers should be **highly** favored.
+ *              3.5rem // Acceptable, division of 2.
+ *              10.25rem // Acceptable, division of 4.
+ *              10.33rem // Unacceptable, division of 3. Fractionals must be in divisions of 2.
+ *              10.634574rem // Unacceptable, fractional numbers must be divisions of 2.
+ *              10.125rem // Acceptable but discouraged, since division of 8 is > division of 4.
+ *              ```
+ *          - There may be cases where it is necessary to break the rules above and apply a
+ *            dimension that throws the vertical grid out of rhythm. Examples might be an element
+ *            that needs a 1px border, or an image that must have a certain pixel height. In such
+ *            cases, follow these guidelines:
+ *              - First, avoid doing so if at all possible. Use proper rem values wherever possible
+ *                as it simplifies managing the vertical grid.
+ *              - If breaking the rules is necessary, apply this rule to ensure the vertical grid
+ *                stays in rhythm: The sum of all "dimensional properties" (which are listed above)
+ *                must equal a whole rem unit.
+ *              - Examples where it might be necessary to break the rules and how the above rule
+ *                might be applied:
+ *                  ```
+ *                  // The border for this element absolutely must be 1px.
+ *                  .pixel-border {
+ *                      border: 1px solid hsl(0, 0, 80%);
+ *                      // Bring back into rhythm with the `calc()` function:
+ *                      // height = 3rem minus 1px for top border and 1px for bottom border.
+ *                      height: calc(3rem - 2px);
+ *                  }
+ *
+ *                  // This image must be 300px tall. To ensure the element stays in rhythm, a
+ *                  // margin (or padding) can be applied to bring the sum of height + margin = the
+ *                  // value of a whole number rem unit. Let's assume that a vertical line is 32px.
+ *                  // A height of 300px (which is 9.375rem in a 32px rhythm) + (0.3125rem * 2)
+ *                  // equals 10rem. With a 300px tall image, we're still "in rhythm"!
+ *                  .pixel-image {
+ *                      height: 300px;
+ *                      margin-bottom: 0.3125rem;
+ *                      margin-top: 0.3125rem;
+ *                  }
+ *                  ```
+ ** --------------------------------------------------------------------------------------------- */
+
+// -----------------
+// Rhythm variables.
+//
+// stylelint-disable unit-blacklist
+$rhythm__queries: (30px 15px 0, 32px 16px 768px) !default;
+$rhythm__base: rhythm !default;
+$rhythm-init: true !default;
+$rhythm-grid: true !default;
+$rhythm-grid__bg: hsla(0, 0%, 0%, 0.1) !default;
+// stylelint-enable unit-blacklist
+
+/**
+ *  Apply multiple rhythms at once. Each list item applies a separate rhythm for a different media
+ *  query breakpoint.
+ *
+ *  @param   {list}  $rhythms  List of rhythms. Each item in the list is another list of the
+ *      following values: rhythm's vertical line height, font-size, and media query min-width
+ *      breakpoint at which the rhythm will be applied. The line height value should be in pixels.
+ */
+@mixin rhythms($rhythms: $rhythm__queries) {
+	@for $i from 1 through length($rhythms) {
+		@include rhythm(nth($rhythms, $i));
+	}
+}
+
+/**
+ *  Apply a single rhythm from a list of values.
+ *
+ *  @param  {list}  $rhythm:  32px 0 16px  List of the following values: rhythm's vertical line
+ *      height, font-size, and media query min-width breakpoint at which the rhythm will be applied.
+ *      The line height value should be in pixels.
+ */
+@mixin rhythm($rhythm: 32px 0 16px) {
+	$query-width: nth($rhythm, 3);
+
+	html {
+		@if ($query-width > 0) {
+			@media (min-width: $query-width) {
+				font-size: nth($rhythm, 1);
+			}
+		} @else {
+			font-size: nth($rhythm, 1);
+		}
+	}
+
+	body {
+		line-height: 1rem;
+
+		@if ($query-width > 0) {
+			@media (min-width: $query-width) {
+				font-size: nth($rhythm, 2);
+			}
+		} @else {
+			font-size: nth($rhythm, 2);
+		}
+	}
+}
+
+/**
+ *  Look up vertical line height or font size at a given rhythm query.
+ *
+ *  @param   {number}  $query:  nth(nth($rhythm__queries,  1)  Query width, in pixels.
+ *  @param   {string}  $property  line-height  Rhythm property to look up (line-height|font-size).
+ *  @param   {list}  $rhythms:  $rhythm__queries  List of rhythm queries to be searched, each in the
+ *      format of ($line-height, $font-size, $query-width).
+ *  @return  {number}  $property at given $query width from list of $rhythms.
+ */
+@function px-rhythm($query: nth(nth($rhythm__queries, 1), 3), $property: line-height, $rhythms: $rhythm__queries) {
+	// Convert $property to the corresponding list index to look up.
+	@if ($property == font-size) or ($property == font) {
+		$property: 2;
+	} @else {
+		$property: 1;
+	}
+	// Loop through $rhythms and return the corresponding prop.
+	@for $i from 1 through length($rhythms) {
+		@if ($i == length($rhythms)) {
+			@return nth(nth($rhythms, $i), $property);
+		}
+		@if ($query >= nth(nth($rhythms, $i), 3)) and ($query < nth(nth($rhythms, $i + 1), 3)) {
+			@return nth(nth($rhythms, $i), $property);
+		}
+	}
+}
+
+/**
+ *  Look up the vertical line height value at a particular rhythm query.
+ *
+ *  @param   {number}  $query:  0  Query width, in pixels.
+ *  @param   {list}  $rhythms:  $rhythm__queries  List of rhythm queries to be searched, each in the
+ *      format of ($line-height, $font-size, $query-width).
+ *  @return  {number}  Line height at given $query width, from list of $rhythms.
+ */
+@function px-rhythm-height($query: 0, $rhythms: $rhythm__queries) {
+	@return px-rhythm($query, line-height, $rhythms);
+}
+
+/**
+ *  Convert px to rem value.
+ *
+ *  @param   {number}  $px:  1  Pixel value to convert to rems.
+ *  @param   {number}  $line-height:  nth(nth($rhythm__queries,  1), 1)  Pixel value of one (1) vertical line.
+ *  @return  {number}  Value in rems.
+ */
+@function pxrem($px: 1, $line-height: nth(nth($rhythm__queries, length($rhythm__queries)), 1)) {
+	@return ($px / ($line-height / ($line-height * 0 + 1))) * 1rem;
+}
+
+/**
+ *  Look up font size value at a particular rhythm query.
+ *
+ *  @param   {number}  $query:  0  Query width, in pixels.
+ *  @param   {list}  $rhythms:  $rhythm__queries  List of rhythm queries to search, each in the
+ *      format of ($line-height, $font-size, $query-width).
+ *  @return  {number}  Font size at given $query width, from list of $rhythms.
+ */
+@function px-rhythm-font($query: 0, $rhythms: $rhythm__queries) {
+	@return px-rhythm-value($query, font-size, $rhythms);
+}
+
+/**
+ *  Styles for a rhythm grid.
+ *
+ *  @param   {color}  $bg:  $rhythm-grid__bg  Background color.
+ */
+@mixin rhythm-grid($bg: $rhythm-grid__bg) {
+	// stylelint-disable-next-line unit-blacklist
+	background-image: linear-gradient($bg 1px, transparent 1px);
+	background-size: 100% 1rem;
+}

@@ -1,0 +1,8 @@
+{
+	"extends": [
+		"@brikcss/stylelint-config-sass"
+	],
+	"rules": {
+		"string-quotes": "single"
+	}
+}

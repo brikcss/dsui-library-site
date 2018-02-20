@@ -1,0 +1,12 @@
+/** ------------------------------------------------------------------------------------------------
+ *  _footer.init.scss
+ *  -----------------
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  Footer init with default options.
+ ** --------------------------------------------------------------------------------------------- */
+
+@if $footer-init == true {
+	.#{$footer__base} {
+		@include footer();
+	}
+}
