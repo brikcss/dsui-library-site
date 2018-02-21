@@ -1,23 +1,46 @@
 <%
 var nav = [{
 	label: 'Home',
+	sref: 'home',
 	icon: 'zmdi-home'
 }, {
-	label: 'Section One',
-	icon: 'zmdi-library',
-	links: [{label: 'Link One'}, {label: 'Link Two'}, {label: 'Link Three'}, {label: 'Link Four'}]
+	label: 'Getting Started',
+	sref: 'getting-started',
+	icon: 'zmdi-collection-item-1'
 }, {
-	label: 'Section Two',
-	icon: 'zmdi-image-alt',
-	links: [{label: 'Link One'}, {label: 'Link Two'}, {label: 'Link Three'}, {label: 'Link Four'}, {label: 'Link Five'}, {label: 'Link Six'}, {label: 'Link Seven'}, {label: 'Link Eight'}, {label: 'Link Nine'}, {label: 'Link Ten'}]
+	label: 'About DS UI',
+	sref: 'about',
+	icon: 'zmdi-assignment',
+	links: [{label: 'Document One'}, {label: 'Document Two'}, {label: 'Document Three'}, {label: 'Document Four'}, {label: 'Document Five'}, {label: 'Document Six'}, {label: 'Document Seven'}, {label: 'Document Eight'}, {label: 'Document Nine'}, {label: 'Document Ten'}]
 }, {
-	label: 'Section Three',
-	icon: 'zmdi-code-setting',
-	links: [{label: 'Link One'}, {label: 'Link Two'}, {label: 'Link Three'}, {label: 'Link Four'}, {label: 'Link Five'}, {label: 'Link Six'}, {label: 'Link Seven'}, {label: 'Link Eight'}, {label: 'Link Nine'}, {label: 'Link Ten'}]
+	label: 'DS UI Core',
+	icon: 'zmdi-balance',
+	active: true,
+	links: [{
+			label: 'Reset',
+			sref: 'reset'
+		}, {
+			label: 'Colors',
+			sref: 'colors'
+		}, {
+			label: 'Typography',
+			sref: 'typography'
+		}, {
+			label: 'Vertical Rhythm',
+			sref: 'vertical-rhythm'
+		}, {
+			label: 'Spacing',
+			sref: 'spacing'
+		}]
 }, {
-	label: 'Section Four',
-	icon: 'zmdi-book',
-	links: [{label: 'Link One'}, {label: 'Link Two'}, {label: 'Link Three'}, {label: 'Link Four'}, {label: 'Link Five'}, {label: 'Link Six'}, {label: 'Link Seven'}, {label: 'Link Eight'}, {label: 'Link Nine'}, {label: 'Link Ten'}]
+	label: 'Components',
+	icon: 'zmdi-widgets',
+	active: true,
+	links: [{label: 'Component One'}, {label: 'Component Two'}, {label: 'Component Three'}, {label: 'Component Four'}, {label: 'Component Five'}, {label: 'Component Six'}, {label: 'Component Seven'}, {label: 'Component Eight'}, {label: 'Component Nine'}, {label: 'Component Ten'}]
+}, {
+	label: 'Patterns',
+	icon: 'zmdi-view-web',
+	links: [{label: 'Pattern One'}, {label: 'Pattern Two'}, {label: 'Pattern Three'}, {label: 'Pattern Four'}, {label: 'Pattern Five'}, {label: 'Pattern Six'}, {label: 'Pattern Seven'}, {label: 'Pattern Eight'}, {label: 'Pattern Nine'}, {label: 'Pattern Ten'}]
 }];
 %>
 <aside class="<%= data.baseClass %>" data-ng-class="{'rhythm__grid': appCtrl.showVerticalGrid}">
@@ -27,19 +50,25 @@ var nav = [{
 
 	<nav class="<%= data.baseClass %>__body">
 		<% nav.forEach(section => { _%>
-			<div class="<%= data.baseClass %>__section"<% if (section.links && section.links.length) { %>  show-hide="{id: '<%= section.label %>', hasToggle: true, addIcon: true}"<% } %>>
-				<a class="<%= data.baseClass %>__link"<% if (section.links && section.links.length) { %>  show-hide-toggle="<%= section.label %>"<% } %>>
-					<span class="<%= data.baseClass %>__menu-icon zmdi <%= section.icon %>"></span>
-					<span class="<%= data.baseClass %>__menu-label"><%= section.label %></span>
-				</a>
-				<% if (section.links && section.links.length) { _%>
+			<% const hasLinks = section.links && section.links.length; _%>
+			<div class="<%= data.baseClass %>__section"<% if (hasLinks) { %> show-hide="{id: '<%= section.label %>', hasToggle: true, addIcon: true, active: <%= Boolean(section.active) %>}"<% } %>>
+				<% if (hasLinks) { _%>
+					<div class="<%= data.baseClass %>__link" show-hide-toggle="<%= section.label %>">
+						<span class="<%= data.baseClass %>__menu-icon zmdi <%= section.icon %>"></span>
+						<span class="<%= data.baseClass %>__menu-label"><%= section.label %></span>
+					</div>
 					<ul class="<%= data.baseClass %>__menu">
 						<% section.links.forEach(link => { _%>
 							<li>
-								<a class="<%= data.baseClass %>__link"><%= link.label %></a>
+								<a class="<%= data.baseClass %>__link"<% if (link.sref) { %> ui-sref="<%= link.sref %>"<% } %>><%= link.label %></a>
 							</li>
 						<%_ }); %>
 					</ul>
+				<%_ } else { _%>
+					<a class="<%= data.baseClass %>__link" ui-sref="<%= section.sref %>">
+						<span class="<%= data.baseClass %>__menu-icon zmdi <%= section.icon %>"></span>
+						<span class="<%= data.baseClass %>__menu-label"><%= section.label %></span>
+					</a>
 				<%_ } %>
 			</div>
 		<%_ }); %>

@@ -1,9 +1,9 @@
-function appController($scope, sidebarsService) {
+function appController(sidebarsService) {
 	var ctrl = this;
 	ctrl.sidebars = sidebarsService;
 	ctrl.showVerticalGrid = false;
 }
 
-appController.$inject = ['$scope', 'sidebarsService'];
+appController.$inject = ['sidebarsService'];
 
 export default appController;

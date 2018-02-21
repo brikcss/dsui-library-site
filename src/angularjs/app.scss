@@ -54,7 +54,7 @@ body {
 	&__content {
 		flex-grow: 1;
 		min-height: calc(100vh - 4rem);
-		padding: 1rem 0.5rem;
+		padding: 1rem;
 	}
 }
 
@@ -87,10 +87,12 @@ body {
 	}
 
 	&__link {
+		color: inherit;
 		display: flex;
 		align-items: center;
 		height: 1.5rem;
 		position: relative;
+		text-decoration: none;
 	}
 
 	&__menu {

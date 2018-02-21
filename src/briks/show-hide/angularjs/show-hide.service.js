@@ -12,7 +12,7 @@ function ShowHideService() {
 		// Cache elements.
 		service.all[id] = {
 			element: element,
-			active: false,
+			active: Boolean(options.active),
 			options,
 		};
 		// Build DOM.
@@ -27,7 +27,7 @@ function ShowHideService() {
 			parentElement.appendChild(service.all[id].icon);
 		}
 		// Set initial state.
-		if (options.open) {
+		if (options.active) {
 			open(id);
 		} else {
 			close(id);

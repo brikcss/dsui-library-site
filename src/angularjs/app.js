@@ -11,8 +11,9 @@ import sidebars from '../briks/sidebars/angularjs/index.js';
 import showHide from '../briks/show-hide/angularjs/index.js';
 import appConfig from './app.config.js';
 import appController from './app.controller.js';
+import pages from '../briks/page/angularjs/index.js';
 
 angular
-	.module('dsui', [uiRouter, sidebars, showHide])
+	.module('dsui', [uiRouter, pages, sidebars, showHide])
 	.config(appConfig)
 	.controller('appCtrl', appController);

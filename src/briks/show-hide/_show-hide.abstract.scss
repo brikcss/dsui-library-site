@@ -10,6 +10,7 @@ $showhide__base: show-hide !default;
 @mixin showhide($add-icons: true, $icon-size: 0.45rem, $icon-line-width: pxrem(2), $icon-color: hsl(0, 0%, 70%), $base: $showhide__base) {
 	$duration: 300ms;
 
+	cursor: pointer;
 	overflow: hidden;
 	position: relative;
 	transition: height $duration cubic-bezier(0.3, 0.2, 0.2, 1.15);

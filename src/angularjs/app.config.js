@@ -1,6 +1,6 @@
 appConfig.$inject = ['$urlRouterProvider', '$locationProvider'];
 
-export default function appConfig($urlRouterProvider) {
-	// $locationProvider.html5Mode({ enabled: true });
-	$urlRouterProvider.otherwise('/');
+export default function appConfig($urlRouterProvider, $locationProvider) {
+	$locationProvider.html5Mode({ enabled: false });
+	// $urlRouterProvider.otherwise('/');
 }

@@ -100,6 +100,7 @@
 		"mocha-better-spec-reporter": "3.x",
 		"nyc": "11.x",
 		"prettier": "1.x",
+		"raw-loader": "0.5.1",
 		"rimraf": "2.x",
 		"semantic-release": "15.0.0",
 		"stylelint": "8.x",

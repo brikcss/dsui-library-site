@@ -11,7 +11,7 @@
 $footer-init: true !default;
 $footer__base: footer !default;
 $footer__height: 2rem !default;
-$footer__padding: 0.5rem !default;
+$footer__padding: 0 1rem !default;
 $footer__bg: hsl(0, 0%, 90%) !default;
 
 /**
@@ -23,6 +23,8 @@ $footer__bg: hsl(0, 0%, 90%) !default;
  */
 @mixin footer($height: $footer__height, $padding: $footer__padding, $bg: $footer__bg) {
 	background-color: $bg;
+	display: flex;
+	align-items: center;
 	padding: $padding;
 	height: $height;
 }
