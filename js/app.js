@@ -40729,9 +40729,9 @@
 			exports.default = appConfig;
 			appConfig.$inject = ['$urlRouterProvider', '$locationProvider'];
 
-			function appConfig($urlRouterProvider, $locationProvider) {
-				$locationProvider.html5Mode({ enabled: true });
-				// $urlRouterProvider.otherwise('/');
+			function appConfig($urlRouterProvider) {
+				// $locationProvider.html5Mode({ enabled: true });
+				$urlRouterProvider.otherwise('/');
 			}
 			module.exports = exports['default'];
 
