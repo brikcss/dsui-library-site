@@ -1,11 +1,14 @@
 /** ------------------------------------------------------------------------------------------------
- *  _font.abstract.scss
- *  -------------------
+ *  _typography.init.scss
+ *  ---------------------
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Font abstract.
+ *  @description  Typography init.
  ** --------------------------------------------------------------------------------------------- */
 
-// -----------
-// Font setup.
-//
-$font-init: true !default;
+@if ($font__init == true) {
+	@include base-fonts();
+
+	@if ($font__init-classes == true) {
+		@include font-classes();
+	}
+}

@@ -4,7 +4,7 @@ const pages = {
 	core: {
 		reset: '',
 		'vertical-rhythm': '',
-		typography: '',
+		typography: require('../../../pages/typography.tpl.html'),
 		colors: '',
 		spacing: '',
 	},
@@ -33,9 +33,9 @@ function pageConfig($stateProvider, $urlRouterProvider) {
 	function createRoute(name, url, template) {
 		template =
 			template ||
-			`<h2>${name.replace(/(?:^|\s)\S/g, function(a) {
+			`<h2 class="font__headline">${name.replace(/(?:^|\s)\S/g, function(a) {
 				return a.toUpperCase();
-			})}</h2><p>We are working on documentation and examples. Come back soon!</p>`;
+			})}</h2><p class="font__subheading">We are working on documentation and examples. Come back soon!</p>`;
 		$stateProvider.state(name, {
 			url,
 			views: {

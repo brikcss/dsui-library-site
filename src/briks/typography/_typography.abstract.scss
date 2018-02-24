@@ -1,0 +1,262 @@
+/** ------------------------------------------------------------------------------------------------
+ *  _typography.abstract.scss
+ *  -------------------------
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  Typography (font) abstract.
+ ** --------------------------------------------------------------------------------------------- */
+
+// -----------
+// Font setup.
+//
+$font__init: true !default;
+$font__init-classes: true !default;
+$font__family: 'Roboto', sans-serif !default;
+
+// FONT QUERIES:
+//
+// Font queries are a way to apply responsive typography. Font queries map one or more media
+// query breakpoints to the font styles that should be applied at that breakpoint. A single font query follows this syntax:
+//
+//     <font-size> <line-height> (<CSS properties...>)
+//
+// where:
+//
+//     - `font-size` is required as the 1st item, and must be in pixels.
+//     - `line-height` can optionally be added as the 2nd item, and must be in rems.
+//     - any CSS property can be applied in the 3rd item, which must be a SASS map.
+//
+// stylelint-disable unit-blacklist
+$font__queries: (
+		display4: (0: 112px (font-weight: 200, line-height: 4rem, color: hsla(0, 0%, 0%, 0.54))),
+		display3: (0: 56px (line-height: 2rem, color: hsla(0, 0%, 0%, 0.54))),
+		display2: (0: 45px (line-height: 2rem, color: hsla(0, 0%, 0%, 0.54))),
+		display1: (0: 34px (line-height: 1.5rem, color: hsla(0, 0%, 0%, 0.54))),
+		headline: (0: 24px (line-height: 1.5rem)),
+		title: (0: 20px (font-weight: 500)),
+		subheading: (0: 16px),
+		body: (0: 14px (color: hsla(0, 0%, 0%, 0.87))),
+		bold: (0: 14px (font-weight: 500)),
+		button: (0: 14px (font-weight: 500, text-transform: uppercase)),
+		caption: (0: 12px (color: hsla(0, 0%, 0%, 0.54)))
+	)
+	!default;
+// $font__base-queries are the base queries which are set on the body tag, so all other font styles
+// will inherit. This should be a simple `map-get` function to lookup one of the $font__queries.
+$font__base-queries: map-get($font__queries, body) !default;
+// stylelint-enable unit-blacklist
+
+/**
+ *  Apply a font size from a $font__queries or a pixel value.
+ *
+ *  @param   {string|number}  $size  A string will look up the font-size value that matches
+ *      $breakpoint from the $font__queries map. You can also pass a pixel value and that will be
+ *      converted to ems, though it is strongly encouraged to never use any font sizes outside of
+ *      your predefined $font__queries.
+ *  @param   {number}  $breakpoint:  0  Breakpoint for which to calculate the base font at.
+ *  @param   {base}  $base-queries:  $font__base-queries  Base font queries. You shouldn't need to
+ *      change this.
+ *  @return  {number}  Font size value in ems (unless you pass a unit other than pixels, in which
+ *      case it will return that value and unit).
+ */
+@function sp($size, $breakpoint: 0, $base-queries: $font__base-queries) {
+	// If $size is a string, look up the value from $sizes.
+	@if type-of($size) == string {
+		$size: font-query($breakpoint, $size);
+		$breakpoint: map-get(nth($size, length($size)), at);
+		$size: nth($size, 1);
+	}
+
+	// Get base size.
+	$base-size: nth(font-query($breakpoint, $base-queries), 1);
+
+	// Ensure $size and $base-size are unitless.
+	@if unit($size) == px {
+		// stylelint-disable unit-blacklist
+		$size: $size / 1px;
+	} @else {
+		// If $size is not in pixels, return it.
+		@return $size;
+	}
+	@if unit($base-size) == px {
+		$base-size: $base-size / 1px;
+		// stylelint-enable unit-blacklist
+	}
+
+	// Return the em value of the pixel $size.
+	@return ($size / $base-size) * 1em;
+}
+
+/**
+ *  Look up a font query for a given breakpoint from a list of font queries.
+ *
+ *  @param  {number}  $match-at  breakpoint the font styles query must match.
+ *  @param  {list|string}  $queries  $font__base-queries  List of font queries -- or name of
+ *      $font__queries list -- to search.
+ *  @return  {list}  Font styles that match given breakpoint.
+ */
+@function font-query($match-at: 0, $queries: $font__base-queries) {
+	// If $queries is a string, look up the $query(ies) from $font__queries.
+	@if type-of($queries) == string {
+		$query-name: $queries;
+		$queries: map-get($font__queries, $query-name);
+		@if ($queries == '') {
+			@error '`#{$query-name}` was not found in $font__queries.';
+		}
+	}
+
+	// Validate that $queries has a 0 breakpoint.
+	@if map-get($queries, 0) == null {
+		@if variable-exists(query-name) {
+			@error 'Zero breakpoint (0) does not exist in `#{$query-name}` font queries.';
+		} @else {
+			@error 'Zero breakpoint (0) does not exist in: #{$queries}';
+		}
+	}
+
+	// If the list only has a single query, return it.
+	@if length($queries) == 1 {
+		@return nth(nth($queries, 1), 2);
+	}
+
+	// Iterate over breakpoints and return the style that matches the $match-at.
+	$n: 1;
+	@each $breakpoint, $style in $queries {
+		@if ($n == length($queries)) or ($match-at >= $breakpoint and $match-at < nth(map-keys($queries), $n + 1)) {
+			@if type-of(nth($style, length($style))) == map {
+				$style: set-nth(
+					$style,
+					length($style),
+					map-merge(nth($style, length($style)),  (at: $breakpoint))
+				);
+			} @else {
+				$style: append($style,  (at: $breakpoint));
+			}
+			@debug 'STYLE: #{$style}';
+			@return $style;
+		}
+
+		$n: $n + 1;
+	}
+}
+
+/**
+ *  Apply base font styles.
+ */
+@mixin base-fonts() {
+	body {
+		font-family: $font__family;
+		@include fonts($font__base-queries, true);
+	}
+}
+
+/**
+ *  Apply font styles for a given list of font queries.
+ *
+ *  @param   {string|list}  $queries:  $font__base-queries  List of font queries -- or name of list
+ *      from $font__queries -- to apply styles for.
+ *  @param   {boolean}  $px:  false  Whether to apply pixels. Should only be `true` when applying
+ *      base font sizes to the body tag.
+ */
+@mixin fonts($queries: $font__base-queries, $px: false) {
+	// If font is a string, look up value from $font__queries.
+	@if type-of($queries) == string {
+		$queries: map-get($font__queries, $queries);
+	}
+
+	// Apply each style at each given breakpoint.
+	@each $breakpoint, $style in $queries {
+		@include font($style, $breakpoint, $px);
+	}
+}
+
+/**
+ *  Apply font styles for a single font query.
+ *
+ *  @param   {string|list}  $style  Font styles -- or name of font query from $font__queries at
+ *      specific $breakpoint -- to apply styles for.
+ *  @param   {number}  $breakpoint:  0  Breakpoint to look up the font query at. Not necessarily the
+ *      breakpoint that will get applied in the CSS.
+ *  @param   {boolean}  $px:  false  Whether to apply pixels. Should only be `true` when applying
+ *      base font sizes to the body tag.
+ */
+@mixin font($style, $breakpoint: 0, $px: false) {
+	// If style is a string, look up value from $font__queries.
+	@if type-of($style) == string {
+		$style: font-query($breakpoint, $style);
+	}
+
+	// Get breakpoint from $style's last option, if the last option is a map.
+	$style-options: nth($style, length($style));
+	@if type-of($style-options) == map and map-has-key($style-options, at) {
+		$breakpoint: map-get($style-options, at);
+	}
+
+	// Apply font properties.
+	$breakpoint: $breakpoint * 1px;
+	@if $breakpoint > 0 {
+		@media (min-width: $breakpoint) {
+			@include _font-properties($style, $px);
+		}
+	} @else {
+		@include _font-properties($style, $px);
+	}
+}
+
+/**
+ *  INTERNAL: Apply font properties for a given font query style.
+ *
+ *  @param   {list}  $style  Font styles to apply.
+ *  @param   {boolean}  $px:  false  Whether to apply pixels. Should only be `true` when applying
+ *      base font sizes to the body tag.
+ */
+@mixin _font-properties($style, $px: false) {
+	// Validate that $style is a space-separated list.
+	@if type-of($style) != number and type-of($style) == list and list-separator($style) != space {
+		@error '`#{$style}` must be a number or a space-delimited list.';
+	}
+
+	// Apply font-size.
+	$font-size: nth($style, 1);
+	@if unit($font-size) == px {
+		@if $px == true {
+			font-size: $font-size;
+		} @else {
+			font-size: sp($font-size);
+		}
+	} @else {
+		font-size: $font-size;
+	}
+
+	// Apply line-height, if exists.
+	@if length($style) > 1 and type-of(nth($style, 2)) == number {
+		@if unit(nth($style, 2)) != rem {
+			@warn 'Unit for line-height value: #{nth($style, 2)} is not rems. It is strongly encouraged to use rems.';
+		}
+		line-height: nth($style, 2);
+	}
+
+	// Apply other CSS properties.
+	$style-last-arg: nth($style, length($style));
+	@if type-of($style-last-arg) == map {
+		@each $property, $value in $style-last-arg {
+			@if ($property != at) {
+				#{$property}: $value;
+			}
+		}
+	}
+}
+
+/**
+ *  Add font classes for all items in a given $font__queries map.
+ *
+ *  @param   {map}  $font-queries:  $font__queries  Font queries map, formatted like $font__queries.
+ */
+@mixin font-classes($font-queries: $font__queries) {
+	@each $class-name, $class-queries in $font-queries {
+		@each $bp, $query in $class-queries {
+			.font__#{$class-name} {
+				@include fonts($class-queries, $bp);
+			}
+		}
+	}
+}

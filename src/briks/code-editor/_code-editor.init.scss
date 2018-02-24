@@ -1,0 +1,100 @@
+.editor {
+	display: block;
+	margin-top: 0.5rem;
+	margin-bottom: 1.5rem;
+
+	.hljs {
+		line-height: 0.5rem;
+		padding: 0.5rem;
+		tab-size: 4;
+	}
+
+	&__code {
+		display: flex;
+		background-color: hsl(220, 13%, 18%);
+	}
+
+	&__code-tab {
+		position: relative;
+		width: 100%;
+		min-width: 100%;
+		margin-left: -100%;
+		opacity: 0;
+		transition: opacity 0.5s, transform 0.25s;
+
+		&:first-of-type {
+			margin-left: 0;
+		}
+
+		&--active {
+			opacity: 1;
+			z-index: 1;
+		}
+	}
+
+	&__highlighted-code {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+
+		.editor--read-only & {
+			position: static;
+		}
+	}
+
+	&__raw-code {
+		width: 100%;
+		position: relative;
+		z-index: 1;
+		-webkit-text-fill-color: transparent;
+		text-fill-color: transparent;
+
+		&:focus {
+			-webkit-text-fill-color: inherit;
+			text-fill-color: inherit;
+		}
+
+		&.hljs {
+			background: transparent;
+		}
+
+		code {
+			outline: none;
+		}
+	}
+
+	&__tab-button {
+		color: hsla(0, 0%, 0%, 0.54);
+
+		&--active {
+			color: hsla(0, 0%, 0%, 0.87);
+		}
+
+		+ .editor__tab-button {
+			margin-left: 1rem;
+		}
+	}
+
+	&__preview {
+		border: 0.05rem solid hsl(0, 0%, 90%);
+		border-bottom: 0;
+		padding: 1.45rem 0.5rem 0.5rem;
+		position: relative;
+
+		&:before {
+			content: 'Live code preview';
+			position: absolute;
+			left: 0;
+			top: 0;
+			display: flex;
+			align-items: center;
+			background-color: hsl(0, 0%, 90%);
+			height: 1rem;
+			width: 100%;
+			padding-left: 0.25rem;
+			padding-right: 0.25rem;
+			@include font(caption);
+		}
+	}
+}

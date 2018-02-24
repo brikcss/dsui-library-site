@@ -13,11 +13,71 @@ body {
 }
 // stylelint-enable selector-max-type
 
+// -------
+// Spacing
+// Try to set sensible defaults.
+$spacing__elements: (
+	2rem: (h1, h2),
+	1.5rem: (h3, h4, h5, h6),
+	0.5rem: (p),
+	0:
+		(
+			'h1:first-child',
+			'h2:first-child',
+			'h3:first-child',
+			'h4:first-child',
+			'h5:first-child',
+			'h6:first-child',
+			'p:first-child',
+			'ul:first-child',
+			'ol:first-child'
+		)
+);
+@each $value, $selectors in $spacing__elements {
+	@for $i from 1 through length($selectors) {
+		#{nth($selectors, $i)} {
+			margin-top: $value;
+		}
+	}
+}
+.sp__0 {
+	margin: 0;
+}
+
+// -----------
+// Typography.
+//
+$max-width-elements: (
+	60ex: (p, li),
+	40ex: ('.text__short')
+);
+@each $value, $selectors in $max-width-elements {
+	@for $i from 1 through length($selectors) {
+		#{nth($selectors, $i)} {
+			max-width: $value;
+		}
+	}
+}
+code {
+	background-color: hsla(0, 0%, 0%, 0.08);
+}
+
+.list {
+	list-style-type: disc;
+	padding-left: 1rem;
+
+	li {
+		margin-top: 0.5rem;
+	}
+}
+
+// -------
+// Header.
+//
 .header {
 	color: hsla(0, 0%, 100%, 0.92);
 
 	&__title {
-		font-size: 1.4em;
 		padding-right: 0.5rem;
 		flex-grow: 1;
 
@@ -35,6 +95,9 @@ body {
 	}
 }
 
+// -----
+// Page.
+//
 .page {
 	display: flex;
 	flex-direction: column;
@@ -58,6 +121,9 @@ body {
 	}
 }
 
+// ---------
+// Superbar.
+//
 .superbar {
 	background-color: hsl(0, 0%, 95%);
 	overflow: hidden;
@@ -87,6 +153,7 @@ body {
 	}
 
 	&__link {
+		@include font(subheading);
 		color: inherit;
 		display: flex;
 		align-items: center;
@@ -99,9 +166,9 @@ body {
 		list-style-type: none;
 
 		.superbar__link {
+			@include font(body);
 			height: 1rem;
 			padding-left: 1.5rem;
-			font-size: 0.9em;
 		}
 	}
 
@@ -113,4 +180,8 @@ body {
 		font-size: 0.75rem;
 		width: 1.5rem;
 	}
+}
+
+.editor {
+	display: block;
 }

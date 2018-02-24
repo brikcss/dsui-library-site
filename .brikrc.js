@@ -28,7 +28,7 @@ module.exports = {
 				source: [
 					// Abstract code.
 					'./src/briks/rhythm/_rhythm.abstract.scss',
-					'./src/briks/font/_font.abstract.scss',
+					'./src/briks/typography/_typography.abstract.scss',
 					'./src/briks/footer/_footer.abstract.scss',
 					'./src/briks/header/_header.abstract.scss',
 					'./src/briks/elevation/_elevation.abstract.scss',
@@ -39,6 +39,7 @@ module.exports = {
 					'./src/briks/reset/reset.scss',
 					'./src/briks/**/*.init.scss',
 					// Site specific code.
+					'./node_modules/highlight.js/styles/atom-one-dark',
 					'./src/angularjs/**/*.scss',
 				],
 				output: './dist/angularjs/css/dsui-angularjs.css',

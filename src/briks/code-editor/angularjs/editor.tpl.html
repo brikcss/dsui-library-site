@@ -1,0 +1,5 @@
+<div class="editor__preview"></div>
+<div data-ng-if="tabs.length > 1" class="editor__tabs">
+	<button data-ng-repeat="tab in tabs" data-ng-click="activateTab(tab)" class="editor__tab-button font__button" data-ng-class="{'editor__tab-button--active': activeTab === tab}" type="button">{{tab}}</button>
+</div>
+<div class="editor__code" data-ng-transclude></div>
