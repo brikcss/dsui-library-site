@@ -81,10 +81,16 @@
 					</div>
 					<ul class="superbar__menu">
 													<li>
+								<a class="superbar__link" ui-sref="reset">Reset</a>
+							</li>
+							<li>
 								<a class="superbar__link" ui-sref="colors">Colors</a>
 							</li>
 							<li>
 								<a class="superbar__link" ui-sref="typography">Typography</a>
+							</li>
+							<li>
+								<a class="superbar__link" ui-sref="vertical-rhythm">Vertical Rhythm</a>
 							</li>
 							<li>
 								<a class="superbar__link" ui-sref="spacing">Spacing</a>
@@ -181,9 +187,9 @@
 		<div class="sidebars__content page">
 			<header class="header">
 	<button type="button" class="burger" data-ng-click="appCtrl.sidebars.toggle('left')" data-ng-class="{'--is-active': appCtrl.sidebars.left.active}"><span class="burger__toppings"></span></button>
-	<div class="header__title">DirectScale UI</div>
+	<div class="header__title font__title">DirectScale UI</div>
 	<div class="header__toolbar">
-		<button class="header__button" ng-click="appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid" type="button">Rhythm</button>
+		<button class="header__button font__button" ng-click="appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid" type="button">Rhythm</button>
 	</div>
 </header>
 
