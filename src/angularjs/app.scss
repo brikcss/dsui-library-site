@@ -18,8 +18,9 @@ body {
 // Try to set sensible defaults.
 $spacing__elements: (
 	2rem: (h1, h2),
-	1.5rem: (h3, h4, h5, h6),
-	0.5rem: (p),
+	1.5rem: (h3),
+	1rem: (h4),
+	0.5rem: (h5, h6, p),
 	0:
 		(
 			'h1:first-child',
@@ -40,6 +41,7 @@ $spacing__elements: (
 		}
 	}
 }
+
 .sp__0 {
 	margin: 0;
 }
@@ -47,28 +49,28 @@ $spacing__elements: (
 // -----------
 // Typography.
 //
-$max-width-elements: (
-	60ex: (p, li),
-	40ex: ('.text__short')
-);
-@each $value, $selectors in $max-width-elements {
-	@for $i from 1 through length($selectors) {
-		#{nth($selectors, $i)} {
-			max-width: $value;
-		}
-	}
-}
+// stylelint-disable-next-line selector-max-type
 code {
 	background-color: hsla(0, 0%, 0%, 0.08);
+	font-family: 'Roboto Mono', monospace;
 }
 
-.list {
-	list-style-type: disc;
+.bullets,
+.numbers {
 	padding-left: 1rem;
 
+	// stylelint-disable-next-line selector-max-type
 	li {
 		margin-top: 0.5rem;
 	}
+}
+
+.bullets {
+	list-style-type: disc;
+}
+
+.numbers {
+	list-style-type: decimal;
 }
 
 // -------

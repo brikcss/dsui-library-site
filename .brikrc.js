@@ -37,6 +37,7 @@ module.exports = {
 					'./src/briks/burger-button/_burger-button.abstract.scss',
 					// CSS producing code.
 					'./src/briks/reset/reset.scss',
+					'./src/briks/typography/_typography.init.scss',
 					'./src/briks/**/*.init.scss',
 					// Site specific code.
 					'./node_modules/highlight.js/styles/atom-one-dark',

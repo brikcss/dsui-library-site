@@ -3,9 +3,7 @@
 	"version": "0.0.0-development",
 	"description": "DirectScale UI Library site, built with BrikCSS.",
 	"author": "DirectScale <https://directscale.com>",
-	"contributors": [
-		"The Zimmee <thezimmee@gmail.com>"
-	],
+	"contributors": ["The Zimmee <thezimmee@gmail.com>"],
 	"homepage": "https://github.com/brikcss/dsui-library-site",
 	"repository": {
 		"type": "git",
@@ -25,8 +23,10 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "node ./lib/git-hooks/lint-staged-files.js --css=.css,.scss --js=.js,.xjs,.xjson --json=.json",
-			"commit-msg": "commitlint -e $GIT_PARAMS && . ./lib/git-hooks/add-branch-stamp.sh ${GIT_PARAMS}",
+			"pre-commit":
+				"node ./lib/git-hooks/lint-staged-files.js --css=.css,.scss --js=.js,.xjs,.xjson --json=.json",
+			"commit-msg":
+				"commitlint -e $GIT_PARAMS && . ./lib/git-hooks/add-branch-stamp.sh ${GIT_PARAMS}",
 			"pre-push": ". ./lib/git-hooks/check-stage.sh && echo \"\n Pushing code...\""
 		}
 	},
@@ -36,8 +36,12 @@
 		"compile:pkg": "tim xjson src/package.xjson --output=package.json",
 		"compile:sass": "tim sass",
 		"compile:templates": "concurrently --raw \"npm run compile:pkg\" \"npm run compile:homepage\"",
-		"dev": "npm run compile:pkg && concurrently --raw --names=sass,js,templates --kill-others-on-fail \"npm run compile:sass\" \"npm run compile:js -- --no-stats\" \"npm run compile:templates\" || npm run prod:fail",
-		"gh-pages": "gh-pages -d ./dist/angularjs --repo https://thezimmee@github.com/brikcss/dsui-library-site.git",
+		"copy:assets":
+			"node ./lib/copy-assets.js ./src/briks/typography/*.{woff,woff2,ttf} --output ./dist/angularjs/css/fonts",
+		"dev":
+			"npm run compile:pkg && concurrently --raw --names=sass,js,templates,assets --kill-others-on-fail \"npm run compile:sass\" \"npm run compile:js -- --no-stats\" \"npm run compile:templates\" \"npm run copy:assets\" || npm run prod:fail",
+		"gh-pages":
+			"gh-pages -d ./dist/angularjs --repo https://thezimmee@github.com/brikcss/dsui-library-site.git",
 		"jslint": "node_modules/.bin/eslint src/**/*.{.js,.xjs,.xjson} --format=stylish",
 		"postjslint": "echo \"[ok] JS lint complete.\"",
 		"postprod": "echo \"\n[ok] Production build complete.\n\"",
@@ -45,31 +49,38 @@
 		"posttest": "echo \"\n[ok] Tests complete.\n\"",
 		"preprod": "npm run test && echo \"\nStarting production build...\n\" && npm run prod:clean",
 		"pretest": "echo \"Running linters...\n\"",
-		"prod": "cross-env NODE_ENV=production concurrently --raw --names=sass,js,templates --kill-others-on-fail \"npm run compile:sass -- --env=prod\" \"npm run compile:js\" \"npm run compile:templates\" || npm run prod:fail",
+		"prod":
+			"cross-env NODE_ENV=production concurrently --raw --names=sass,js,templates,assets --kill-others-on-fail \"npm run compile:sass -- --env=prod\" \"npm run compile:js\" \"npm run compile:templates\" \"npm run copy:assets\" || npm run prod:fail",
 		"prod:clean": "rimraf dist .dist .temp --glob=false",
 		"prod:fail": "echo \"\n[FAIL] Build failed.\n\" && exit 1",
 		"release": "semantic-release",
 		"sasslint": "node_modules/.bin/stylelint src/**/*.{.css,.scss} --format=stylish",
 		"serve": "browser-sync start --config ./.browsersync.js",
 		"start": "npm run dev && concurrently --raw \"npm run watch\" \"npm run serve\"",
-		"test": "npm prune && cross-env NODE_ENV=production concurrently --kill-others-on-fail --names=sasslint,jslint \"npm run sasslint\" \"npm run jslint\" || npm run test:fail",
+		"test":
+			"npm prune && cross-env NODE_ENV=production concurrently --kill-others-on-fail --names=sasslint,jslint \"npm run sasslint\" \"npm run jslint\" || npm run test:fail",
 		"test:coverage": "nyc mocha './**/*.spec.js' --reporter=mocha-better-spec-reporter --colors",
 		"test:fail": "echo \"\n[FAIL] Tests failed.\n\" && exit 1",
 		"test:unit": "mocha './**/*.spec.js' --reporter=mocha-better-spec-reporter --colors",
-		"watch": "concurrently --raw \"npm run watch:js\" \"npm run watch:sass\" \"npm run watch:templates\" \"npm run watch:config\" \"npm run watch:brikrc\"",
+		"watch":
+			"concurrently --raw \"npm run watch:js\" \"npm run watch:sass\" \"npm run watch:templates\" \"npm run watch:config\" \"npm run watch:brikrc\"",
 		"watch:brikrc": "chokidar ./.brikrc.js --command \"npm run dev\"",
-		"watch:homepage": "chokidar \"./src/**/*.ejs.html\" \"./src/angularjs/home.html\" --command \"npm run compile:homepage\"",
+		"watch:homepage":
+			"chokidar \"./src/**/*.ejs.html\" \"./src/angularjs/home.html\" --command \"npm run compile:homepage\"",
 		"watch:js": "tim js --watch",
-		"watch:jslint": "chokidar src/**/*.{.js,.xjs,.xjson} --command 'node_modules/.bin/eslint {path} --format=stylish && npm run postjslint'",
-		"watch:pkg": "chokidar ./src/package.xjson --command \"tim xjson {path} --output=./package.json\"",
+		"watch:jslint":
+			"chokidar src/**/*.{.js,.xjs,.xjson} --command 'node_modules/.bin/eslint {path} --format=stylish && npm run postjslint'",
+		"watch:pkg":
+			"chokidar ./src/package.xjson --command \"tim xjson {path} --output=./package.json\"",
 		"watch:sass": "chokidar \"src/**/*.scss\" -c \"tim sass --run-file={path}\"",
-		"watch:sasslint": "chokidar src/**/*.{.css,.scss} --command 'node_modules/.bin/stylelint {path} --format=stylish && npm run postsasslint'",
+		"watch:sasslint":
+			"chokidar src/**/*.{.css,.scss} --command 'node_modules/.bin/stylelint {path} --format=stylish && npm run postsasslint'",
 		"watch:templates": "concurrently --raw \"npm run watch:pkg\" \"npm run watch:homepage\""
 	},
 	"devDependencies": {
 		"@brikcss/eslint-config": "0.x",
-		"@brikcss/stylelint-config-css": "0.x",
-		"@brikcss/stylelint-config-sass": "0.x",
+		"@brikcss/stylelint-config-css": "0.0.7",
+		"@brikcss/stylelint-config-sass": "0.0.10",
 		"@commitlint/cli": "6.x",
 		"@commitlint/prompt-cli": "6.x",
 		"@semantic-release/exec": "2.0.1",
@@ -87,7 +98,9 @@
 		"eslint": "4.x",
 		"gh-pages": "1.1.0",
 		"highlight.js": "9.12.0",
+		"html-loader": "0.5.5",
 		"husky": "0.15.0-rc.8",
+		"markdown-loader": "2.0.2",
 		"mocha": "4.x",
 		"mocha-better-spec-reporter": "3.x",
 		"nyc": "11.x",

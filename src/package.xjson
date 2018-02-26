@@ -61,13 +61,13 @@ module.exports = (brik, { file, tim }) => {
 		// `npm run dev`
 		// Run a dev build. Intended for speedy local development only.
 		dev:
-			'npm run compile:pkg && concurrently --raw --names=sass,js,templates --kill-others-on-fail "npm run compile:sass" "npm run compile:js -- --no-stats" "npm run compile:templates" || npm run prod:fail',
+			'npm run compile:pkg && concurrently --raw --names=sass,js,templates,assets --kill-others-on-fail "npm run compile:sass" "npm run compile:js -- --no-stats" "npm run compile:templates" "npm run copy:assets" || npm run prod:fail',
 
 		// --------------
 		// `npm run prod`
 		// Run a production build.
 		prod:
-			'cross-env NODE_ENV=production concurrently --raw --names=sass,js,templates --kill-others-on-fail "npm run compile:sass -- --env=prod" "npm run compile:js" "npm run compile:templates" || npm run prod:fail',
+			'cross-env NODE_ENV=production concurrently --raw --names=sass,js,templates,assets --kill-others-on-fail "npm run compile:sass -- --env=prod" "npm run compile:js" "npm run compile:templates" "npm run copy:assets" || npm run prod:fail',
 		preprod: 'npm run test && echo "\nStarting production build...\n" && npm run prod:clean',
 		postprod: 'echo "\n[ok] Production build complete.\n"',
 		'prod:clean': 'rimraf dist .dist .temp --glob=false',
@@ -115,6 +115,10 @@ module.exports = (brik, { file, tim }) => {
 		postsasslint: 'echo "[ok] SASS lint complete."',
 		'watch:sasslint':
 			"chokidar src/**/*.{.css,.scss} --command 'node_modules/.bin/stylelint {path} --format=stylish && npm run postsasslint'",
+
+		// Copy assets.
+		'copy:assets':
+			'node ./lib/copy-assets.js ./src/briks/typography/*.{woff,woff2,ttf} --output ./dist/angularjs/css/fonts',
 
 		// Publish to GitHub pages.
 		'gh-pages':

@@ -1,8 +1,8 @@
 module.exports = {
 	server: {
-		baseDir: './dist',
+		baseDir: './dist/angularjs/',
 		directory: true,
-		index: 'dist/angularjs/index.html',
+		index: 'index.html',
 		routes: {},
 	},
 	files: ['dist'],

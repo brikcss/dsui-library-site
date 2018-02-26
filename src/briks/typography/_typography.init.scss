@@ -11,4 +11,8 @@
 	@if ($font__init-classes == true) {
 		@include font-classes();
 	}
+
+	@if $font__line-lengths != false and length($font__line-lengths) > 0 {
+		@include font-line-lengths();
+	}
 }
