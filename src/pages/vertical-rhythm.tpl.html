@@ -15,7 +15,7 @@
 	<pre>npm install @directscale/core --save-dev</pre>
 </editor>
 
-<p>You may also install vertical rhythm on its own:</p>
+<p>You may install vertical rhythm on its own:</p>
 
 <editor lang="bash">
 	<pre>npm install @directscale/rhythm --save-dev</pre>
@@ -43,8 +43,8 @@
 <p>In order to keep the vertical grid "in rhythm", it is important to strictly follow these rules:</p>
 <ol class="numbers">
 	<li><strong>Always</strong> use <code>rem</code> units to apply <em>dimensional properties</em>.</li>
-	<li><code>rem</code> units, if at all possible, should be applied in whole numbers. <code>rem</code> values may also be applied in halves (x.5rem), or <em>in rare situations</em> in quarters (x.25rem, x.75rem). It is strongly discouraged to apply any other fractional <code>rem</code> value unless you are certain you know how to realign the vertical grid.</li>
-	<li>There may be cases where it's necessary to break these rules, which would temporarily throw the vertical grid out of rhythm. Perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. In such cases, follow these guidelines:<ul class="bullets">
+	<li>Apply <code>rem</code> values, if at all possible, in whole numbers. As necessary, <code>rem</code> values may also be applied in halves (x.5rem), or <em>in rare cases</em> in quarters (x.25rem, x.75rem). It is strongly discouraged to avoid any other fractional <code>rem</code> value since it will break the vertical rhythm.</li>
+	<li>There may be rare cases where it's necessary to break the rhythm. Perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. In such cases, follow these guidelines:<ul class="bullets">
 		<li>Ask yourself, <em>is this really necessary</em>? If at all possible, avoid breaking the vertical grid.</li>
 		<li>
 			<p>If you must temporarily break the rhythm, follow this rule to bring the grid back in rhythm:</p>
