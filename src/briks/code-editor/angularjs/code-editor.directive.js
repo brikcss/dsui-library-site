@@ -69,11 +69,14 @@ function codeEditor() {
 			// Destroy when scope is destroyed.
 			$scope.$on('$destroy', () => {
 				$scope.tabs.forEach((tab, i) => {
-					codeParentEl.children[i].removeEventListener('input', updateEditor);
-					codeParentEl.children[i]
-						.querySelector('.editor__raw-code')
-						.removeEventListener('scroll', handleScroll);
-					codeParentEl.children[i].removeEventListener('click', selectAllText);
+					if ($scope.editable) {
+						codeParentEl.children[i].removeEventListener('input', updateEditor);
+						codeParentEl.children[i]
+							.querySelector('.editor__raw-code')
+							.removeEventListener('scroll', handleScroll);
+					} else {
+						codeParentEl.children[i].removeEventListener('click', selectAllText);
+					}
 				});
 			});
 
