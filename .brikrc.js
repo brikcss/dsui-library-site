@@ -36,7 +36,7 @@ module.exports = {
 					'./src/briks/show-hide/_show-hide.abstract.scss',
 					'./src/briks/burger-button/_burger-button.abstract.scss',
 					// CSS producing code.
-					'./src/briks/reset/reset.scss',
+					'./src/briks/reset/_reset.init.scss',
 					'./src/briks/typography/_typography.init.scss',
 					'./src/briks/**/*.init.scss',
 					// Site specific code.

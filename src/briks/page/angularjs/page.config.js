@@ -2,7 +2,7 @@ const pages = {
 	home: require('../../../pages/home.tpl.html'),
 	'getting-started': require('../../../pages/getting-started.tpl.html'),
 	core: {
-		reset: '',
+		reset: require('../../../pages/reset.tpl.html'),
 		'vertical-rhythm': '',
 		typography: require('../../../pages/typography.tpl.html'),
 		colors: '',
