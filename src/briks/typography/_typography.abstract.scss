@@ -92,7 +92,7 @@ $font__base-query: map-get($font__style-queries, body) !default;
 // It is highly recommended to use `ex` units, since these are the best estimate of a single
 // charcter (the width of "x"). To disable this feature, set this variable to `false`.
 $font__line-lengths: (
-	60ex: (p, li),
+	60ex: (p, li, dt, dd),
 	40ex: ('.font__short-line')
 );
 // stylelint-enable unit-blacklist

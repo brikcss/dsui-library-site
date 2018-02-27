@@ -1,0 +1,88 @@
+<h2 class="font__headline">Vertical Rhythm <span class="version">v0.0.1</span></h2>
+<p>Vertical Rhythm is <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">a principle of good typography</a> which fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetation and familiarity</a>, and creates a layout that is more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>. DS UI's Vertical Rhythm provides an easy way to apply and manage vertical rhythm in any app.</p>
+
+<h3 class="font__title">Related Components</h3>
+
+<ul class="bullets">
+	<li><a ui-sref="typography">Typography</a></li>
+	<li><a ui-sref="spacing">Spacing</a></li>
+</ul>
+
+<h3 class="font__title">Install</h3>
+<p>It is strongly encouraged to install vertical rhythm with DS UI Core:</p>
+
+<editor lang="bash">
+	<pre>npm install @directscale/core --save-dev</pre>
+</editor>
+
+<p>You may also install vertical rhythm on its own:</p>
+
+<editor lang="bash">
+	<pre>npm install @directscale/rhythm --save-dev</pre>
+</editor>
+
+<h3 class="font__title">Setup</h3>
+<ol class="numbers">
+	<li>Include <code>_rhythm.abstract.scss</code> in your SASS build.</li>
+	<li>Initialize vertical rhythm styles by doing one of the following:<ul class="bullets">
+		<li><em>Basic</em>: Include <code>_rhythm.init.scss</code> into your SASS build.</li>
+		<li><em>Advanced</em>: For greater customization, use <code>_rhythm.init.scss</code> as an example to initialize vertical rhythm on your own.</li>
+	</ul></li>
+</ol>
+
+<h3 class="font__title">Basic Usage</h3>
+<h4 class="font__subheading">Definitions:</h4>
+<dl>
+	<dt>Dimensional properties</dt>
+	<dd>CSS properties which apply <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>, or any other property which affects layout dimensions.</dd>
+	<dt>1rem</dt>
+	<dd>One (1) line in the vertical rhythm grid.</dd>
+</dl>
+
+<h4 class="font__subheading">Rhythm Rules</h4>
+<p>In order to keep the vertical grid "in rhythm", it is important to strictly follow these rules:</p>
+<ol class="numbers">
+	<li><strong>Always</strong> use <code>rem</code> units to apply <em>dimensional properties</em>.</li>
+	<li><code>rem</code> units, if at all possible, should be applied in whole numbers. <code>rem</code> values may also be applied in halves (x.5rem), or <em>in rare situations</em> in quarters (x.25rem, x.75rem). It is strongly discouraged to apply any other fractional <code>rem</code> value unless you are certain you know how to realign the vertical grid.</li>
+	<li>There may be cases where it's necessary to break these rules, which would temporarily throw the vertical grid out of rhythm. Perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. In such cases, follow these guidelines:<ul class="bullets">
+		<li>Ask yourself, <em>is this really necessary</em>? If at all possible, avoid breaking the vertical grid.</li>
+		<li>
+			<p>If you must temporarily break the rhythm, follow this rule to bring the grid back in rhythm:</p>
+			<p>
+				<blockquote>
+					<strong>The sum of all dimensional property values for a given element, converted to <code>rems</code>, must be an integer.</strong>
+				</blockquote>
+			</p>
+		</li>
+		<li>
+			<p>A couple of examples to illustrate:</p>
+			<editor lang="scss">
+				<pre>// This pixel border may throw the vertical
+// rhythm off by 2px (1px for border-top and
+// border-bottom). Using the calc() function to
+// readjust another vertical dimension by 2px
+// will put the grid back in rhythm.
+.pixel-border {
+	border: 1px solid hsl(0, 0, 80%);
+	height: calc(3rem - 2px);
+}
+
+// Let's assume this image must be 300px, and
+// that our vertical rhythm (one vertical line)
+// is set to 32px.
+// A height of 300px = 9.375rem + (0.3125rem * 2)
+// equals 10rem. With a 300px tall image, we're
+// still "in rhythm"!
+.pixel-image {
+	height: 300px;
+	margin-bottom: 0.3125rem;
+	margin-top: 0.3125rem;
+}</pre>
+			</editor>
+			<p></p>
+		</li>
+	</ul></li>
+</ol>
+
+<h3 class="font__title">Advanced Usage</h3>
+<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href="#">let the DS UI / platform team know</a>.</p>

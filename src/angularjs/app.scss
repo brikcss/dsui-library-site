@@ -36,6 +36,15 @@ sub {
 	/* Move the subscripted text down, but only half as far down as the superscript moved up */
 	bottom: -0.25em;
 }
+
+dt {
+	font-style: italic;
+}
+
+blockquote {
+	padding-left: 0.5rem;
+	border-left: 0.15rem solid hsl(0, 0%, 90%);
+}
 // stylelint-enable selector-max-type
 
 // -------
@@ -78,16 +87,21 @@ $spacing__elements: (
 code {
 	background-color: hsla(0, 0%, 0%, 0.08);
 	font-family: 'Roboto Mono', monospace;
+
+	// stylelint-disable-next-line selector-max-type
+	pre & {
+		background-color: transparent;
+	}
+}
+
+// stylelint-disable-next-line selector-max-type
+li {
+	margin-top: 0.5rem;
 }
 
 .bullets,
 .numbers {
 	padding-left: 1rem;
-
-	// stylelint-disable-next-line selector-max-type
-	li {
-		margin-top: 0.5rem;
-	}
 }
 
 .bullets {
@@ -191,6 +205,11 @@ code {
 
 	&__menu {
 		list-style-type: none;
+
+		// stylelint-disable-next-line selector-max-type
+		li {
+			margin-top: 0;
+		}
 
 		.superbar__link {
 			@include font(body);

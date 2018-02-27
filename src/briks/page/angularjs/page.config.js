@@ -3,7 +3,7 @@ const pages = {
 	'getting-started': require('../../../pages/getting-started.tpl.html'),
 	core: {
 		reset: require('../../../pages/reset.tpl.html'),
-		'vertical-rhythm': '',
+		'vertical-rhythm': require('../../../pages/vertical-rhythm.tpl.html'),
 		typography: require('../../../pages/typography.tpl.html'),
 		colors: '',
 		spacing: '',
