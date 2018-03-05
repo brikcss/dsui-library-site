@@ -318,6 +318,19 @@ li {
 .dsui-page {
 	&__related {
 		margin-top: 1rem;
+
+		li {
+			margin-top: 0;
+
+			// stylelint-disable-next-line selector-max-type
+			&:first-child {
+				margin-top: 0.5rem;
+			}
+		}
+	}
+
+	&__about {
+		font-size: sp(subheading);
 	}
 
 	// stylelint-disable-next-line scss/media-feature-value-dollar-variable

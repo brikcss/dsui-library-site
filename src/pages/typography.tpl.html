@@ -1,162 +1,172 @@
-<h2 class="font__headline">Typography <span class="version">v0.0.1</span></h2>
+<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', advanced: 'Advanced'}">
+	<div>
+		<div class="dsui-page__intro">
+			<div class="dsui-page__about">
+				<p>DS UI Typography is a system for managing font faces and styles.</p>
+			</div>
 
-<h3 class="font__title">UX Guidelines</h3>
+			<div class="dsui-page__related">
+				<h2 class="font__title">Related</h2>
+				<ul class="bullets">
+					<li><a ui-sref="colors">Colors</a></li>
+					<li><a ui-sref="lists">Lists</a></li>
+					<li><a ui-sref="links">Link</a></li>
+				</ul>
+			</div>
+		</div>
 
-<h4 class="font__subheading">Font Face</h4>
-<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>
+		<h2 class="font__headline">Guidelines</h2>
 
-<h4 class="font__subheading">Font Styles</h4>
-<p>Font styles should only be selected from the UX approved list of predefined styles, outlined on this page. <em>In other words, do not write application-specific CSS for typography styles.</em> Instead, use the provided classes and helpers. Any exceptions require UX approval.</p>
-<p>Follow any listed use case guidelines when applying typography styles.</p>
+		<h3 class="font__title">Font Face</h3>
+		<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>
 
-<h4 class="font__subheading">Text Colors</h4>
-<p>Text colors are part of the <a ui-sref="colors">Colors component</a>.</p>
+		<h3 class="font__title">Font Styles</h3>
+		<p>Font styles should only be selected from the UX approved list of predefined styles, outlined on this page. <em>In other words, do not write application-specific CSS for typography styles.</em> Instead, use the provided classes and helpers. Any exceptions require UX approval.</p>
+		<p>Follow any listed use case guidelines when applying typography styles.</p>
 
-<h4 class="font__subheading">Line Length / Readability</h4>
-<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>
+		<h3 class="font__title">Text Colors</h3>
+		<p>Text colors are part of the <a ui-sref="colors">Colors component</a>.</p>
 
-<h4 class="font__subheading">Additional Guidelines</h4>
-<p><a href="https://material.io/guidelines/style/typography.html" title="Typography specs for Material Design"><abbr title="Material Design">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>
+		<h3 class="font__title">Line Length / Readability</h3>
+		<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>
 
-<h3 class="font__title">Related Components</h3>
+		<h3 class="font__title">Additional Guidelines</h3>
+		<p><a href="https://material.io/guidelines/style/typography.html" title="Typography specs for Material Design"><abbr title="Material Design">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>
+	</div>
 
-<ul class="bullets">
-	<li><a ui-sref="colors">Colors</a></li>
-	<li><a ui-sref="lists">Lists</a></li>
-	<li><a ui-sref="links">Link</a></li>
-</ul>
+	<div>
+		<h2 class="font__headline">Install</h2>
+		<p>It is strongly encouraged to install typography with DS UI Core:</p>
+		<editor lang="bash">
+			<pre>npm install @directscale/core --save-dev</pre>
+		</editor>
 
-<h3 class="font__title">Install</h3>
+		<p>You may also install typography on its own:</p>
+		<editor lang="bash">
+			<pre>npm install @directscale/typography --save-dev</pre>
+		</editor>
 
-<p>It is strongly encouraged to install typography with DS UI Core:</p>
+		<h2 class="font__headline">Setup</h2>
+		<ol class="numbers">
+			<li>Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you be putting it into your build.</li>
+			<li>Include <code>_typography.abstract.scss</code> in your SASS build.</li>
+			<li>Initialize typography styles by doing one of the following:<ul class="bullets">
+				<li><em>Basic</em>: Include <code>_typography.init.scss</code> into your SASS build.</li>
+				<li><em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.</li>
+			</ul></li>
+		</ol>
+	</div>
 
-<editor lang="bash">
-	<pre>npm install @directscale/core --save-dev</pre>
-</editor>
+	<div>
+		<h2 class="font__headline">Basic Usage - HTML Classes</h2>
+		<h3 class="font__title">Font Style Classes</h3>
 
-<p>You may also install typography on its own:</p>
+		<h4 class="font__subheading"><code>.font__caption</code> Caption font style</h4>
+		<p class="sp__0"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__caption">Caption: Regular 12sp&lt;/p></pre>
+		</editor>
 
-<editor lang="bash">
-	<pre>npm install @directscale/typography --save-dev</pre>
-</editor>
+		<h4 class="font__subheading"><code>.font__button</code> Button font style</h4>
+		<p class="sp__0"><em>When to use?</em> Buttons. Tabs.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__button">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></pre>
+		</editor>
 
-<h3 class="font__title">Setup</h3>
+		<h4 class="font__subheading"><code>.font__body</code> Body font style</h4>
+		<p class="sp__0"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__body">Body: Regular 14sp&lt;/p></pre>
+		</editor>
 
-<ol class="numbers">
-	<li>Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you be putting it into your build.</li>
-	<li>Include <code>_typography.abstract.scss</code> in your SASS build.</li>
-	<li>Initialize typography styles by doing one of the following:<ul class="bullets">
-		<li><em>Basic</em>: Include <code>_typography.init.scss</code> into your SASS build.</li>
-		<li><em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.</li>
-	</ul></li>
-</ol>
+		<h4 class="font__subheading"><code>.font__bold</code> Bold font style</h4>
+		<p class="sp__0"><em>When to use?</em> Bold text. Text with emphasis. Ask UX for specific use cases.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__bold">Bold: Medium 14sp&lt;/p></pre>
+		</editor>
 
-<h3 class="font__title">Basic Usage - HTML Classes</h3>
+		<h4 class="font__subheading"><code>.font__subheading</code> Subheading font style</h4>
+		<p class="sp__0"><em>When to use?</em> Subheadings, such as widget section subheadings (see Marketing Sites widget, Community widget).</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__subheading">Subheading: Regular 16sp&lt;/p></pre>
+		</editor>
 
-<h4 class="font__subheading">Font Style Classes</h4>
+		<h4 class="font__subheading"><code>.font__title</code> Title font style</h4>
+		<p class="sp__0"><em>When to use?</em> App bar (header) title. Widget title when not in a header (see Social Networking widget). Rank titles (see rank titles in Rank Information widget).</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__title">Title: Medium 20sp&lt;/p></pre>
+		</editor>
 
-<h5 class="font__bold"><code>.font__caption</code> Caption font style</h5>
-<p class="sp__0"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__caption">Caption: Regular 12sp&lt;/p></pre>
-</editor>
+		<h4 class="font__subheading"><code>.font__headline</code> Headline font style</h4>
+		<p class="sp__0"><em>When to use?</em> Widget header title.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__headline">Headline: Regular 24sp&lt;/p></pre>
+		</editor>
 
-<h5 class="font__bold"><code>.font__button</code> Button font style</h5>
-<p class="sp__0"><em>When to use?</em> Buttons. Tabs.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__button">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></pre>
-</editor>
+		<h4 class="font__subheading"><code>.font__display1</code> Display 1 font style</h4>
+		<p class="sp__0"><em>When to use?</em> Use sparingly, with caution, when needing to call out large text.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__display1">Display 1: Regular 34sp&lt;/p></pre>
+		</editor>
 
-<h5 class="font__bold"><code>.font__body</code> Body font style</h5>
-<p class="sp__0"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__body">Body: Regular 14sp&lt;/p></pre>
-</editor>
+		<h4 class="font__subheading"><code>.font__display2</code> Display 2 font style</h4>
+		<p class="sp__0"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__display2">Display 2: Regular 45sp&lt;/p></pre>
+		</editor>
 
-<h5 class="font__bold"><code>.font__bold</code> Bold font style</h5>
-<p class="sp__0"><em>When to use?</em> Bold text. Text with emphasis. Ask UX for specific use cases.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__bold">Bold: Medium 14sp&lt;/p></pre>
-</editor>
+		<h4 class="font__subheading"><code>.font__display3</code> Display 3 font style</h4>
+		<p class="sp__0"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__display3">Display 3: Regular 56sp&lt;/p></pre>
+		</editor>
 
-<h5 class="font__bold"><code>.font__subheading</code> Subheading font style</h5>
-<p class="sp__0"><em>When to use?</em> Subheadings, such as widget section subheadings (see Marketing Sites widget, Community widget).</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__subheading">Subheading: Regular 16sp&lt;/p></pre>
-</editor>
+		<h4 class="font__subheading"><code>.font__display4</code> Display 4 font style</h4>
+		<p class="sp__0"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__display4">Display 4: Light 112sp&lt;/p></pre>
+		</editor>
 
-<h5 class="font__bold"><code>.font__title</code> Title font style</h5>
-<p class="sp__0"><em>When to use?</em> App bar (header) title. Widget title when not in a header (see Social Networking widget). Rank titles (see rank titles in Rank Information widget).</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__title">Title: Medium 20sp&lt;/p></pre>
-</editor>
+		<h3 class="font__title">Text body length classes</h3>
 
-<h5 class="font__bold"><code>.font__headline</code> Headline font style</h5>
-<p class="sp__0"><em>When to use?</em> Widget header title.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__headline">Headline: Regular 24sp&lt;/p></pre>
-</editor>
+		<p class="font__bold"><code>.font__short-line</code></p>
+		<p class="sp__0 font__short-line"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>
+		<editor lang="html" editable="true" live-preview="true">
+			<pre>&lt;p class="font__short-line">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></pre>
+		</editor>
 
-<h5 class="font__bold"><code>.font__display1</code> Display 1 font style</h5>
-<p class="sp__0"><em>When to use?</em> Use sparingly, with caution, when needing to call out large text.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__display1">Display 1: Regular 34sp&lt;/p></pre>
-</editor>
+		<h2 class="font__headline">Basic Usage - SASS Helpers</h2>
+		<p class="text__short">In addition to the HTML classes above, SASS helpers are available for more control.</p>
 
-<h5 class="font__bold"><code>.font__display2</code> Display 2 font style</h5>
-<p class="sp__0"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__display2">Display 2: Regular 45sp&lt;/p></pre>
-</editor>
+		<h3 class="font__title"><code>sp($name)</code> function</h3>
+		<p class="text__short">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>
+		<editor lang="scss,css">
+			<pre>.my-custom-selector {
+			font-size: sp('subheading');
+		}</pre>
+			<pre>.my-custom-selector {
+			/* Assuming a base font size of 14px, the compiled result will be: */
+			font-size: 1.14286em;
+		}</pre>
+		</editor>
 
-<h5 class="font__bold"><code>.font__display3</code> Display 3 font style</h5>
-<p class="sp__0"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__display3">Display 3: Regular 56sp&lt;/p></pre>
-</editor>
+		<h3 class="font__title"><code>@include font($style)</code> mixin</h3>
+		<p>This mixin applies a predefined font style to a selector.</p>
+		<editor lang="scss,css">
+			<pre>.my-custom-selector {
+			@include font('display');
+		}</pre>
+			<pre>.my-custom-selector {
+			/* Assuming a base font size of 14px, the compiled result will be: */
+			font-size: 2.42857em;
+			line-height: 1.5rem;
+			color: hsla(0, 0%, 0%, 0.54));
+		}</pre>
+		</editor>
+	</div>
 
-<h5 class="font__bold"><code>.font__display4</code> Display 4 font style</h5>
-<p class="sp__0"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__display4">Display 4: Light 112sp&lt;/p></pre>
-</editor>
-
-<h4 class="font__subheading">Text body length classes</h4>
-
-<p class="font__bold"><code>.font__short-line</code></p>
-<p class="sp__0 font__short-line"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>
-<editor lang="html" editable="true" live-preview="true">
-	<pre>&lt;p class="font__short-line">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></pre>
-</editor>
-
-<h3 class="font__title">Basic Usage - SASS Helpers</h3>
-<p class="text__short">In addition to the HTML classes above, SASS helpers are available for more control.</p>
-
-<h4 class="font__subheading"><code>sp($name)</code> function</h4>
-<p class="text__short">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>
-<editor lang="scss,css">
-	<pre>.my-custom-selector {
-	font-size: sp('subheading');
-}</pre>
-	<pre>.my-custom-selector {
-	/* Assuming a base font size of 14px, the compiled result will be: */
-	font-size: 1.14286em;
-}</pre>
-</editor>
-
-<h4 class="font__subheading"><code>@include font($style)</code> mixin</h4>
-<p>This mixin applies a predefined font style to a selector.</p>
-<editor lang="scss,css">
-	<pre>.my-custom-selector {
-	@include font('display');
-}</pre>
-	<pre>.my-custom-selector {
-	/* Assuming a base font size of 14px, the compiled result will be: */
-	font-size: 2.42857em;
-	line-height: 1.5rem;
-	color: hsla(0, 0%, 0%, 0.54));
-}</pre>
-</editor>
-
-<h3 class="font__title">Advanced Usage</h3>
-<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href="#">let the DS UI / platform team know</a>.</p>
+	<div>
+		<h2 class="font__headline">Advanced Usage</h2>
+		<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href="#">let the DS UI / platform team know</a>.</p>
+	</div>
+</tabs>

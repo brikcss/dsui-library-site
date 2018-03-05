@@ -160,5 +160,5 @@ $rhythm-grid__bg: hsla(0, 0%, 0%, 0.1) !default;
 @mixin rhythm-grid($bg: $rhythm-grid__bg) {
 	// stylelint-disable-next-line unit-blacklist
 	background-image: linear-gradient($bg 1px, transparent 1px);
-	background-size: 100% 1rem;
+	background-size: 100% 0.5rem;
 }

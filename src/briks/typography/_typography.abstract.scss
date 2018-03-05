@@ -68,7 +68,7 @@ $font__style-queries: (
 			(
 				0: 112px
 					(
-						font-weight: 400,
+						font-weight: 300,
 						line-height: 4rem,
 						color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54))
 					)
@@ -141,8 +141,10 @@ $font__line-lengths: (
 	// If $size is a string, look up the value from $sizes.
 	@if type-of($size) == string {
 		$size: font-query($size, $at);
-		$at: map-get(nth($size, length($size)), at);
-		$size: nth($size, 1);
+		@if type-of($size) == list {
+			$at: map-get(nth($size, length($size)), at);
+			$size: nth($size, 1);
+		}
 	}
 
 	// Get base size.

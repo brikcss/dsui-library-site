@@ -11,6 +11,7 @@ function tabsDirective($parse) {
 		link: function($scope, $element, $attributes) {
 			const tabs = $parse($attributes.tabs)($scope);
 			const tabNames = Object.keys(tabs);
+			const tabContentEl = $element[0].children[1];
 			$scope.activateTab = activateTab;
 			$scope.tabs = [];
 
@@ -26,6 +27,10 @@ function tabsDirective($parse) {
 				activateTab($scope.activeTab);
 			}
 
+			Array.from(tabContentEl.children).forEach((child) => {
+				child.classList.add('tabs__content');
+			});
+
 			function activateTab(tab) {
 				tab = tab || $scope.tabs[0].id;
 				const activeTabName = typeof tab === 'string' ? tab : tab.id;
@@ -37,7 +42,7 @@ function tabsDirective($parse) {
 						.querySelector('.tabs__content--active')
 						.classList.remove('tabs__content--active');
 				}
-				$element[0].children[1].children[tabNames.indexOf(activeTabName)].classList.add(
+				tabContentEl.children[tabNames.indexOf(activeTabName)].classList.add(
 					'tabs__content--active'
 				);
 			}

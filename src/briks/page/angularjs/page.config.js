@@ -3,7 +3,7 @@ const pages = {
 	'Getting Started': require('../../../pages/getting-started.tpl.html'),
 	core: {
 		'Browser Reset': {
-			tpl: require('../../../pages/reset.tpl.html'),
+			tpl: require('../../../pages/browser-reset.tpl.html'),
 			data: {
 				version: '0.0.1',
 			},
