@@ -189,6 +189,7 @@ li {
 		padding-right: 1rem;
 		position: relative;
 		margin-left: 0;
+		transition: color 200ms;
 
 		&:before {
 			content: ' ';
