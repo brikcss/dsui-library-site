@@ -26,18 +26,16 @@ module.exports = {
 		sass: {
 			angularjs: {
 				source: [
-					// Abstract code.
+					// Core component abstracts.
 					'./src/briks/rhythm/_rhythm.abstract.scss',
+					'./src/briks/colors/_colors.abstract.scss',
 					'./src/briks/typography/_typography.abstract.scss',
-					'./src/briks/footer/_footer.abstract.scss',
-					'./src/briks/header/_header.abstract.scss',
-					'./src/briks/elevation/_elevation.abstract.scss',
-					'./src/briks/sidebars/_sidebars.abstract.scss',
-					'./src/briks/show-hide/_show-hide.abstract.scss',
-					'./src/briks/burger-button/_burger-button.abstract.scss',
-					// CSS producing code.
+					// None-core component abstracts.
+					'./src/briks/**/*.abstract.scss',
+					// Core components init.
 					'./src/briks/reset/_reset.init.scss',
 					'./src/briks/typography/_typography.init.scss',
+					// Other components init.
 					'./src/briks/**/*.init.scss',
 					// Site specific code.
 					'./node_modules/highlight.js/styles/atom-one-dark',

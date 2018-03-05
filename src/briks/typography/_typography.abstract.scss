@@ -64,17 +64,45 @@ $font__faces: (
 //
 // stylelint-disable unit-blacklist
 $font__style-queries: (
-		display4: (0: 112px (font-weight: 300, line-height: 4rem, color: hsla(0, 0%, 0%, 0.54))),
-		display3: (0: 56px (line-height: 2rem, color: hsla(0, 0%, 0%, 0.54))),
-		display2: (0: 45px (line-height: 2rem, color: hsla(0, 0%, 0%, 0.54))),
-		display1: (0: 34px (line-height: 1.5rem, color: hsla(0, 0%, 0%, 0.54))),
+		display4:
+			(
+				0: 112px
+					(
+						font-weight: 400,
+						line-height: 4rem,
+						color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54))
+					)
+			),
+		display3:
+			(
+				0: 56px (line-height: 2rem, color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54)))
+			),
+		display2:
+			(
+				0: 45px (line-height: 2rem, color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54)))
+			),
+		display1:
+			(
+				0: 34px
+					(
+						line-height: 1.5rem,
+						color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54))
+					)
+			),
 		headline: (0: 24px (line-height: 1.5rem)),
-		title: (0: 20px (font-weight: 600)),
+		title: (0: 20px (font-weight: 500, letter-spacing: 0.025rem)),
 		subheading: (0: 16px),
-		body: (0: 14px (color: hsla(0, 0%, 0%, 0.87), font-family: ('Roboto', sans-serif))),
-		bold: (0: 14px (font-weight: 600)),
-		button: (0: 14px (font-weight: 600, text-transform: uppercase)),
-		caption: (0: 12px (color: hsla(0, 0%, 0%, 0.54)))
+		body:
+			(
+				0: 14px
+					(
+						color: if(function-exists(c), c(dark1), hsla(0, 0%, 0%, 0.87)),
+						font-family: ('Roboto', sans-serif)
+					)
+			),
+		bold: (0: 14px (font-weight: 500)),
+		button: (0: 14px (font-weight: 500, text-transform: uppercase)),
+		caption: (0: 12px (color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54))))
 	)
 	!default;
 

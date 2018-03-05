@@ -11,7 +11,7 @@ $burger-init: true !default;
 $burger-hide-at: 768px !default;
 $burger__base: burger !default;
 $burger__size: 0.7rem !default;
-$burger__color: hsla(0, 0%, 100%, 0.92) !default;
+$burger__color: if(function-exists(c), c(light), hsla(0, 0%, 100%, 1)) !default;
 $burger__line-spacing: 1.4 !default;
 
 /** Burger mixin. */

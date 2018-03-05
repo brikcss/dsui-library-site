@@ -12,7 +12,7 @@ $footer-init: true !default;
 $footer__base: footer !default;
 $footer__height: 2rem !default;
 $footer__padding: 0 1rem !default;
-$footer__bg: hsl(0, 0%, 90%) !default;
+$footer__bg: if(function-exists(c), c(gray), hsl(0, 0%, 90%)) !default;
 
 /**
  *  Global footer element.

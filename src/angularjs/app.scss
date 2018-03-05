@@ -7,7 +7,6 @@ html {
 }
 
 body {
-	color: hsla(0, 0%, 0%, 0.87);
 	height: 100%;
 	overflow: hidden;
 }
@@ -51,8 +50,7 @@ blockquote {
 // Spacing
 // Try to set sensible defaults.
 $spacing__elements: (
-	2rem: (h1, h2),
-	1.5rem: (h3),
+	1.5rem: (h2, h3),
 	1rem: (h4),
 	0.5rem: (h5, h6, p),
 	0:
@@ -85,7 +83,7 @@ $spacing__elements: (
 //
 // stylelint-disable-next-line selector-max-type
 code {
-	background-color: hsla(0, 0%, 0%, 0.08);
+	background-color: lighten(c(dark4), 20%);
 	font-family: 'Roboto Mono', monospace;
 
 	// stylelint-disable-next-line selector-max-type
@@ -116,8 +114,6 @@ li {
 // Header.
 //
 .header {
-	color: hsla(0, 0%, 100%, 0.92);
-
 	&__title {
 		padding-right: 0.5rem;
 		flex-grow: 1;
@@ -127,12 +123,19 @@ li {
 		}
 	}
 
-	.burger {
-		padding-right: 0.5rem;
+	&__version {
+		color: c(light2);
+		font-size: 0.6em;
+		line-height: 1;
+		margin-left: 0.25rem;
 	}
 
 	&__button {
-		color: hsla(0, 0%, 100%, 0.92);
+		color: inherit;
+	}
+
+	.burger {
+		padding-right: 0.5rem;
 	}
 }
 
@@ -162,15 +165,89 @@ li {
 	}
 }
 
+.page-tabs {
+	margin-left: -1rem;
+	margin-right: -1rem;
+	margin-top: -1rem;
+
+	.tabs__content {
+		padding: 1rem 1rem 0;
+	}
+
+	.tabs__buttons {
+		background-color: hsl(0, 0%, 100%);
+		// stylelint-disable-next-line unit-blacklist
+		border-bottom: 1px solid c(dark4);
+		position: relative;
+		z-index: 40;
+	}
+
+	.tabs__button {
+		// stylelint-disable-next-line unit-blacklist
+		height: 1.5rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		position: relative;
+		margin-left: 0;
+
+		&:before {
+			content: ' ';
+			border-color: c(color1) transparent transparent transparent;
+			border-width: 0;
+			border-style: solid;
+			height: 0;
+			width: 0;
+			position: absolute;
+			left: 50%;
+			top: 0;
+			z-index: -1;
+			transition-property: border-width, left;
+			transition-duration: 250ms;
+			transition-timing-function: cubic-bezier(0.3, 0.2, 0.2, 1.3);
+		}
+
+		&:after {
+			content: ' ';
+			background-color: transparent;
+			opacity: 0.7;
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			top: 0;
+			transition: background-color 200ms;
+			z-index: -1;
+		}
+
+		&--active {
+			color: c(light);
+
+			&:before {
+				border-width: 0.3rem 0.25rem 0;
+				left: calc(50% - 0.25rem);
+			}
+
+			&:after {
+				background-color: c(color1);
+			}
+		}
+	}
+
+	.tabs__button-label {
+		position: relative;
+		z-index: 1;
+	}
+}
+
 // ---------
 // Superbar.
 //
 .superbar {
-	background-color: hsl(0, 0%, 95%);
+	background-color: c(gray);
 	overflow: hidden;
 
 	&__header {
-		background-color: hsl(200, 18%, 46%);
+		background-color: c(superbar);
 		height: 2rem;
 		display: flex;
 		align-items: center;
@@ -219,7 +296,7 @@ li {
 	}
 
 	&__menu-icon {
-		color: hsl(200, 18%, 46%);
+		color: c(superbar-icon);
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -233,7 +310,95 @@ li {
 }
 
 .version {
-	color: hsla(0, 0%, 0%, 0.54);
 	font-size: 0.6em;
 	line-height: 1rem;
+}
+
+.dsui-page {
+	&__related {
+		margin-top: 1rem;
+	}
+
+	// stylelint-disable-next-line scss/media-feature-value-dollar-variable
+	@media (min-width: 768px) {
+		&__intro {
+			display: flex;
+			width: 100%;
+		}
+
+		&__about {
+			// flex-grow: 1;
+		}
+
+		&__related {
+			// stylelint-disable-next-line unit-blacklist, declaration-property-unit-whitelist
+			width: sp(280px);
+			margin-top: 0;
+			margin-left: 4rem;
+		}
+	}
+}
+
+.pg-colors {
+	&__colors-list {
+		display: flex;
+		flex-wrap: wrap;
+		margin-left: -0.25rem;
+		margin-right: -0.25rem;
+
+		&--dark {
+			background-color: c(superbar);
+			padding-bottom: 0.5rem;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	&__color {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		border: 0.05rem solid c(dark3);
+		width: 5rem;
+		line-height: 0.5rem;
+		margin-left: 0.25rem;
+		margin-right: 0.25rem;
+
+		&--dark {
+			background-color: hsl(0, 0%, 20%);
+			color: c(light);
+		}
+
+		&-value {
+			font-size: 0.9em;
+		}
+	}
+
+	&__color-value {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		// height = 2rem height - 0.05rem border-top - 0.05rem border-bottom
+		height: 1.9rem;
+		width: 100%;
+	}
+
+	&__color-meta {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		width: 5rem;
+		padding: 0.25rem;
+		@include font(caption);
+
+		&:empty {
+			padding: 0;
+		}
+
+		.pg-colors__color--dark & {
+			color: c(light2);
+		}
+	}
 }

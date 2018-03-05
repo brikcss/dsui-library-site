@@ -12,7 +12,7 @@ $header-init: true !default;
 $header__base: header !default;
 $header__height: 2rem !default;
 $header__padding: 0 1rem !default;
-$header__bg: hsl(199, 98%, 48%) !default;
+$header__bg: if(function-exists(c), c(color1), hsl(199, 98%, 48%)) !default;
 
 /**
  *  Create page header.
@@ -22,7 +22,8 @@ $header__bg: hsl(199, 98%, 48%) !default;
 	align-items: center;
 	position: relative;
 	height: $height;
+	min-height: $height;
 	padding: $padding;
-	background-color: $bg;
+	@include bg($bg);
 	@include elevate(4);
 }

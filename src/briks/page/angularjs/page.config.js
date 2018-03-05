@@ -1,12 +1,32 @@
 const pages = {
-	home: require('../../../pages/home.tpl.html'),
-	'getting-started': require('../../../pages/getting-started.tpl.html'),
+	Home: require('../../../pages/home.tpl.html'),
+	'Getting Started': require('../../../pages/getting-started.tpl.html'),
 	core: {
-		reset: require('../../../pages/reset.tpl.html'),
-		'vertical-rhythm': require('../../../pages/vertical-rhythm.tpl.html'),
-		typography: require('../../../pages/typography.tpl.html'),
-		colors: '',
-		spacing: '',
+		'Browser Reset': {
+			tpl: require('../../../pages/reset.tpl.html'),
+			data: {
+				version: '0.0.1',
+			},
+		},
+		'Vertical Rhythm': {
+			tpl: require('../../../pages/vertical-rhythm.tpl.html'),
+			data: {
+				version: '0.0.1',
+			},
+		},
+		Typography: {
+			tpl: require('../../../pages/typography.tpl.html'),
+			data: {
+				version: '0.0.1',
+			},
+		},
+		Colors: {
+			tpl: require('ejs-loader!../../../pages/colors.html.ejs')({ version: '0.0.1' }),
+			data: {
+				version: '0.0.1',
+			},
+		},
+		Spacing: '',
 	},
 	404: require('../../../pages/404.tpl.html'),
 };
@@ -31,21 +51,32 @@ function pageConfig($stateProvider, $urlRouterProvider) {
 
 	// Create a route.
 	function createRoute(name, url, template) {
-		template =
-			template ||
-			`<h2 class="font__headline">${name.replace(/(?:^|\s)\S/g, function(a) {
-				return a.toUpperCase();
-			})}</h2><p class="font__subheading">We are working on documentation and examples. Come back soon!</p>`;
-		$stateProvider.state(name, {
+		let data = {
+			pageTitle: name,
+		};
+		url = url.replace(/\s+/g, '-').toLowerCase();
+		if (typeof template === 'object' && template.data) {
+			data = Object.assign(data, template.data);
+			template = template.tpl;
+		}
+		const pageName = name.replace(/\s+/g, '-').toLowerCase();
+		const config = {
 			url,
 			views: {
 				content: {
 					template: template,
-					controller: 'pageCtrl as page',
+					controller: 'appCtrl as app',
 				},
 			},
-		});
+			data,
+		};
+		template =
+			template ||
+			`<h2 class="font__headline">${name}</h2><p class="font__subheading">We are working on documentation and examples. Come back soon!</p>`;
+		$stateProvider.state(pageName, config);
 	}
 }
+
+pageConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 export default pageConfig;

@@ -18,7 +18,7 @@ function codeEditor() {
 			let ticking = false;
 
 			// Create array of tabs from comma-separated $scope.lang string.
-			$scope.tabs = $scope.lang.split(',');
+			$scope.tabs = [];
 			$scope.tabEls = {};
 			$scope.activateTab = activateTab;
 
@@ -27,24 +27,32 @@ function codeEditor() {
 			if (!$scope.editable) {
 				$element.addClass('editor--read-only');
 			}
-			$scope.tabs.forEach((tab, i) => {
+			$scope.lang.split(',').forEach((tab, i) => {
 				// Create the tab's DOM.
 				const highlightEl = codeParentEl.children[i];
 				const wrapEl = document.createElement('div');
 				const originalCode = highlightEl.innerHTML;
+				if (tab.indexOf(':') > -1) {
+					tab = tab.split(':');
+					tab.label = tab[1];
+					tab.name = tab[0];
+				} else {
+					tab = { name: tab, label: tab };
+				}
+				$scope.tabs.push(tab);
 				codeParentEl.insertBefore(wrapEl, codeParentEl.firstChild);
 				wrapEl.appendChild(highlightEl);
 				wrapEl.classList.add('editor__code-tab');
-				wrapEl.setAttribute('data-tab', tab);
+				wrapEl.setAttribute('data-tab', tab.name);
 				highlightEl.classList.add('hljs', 'editor__highlighted-code');
 				highlightEl.innerHTML =
-					'<code class="editor__highlighted-code--' + tab + '">' + originalCode + '</code>';
+					'<code class="editor__highlighted-code--' + tab.name + '">' + originalCode + '</code>';
 				// Make code editable if it's not read only.
 				if ($scope.editable) {
 					const rawPreEl = document.createElement('pre');
 					const rawCodeEl = document.createElement('code');
 					rawPreEl.classList.add('hljs', 'editor__raw-code');
-					rawCodeEl.classList.add('editor__raw-code--' + tab);
+					rawCodeEl.classList.add('editor__raw-code--' + tab.name);
 					rawCodeEl.innerHTML = originalCode;
 					rawCodeEl.setAttribute('contenteditable', true);
 					rawPreEl.appendChild(rawCodeEl);
@@ -89,25 +97,25 @@ function codeEditor() {
 					let script;
 					$scope.tabs.forEach((tab) => {
 						let code = '';
-						let codeEl = codeParentEl.querySelector('.editor__raw-code--' + tab);
+						let codeEl = codeParentEl.querySelector('.editor__raw-code--' + tab.name);
 						if (!codeEl) {
-							codeEl = codeParentEl.querySelector('.editor__highlighted-code--' + tab);
+							codeEl = codeParentEl.querySelector('.editor__highlighted-code--' + tab.name);
 						}
 						codeEl.childNodes.forEach((node) => {
 							code += node.nodeValue;
 						});
 						// Highlight code.
 						codeParentEl.querySelector(
-							'.editor__highlighted-code--' + tab
-						).innerHTML = highlightjs.highlight(tab, code).value;
+							'.editor__highlighted-code--' + tab.name
+						).innerHTML = highlightjs.highlight(tab.name, code).value;
 						// Update HTML content.
 						if ($scope.livePreview) {
-							if (tab === 'css') {
+							if (tab.name === 'css') {
 								html += '<style>' + code + '</style>';
-							} else if (tab === 'html') {
+							} else if (tab.name === 'html') {
 								html += code;
 							}
-							if (tab === 'js') {
+							if (tab.name === 'js') {
 								script = document.createElement('script');
 								try {
 									script.appendChild(document.createTextNode(code));
@@ -157,7 +165,7 @@ function codeEditor() {
 				$scope.activeTab = tab;
 				Array.from(codeParentEl.children).forEach((el) => {
 					el.classList.remove('editor__code-tab--active');
-					if (el.getAttribute('data-tab') === tab) {
+					if (el.getAttribute('data-tab') === tab.name) {
 						el.classList.add('editor__code-tab--active');
 					}
 				});

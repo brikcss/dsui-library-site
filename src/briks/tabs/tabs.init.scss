@@ -1,0 +1,38 @@
+// stylelint-disable-next-line selector-type-no-unknown, selector-max-type
+tabs {
+	display: block;
+}
+
+.tabs {
+	&__content {
+		position: relative;
+		width: 100%;
+		min-width: 100%;
+		display: none;
+
+		&:first-child {
+			margin-left: 0;
+		}
+
+		&--active {
+			display: block;
+		}
+	}
+
+	&__buttons {
+		display: flex;
+	}
+
+	&__button {
+		@include font(button);
+		color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54));
+
+		&--active {
+			color: if(function-exists(c), c(dark1), hsla(0, 0%, 0%, 0.87));
+		}
+
+		+ .tabs__button {
+			margin-left: 1rem;
+		}
+	}
+}
