@@ -83,184 +83,184 @@ module.exports = angular;
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var hljs = __webpack_require__(24);
+var hljs = __webpack_require__(27);
 
-hljs.registerLanguage('1c', __webpack_require__(25));
-hljs.registerLanguage('abnf', __webpack_require__(26));
-hljs.registerLanguage('accesslog', __webpack_require__(27));
-hljs.registerLanguage('actionscript', __webpack_require__(28));
-hljs.registerLanguage('ada', __webpack_require__(29));
-hljs.registerLanguage('apache', __webpack_require__(30));
-hljs.registerLanguage('applescript', __webpack_require__(31));
-hljs.registerLanguage('cpp', __webpack_require__(32));
-hljs.registerLanguage('arduino', __webpack_require__(33));
-hljs.registerLanguage('armasm', __webpack_require__(34));
-hljs.registerLanguage('xml', __webpack_require__(35));
-hljs.registerLanguage('asciidoc', __webpack_require__(36));
-hljs.registerLanguage('aspectj', __webpack_require__(37));
-hljs.registerLanguage('autohotkey', __webpack_require__(38));
-hljs.registerLanguage('autoit', __webpack_require__(39));
-hljs.registerLanguage('avrasm', __webpack_require__(40));
-hljs.registerLanguage('awk', __webpack_require__(41));
-hljs.registerLanguage('axapta', __webpack_require__(42));
-hljs.registerLanguage('bash', __webpack_require__(43));
-hljs.registerLanguage('basic', __webpack_require__(44));
-hljs.registerLanguage('bnf', __webpack_require__(45));
-hljs.registerLanguage('brainfuck', __webpack_require__(46));
-hljs.registerLanguage('cal', __webpack_require__(47));
-hljs.registerLanguage('capnproto', __webpack_require__(48));
-hljs.registerLanguage('ceylon', __webpack_require__(49));
-hljs.registerLanguage('clean', __webpack_require__(50));
-hljs.registerLanguage('clojure', __webpack_require__(51));
-hljs.registerLanguage('clojure-repl', __webpack_require__(52));
-hljs.registerLanguage('cmake', __webpack_require__(53));
-hljs.registerLanguage('coffeescript', __webpack_require__(54));
-hljs.registerLanguage('coq', __webpack_require__(55));
-hljs.registerLanguage('cos', __webpack_require__(56));
-hljs.registerLanguage('crmsh', __webpack_require__(57));
-hljs.registerLanguage('crystal', __webpack_require__(58));
-hljs.registerLanguage('cs', __webpack_require__(59));
-hljs.registerLanguage('csp', __webpack_require__(60));
-hljs.registerLanguage('css', __webpack_require__(61));
-hljs.registerLanguage('d', __webpack_require__(62));
-hljs.registerLanguage('markdown', __webpack_require__(63));
-hljs.registerLanguage('dart', __webpack_require__(64));
-hljs.registerLanguage('delphi', __webpack_require__(65));
-hljs.registerLanguage('diff', __webpack_require__(66));
-hljs.registerLanguage('django', __webpack_require__(67));
-hljs.registerLanguage('dns', __webpack_require__(68));
-hljs.registerLanguage('dockerfile', __webpack_require__(69));
-hljs.registerLanguage('dos', __webpack_require__(70));
-hljs.registerLanguage('dsconfig', __webpack_require__(71));
-hljs.registerLanguage('dts', __webpack_require__(72));
-hljs.registerLanguage('dust', __webpack_require__(73));
-hljs.registerLanguage('ebnf', __webpack_require__(74));
-hljs.registerLanguage('elixir', __webpack_require__(75));
-hljs.registerLanguage('elm', __webpack_require__(76));
-hljs.registerLanguage('ruby', __webpack_require__(77));
-hljs.registerLanguage('erb', __webpack_require__(78));
-hljs.registerLanguage('erlang-repl', __webpack_require__(79));
-hljs.registerLanguage('erlang', __webpack_require__(80));
-hljs.registerLanguage('excel', __webpack_require__(81));
-hljs.registerLanguage('fix', __webpack_require__(82));
-hljs.registerLanguage('flix', __webpack_require__(83));
-hljs.registerLanguage('fortran', __webpack_require__(84));
-hljs.registerLanguage('fsharp', __webpack_require__(85));
-hljs.registerLanguage('gams', __webpack_require__(86));
-hljs.registerLanguage('gauss', __webpack_require__(87));
-hljs.registerLanguage('gcode', __webpack_require__(88));
-hljs.registerLanguage('gherkin', __webpack_require__(89));
-hljs.registerLanguage('glsl', __webpack_require__(90));
-hljs.registerLanguage('go', __webpack_require__(91));
-hljs.registerLanguage('golo', __webpack_require__(92));
-hljs.registerLanguage('gradle', __webpack_require__(93));
-hljs.registerLanguage('groovy', __webpack_require__(94));
-hljs.registerLanguage('haml', __webpack_require__(95));
-hljs.registerLanguage('handlebars', __webpack_require__(96));
-hljs.registerLanguage('haskell', __webpack_require__(97));
-hljs.registerLanguage('haxe', __webpack_require__(98));
-hljs.registerLanguage('hsp', __webpack_require__(99));
-hljs.registerLanguage('htmlbars', __webpack_require__(100));
-hljs.registerLanguage('http', __webpack_require__(101));
-hljs.registerLanguage('hy', __webpack_require__(102));
-hljs.registerLanguage('inform7', __webpack_require__(103));
-hljs.registerLanguage('ini', __webpack_require__(104));
-hljs.registerLanguage('irpf90', __webpack_require__(105));
-hljs.registerLanguage('java', __webpack_require__(106));
-hljs.registerLanguage('javascript', __webpack_require__(107));
-hljs.registerLanguage('jboss-cli', __webpack_require__(108));
-hljs.registerLanguage('json', __webpack_require__(109));
-hljs.registerLanguage('julia', __webpack_require__(110));
-hljs.registerLanguage('julia-repl', __webpack_require__(111));
-hljs.registerLanguage('kotlin', __webpack_require__(112));
-hljs.registerLanguage('lasso', __webpack_require__(113));
-hljs.registerLanguage('ldif', __webpack_require__(114));
-hljs.registerLanguage('leaf', __webpack_require__(115));
-hljs.registerLanguage('less', __webpack_require__(116));
-hljs.registerLanguage('lisp', __webpack_require__(117));
-hljs.registerLanguage('livecodeserver', __webpack_require__(118));
-hljs.registerLanguage('livescript', __webpack_require__(119));
-hljs.registerLanguage('llvm', __webpack_require__(120));
-hljs.registerLanguage('lsl', __webpack_require__(121));
-hljs.registerLanguage('lua', __webpack_require__(122));
-hljs.registerLanguage('makefile', __webpack_require__(123));
-hljs.registerLanguage('mathematica', __webpack_require__(124));
-hljs.registerLanguage('matlab', __webpack_require__(125));
-hljs.registerLanguage('maxima', __webpack_require__(126));
-hljs.registerLanguage('mel', __webpack_require__(127));
-hljs.registerLanguage('mercury', __webpack_require__(128));
-hljs.registerLanguage('mipsasm', __webpack_require__(129));
-hljs.registerLanguage('mizar', __webpack_require__(130));
-hljs.registerLanguage('perl', __webpack_require__(131));
-hljs.registerLanguage('mojolicious', __webpack_require__(132));
-hljs.registerLanguage('monkey', __webpack_require__(133));
-hljs.registerLanguage('moonscript', __webpack_require__(134));
-hljs.registerLanguage('n1ql', __webpack_require__(135));
-hljs.registerLanguage('nginx', __webpack_require__(136));
-hljs.registerLanguage('nimrod', __webpack_require__(137));
-hljs.registerLanguage('nix', __webpack_require__(138));
-hljs.registerLanguage('nsis', __webpack_require__(139));
-hljs.registerLanguage('objectivec', __webpack_require__(140));
-hljs.registerLanguage('ocaml', __webpack_require__(141));
-hljs.registerLanguage('openscad', __webpack_require__(142));
-hljs.registerLanguage('oxygene', __webpack_require__(143));
-hljs.registerLanguage('parser3', __webpack_require__(144));
-hljs.registerLanguage('pf', __webpack_require__(145));
-hljs.registerLanguage('php', __webpack_require__(146));
-hljs.registerLanguage('pony', __webpack_require__(147));
-hljs.registerLanguage('powershell', __webpack_require__(148));
-hljs.registerLanguage('processing', __webpack_require__(149));
-hljs.registerLanguage('profile', __webpack_require__(150));
-hljs.registerLanguage('prolog', __webpack_require__(151));
-hljs.registerLanguage('protobuf', __webpack_require__(152));
-hljs.registerLanguage('puppet', __webpack_require__(153));
-hljs.registerLanguage('purebasic', __webpack_require__(154));
-hljs.registerLanguage('python', __webpack_require__(155));
-hljs.registerLanguage('q', __webpack_require__(156));
-hljs.registerLanguage('qml', __webpack_require__(157));
-hljs.registerLanguage('r', __webpack_require__(158));
-hljs.registerLanguage('rib', __webpack_require__(159));
-hljs.registerLanguage('roboconf', __webpack_require__(160));
-hljs.registerLanguage('routeros', __webpack_require__(161));
-hljs.registerLanguage('rsl', __webpack_require__(162));
-hljs.registerLanguage('ruleslanguage', __webpack_require__(163));
-hljs.registerLanguage('rust', __webpack_require__(164));
-hljs.registerLanguage('scala', __webpack_require__(165));
-hljs.registerLanguage('scheme', __webpack_require__(166));
-hljs.registerLanguage('scilab', __webpack_require__(167));
-hljs.registerLanguage('scss', __webpack_require__(168));
-hljs.registerLanguage('shell', __webpack_require__(169));
-hljs.registerLanguage('smali', __webpack_require__(170));
-hljs.registerLanguage('smalltalk', __webpack_require__(171));
-hljs.registerLanguage('sml', __webpack_require__(172));
-hljs.registerLanguage('sqf', __webpack_require__(173));
-hljs.registerLanguage('sql', __webpack_require__(174));
-hljs.registerLanguage('stan', __webpack_require__(175));
-hljs.registerLanguage('stata', __webpack_require__(176));
-hljs.registerLanguage('step21', __webpack_require__(177));
-hljs.registerLanguage('stylus', __webpack_require__(178));
-hljs.registerLanguage('subunit', __webpack_require__(179));
-hljs.registerLanguage('swift', __webpack_require__(180));
-hljs.registerLanguage('taggerscript', __webpack_require__(181));
-hljs.registerLanguage('yaml', __webpack_require__(182));
-hljs.registerLanguage('tap', __webpack_require__(183));
-hljs.registerLanguage('tcl', __webpack_require__(184));
-hljs.registerLanguage('tex', __webpack_require__(185));
-hljs.registerLanguage('thrift', __webpack_require__(186));
-hljs.registerLanguage('tp', __webpack_require__(187));
-hljs.registerLanguage('twig', __webpack_require__(188));
-hljs.registerLanguage('typescript', __webpack_require__(189));
-hljs.registerLanguage('vala', __webpack_require__(190));
-hljs.registerLanguage('vbnet', __webpack_require__(191));
-hljs.registerLanguage('vbscript', __webpack_require__(192));
-hljs.registerLanguage('vbscript-html', __webpack_require__(193));
-hljs.registerLanguage('verilog', __webpack_require__(194));
-hljs.registerLanguage('vhdl', __webpack_require__(195));
-hljs.registerLanguage('vim', __webpack_require__(196));
-hljs.registerLanguage('x86asm', __webpack_require__(197));
-hljs.registerLanguage('xl', __webpack_require__(198));
-hljs.registerLanguage('xquery', __webpack_require__(199));
-hljs.registerLanguage('zephir', __webpack_require__(200));
+hljs.registerLanguage('1c', __webpack_require__(28));
+hljs.registerLanguage('abnf', __webpack_require__(29));
+hljs.registerLanguage('accesslog', __webpack_require__(30));
+hljs.registerLanguage('actionscript', __webpack_require__(31));
+hljs.registerLanguage('ada', __webpack_require__(32));
+hljs.registerLanguage('apache', __webpack_require__(33));
+hljs.registerLanguage('applescript', __webpack_require__(34));
+hljs.registerLanguage('cpp', __webpack_require__(35));
+hljs.registerLanguage('arduino', __webpack_require__(36));
+hljs.registerLanguage('armasm', __webpack_require__(37));
+hljs.registerLanguage('xml', __webpack_require__(38));
+hljs.registerLanguage('asciidoc', __webpack_require__(39));
+hljs.registerLanguage('aspectj', __webpack_require__(40));
+hljs.registerLanguage('autohotkey', __webpack_require__(41));
+hljs.registerLanguage('autoit', __webpack_require__(42));
+hljs.registerLanguage('avrasm', __webpack_require__(43));
+hljs.registerLanguage('awk', __webpack_require__(44));
+hljs.registerLanguage('axapta', __webpack_require__(45));
+hljs.registerLanguage('bash', __webpack_require__(46));
+hljs.registerLanguage('basic', __webpack_require__(47));
+hljs.registerLanguage('bnf', __webpack_require__(48));
+hljs.registerLanguage('brainfuck', __webpack_require__(49));
+hljs.registerLanguage('cal', __webpack_require__(50));
+hljs.registerLanguage('capnproto', __webpack_require__(51));
+hljs.registerLanguage('ceylon', __webpack_require__(52));
+hljs.registerLanguage('clean', __webpack_require__(53));
+hljs.registerLanguage('clojure', __webpack_require__(54));
+hljs.registerLanguage('clojure-repl', __webpack_require__(55));
+hljs.registerLanguage('cmake', __webpack_require__(56));
+hljs.registerLanguage('coffeescript', __webpack_require__(57));
+hljs.registerLanguage('coq', __webpack_require__(58));
+hljs.registerLanguage('cos', __webpack_require__(59));
+hljs.registerLanguage('crmsh', __webpack_require__(60));
+hljs.registerLanguage('crystal', __webpack_require__(61));
+hljs.registerLanguage('cs', __webpack_require__(62));
+hljs.registerLanguage('csp', __webpack_require__(63));
+hljs.registerLanguage('css', __webpack_require__(64));
+hljs.registerLanguage('d', __webpack_require__(65));
+hljs.registerLanguage('markdown', __webpack_require__(66));
+hljs.registerLanguage('dart', __webpack_require__(67));
+hljs.registerLanguage('delphi', __webpack_require__(68));
+hljs.registerLanguage('diff', __webpack_require__(69));
+hljs.registerLanguage('django', __webpack_require__(70));
+hljs.registerLanguage('dns', __webpack_require__(71));
+hljs.registerLanguage('dockerfile', __webpack_require__(72));
+hljs.registerLanguage('dos', __webpack_require__(73));
+hljs.registerLanguage('dsconfig', __webpack_require__(74));
+hljs.registerLanguage('dts', __webpack_require__(75));
+hljs.registerLanguage('dust', __webpack_require__(76));
+hljs.registerLanguage('ebnf', __webpack_require__(77));
+hljs.registerLanguage('elixir', __webpack_require__(78));
+hljs.registerLanguage('elm', __webpack_require__(79));
+hljs.registerLanguage('ruby', __webpack_require__(80));
+hljs.registerLanguage('erb', __webpack_require__(81));
+hljs.registerLanguage('erlang-repl', __webpack_require__(82));
+hljs.registerLanguage('erlang', __webpack_require__(83));
+hljs.registerLanguage('excel', __webpack_require__(84));
+hljs.registerLanguage('fix', __webpack_require__(85));
+hljs.registerLanguage('flix', __webpack_require__(86));
+hljs.registerLanguage('fortran', __webpack_require__(87));
+hljs.registerLanguage('fsharp', __webpack_require__(88));
+hljs.registerLanguage('gams', __webpack_require__(89));
+hljs.registerLanguage('gauss', __webpack_require__(90));
+hljs.registerLanguage('gcode', __webpack_require__(91));
+hljs.registerLanguage('gherkin', __webpack_require__(92));
+hljs.registerLanguage('glsl', __webpack_require__(93));
+hljs.registerLanguage('go', __webpack_require__(94));
+hljs.registerLanguage('golo', __webpack_require__(95));
+hljs.registerLanguage('gradle', __webpack_require__(96));
+hljs.registerLanguage('groovy', __webpack_require__(97));
+hljs.registerLanguage('haml', __webpack_require__(98));
+hljs.registerLanguage('handlebars', __webpack_require__(99));
+hljs.registerLanguage('haskell', __webpack_require__(100));
+hljs.registerLanguage('haxe', __webpack_require__(101));
+hljs.registerLanguage('hsp', __webpack_require__(102));
+hljs.registerLanguage('htmlbars', __webpack_require__(103));
+hljs.registerLanguage('http', __webpack_require__(104));
+hljs.registerLanguage('hy', __webpack_require__(105));
+hljs.registerLanguage('inform7', __webpack_require__(106));
+hljs.registerLanguage('ini', __webpack_require__(107));
+hljs.registerLanguage('irpf90', __webpack_require__(108));
+hljs.registerLanguage('java', __webpack_require__(109));
+hljs.registerLanguage('javascript', __webpack_require__(110));
+hljs.registerLanguage('jboss-cli', __webpack_require__(111));
+hljs.registerLanguage('json', __webpack_require__(112));
+hljs.registerLanguage('julia', __webpack_require__(113));
+hljs.registerLanguage('julia-repl', __webpack_require__(114));
+hljs.registerLanguage('kotlin', __webpack_require__(115));
+hljs.registerLanguage('lasso', __webpack_require__(116));
+hljs.registerLanguage('ldif', __webpack_require__(117));
+hljs.registerLanguage('leaf', __webpack_require__(118));
+hljs.registerLanguage('less', __webpack_require__(119));
+hljs.registerLanguage('lisp', __webpack_require__(120));
+hljs.registerLanguage('livecodeserver', __webpack_require__(121));
+hljs.registerLanguage('livescript', __webpack_require__(122));
+hljs.registerLanguage('llvm', __webpack_require__(123));
+hljs.registerLanguage('lsl', __webpack_require__(124));
+hljs.registerLanguage('lua', __webpack_require__(125));
+hljs.registerLanguage('makefile', __webpack_require__(126));
+hljs.registerLanguage('mathematica', __webpack_require__(127));
+hljs.registerLanguage('matlab', __webpack_require__(128));
+hljs.registerLanguage('maxima', __webpack_require__(129));
+hljs.registerLanguage('mel', __webpack_require__(130));
+hljs.registerLanguage('mercury', __webpack_require__(131));
+hljs.registerLanguage('mipsasm', __webpack_require__(132));
+hljs.registerLanguage('mizar', __webpack_require__(133));
+hljs.registerLanguage('perl', __webpack_require__(134));
+hljs.registerLanguage('mojolicious', __webpack_require__(135));
+hljs.registerLanguage('monkey', __webpack_require__(136));
+hljs.registerLanguage('moonscript', __webpack_require__(137));
+hljs.registerLanguage('n1ql', __webpack_require__(138));
+hljs.registerLanguage('nginx', __webpack_require__(139));
+hljs.registerLanguage('nimrod', __webpack_require__(140));
+hljs.registerLanguage('nix', __webpack_require__(141));
+hljs.registerLanguage('nsis', __webpack_require__(142));
+hljs.registerLanguage('objectivec', __webpack_require__(143));
+hljs.registerLanguage('ocaml', __webpack_require__(144));
+hljs.registerLanguage('openscad', __webpack_require__(145));
+hljs.registerLanguage('oxygene', __webpack_require__(146));
+hljs.registerLanguage('parser3', __webpack_require__(147));
+hljs.registerLanguage('pf', __webpack_require__(148));
+hljs.registerLanguage('php', __webpack_require__(149));
+hljs.registerLanguage('pony', __webpack_require__(150));
+hljs.registerLanguage('powershell', __webpack_require__(151));
+hljs.registerLanguage('processing', __webpack_require__(152));
+hljs.registerLanguage('profile', __webpack_require__(153));
+hljs.registerLanguage('prolog', __webpack_require__(154));
+hljs.registerLanguage('protobuf', __webpack_require__(155));
+hljs.registerLanguage('puppet', __webpack_require__(156));
+hljs.registerLanguage('purebasic', __webpack_require__(157));
+hljs.registerLanguage('python', __webpack_require__(158));
+hljs.registerLanguage('q', __webpack_require__(159));
+hljs.registerLanguage('qml', __webpack_require__(160));
+hljs.registerLanguage('r', __webpack_require__(161));
+hljs.registerLanguage('rib', __webpack_require__(162));
+hljs.registerLanguage('roboconf', __webpack_require__(163));
+hljs.registerLanguage('routeros', __webpack_require__(164));
+hljs.registerLanguage('rsl', __webpack_require__(165));
+hljs.registerLanguage('ruleslanguage', __webpack_require__(166));
+hljs.registerLanguage('rust', __webpack_require__(167));
+hljs.registerLanguage('scala', __webpack_require__(168));
+hljs.registerLanguage('scheme', __webpack_require__(169));
+hljs.registerLanguage('scilab', __webpack_require__(170));
+hljs.registerLanguage('scss', __webpack_require__(171));
+hljs.registerLanguage('shell', __webpack_require__(172));
+hljs.registerLanguage('smali', __webpack_require__(173));
+hljs.registerLanguage('smalltalk', __webpack_require__(174));
+hljs.registerLanguage('sml', __webpack_require__(175));
+hljs.registerLanguage('sqf', __webpack_require__(176));
+hljs.registerLanguage('sql', __webpack_require__(177));
+hljs.registerLanguage('stan', __webpack_require__(178));
+hljs.registerLanguage('stata', __webpack_require__(179));
+hljs.registerLanguage('step21', __webpack_require__(180));
+hljs.registerLanguage('stylus', __webpack_require__(181));
+hljs.registerLanguage('subunit', __webpack_require__(182));
+hljs.registerLanguage('swift', __webpack_require__(183));
+hljs.registerLanguage('taggerscript', __webpack_require__(184));
+hljs.registerLanguage('yaml', __webpack_require__(185));
+hljs.registerLanguage('tap', __webpack_require__(186));
+hljs.registerLanguage('tcl', __webpack_require__(187));
+hljs.registerLanguage('tex', __webpack_require__(188));
+hljs.registerLanguage('thrift', __webpack_require__(189));
+hljs.registerLanguage('tp', __webpack_require__(190));
+hljs.registerLanguage('twig', __webpack_require__(191));
+hljs.registerLanguage('typescript', __webpack_require__(192));
+hljs.registerLanguage('vala', __webpack_require__(193));
+hljs.registerLanguage('vbnet', __webpack_require__(194));
+hljs.registerLanguage('vbscript', __webpack_require__(195));
+hljs.registerLanguage('vbscript-html', __webpack_require__(196));
+hljs.registerLanguage('verilog', __webpack_require__(197));
+hljs.registerLanguage('vhdl', __webpack_require__(198));
+hljs.registerLanguage('vim', __webpack_require__(199));
+hljs.registerLanguage('x86asm', __webpack_require__(200));
+hljs.registerLanguage('xl', __webpack_require__(201));
+hljs.registerLanguage('xquery', __webpack_require__(202));
+hljs.registerLanguage('zephir', __webpack_require__(203));
 
 module.exports = hljs;
 
@@ -299,20 +299,25 @@ var _index5 = __webpack_require__(14);
 
 var _index6 = _interopRequireDefault(_index5);
 
-var _index7 = __webpack_require__(21);
+var _index7 = __webpack_require__(24);
 
 var _index8 = _interopRequireDefault(_index7);
 
+var _index9 = __webpack_require__(205);
+
+var _index10 = _interopRequireDefault(_index9);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/** ------------------------------------------------------------------------------------------------
- *  app.js
- *  ------
- *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Main entry for DS UI's AngularJS site.
- ** --------------------------------------------------------------------------------------------- */
-
-_angular2.default.module('dsui', [_angularUiRouter2.default, _index6.default, _index2.default, _index4.default, _index8.default]).config(_appConfig2.default).controller('appCtrl', _appController2.default);
+_angular2.default.module('dsui', [_angularUiRouter2.default, _index6.default, _index2.default, _index4.default, _index8.default, _index10.default]).run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
+	$rootScope.$state = $state;
+	$rootScope.$stateParams = $stateParams;
+}]).config(_appConfig2.default).controller('appCtrl', _appController2.default); /** ------------------------------------------------------------------------------------------------
+                                                                                 *  app.js
+                                                                                 *  ------
+                                                                                 *  @author  brikcss  <https://github.com/brikcss>
+                                                                                 *  @description  Main entry for DS UI's AngularJS site.
+                                                                                 ** --------------------------------------------------------------------------------------------- */
 
 /***/ }),
 /* 3 */
@@ -38770,7 +38775,7 @@ var _pageConfig = __webpack_require__(15);
 
 var _pageConfig2 = _interopRequireDefault(_pageConfig);
 
-var _pageController = __webpack_require__(20);
+var _pageController = __webpack_require__(23);
 
 var _pageController2 = _interopRequireDefault(_pageController);
 
@@ -38793,16 +38798,36 @@ Object.defineProperty(exports, "__esModule", {
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var pages = {
-	home: __webpack_require__(202),
-	'getting-started': __webpack_require__(17),
+	Home: __webpack_require__(16),
+	'Getting Started': __webpack_require__(17),
 	core: {
-		reset: '',
-		'vertical-rhythm': '',
-		typography: __webpack_require__(18),
-		colors: '',
-		spacing: ''
+		'Browser Reset': {
+			tpl: __webpack_require__(208),
+			data: {
+				version: '0.0.1'
+			}
+		},
+		'Vertical Rhythm': {
+			tpl: __webpack_require__(19),
+			data: {
+				version: '0.0.1'
+			}
+		},
+		Typography: {
+			tpl: __webpack_require__(20),
+			data: {
+				version: '0.0.1'
+			}
+		},
+		Colors: {
+			tpl: __webpack_require__(21)({ version: '0.0.1' }),
+			data: {
+				version: '0.0.1'
+			}
+		},
+		Spacing: ''
 	},
-	404: __webpack_require__(19)
+	404: __webpack_require__(22)
 };
 
 pageConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -38825,45 +38850,180 @@ function pageConfig($stateProvider, $urlRouterProvider) {
 
 	// Create a route.
 	function createRoute(name, url, template) {
-		template = template || '<h2 class="font__headline">' + name.replace(/(?:^|\s)\S/g, function (a) {
-			return a.toUpperCase();
-		}) + '</h2><p class="font__subheading">We are working on documentation and examples. Come back soon!</p>';
-		$stateProvider.state(name, {
+		var data = {
+			pageTitle: name
+		};
+		url = url.replace(/\s+/g, '-').toLowerCase();
+		if ((typeof template === 'undefined' ? 'undefined' : _typeof(template)) === 'object' && template.data) {
+			data = Object.assign(data, template.data);
+			template = template.tpl;
+		}
+		var pageName = name.replace(/\s+/g, '-').toLowerCase();
+		var config = {
 			url: url,
 			views: {
 				content: {
 					template: template,
-					controller: 'pageCtrl as page'
+					controller: 'appCtrl as app'
 				}
-			}
-		});
+			},
+			data: data
+		};
+		template = template || '<h2 class="font__headline">' + name + '</h2><p class="font__subheading">We are working on documentation and examples. Come back soon!</p>';
+		$stateProvider.state(pageName, config);
 	}
 }
+
+pageConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 exports.default = pageConfig;
 module.exports = exports['default'];
 
 /***/ }),
-/* 16 */,
+/* 16 */
+/***/ (function(module, exports) {
+
+module.exports = "<h2 class=\"font__headline\">Welcome!</h2>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n"
+
+/***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
 module.exports = "<h1>Getting Started</h1>\n<p>We're working on documentation. Try back soon!</p>\n"
 
 /***/ }),
-/* 18 */
+/* 18 */,
+/* 19 */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"font__headline\">Typography</h2>\n\n<h3 class=\"font__title\">UX Guidelines</h3>\n\n<h4 class=\"font__subheading\">Font Face</h4>\n<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>\n\n<h4 class=\"font__subheading\">Font Styles</h4>\n<p>Font styles should only be selected from the UX approved list of predefined styles, outlined on this page. <em>In other words, do not write application-specific CSS for typography styles.</em> Instead, use the provided classes and helpers. Any exceptions require UX approval.</p>\n<p>Follow any listed use case guidelines when applying typography styles.</p>\n\n<h4 class=\"font__subheading\">Text Colors</h4>\n<p>Text colors are part of the <a ui-sref=\"colors\">Colors component</a>.</p>\n\n<h4 class=\"font__subheading\">Readability</h4>\n<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>\n\n<h4 class=\"font__subheading\">Additional Guidelines</h4>\n<p><a href=\"https://material.io/guidelines/style/typography.html\" title=\"Typography specs for Material Design\"><abbr title=\"Material Design\">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>\n\n<h3 class=\"font__title\">Related Components</h3>\n\n<ul class=\"bullets\">\n\t<li>Colors</li>\n\t<li>Lists</li>\n\t<li>Links</li>\n</ul>\n\n<h3 class=\"font__title\">Install</h3>\n\n<p>It is strongly encouraged to install this with DS UI Core:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install it standalone:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/typography --save-dev</pre>\n</editor>\n\n<h3 class=\"font__title\">Setup</h3>\n\n<ol class=\"numbers\">\n\t<li>Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you be putting it into your build.</li>\n\t<li>Include <code>_typography.abstract.scss</code> in your SASS build.</li>\n\t<li>Initialize typography styles by doing one of the following:<ul class=\"bullets\">\n\t\t<li><em>Basic</em>: Include <code>_typography.init.scss</code> into your SASS build.</li>\n\t\t<li><em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.</li>\n\t</ul></li>\n</ol>\n\n<h3 class=\"font__title\">Basic Usage - HTML Classes</h3>\n\n<h4 class=\"font__subheading\">Font Style Classes</h4>\n\n<h5 class=\"font__bold\"><code>.font__caption</code> Caption font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__caption\">Caption: Regular 12sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__button</code> Button font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> Buttons.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__button\">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__body</code> Body font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__body\">Body: Regular 14sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__bold</code> Bold font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> Bold text.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__bold\">Bold: Medium 14sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__subheading</code> Subheading font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> No use cases specified.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__subheading\">Subheading: Regular 16sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__title</code> Title font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> App bar (header) title.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__title\">Title: Medium 20sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__headline</code> Headline font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> No use cases specified.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__headline\">Headline: Regular 24sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__display1</code> Display 1 font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> No use cases specified.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__display1\">Display 1: Regular 34sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__display2</code> Display 2 font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> No use cases specified.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__display2\">Display 2: Regular 45sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__display3</code> Display 3 font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> No use cases specified.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__display3\">Display 3: Regular 56sp&lt;/p></pre>\n</editor>\n\n<h5 class=\"font__bold\"><code>.font__display4</code> Display 4 font style</h5>\n<p class=\"sp__0\"><em>When to use?</em> No use cases specified.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__display4\">Display 4: Light 112sp&lt;/p></pre>\n</editor>\n\n<h4 class=\"font__subheading\">Text body length classes</h4>\n\n<p class=\"font__bold\"><code>.font__short-line</code></p>\n<p class=\"sp__0 font__short-line\"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>\n<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t<pre>&lt;p class=\"font__short-line\">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></pre>\n</editor>\n\n<h3 class=\"font__title\">Basic Usage - SASS Helpers</h3>\n<p class=\"text__short\">In addition to the HTML classes above, SASS helpers are available for more control.</p>\n\n<h4 class=\"font__subheading\"><code>sp($name)</code> function</h4>\n<p class=\"text__short\">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>\n<editor lang=\"scss,css\">\n\t<pre>.my-custom-selector {\n\tfont-size: sp('subheading');\n}</pre>\n\t<pre>.my-custom-selector {\n\t/* Assuming a base font size of 14px, the compiled result will be: */\n\tfont-size: 1.14286em;\n}</pre>\n</editor>\n\n<h4 class=\"font__subheading\"><code>@include font($style)</code> mixin</h4>\n<p>This mixin applies a predefined font style to a selector.</p>\n<editor lang=\"scss,css\">\n\t<pre>.my-custom-selector {\n\t@include font('display');\n}</pre>\n\t<pre>.my-custom-selector {\n\t/* Assuming a base font size of 14px, the compiled result will be: */\n\tfont-size: 2.42857em;\n\tline-height: 1.5rem;\n\tcolor: hsla(0, 0%, 0%, 0.54));\n}</pre>\n</editor>\n\n<h3 class=\"font__title\">Advanced Usage</h3>\n<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href=\"#\">let the DS UI / platform team know</a>.</p>\n"
+module.exports = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', advanced: 'Advanced'}\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t\t\t<div class=\"dsui-page__about\">\n\t\t\t\t<p>Vertical Rhythm is <a href=\"https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography\">a principle of good typography</a> which fosters <a href=\"https://zellwk.com/blog/why-vertical-rhythms/\">repetation and familiarity</a>, and creates a layout that is more <a href=\"https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm\">balanced, beautiful, and readable</a>. DS UI's Vertical Rhythm provides an easy way to apply and manage vertical rhythm in any app.</p>\n\t\t\t\t<p>To see an example of what vertical rhythm is: <button class=\"<%= data.baseClass %>__button font__button\" ng-click=\"appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid\" type=\"button\">Toggle Vertical Rhythm grid</button></p>\n\t\t\t\t<p>Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are \"in rhythm\". That's Vertical Rhythm.</p>\n\t\t\t</div>\n\n\t\t\t<div class=\"dsui-page__related\">\n\t\t\t\t<h2 class=\"font__title\">Related</h2>\n\t\t\t\t<ul class=\"bullets\">\n\t\t\t\t\t<li><a ui-sref=\"typography\">Typography</a></li>\n\t\t\t\t\t<li><a ui-sref=\"spacing\">Spacing</a></li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Install</h2>\n\t\t<p>It is strongly encouraged to install vertical rhythm with DS UI Core:</p>\n\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/core --save-dev</pre>\n\t\t</editor>\n\n\t\t<p>You may install vertical rhythm on its own:</p>\n\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/rhythm --save-dev</pre>\n\t\t</editor>\n\n\t\t<h2 class=\"font__headline\">Setup</h2>\n\t\t<ol class=\"numbers\">\n\t\t\t<li>Include <code>_rhythm.abstract.scss</code> in your SASS build.</li>\n\t\t\t<li>Initialize vertical rhythm styles by doing one of the following:<ul class=\"bullets\">\n\t\t\t\t<li><em>Basic</em>: Include <code>_rhythm.init.scss</code> into your SASS build.</li>\n\t\t\t\t<li><em>Advanced</em>: For greater customization, use <code>_rhythm.init.scss</code> as an example to initialize vertical rhythm on your own.</li>\n\t\t\t</ul></li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Basic Usage</h2>\n\t\t<h3 class=\"font__title\">Definitions:</h3>\n\t\t<dl>\n\t\t\t<dt>Dimensional properties</dt>\n\t\t\t<dd>CSS properties which apply <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>, or any other property which affects layout dimensions.</dd>\n\t\t\t<dt>1rem</dt>\n\t\t\t<dd>One (1) line in the vertical rhythm grid.</dd>\n\t\t</dl>\n\n\t\t<h3 class=\"font__title\">Rhythm Rules</h3>\n\t\t<p>In order to keep the vertical grid \"in rhythm\", it is important to strictly follow these rules:</p>\n\t\t<ol class=\"numbers\">\n\t\t\t<li><strong>Always</strong> use <code>rem</code> units to apply <em>dimensional properties</em>.</li>\n\t\t\t<li>Apply <code>rem</code> values, if at all possible, in whole numbers. As necessary, <code>rem</code> values may also be applied in halves (x.5rem), or <em>in rare cases</em> in quarters (x.25rem, x.75rem). It is strongly discouraged to avoid any other fractional <code>rem</code> value since it will break the vertical rhythm.</li>\n\t\t\t<li>There may be rare cases where it's necessary to break the rhythm. Perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. In such cases, follow these guidelines:<ul class=\"bullets\">\n\t\t\t\t<li>Ask yourself, <em>is this really necessary</em>? If at all possible, avoid breaking the vertical grid.</li>\n\t\t\t\t<li>\n\t\t\t\t\t<p>If you must temporarily break the rhythm, follow this rule to bring the grid back in rhythm:</p>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<blockquote>\n\t\t\t\t\t\t\t<strong>The sum of all dimensional property values for a given element, converted to <code>rems</code>, must be an integer.</strong>\n\t\t\t\t\t\t</blockquote>\n\t\t\t\t\t</p>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<p>A couple of examples to illustrate:</p>\n\t\t\t\t\t<editor lang=\"scss\">\n\t\t\t\t\t\t<pre>// This pixel border may throw the vertical\n// rhythm off by 2px (1px for border-top and\n// border-bottom). Using the calc() function to\n// readjust another vertical dimension by 2px\n// will put the grid back in rhythm.\n.pixel-border {\n\tborder: 1px solid hsl(0, 0, 80%);\n\theight: calc(3rem - 2px);\n}\n\n// Let's assume this image must be 300px, and\n// that our vertical rhythm (one vertical line)\n// is set to 32px.\n// A height of 300px = 9.375rem + (0.3125rem * 2)\n// equals 10rem. With a 300px tall image, we're\n// still \"in rhythm\"!\n.pixel-image {\n\theight: 300px;\n\tmargin-bottom: 0.3125rem;\n\tmargin-top: 0.3125rem;\n}</pre>\n\t\t\t\t\t</editor>\n\t\t\t\t\t<p></p>\n\t\t\t\t</li>\n\t\t\t</ul></li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Advanced Usage</h2>\n\t\t<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href=\"#\">let the DS UI / platform team know</a>.</p>\n\t</div>\n</tabs>\n"
 
 /***/ }),
-/* 19 */
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', advanced: 'Advanced'}\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t\t\t<div class=\"dsui-page__about\">\n\t\t\t\t<p>DS UI Typography is a system for managing font faces and styles.</p>\n\t\t\t</div>\n\n\t\t\t<div class=\"dsui-page__related\">\n\t\t\t\t<h2 class=\"font__title\">Related</h2>\n\t\t\t\t<ul class=\"bullets\">\n\t\t\t\t\t<li><a ui-sref=\"colors\">Colors</a></li>\n\t\t\t\t\t<li><a ui-sref=\"lists\">Lists</a></li>\n\t\t\t\t\t<li><a ui-sref=\"links\">Link</a></li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<h2 class=\"font__headline\">Guidelines</h2>\n\n\t\t<h3 class=\"font__title\">Font Face</h3>\n\t\t<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>\n\n\t\t<h3 class=\"font__title\">Font Styles</h3>\n\t\t<p>Font styles should only be selected from the UX approved list of predefined styles, outlined on this page. <em>In other words, do not write application-specific CSS for typography styles.</em> Instead, use the provided classes and helpers. Any exceptions require UX approval.</p>\n\t\t<p>Follow any listed use case guidelines when applying typography styles.</p>\n\n\t\t<h3 class=\"font__title\">Text Colors</h3>\n\t\t<p>Text colors are part of the <a ui-sref=\"colors\">Colors component</a>.</p>\n\n\t\t<h3 class=\"font__title\">Line Length / Readability</h3>\n\t\t<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>\n\n\t\t<h3 class=\"font__title\">Additional Guidelines</h3>\n\t\t<p><a href=\"https://material.io/guidelines/style/typography.html\" title=\"Typography specs for Material Design\"><abbr title=\"Material Design\">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Install</h2>\n\t\t<p>It is strongly encouraged to install typography with DS UI Core:</p>\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/core --save-dev</pre>\n\t\t</editor>\n\n\t\t<p>You may also install typography on its own:</p>\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/typography --save-dev</pre>\n\t\t</editor>\n\n\t\t<h2 class=\"font__headline\">Setup</h2>\n\t\t<ol class=\"numbers\">\n\t\t\t<li>Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you be putting it into your build.</li>\n\t\t\t<li>Include <code>_typography.abstract.scss</code> in your SASS build.</li>\n\t\t\t<li>Initialize typography styles by doing one of the following:<ul class=\"bullets\">\n\t\t\t\t<li><em>Basic</em>: Include <code>_typography.init.scss</code> into your SASS build.</li>\n\t\t\t\t<li><em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.</li>\n\t\t\t</ul></li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Basic Usage - HTML Classes</h2>\n\t\t<h3 class=\"font__title\">Font Style Classes</h3>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__caption</code> Caption font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__caption\">Caption: Regular 12sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__button</code> Button font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Buttons. Tabs.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__button\">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__body</code> Body font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__body\">Body: Regular 14sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__bold</code> Bold font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Bold text. Text with emphasis. Ask UX for specific use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__bold\">Bold: Medium 14sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__subheading</code> Subheading font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Subheadings, such as widget section subheadings (see Marketing Sites widget, Community widget).</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__subheading\">Subheading: Regular 16sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__title</code> Title font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> App bar (header) title. Widget title when not in a header (see Social Networking widget). Rank titles (see rank titles in Rank Information widget).</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__title\">Title: Medium 20sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__headline</code> Headline font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Widget header title.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__headline\">Headline: Regular 24sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display1</code> Display 1 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Use sparingly, with caution, when needing to call out large text.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display1\">Display 1: Regular 34sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display2</code> Display 2 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display2\">Display 2: Regular 45sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display3</code> Display 3 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display3\">Display 3: Regular 56sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display4</code> Display 4 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display4\">Display 4: Light 112sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\">Text body length classes</h3>\n\n\t\t<p class=\"font__bold\"><code>.font__short-line</code></p>\n\t\t<p class=\"sp__0 font__short-line\"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__short-line\">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h2 class=\"font__headline\">Basic Usage - SASS Helpers</h2>\n\t\t<p class=\"text__short\">In addition to the HTML classes above, SASS helpers are available for more control.</p>\n\n\t\t<h3 class=\"font__title\"><code>sp($name)</code> function</h3>\n\t\t<p class=\"text__short\">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>\n\t\t<editor lang=\"scss,css\">\n\t\t\t<pre>.my-custom-selector {\n\t\t\tfont-size: sp('subheading');\n\t\t}</pre>\n\t\t\t<pre>.my-custom-selector {\n\t\t\t/* Assuming a base font size of 14px, the compiled result will be: */\n\t\t\tfont-size: 1.14286em;\n\t\t}</pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\"><code>@include font($style)</code> mixin</h3>\n\t\t<p>This mixin applies a predefined font style to a selector.</p>\n\t\t<editor lang=\"scss,css\">\n\t\t\t<pre>.my-custom-selector {\n\t\t\t@include font('display');\n\t\t}</pre>\n\t\t\t<pre>.my-custom-selector {\n\t\t\t/* Assuming a base font size of 14px, the compiled result will be: */\n\t\t\tfont-size: 2.42857em;\n\t\t\tline-height: 1.5rem;\n\t\t\tcolor: hsla(0, 0%, 0%, 0.54));\n\t\t}</pre>\n\t\t</editor>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Advanced Usage</h2>\n\t\t<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href=\"#\">let the DS UI / platform team know</a>.</p>\n\t</div>\n</tabs>\n"
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+
+module.exports = function (obj) {
+obj || (obj = {});
+var __t, __p = '', __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+with (obj) {
+
+
+	const colors = {
+		static: {
+			'dark | dark1': {
+				value: 'hsla(0, 0%, 0%, 0.87)',
+				usage: 'Primary dark text',
+			},
+			dark2: {
+				value: 'hsla(0, 0%, 0%, 0.54)',
+				usage: 'Active dark icons, Secondary dark text',
+			},
+			dark3: {
+				value: 'hsla(0, 0%, 0%, 0.38)',
+				usage: 'Inactive dark icons, Disabled / hint dark text',
+			},
+			dark4: {
+				value: 'hsla(0, 0%, 0%, 0.12)',
+				usage: 'Dark borders / dividers',
+			},
+			'light | light1': {
+				value: 'hsla(0, 0%, 100%, 1)',
+				usage: 'Primary light text',
+			},
+			light2: {
+				value: 'hsla(0, 0%, 100%, 0.7)',
+				usage: 'Active light icons, Secondary light text',
+			},
+			light3: {
+				value: 'hsla(0, 0%, 100%, 0.5)',
+				usage: 'Inactive light icons, Disabled / hint light text',
+			},
+			light4: {
+				value: 'hsla(0, 0%, 100%, 0.12)',
+				usage: 'Light borders / dividers',
+			},
+			gray: {
+				value: 'hsl(0, 0%, 90%)',
+				usage: 'Neutral background',
+			},
+			superbar: {
+				value: 'hsl(209, 24%, 30%)',
+				usage: 'Sidebar header',
+			},
+			'superbar-icon': {
+				value: 'hsl(208, 11%, 65%)',
+				usage: 'Sidebar icons',
+			},
+		},
+		dynamic: {
+			color1: {
+				value: 'hsl(194, 76%, 65%)',
+				usage: 'Primary app bar, text links, visual tree',
+			},
+			color2: {
+				value: 'hsl(69, 67%, 51%)',
+				usage: 'Buttons, profile avatars',
+			},
+			color3: {
+				value: 'hsl(36, 96%, 54%)',
+				usage: 'Selections, checkboxes, selected state for dropdowns, active tab underlines',
+			},
+			color4: {
+				value: 'hsl(205, 7%, 45%)',
+				usage: 'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree',
+			}
+		}
+	};
+;
+__p += '\n<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: \'About\', install: \'Install &amp; Setup\', usage: \'Usage\'}" data-ng-init="pageCtrl.activePageTab = \'about\'">\n	<!-- About. -->\n	<div class="tabs__content">\n		<div class="dsui-page__intro">\n			<div class="dsui-page__about">\n				<p>DS UI Colors provide an easy way to apply and manage all of your app\'s colors. Define colors once and reuse them everywhere. It also helps manage a "live theme" (i.e., client colors) using native CSS variables.</p>\n			</div>\n\n			<div class="dsui-page__related">\n				<h2 class="font__title">Related</h2>\n				<ul class="bullets">\n					<li><a ui-sref="typography">Typography</a></li>\n				</ul>\n			</div>\n		</div>\n\n		<h2 class="font__headline">Approved Colors</h2>\n		<p>Only approved colors below (including client-specific colors) should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are needed since we should be using client-specific colors.</em></p>\n		<h3 class="font__title">App Colors</h3>\n		<ul class="pg-colors__colors-list">\n			';
+ Object.keys(colors.static).forEach(color => { ;
+__p += '\n				<li class="pg-colors__color';
+ if (color.indexOf('light') === 0) { ;
+__p += ' pg-colors__color--dark';
+ } ;
+__p += '">\n					<div class="pg-colors__color-value bg__' +
+((__t = ( color )) == null ? '' : __t) +
+'">\n						<span>' +
+((__t = ( color )) == null ? '' : __t) +
+'</span>\n						<span>' +
+((__t = ( colors.static[color].value )) == null ? '' : __t) +
+'</span>\n					</div>\n					<div class="pg-colors__color-meta">' +
+((__t = ( colors.static[color].usage )) == null ? '' : __t) +
+'</div>\n				</li>\n			';
+ }); ;
+__p += '\n		</ul>\n\n		<h3 class="font__title">Dynamic Client Colors</h3>\n		<p>DS UI Colors makes an easy way to apply dynamic, client-specific colors, which are selected by each client and applied at app runtime. Here are the names of DS UI dynamic color variables and "placeholder" color values:</p>\n		<ul class="pg-colors__colors-list">\n			';
+ Object.keys(colors.dynamic).forEach(color => { ;
+__p += '\n				<li class="pg-colors__color">\n					<div class="pg-colors__color-value bg__' +
+((__t = ( color )) == null ? '' : __t) +
+'">\n						<span>' +
+((__t = ( color )) == null ? '' : __t) +
+'</span>\n						<span>' +
+((__t = ( colors.dynamic[color].value )) == null ? '' : __t) +
+'</span>\n					</div>\n					<div class="pg-colors__color-meta">' +
+((__t = ( colors.dynamic[color].usage )) == null ? '' : __t) +
+'</div>\n				</li>\n			';
+ }); ;
+__p += '\n		</ul>\n		<p><em>Note: These specific color values are NOT approved colors and should NOT be used anywhere outside of setting default CSS color variables until client-specific colors are applied.</em></p>\n	</div>\n\n	<!-- Install & Setup. -->\n	<div class="tabs__content">\n		<h2 class="font__headline">Install</h2>\n		<p>It is strongly encouraged to install Colors with DS UI Core:</p>\n\n		<editor lang="bash">\n			<pre>npm install @directscale/core --save-dev</pre>\n		</editor>\n\n		<p>You may install Colors on its own:</p>\n\n		<editor lang="bash">\n			<pre>npm install @directscale/colors --save-dev</pre>\n		</editor>\n\n		<h3 class="font__headline">Setup</h3>\n		<ol class="numbers">\n			<li>Include <code>_rhythm.abstract.scss</code> in your SASS build.</li>\n			<li>Initialize vertical rhythm styles by doing one of the following:<ul class="bullets">\n				<li><em>Basic</em>: Include <code>_rhythm.init.scss</code> into your SASS build.</li>\n				<li><em>Advanced</em>: For greater customization, use <code>_rhythm.init.scss</code> as an example to initialize vertical rhythm on your own.</li>\n			</ul></li>\n		</ol>\n	</div>\n\n	<!-- Usage. -->\n	<div class="tabs__content">\n		<h2 class="font__headline">Usage</h2>\n		<h3 class="font__title">Need to know:</h3>\n		<ul class="bullets">\n			<li>Never apply <code>background-color</code> again. Instead, always use the <code>@include bg($name)</code> mixin.</li>\n		</ul>\n\n		<h3 class="font__title">Classes and Helpers</h3>\n		<h4 class="font__subheading"><code>c($name)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang="scss,css:result">\n			<pre>.my-selector {\n	border: 1px solid c(dark4);\n}</pre>\n			<pre>.my-selector {\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class="font__subheading"><code>color($name, $level: 1)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang="scss,css:result">\n			<pre>.my-selector {\n	background-color: c(dark);\n	border: 1px solid c(dark, 4);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class="font__subheading"><code>@include bg($name, $level: 1);</code></h4>\n		<p><em>Type</em>: SASS mixin</p>\n		<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n		<p><em>Example</em>:</p>\n		<editor lang="scss,css:result">\n			<pre>.my-selector {\n	@include bg(dark, 2);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	color: hsl(0, 0%, 0%, 0.54);\n}</pre>\n		</editor>\n	</div>\n\n	<!-- Examples. -->\n	<!-- <div class="tabs__content" data-ng-class="{\'tabs__content--active\': pageCtrl.activePageTab === \'examples\'}"></div> -->\n</tabs>\n';
+
+}
+return __p
+}
+
+/***/ }),
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = "<h1>Uh oh...</h1>\n<p>The page you are looking for doesn't seem to exist... try again?</p>\n"
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38882,7 +39042,7 @@ exports.default = pageController;
 module.exports = exports["default"];
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38896,11 +39056,11 @@ var _angular = __webpack_require__(0);
 
 var _angular2 = _interopRequireDefault(_angular);
 
-var _codeEditorDirective = __webpack_require__(22);
+var _codeEditorDirective = __webpack_require__(25);
 
 var _codeEditorDirective2 = _interopRequireDefault(_codeEditorDirective);
 
-var _codeHighlighterDirective = __webpack_require__(201);
+var _codeHighlighterDirective = __webpack_require__(204);
 
 var _codeHighlighterDirective2 = _interopRequireDefault(_codeHighlighterDirective);
 
@@ -38910,7 +39070,7 @@ exports.default = _angular2.default.module('brikcss.editor', []).directive('high
 module.exports = exports['default'];
 
 /***/ }),
-/* 22 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38920,7 +39080,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _editorTpl = __webpack_require__(23);
+var _editorTpl = __webpack_require__(26);
 
 var _editorTpl2 = _interopRequireDefault(_editorTpl);
 
@@ -38947,7 +39107,7 @@ function codeEditor() {
 			var ticking = false;
 
 			// Create array of tabs from comma-separated $scope.lang string.
-			$scope.tabs = $scope.lang.split(',');
+			$scope.tabs = [];
 			$scope.tabEls = {};
 			$scope.activateTab = activateTab;
 
@@ -38956,23 +39116,31 @@ function codeEditor() {
 			if (!$scope.editable) {
 				$element.addClass('editor--read-only');
 			}
-			$scope.tabs.forEach(function (tab, i) {
+			$scope.lang.split(',').forEach(function (tab, i) {
 				// Create the tab's DOM.
 				var highlightEl = codeParentEl.children[i];
 				var wrapEl = document.createElement('div');
 				var originalCode = highlightEl.innerHTML;
+				if (tab.indexOf(':') > -1) {
+					tab = tab.split(':');
+					tab.label = tab[1];
+					tab.name = tab[0];
+				} else {
+					tab = { name: tab, label: tab };
+				}
+				$scope.tabs.push(tab);
 				codeParentEl.insertBefore(wrapEl, codeParentEl.firstChild);
 				wrapEl.appendChild(highlightEl);
 				wrapEl.classList.add('editor__code-tab');
-				wrapEl.setAttribute('data-tab', tab);
+				wrapEl.setAttribute('data-tab', tab.name);
 				highlightEl.classList.add('hljs', 'editor__highlighted-code');
-				highlightEl.innerHTML = '<code class="editor__highlighted-code--' + tab + '">' + originalCode + '</code>';
+				highlightEl.innerHTML = '<code class="editor__highlighted-code--' + tab.name + '">' + originalCode + '</code>';
 				// Make code editable if it's not read only.
 				if ($scope.editable) {
 					var rawPreEl = document.createElement('pre');
 					var rawCodeEl = document.createElement('code');
 					rawPreEl.classList.add('hljs', 'editor__raw-code');
-					rawCodeEl.classList.add('editor__raw-code--' + tab);
+					rawCodeEl.classList.add('editor__raw-code--' + tab.name);
 					rawCodeEl.innerHTML = originalCode;
 					rawCodeEl.setAttribute('contenteditable', true);
 					rawPreEl.appendChild(rawCodeEl);
@@ -38997,9 +39165,12 @@ function codeEditor() {
 			// Destroy when scope is destroyed.
 			$scope.$on('$destroy', function () {
 				$scope.tabs.forEach(function (tab, i) {
-					codeParentEl.children[i].removeEventListener('input', updateEditor);
-					codeParentEl.children[i].querySelector('.editor__raw-code').removeEventListener('scroll', handleScroll);
-					codeParentEl.children[i].removeEventListener('click', selectAllText);
+					if ($scope.editable) {
+						codeParentEl.children[i].removeEventListener('input', updateEditor);
+						codeParentEl.children[i].querySelector('.editor__raw-code').removeEventListener('scroll', handleScroll);
+					} else {
+						codeParentEl.children[i].removeEventListener('click', selectAllText);
+					}
 				});
 			});
 
@@ -39012,23 +39183,23 @@ function codeEditor() {
 					var script = void 0;
 					$scope.tabs.forEach(function (tab) {
 						var code = '';
-						var codeEl = codeParentEl.querySelector('.editor__raw-code--' + tab);
+						var codeEl = codeParentEl.querySelector('.editor__raw-code--' + tab.name);
 						if (!codeEl) {
-							codeEl = codeParentEl.querySelector('.editor__highlighted-code--' + tab);
+							codeEl = codeParentEl.querySelector('.editor__highlighted-code--' + tab.name);
 						}
 						codeEl.childNodes.forEach(function (node) {
 							code += node.nodeValue;
 						});
 						// Highlight code.
-						codeParentEl.querySelector('.editor__highlighted-code--' + tab).innerHTML = _highlight2.default.highlight(tab, code).value;
+						codeParentEl.querySelector('.editor__highlighted-code--' + tab.name).innerHTML = _highlight2.default.highlight(tab.name, code).value;
 						// Update HTML content.
 						if ($scope.livePreview) {
-							if (tab === 'css') {
+							if (tab.name === 'css') {
 								html += '<style>' + code + '</style>';
-							} else if (tab === 'html') {
+							} else if (tab.name === 'html') {
 								html += code;
 							}
-							if (tab === 'js') {
+							if (tab.name === 'js') {
 								script = document.createElement('script');
 								try {
 									script.appendChild(document.createTextNode(code));
@@ -39078,7 +39249,7 @@ function codeEditor() {
 				$scope.activeTab = tab;
 				Array.from(codeParentEl.children).forEach(function (el) {
 					el.classList.remove('editor__code-tab--active');
-					if (el.getAttribute('data-tab') === tab) {
+					if (el.getAttribute('data-tab') === tab.name) {
 						el.classList.add('editor__code-tab--active');
 					}
 				});
@@ -39109,13 +39280,13 @@ exports.default = codeEditor;
 module.exports = exports['default'];
 
 /***/ }),
-/* 23 */
+/* 26 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"editor__preview\"></div>\n<div data-ng-if=\"tabs.length > 1\" class=\"editor__tabs\">\n\t<button data-ng-repeat=\"tab in tabs\" data-ng-click=\"activateTab(tab)\" class=\"editor__tab-button font__button\" data-ng-class=\"{'editor__tab-button--active': activeTab === tab}\" type=\"button\">{{tab}}</button>\n</div>\n<div class=\"editor__code\" data-ng-transclude></div>\n"
+module.exports = "<div class=\"editor__preview\"></div>\n<div data-ng-if=\"tabs.length > 1\" class=\"editor__tabs\">\n\t<button data-ng-repeat=\"tab in tabs\" data-ng-click=\"activateTab(tab)\" class=\"editor__tab-button font__button\" data-ng-class=\"{'editor__tab-button--active': activeTab.name === tab.name}\" type=\"button\">{{tab.label}}</button>\n</div>\n<div class=\"editor__code\" data-ng-transclude></div>\n"
 
 /***/ }),
-/* 24 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -39937,7 +40108,7 @@ https://highlightjs.org/
 
 
 /***/ }),
-/* 25 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs){
@@ -40451,7 +40622,7 @@ module.exports = function(hljs){
 };
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40526,7 +40697,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 27 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40568,7 +40739,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 28 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40646,7 +40817,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 29 */
+/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = // We try to support full Ada2012
@@ -40823,7 +40994,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 30 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40873,7 +41044,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40963,7 +41134,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 32 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41142,7 +41313,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 33 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41246,7 +41417,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 34 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41342,7 +41513,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 35 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41449,7 +41620,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 36 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41641,7 +41812,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 37 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -41790,7 +41961,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 38 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41853,7 +42024,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 39 */
+/* 42 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41993,7 +42164,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 40 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42059,7 +42230,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 41 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42116,7 +42287,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 42 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42151,7 +42322,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 43 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42230,7 +42401,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 44 */
+/* 47 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42285,7 +42456,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs){
@@ -42318,7 +42489,7 @@ module.exports = function(hljs){
 };
 
 /***/ }),
-/* 46 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs){
@@ -42359,7 +42530,7 @@ module.exports = function(hljs){
 };
 
 /***/ }),
-/* 47 */
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42443,7 +42614,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 48 */
+/* 51 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42496,7 +42667,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 49 */
+/* 52 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42567,7 +42738,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 50 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42596,7 +42767,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 51 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42696,7 +42867,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 52 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42715,7 +42886,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 53 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42757,7 +42928,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 54 */
+/* 57 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42907,7 +43078,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 55 */
+/* 58 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42978,7 +43149,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 56 */
+/* 59 */
 /***/ (function(module, exports) {
 
 module.exports = function cos (hljs) {
@@ -43106,7 +43277,7 @@ module.exports = function cos (hljs) {
 };
 
 /***/ }),
-/* 57 */
+/* 60 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43204,7 +43375,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 58 */
+/* 61 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43402,7 +43573,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 59 */
+/* 62 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43583,7 +43754,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 60 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43609,7 +43780,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 61 */
+/* 64 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43718,7 +43889,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 62 */
+/* 65 */
 /***/ (function(module, exports) {
 
 module.exports = /**
@@ -43980,7 +44151,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 63 */
+/* 66 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44092,7 +44263,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 64 */
+/* 67 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -44197,7 +44368,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 65 */
+/* 68 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44270,7 +44441,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 66 */
+/* 69 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44314,7 +44485,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 67 */
+/* 70 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44382,7 +44553,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 68 */
+/* 71 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44415,7 +44586,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 69 */
+/* 72 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44441,7 +44612,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 70 */
+/* 73 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44497,7 +44668,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 71 */
+/* 74 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44548,7 +44719,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 72 */
+/* 75 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44676,7 +44847,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 73 */
+/* 76 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44712,7 +44883,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 74 */
+/* 77 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44749,7 +44920,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 75 */
+/* 78 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44850,7 +45021,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 76 */
+/* 79 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44938,7 +45109,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 77 */
+/* 80 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45119,7 +45290,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 78 */
+/* 81 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45138,7 +45309,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 79 */
+/* 82 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45188,7 +45359,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 80 */
+/* 83 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45338,7 +45509,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 81 */
+/* 84 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45390,7 +45561,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 82 */
+/* 85 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45423,7 +45594,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 83 */
+/* 86 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -45472,7 +45643,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 84 */
+/* 87 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45547,7 +45718,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 85 */
+/* 88 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45610,7 +45781,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 86 */
+/* 89 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -45768,7 +45939,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 87 */
+/* 90 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45996,7 +46167,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 88 */
+/* 91 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46067,7 +46238,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 89 */
+/* 92 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -46108,7 +46279,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 90 */
+/* 93 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46229,7 +46400,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 91 */
+/* 94 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46287,7 +46458,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 92 */
+/* 95 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46314,7 +46485,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 93 */
+/* 96 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46353,7 +46524,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 94 */
+/* 97 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46451,7 +46622,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 95 */
+/* 98 */
 /***/ (function(module, exports) {
 
 module.exports = // TODO support filter tags like :javascript, support inline HTML
@@ -46562,7 +46733,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 96 */
+/* 99 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46600,7 +46771,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 97 */
+/* 100 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46726,7 +46897,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 98 */
+/* 101 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46842,7 +47013,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 99 */
+/* 102 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46892,7 +47063,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 100 */
+/* 103 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46967,7 +47138,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 101 */
+/* 104 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47012,7 +47183,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 102 */
+/* 105 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47118,7 +47289,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 103 */
+/* 106 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47179,7 +47350,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 104 */
+/* 107 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47249,7 +47420,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 105 */
+/* 108 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47329,7 +47500,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 106 */
+/* 109 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47441,7 +47612,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 107 */
+/* 110 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47616,7 +47787,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 108 */
+/* 111 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -47667,7 +47838,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 109 */
+/* 112 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47708,7 +47879,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 110 */
+/* 113 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47874,7 +48045,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 111 */
+/* 114 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47902,7 +48073,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 112 */
+/* 115 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48080,7 +48251,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 113 */
+/* 116 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48247,7 +48418,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 114 */
+/* 117 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48274,7 +48445,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 115 */
+/* 118 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -48318,7 +48489,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 116 */
+/* 119 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48462,7 +48633,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 117 */
+/* 120 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48569,7 +48740,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 118 */
+/* 121 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48730,7 +48901,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 119 */
+/* 122 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48883,7 +49054,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 120 */
+/* 123 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48976,7 +49147,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 121 */
+/* 124 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49063,7 +49234,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 122 */
+/* 125 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49133,7 +49304,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 123 */
+/* 126 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49218,7 +49389,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 124 */
+/* 127 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49280,7 +49451,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 125 */
+/* 128 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49372,7 +49543,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 126 */
+/* 129 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49782,7 +49953,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 127 */
+/* 130 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50011,7 +50182,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 128 */
+/* 131 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50097,7 +50268,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 129 */
+/* 132 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50187,7 +50358,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 130 */
+/* 133 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50210,7 +50381,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 131 */
+/* 134 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50371,7 +50542,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 132 */
+/* 135 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50400,7 +50571,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 133 */
+/* 136 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50479,7 +50650,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 134 */
+/* 137 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50595,7 +50766,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 135 */
+/* 138 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50668,7 +50839,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 136 */
+/* 139 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50765,7 +50936,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 137 */
+/* 140 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50824,7 +50995,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 138 */
+/* 141 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50877,7 +51048,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 139 */
+/* 142 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50987,7 +51158,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 140 */
+/* 143 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51082,7 +51253,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 141 */
+/* 144 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51157,7 +51328,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 142 */
+/* 145 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51218,7 +51389,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 143 */
+/* 146 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51292,7 +51463,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 144 */
+/* 147 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51344,7 +51515,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 145 */
+/* 148 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51400,7 +51571,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 146 */
+/* 149 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51531,7 +51702,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 147 */
+/* 150 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51626,7 +51797,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 148 */
+/* 151 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51711,7 +51882,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 149 */
+/* 152 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51763,7 +51934,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 150 */
+/* 153 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51797,7 +51968,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 151 */
+/* 154 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51889,7 +52060,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 152 */
+/* 155 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51929,7 +52100,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 153 */
+/* 156 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52048,7 +52219,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 154 */
+/* 157 */
 /***/ (function(module, exports) {
 
 module.exports = // Base deafult colors in PB IDE: background: #FFFFDF; foreground: #000000;
@@ -52110,7 +52281,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 155 */
+/* 158 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52230,7 +52401,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 156 */
+/* 159 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52257,7 +52428,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 157 */
+/* 160 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52430,7 +52601,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 158 */
+/* 161 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52504,7 +52675,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 159 */
+/* 162 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52535,7 +52706,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 160 */
+/* 163 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52606,7 +52777,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 161 */
+/* 164 */
 /***/ (function(module, exports) {
 
 module.exports = // Colors from RouterOS terminal:
@@ -52769,7 +52940,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 162 */
+/* 165 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52809,7 +52980,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 163 */
+/* 166 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52874,7 +53045,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 164 */
+/* 167 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52986,7 +53157,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 165 */
+/* 168 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53105,7 +53276,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 166 */
+/* 169 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53253,7 +53424,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 167 */
+/* 170 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53311,7 +53482,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 168 */
+/* 171 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53413,7 +53584,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 169 */
+/* 172 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53432,7 +53603,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 170 */
+/* 173 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53492,7 +53663,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 171 */
+/* 174 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53546,7 +53717,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 172 */
+/* 175 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53616,7 +53787,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 173 */
+/* 176 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53991,7 +54162,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 174 */
+/* 177 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54155,7 +54326,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 175 */
+/* 178 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54242,7 +54413,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 176 */
+/* 179 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54284,7 +54455,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 177 */
+/* 180 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54335,7 +54506,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 178 */
+/* 181 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54793,7 +54964,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 179 */
+/* 182 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54831,7 +55002,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 180 */
+/* 183 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54952,7 +55123,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 181 */
+/* 184 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55000,7 +55171,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 182 */
+/* 185 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55092,7 +55263,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 183 */
+/* 186 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55132,7 +55303,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 184 */
+/* 187 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55197,7 +55368,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 185 */
+/* 188 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55263,7 +55434,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 186 */
+/* 189 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55302,7 +55473,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 187 */
+/* 190 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55390,7 +55561,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 188 */
+/* 191 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55460,7 +55631,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 189 */
+/* 192 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55620,7 +55791,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 190 */
+/* 193 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55674,7 +55845,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 191 */
+/* 194 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55734,7 +55905,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 192 */
+/* 195 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55777,7 +55948,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 193 */
+/* 196 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55793,7 +55964,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 194 */
+/* 197 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55896,7 +56067,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 195 */
+/* 198 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55961,7 +56132,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 196 */
+/* 199 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56071,7 +56242,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 197 */
+/* 200 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56211,7 +56382,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56288,7 +56459,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56363,7 +56534,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56474,7 +56645,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56503,10 +56674,108 @@ exports.default = codeHighlighter;
 module.exports = exports['default'];
 
 /***/ }),
-/* 202 */
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _angular = __webpack_require__(0);
+
+var _angular2 = _interopRequireDefault(_angular);
+
+var _tabsDirective = __webpack_require__(206);
+
+var _tabsDirective2 = _interopRequireDefault(_tabsDirective);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _angular2.default.module('brikcss.tabs', []).directive('tabs', _tabsDirective2.default).name;
+module.exports = exports['default'];
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _tabsTpl = __webpack_require__(207);
+
+var _tabsTpl2 = _interopRequireDefault(_tabsTpl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function tabsDirective($parse) {
+	return {
+		restrict: 'E',
+		transclude: true,
+		template: _tabsTpl2.default,
+		scope: {
+			activeTab: '=?'
+		},
+		link: function link($scope, $element, $attributes) {
+			var tabs = $parse($attributes.tabs)($scope);
+			var tabNames = Object.keys(tabs);
+			var tabContentEl = $element[0].children[1];
+			$scope.activateTab = activateTab;
+			$scope.tabs = [];
+
+			tabNames.forEach(function (tab) {
+				$scope.tabs.push({ id: tab, label: tabs[tab] });
+			});
+
+			if (!$attributes.activeTab || !$scope.activeTab) {
+				$scope.activeTab = $scope.tabs[0].id;
+			}
+
+			if ($scope.tabs.length) {
+				activateTab($scope.activeTab);
+			}
+
+			Array.from(tabContentEl.children).forEach(function (child) {
+				child.classList.add('tabs__content');
+			});
+
+			function activateTab(tab) {
+				tab = tab || $scope.tabs[0].id;
+				var activeTabName = typeof tab === 'string' ? tab : tab.id;
+				var activeContentEl = $element[0].querySelector('.tabs__content--active');
+				$scope.activeTab = activeTabName;
+				$scope.activeTabLocal = activeTabName;
+				if (activeContentEl) {
+					$element[0].querySelector('.tabs__content--active').classList.remove('tabs__content--active');
+				}
+				tabContentEl.children[tabNames.indexOf(activeTabName)].classList.add('tabs__content--active');
+			}
+		}
+	};
+}
+
+tabsDirective.$inject = ['$parse'];
+
+exports.default = tabsDirective;
+module.exports = exports['default'];
+
+/***/ }),
+/* 207 */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"font__headline\">Welcome!</h2>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n"
+module.exports = "<div class=\"tabs__buttons\">\n\t<button class=\"tabs__button\" type=\"button\" data-ng-repeat=\"tab in tabs\" data-ng-class=\"{'tabs__button--active': activeTabLocal === tab.id}\" data-ng-click=\"activateTab(tab)\">{{tab.label || tab.id}}</button>\n</div>\n<div class=\"tabs__contents\" data-ng-transclude></div>\n"
+
+/***/ }),
+/* 208 */
+/***/ (function(module, exports) {
+
+module.exports = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup'}\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t\t\t<div class=\"dsui-page__about\">\n\t\t\t\t<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p>\n\t\t\t\t<p><em>Every DS app should include this in their codebase.</em></p>\n\t\t\t</div>\n\n\t\t\t<div class=\"dsui-page__related\">\n\t\t\t\t<h2 class=\"font__title\">Related</h2>\n\t\t\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t\t\t<li><a ui-sref=\"typography\">Typography</a></li>\n\t\t\t\t\t<li><a ui-sref=\"typography\">Links</a></li>\n\t\t\t\t\t<li><a ui-sref=\"typography\">Spacing</a></li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\n\t<div>\n\t\t<h3 class=\"font__title\">Install</h3>\n\t\t<p>It is encouraged to install the browser reset along with DS UI Core:</p>\n\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/core --save-dev</pre>\n\t\t</editor>\n\n\t\t<p>You may also install the browser reset on its own:</p>\n\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/reset --save-dev</pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\">Setup</h3>\n\t\t<p>Include <code>_reset.init.scss</code> as the first CSS-producing file (after abstract code) in your SASS build. No other steps are necessary.</p>\n\t</div>\n</tabs>\n\n\n"
 
 /***/ })
 /******/ ]);

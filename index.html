@@ -79,7 +79,7 @@
 					</div>
 					<ul class="superbar__menu">
 													<li>
-								<a class="superbar__link" ui-sref="reset">Reset</a>
+								<a class="superbar__link" ui-sref="browser-reset">Browser Reset</a>
 							</li>
 							<li>
 								<a class="superbar__link" ui-sref="colors">Colors</a>
@@ -185,14 +185,16 @@
 		<div class="sidebars__content page">
 			<header class="header">
 	<button type="button" class="burger" data-ng-click="appCtrl.sidebars.toggle('left')" data-ng-class="{'--is-active': appCtrl.sidebars.left.active}"><span class="burger__toppings"></span></button>
-	<div class="header__title font__title">DirectScale UI</div>
-	<div class="header__toolbar">
-		<button class="header__button font__button" ng-click="appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid" type="button">Rhythm</button>
-	</div>
+	<h1 class="header__title font__title">
+		{{$state.current.data.pageTitle}}
+		<span class="header__version" data-ng-if="$state.current.data.version" data-ng-bind="'v' + $state.current.data.version"></span>
+	</h1>
+	<div class="header__toolbar"><button class="header__button font__button" ng-click="appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid" type="button">Rhythm</button></div>
 </header>
 
 
 			<main class="page__scroller">
+				<div>{{appCtrl.pageTitle}}</div>
 				<!-- @todo: Support content level sidebars? -->
 				<!-- <aside class="sidebar--left"></aside> -->
 
