@@ -38802,36 +38802,142 @@ var pages = {
 	'Getting Started': __webpack_require__(17),
 	core: {
 		'Browser Reset': {
-			tpl: __webpack_require__(208),
-			data: {
-				version: '0.0.1'
-			}
-		},
-		'Vertical Rhythm': {
-			tpl: __webpack_require__(19),
-			data: {
-				version: '0.0.1'
-			}
-		},
-		Typography: {
-			tpl: __webpack_require__(20),
+			tpl: __webpack_require__(18)({
+				brik: {
+					name: 'Browser Reset',
+					npmPath: '@directscale/reset',
+					intro: '<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include this in their codebase.</em></p>',
+					related: ['Typography', 'Links', 'Spacing'],
+					setup: {
+						summary: '<p>Include <code>_reset.init.scss</code> as the first CSS-producing file (after abstract code) in your SASS build. No other steps are necessary.</p>'
+					}
+				}
+			}),
 			data: {
 				version: '0.0.1'
 			}
 		},
 		Colors: {
-			tpl: __webpack_require__(21)({ version: '0.0.1' }),
+			tpl: __webpack_require__(19)({
+				brik: {
+					name: 'Colors',
+					intro: '<p>DS UI Colors provide an easy way to apply and manage all of your app\'s colors. Define colors once and reuse them everywhere. It also helps manage a "live theme" (i.e., client colors) using native CSS variables.</p>',
+					related: ['Typography'],
+					npmPath: '@directscale/colors'
+				},
+				colors: {
+					static: {
+						'dark | dark1': {
+							value: 'hsla(0, 0%, 0%, 0.87)',
+							usage: 'Primary dark text'
+						},
+						dark2: {
+							value: 'hsla(0, 0%, 0%, 0.54)',
+							usage: 'Active dark icons, Secondary dark text'
+						},
+						dark3: {
+							value: 'hsla(0, 0%, 0%, 0.38)',
+							usage: 'Inactive dark icons, Disabled / hint dark text'
+						},
+						dark4: {
+							value: 'hsla(0, 0%, 0%, 0.12)',
+							usage: 'Dark borders / dividers'
+						},
+						'light | light1': {
+							value: 'hsla(0, 0%, 100%, 1)',
+							usage: 'Primary light text'
+						},
+						light2: {
+							value: 'hsla(0, 0%, 100%, 0.7)',
+							usage: 'Active light icons, Secondary light text'
+						},
+						light3: {
+							value: 'hsla(0, 0%, 100%, 0.5)',
+							usage: 'Inactive light icons, Disabled / hint light text'
+						},
+						light4: {
+							value: 'hsla(0, 0%, 100%, 0.12)',
+							usage: 'Light borders / dividers'
+						},
+						gray: {
+							value: 'hsl(0, 0%, 90%)',
+							usage: 'Neutral background'
+						},
+						superbar: {
+							value: 'hsl(209, 24%, 30%)',
+							usage: 'Sidebar header'
+						},
+						'superbar-icon': {
+							value: 'hsl(208, 11%, 65%)',
+							usage: 'Sidebar icons'
+						}
+					},
+					dynamic: {
+						color1: {
+							value: 'hsl(194, 76%, 65%)',
+							usage: 'Primary app bar, text links, visual tree'
+						},
+						color2: {
+							value: 'hsl(69, 67%, 51%)',
+							usage: 'Buttons, profile avatars'
+						},
+						color3: {
+							value: 'hsl(36, 96%, 54%)',
+							usage: 'Selections, checkboxes, selected state for dropdowns, active tab underlines'
+						},
+						color4: {
+							value: 'hsl(205, 7%, 45%)',
+							usage: 'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree'
+						}
+					}
+				}
+			}),
+			data: {
+				version: '0.0.1'
+			}
+		},
+		Typography: {
+			tpl: __webpack_require__(20)({
+				brik: {
+					name: 'Typography',
+					npmPath: '@directscale/typography',
+					intro: '<p>DS UI Typography is a system for managing font faces and styles.</p>',
+					related: ['Colors', 'Lists', 'Links'],
+					setup: {
+						list: ['Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you be putting it into your build.', 'Include <code>_typography.abstract.scss</code> in your SASS build.', {
+							class: 'bullets',
+							intro: 'Initialize typography styles by doing one of the following:',
+							list: ['<em>Basic</em>: Include <code>_typography.init.scss</code> into your SASS build.', '<em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.']
+						}]
+					}
+				}
+			}),
+			data: {
+				version: '0.0.1'
+			}
+		},
+		'Vertical Rhythm': {
+			tpl: __webpack_require__(21)({
+				brik: {
+					name: 'Vertical Rhythm',
+					npmPath: '@directscale/rhythm',
+					intro: '<p>Vertical Rhythm is <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">a principle of good typography</a> which fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetition and familiarity</a> , and creates a layout that is more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>. DS UI\'s Vertical Rhythm provides an easy way to apply and manage vertical rhythm in any app.</p><p>To see an example of what vertical rhythm is: <button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid" type="button">Toggle Vertical Rhythm grid</button></p><p class="font__reset">Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That\'s Vertical Rhythm.</p>',
+					related: ['Typography', 'Spacing']
+				}
+			}),
 			data: {
 				version: '0.0.1'
 			}
 		},
 		Spacing: ''
 	},
+	about: {
+		'Including Assets': ''
+	},
 	404: __webpack_require__(22)
 };
 
 pageConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
-
 function pageConfig($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.when('', '/home');
 	$urlRouterProvider.when('/', '/home');
@@ -38840,41 +38946,53 @@ function pageConfig($stateProvider, $urlRouterProvider) {
 	// Iterate through pages object and create pages.
 	Object.keys(pages).forEach(function (section) {
 		if (typeof pages[section] === 'string') {
-			createRoute(section, '/' + section, pages[section]);
+			createRoute(section, pages[section]);
 		} else if (_typeof(pages[section]) === 'object') {
 			Object.keys(pages[section]).forEach(function (page) {
-				createRoute(page, '/' + [section, page].join('/'), pages[section][page]);
+				var pageData = Object.assign({ section: section }, pages[section][page]);
+				if (typeof pages[section][page] === 'string') {
+					pageData.tpl = pages[section][page];
+				}
+				createRoute(page, pageData);
 			});
 		}
 	});
 
 	// Create a route.
-	function createRoute(name, url, template) {
-		var data = {
-			pageTitle: name
-		};
-		url = url.replace(/\s+/g, '-').toLowerCase();
-		if ((typeof template === 'undefined' ? 'undefined' : _typeof(template)) === 'object' && template.data) {
-			data = Object.assign(data, template.data);
-			template = template.tpl;
+	function createRoute(name) {
+		var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+		if (typeof page === 'string') {
+			page = {
+				tpl: page
+			};
+		}
+		page.data = Object.assign({
+			pageTitle: page.section === 'about' ? 'About DS UI' : name
+		}, page.data || {});
+		page.url = page.url || '/' + name.replace(/\s+/g, '-').toLowerCase();
+		if (typeof page.tpl === 'function') {
+			page.tpl = page.tpl(page.data);
 		}
 		var pageName = name.replace(/\s+/g, '-').toLowerCase();
-		var config = {
-			url: url,
+		if (!page.tpl) {
+			page.tpl = '<h2 class="font__headline">' + name + '</h2><p class="font__subheading">We are working on documentation for this page. Come back soon!</p>';
+		}
+		var routeConfig = {
+			url: page.url,
 			views: {
 				content: {
-					template: template,
+					template: page.tpl,
 					controller: 'appCtrl as app'
 				}
 			},
-			data: data
+			// @todo  Find way to split ejs and angularjs data so 1) we don't have to provide all
+			//     ejs data here, and 2) it stays DRY.
+			data: page.data
 		};
-		template = template || '<h2 class="font__headline">' + name + '</h2><p class="font__subheading">We are working on documentation and examples. Come back soon!</p>';
-		$stateProvider.state(pageName, config);
+		$stateProvider.state(pageName, routeConfig);
 	}
 }
-
-pageConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 exports.default = pageConfig;
 module.exports = exports['default'];
@@ -38892,135 +39010,767 @@ module.exports = "<h2 class=\"font__headline\">Welcome!</h2>\n<p>Lorem ipsum dol
 module.exports = "<h1>Getting Started</h1>\n<p>We're working on documentation. Try back soon!</p>\n"
 
 /***/ }),
-/* 18 */,
+/* 18 */
+/***/ (function(module, exports) {
+
+module.exports = function anonymous(data, escapeFn, include, rethrow
+/*``*/) {
+rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
+  var lines = str.split('\n');
+  var start = Math.max(lineno - 3, 0);
+  var end = Math.min(lines.length, lineno + 3);
+  var filename = esc(flnm); // eslint-disable-line
+  // Error context
+  var context = lines.slice(start, end).map(function (line, i){
+    var curr = i + start + 1;
+    return (curr == lineno ? ' >> ' : '    ')
+      + curr
+      + '| '
+      + line;
+  }).join('\n');
+
+  // Alter exception message
+  err.path = filename;
+  err.message = (filename || 'ejs') + ':'
+    + lineno + '\n'
+    + context + '\n\n'
+    + err.message;
+
+  throw err;
+};
+escapeFn = escapeFn || function (markup) {
+  return markup == undefined
+    ? ''
+    : String(markup)
+        .replace(_MATCH_HTML, encode_char);
+};
+var _ENCODE_HTML_RULES = {
+      "&": "&amp;"
+    , "<": "&lt;"
+    , ">": "&gt;"
+    , '"': "&#34;"
+    , "'": "&#39;"
+    }
+  , _MATCH_HTML = /[&<>'"]/g;
+function encode_char(c) {
+  return _ENCODE_HTML_RULES[c] || c;
+};
+;
+var __line = 1
+  , __lines = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup'}\">\n\t<div>\n\t\t<%- include partials/_intro.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<%- include partials/_install.html.ejs %>\n\t</div>\n</tabs>\n"
+  , __filename = "src/pages/browser-reset.tpl.ejs";
+try {
+  var __output = [], __append = __output.push.bind(__output);
+    ; __append("<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup'}\">\n	<div>\n		")
+    ; __line = 3
+    ; (function(){
+      var __line = 1
+      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
+      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
+      try {
+    ; __append("<div class=\"dsui-page__intro\">\n	")
+    ; __line = 2
+    ;  if (data.brik.intro) { 
+    ; __append("<div class=\"dsui-page__about\">\n		")
+    ; __line = 3
+    ; __append( data.brik.intro )
+    ; __append("\n	</div>")
+    ; __line = 4
+    ;  } 
+    ; __append("\n\n	")
+    ; __line = 6
+    ;  if (data.brik.related) { 
+    ; __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
+    ; __line = 9
+    ;  data.brik.related.forEach(link => { 
+    ; __append("\n				<li><a ui-sref=\"")
+    ; __line = 10
+    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
+    ; __append("\">")
+    ; __append(escapeFn( link ))
+    ; __append("</a></li>\n			")
+    ; __line = 11
+    ;  }); 
+    ; __append("\n		</ul>\n	</div>")
+    ; __line = 13
+    ;  } 
+    ; __append("\n</div>\n")
+    ; __line = 15
+      } catch (e) {
+        rethrow(e, __lines, __filename, __line, escapeFn);
+      }
+    ; }).call(this)
+    ; __append("\n	</div>\n\n	<div>\n		")
+    ; __line = 7
+    ; (function(){
+      var __line = 1
+      , __lines = "<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
+      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
+      try {
+    ; __append("<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install ")
+    ; __line = 2
+    ; __append(escapeFn( data.brik.name ))
+    ; __append(" along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install ")
+    ; __line = 8
+    ; __append(escapeFn( data.brik.name ))
+    ; __append(" on its own:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install ")
+    ; __line = 11
+    ; __append(escapeFn( data.brik.npmPath ))
+    ; __append(" --save-dev</pre>\n</editor>\n\n")
+    ; __line = 14
+    ;  if (typeof data.brik.setup === 'object') { 
+    ; __append("<h3 class=\"font__title\">Setup</h3>\n")
+    ; __line = 15
+    ;  if (data.brik.setup.summary) { 
+    ; __append( data.brik.setup.summary )
+    ;  } 
+    ; __append("\n")
+    ; __line = 16
+    ;  if (data.brik.setup.list) { 
+    ; __append("<ol class=\"numbers\">\n	")
+    ; __line = 17
+    ;  data.brik.setup.list.forEach(item => { 
+    ; __append("\n		")
+    ; __line = 18
+    ;  if (typeof item === 'object') { 
+    ; __append("\n			<li>")
+    ; __line = 19
+    ; __append( item.intro )
+    ; __append("\n				")
+    ; __line = 20
+    ;  if (item.class === 'numbers') { 
+    ; __append("<ol class=\"numbers\">")
+    ;  } else { 
+    ; __append("<ul class=\"bullets\">")
+    ;  } 
+    ; __append("\n					")
+    ; __line = 21
+    ;  item.list.forEach(subitem => { 
+    ; __append("<li>")
+    ; __append( subitem )
+    ; __append("</li>")
+    ;  }); 
+    ; __append("\n				")
+    ; __line = 22
+    ;  if (item.class === 'numbers') { 
+    ; __append("</ol>")
+    ;  } else { 
+    ; __append("</ul>")
+    ;  } 
+    ; __append("\n			</li>\n		")
+    ; __line = 24
+    ;  } else { 
+    ; __append("<li>")
+    ; __append( item )
+    ; __append("</li>")
+    ;  } 
+    ; __append("\n	")
+    ; __line = 25
+    ;  }); 
+    ; __append("\n</ol>")
+    ; __line = 26
+    ;  } 
+    ; __append("\n")
+    ; __line = 27
+    ;  } 
+    ; __append("\n")
+    ; __line = 28
+      } catch (e) {
+        rethrow(e, __lines, __filename, __line, escapeFn);
+      }
+    ; }).call(this)
+    ; __append("\n	</div>\n</tabs>\n")
+    ; __line = 10
+  return __output.join("");
+} catch (e) {
+  rethrow(e, __lines, __filename, __line, escapeFn);
+}
+
+}
+
+/***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', advanced: 'Advanced'}\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t\t\t<div class=\"dsui-page__about\">\n\t\t\t\t<p>Vertical Rhythm is <a href=\"https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography\">a principle of good typography</a> which fosters <a href=\"https://zellwk.com/blog/why-vertical-rhythms/\">repetation and familiarity</a>, and creates a layout that is more <a href=\"https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm\">balanced, beautiful, and readable</a>. DS UI's Vertical Rhythm provides an easy way to apply and manage vertical rhythm in any app.</p>\n\t\t\t\t<p>To see an example of what vertical rhythm is: <button class=\"<%= data.baseClass %>__button font__button\" ng-click=\"appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid\" type=\"button\">Toggle Vertical Rhythm grid</button></p>\n\t\t\t\t<p>Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are \"in rhythm\". That's Vertical Rhythm.</p>\n\t\t\t</div>\n\n\t\t\t<div class=\"dsui-page__related\">\n\t\t\t\t<h2 class=\"font__title\">Related</h2>\n\t\t\t\t<ul class=\"bullets\">\n\t\t\t\t\t<li><a ui-sref=\"typography\">Typography</a></li>\n\t\t\t\t\t<li><a ui-sref=\"spacing\">Spacing</a></li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Install</h2>\n\t\t<p>It is strongly encouraged to install vertical rhythm with DS UI Core:</p>\n\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/core --save-dev</pre>\n\t\t</editor>\n\n\t\t<p>You may install vertical rhythm on its own:</p>\n\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/rhythm --save-dev</pre>\n\t\t</editor>\n\n\t\t<h2 class=\"font__headline\">Setup</h2>\n\t\t<ol class=\"numbers\">\n\t\t\t<li>Include <code>_rhythm.abstract.scss</code> in your SASS build.</li>\n\t\t\t<li>Initialize vertical rhythm styles by doing one of the following:<ul class=\"bullets\">\n\t\t\t\t<li><em>Basic</em>: Include <code>_rhythm.init.scss</code> into your SASS build.</li>\n\t\t\t\t<li><em>Advanced</em>: For greater customization, use <code>_rhythm.init.scss</code> as an example to initialize vertical rhythm on your own.</li>\n\t\t\t</ul></li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Basic Usage</h2>\n\t\t<h3 class=\"font__title\">Definitions:</h3>\n\t\t<dl>\n\t\t\t<dt>Dimensional properties</dt>\n\t\t\t<dd>CSS properties which apply <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>, or any other property which affects layout dimensions.</dd>\n\t\t\t<dt>1rem</dt>\n\t\t\t<dd>One (1) line in the vertical rhythm grid.</dd>\n\t\t</dl>\n\n\t\t<h3 class=\"font__title\">Rhythm Rules</h3>\n\t\t<p>In order to keep the vertical grid \"in rhythm\", it is important to strictly follow these rules:</p>\n\t\t<ol class=\"numbers\">\n\t\t\t<li><strong>Always</strong> use <code>rem</code> units to apply <em>dimensional properties</em>.</li>\n\t\t\t<li>Apply <code>rem</code> values, if at all possible, in whole numbers. As necessary, <code>rem</code> values may also be applied in halves (x.5rem), or <em>in rare cases</em> in quarters (x.25rem, x.75rem). It is strongly discouraged to avoid any other fractional <code>rem</code> value since it will break the vertical rhythm.</li>\n\t\t\t<li>There may be rare cases where it's necessary to break the rhythm. Perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. In such cases, follow these guidelines:<ul class=\"bullets\">\n\t\t\t\t<li>Ask yourself, <em>is this really necessary</em>? If at all possible, avoid breaking the vertical grid.</li>\n\t\t\t\t<li>\n\t\t\t\t\t<p>If you must temporarily break the rhythm, follow this rule to bring the grid back in rhythm:</p>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<blockquote>\n\t\t\t\t\t\t\t<strong>The sum of all dimensional property values for a given element, converted to <code>rems</code>, must be an integer.</strong>\n\t\t\t\t\t\t</blockquote>\n\t\t\t\t\t</p>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<p>A couple of examples to illustrate:</p>\n\t\t\t\t\t<editor lang=\"scss\">\n\t\t\t\t\t\t<pre>// This pixel border may throw the vertical\n// rhythm off by 2px (1px for border-top and\n// border-bottom). Using the calc() function to\n// readjust another vertical dimension by 2px\n// will put the grid back in rhythm.\n.pixel-border {\n\tborder: 1px solid hsl(0, 0, 80%);\n\theight: calc(3rem - 2px);\n}\n\n// Let's assume this image must be 300px, and\n// that our vertical rhythm (one vertical line)\n// is set to 32px.\n// A height of 300px = 9.375rem + (0.3125rem * 2)\n// equals 10rem. With a 300px tall image, we're\n// still \"in rhythm\"!\n.pixel-image {\n\theight: 300px;\n\tmargin-bottom: 0.3125rem;\n\tmargin-top: 0.3125rem;\n}</pre>\n\t\t\t\t\t</editor>\n\t\t\t\t\t<p></p>\n\t\t\t\t</li>\n\t\t\t</ul></li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Advanced Usage</h2>\n\t\t<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href=\"#\">let the DS UI / platform team know</a>.</p>\n\t</div>\n</tabs>\n"
+module.exports = function anonymous(data, escapeFn, include, rethrow
+/*``*/) {
+rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
+  var lines = str.split('\n');
+  var start = Math.max(lineno - 3, 0);
+  var end = Math.min(lines.length, lineno + 3);
+  var filename = esc(flnm); // eslint-disable-line
+  // Error context
+  var context = lines.slice(start, end).map(function (line, i){
+    var curr = i + start + 1;
+    return (curr == lineno ? ' >> ' : '    ')
+      + curr
+      + '| '
+      + line;
+  }).join('\n');
+
+  // Alter exception message
+  err.path = filename;
+  err.message = (filename || 'ejs') + ':'
+    + lineno + '\n'
+    + context + '\n\n'
+    + err.message;
+
+  throw err;
+};
+escapeFn = escapeFn || function (markup) {
+  return markup == undefined
+    ? ''
+    : String(markup)
+        .replace(_MATCH_HTML, encode_char);
+};
+var _ENCODE_HTML_RULES = {
+      "&": "&amp;"
+    , "<": "&lt;"
+    , ">": "&gt;"
+    , '"': "&#34;"
+    , "'": "&#39;"
+    }
+  , _MATCH_HTML = /[&<>'"]/g;
+function encode_char(c) {
+  return _ENCODE_HTML_RULES[c] || c;
+};
+;
+var __line = 1
+  , __lines = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup', usage: 'Usage'}\">\n\t<!-- About. -->\n\t<div class=\"tabs__content\">\n\t\t<%- include partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__headline\">Approved Colors</h2>\n\t\t<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are needed since we should be using client-specific colors.</em></p>\n\t\t<h3 class=\"font__title\">App Colors</h3>\n\t\t<ul class=\"pg-colors__colors-list\">\n\t\t\t<% Object.keys(data.colors.static).forEach(color => { %>\n\t\t\t\t<li class=\"pg-colors__color<% if (color.indexOf('light') === 0) { %> pg-colors__color--dark<% } %>\">\n\t\t\t\t\t<div class=\"pg-colors__color-value bg__<%= color %>\">\n\t\t\t\t\t\t<span><%= color %></span>\n\t\t\t\t\t\t<span><%= data.colors.static[color].value %></span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"pg-colors__color-meta\"><%= data.colors.static[color].usage %></div>\n\t\t\t\t</li>\n\t\t\t<% }); %>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title\">Dynamic Client Colors</h3>\n\t\t<p>DS UI Colors makes an easy way to apply dynamic, client-specific colors, which are selected by each client and applied at app runtime. Here are the names of DS UI dynamic color variables and \"placeholder\" color values:</p>\n\t\t<ul class=\"pg-colors__colors-list\">\n\t\t\t<% Object.keys(data.colors.dynamic).forEach(color => { %>\n\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t<div class=\"pg-colors__color-value bg__<%= color %>\">\n\t\t\t\t\t\t<span><%= color %></span>\n\t\t\t\t\t\t<span><%= data.colors.dynamic[color].value %></span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"pg-colors__color-meta\"><%= data.colors.dynamic[color].usage %></div>\n\t\t\t\t</li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t\t<p><em>Note: These specific color values are DirectScale specific colors, intended to illustrate how dynamic, client colors work. They are NOT UX approved colors and should NOT be used anywhere outside of setting default CSS color variables until client-specific colors are applied.</em></p>\n\t</div>\n\n\t<!-- Install & Setup. -->\n\t<div class=\"tabs__content\">\n\t\t<%- include partials/_install.html.ejs %>\n\t</div>\n\n\t<!-- Usage. -->\n\t<div class=\"tabs__content\">\n\t\t<h2 class=\"font__headline\">Usage</h2>\n\t\t<h3 class=\"font__title\">Need to know:</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><em>Never</em> use the <code>background-color</code> property.</li>\n\t\t\t<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title\">Classes and Helpers</h3>\n\t\t<h4 class=\"font__subheading\"><code>c($name)</code></h4>\n\t\t<p><em>Type</em>: SASS function</p>\n\t\t<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-selector {\n\tborder: 1px solid c(dark4);\n}</pre>\n\t\t\t<pre>.my-selector {\n\tborder: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>color($name, $level: 1)</code></h4>\n\t\t<p><em>Type</em>: SASS function</p>\n\t\t<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-selector {\n\tbackground-color: c(dark);\n\tborder: 1px solid c(dark, 4);\n}</pre>\n\t\t\t<pre>.my-selector {\n\tbackground-color: hsl(0, 0%, 0%, 0.87);\n\tborder: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>@include bg($name, $level: 1);</code></h4>\n\t\t<p><em>Type</em>: SASS mixin</p>\n\t\t<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-selector {\n\t@include bg(dark, 2);\n}</pre>\n\t\t\t<pre>.my-selector {\n\tbackground-color: hsl(0, 0%, 0%, 0.87);\n\tcolor: hsl(0, 0%, 0%, 0.54);\n}</pre>\n\t\t</editor>\n\t</div>\n\n\t<!-- Examples. -->\n\t<!-- <div class=\"tabs__content\" data-ng-class=\"{'tabs__content--active': pageCtrl.activePageTab === 'examples'}\"></div> -->\n"
+  , __filename = "src/pages/colors.html.ejs";
+try {
+  var __output = [], __append = __output.push.bind(__output);
+    ; __append("<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup', usage: 'Usage'}\">\n	<!-- About. -->\n	<div class=\"tabs__content\">\n		")
+    ; __line = 4
+    ; (function(){
+      var __line = 1
+      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
+      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
+      try {
+    ; __append("<div class=\"dsui-page__intro\">\n	")
+    ; __line = 2
+    ;  if (data.brik.intro) { 
+    ; __append("<div class=\"dsui-page__about\">\n		")
+    ; __line = 3
+    ; __append( data.brik.intro )
+    ; __append("\n	</div>")
+    ; __line = 4
+    ;  } 
+    ; __append("\n\n	")
+    ; __line = 6
+    ;  if (data.brik.related) { 
+    ; __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
+    ; __line = 9
+    ;  data.brik.related.forEach(link => { 
+    ; __append("\n				<li><a ui-sref=\"")
+    ; __line = 10
+    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
+    ; __append("\">")
+    ; __append(escapeFn( link ))
+    ; __append("</a></li>\n			")
+    ; __line = 11
+    ;  }); 
+    ; __append("\n		</ul>\n	</div>")
+    ; __line = 13
+    ;  } 
+    ; __append("\n</div>\n")
+    ; __line = 15
+      } catch (e) {
+        rethrow(e, __lines, __filename, __line, escapeFn);
+      }
+    ; }).call(this)
+    ; __append("\n\n		<h2 class=\"font__headline\">Approved Colors</h2>\n		<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are needed since we should be using client-specific colors.</em></p>\n		<h3 class=\"font__title\">App Colors</h3>\n		<ul class=\"pg-colors__colors-list\">\n			")
+    ; __line = 10
+    ;  Object.keys(data.colors.static).forEach(color => { 
+    ; __append("\n				<li class=\"pg-colors__color")
+    ; __line = 11
+    ;  if (color.indexOf('light') === 0) { 
+    ; __append(" pg-colors__color--dark")
+    ;  } 
+    ; __append("\">\n					<div class=\"pg-colors__color-value bg__")
+    ; __line = 12
+    ; __append(escapeFn( color ))
+    ; __append("\">\n						<span>")
+    ; __line = 13
+    ; __append(escapeFn( color ))
+    ; __append("</span>\n						<span>")
+    ; __line = 14
+    ; __append(escapeFn( data.colors.static[color].value ))
+    ; __append("</span>\n					</div>\n					<div class=\"pg-colors__color-meta\">")
+    ; __line = 16
+    ; __append(escapeFn( data.colors.static[color].usage ))
+    ; __append("</div>\n				</li>\n			")
+    ; __line = 18
+    ;  }); 
+    ; __append("\n		</ul>\n\n		<h3 class=\"font__title\">Dynamic Client Colors</h3>\n		<p>DS UI Colors makes an easy way to apply dynamic, client-specific colors, which are selected by each client and applied at app runtime. Here are the names of DS UI dynamic color variables and \"placeholder\" color values:</p>\n		<ul class=\"pg-colors__colors-list\">\n			")
+    ; __line = 24
+    ;  Object.keys(data.colors.dynamic).forEach(color => { 
+    ; __append("\n				<li class=\"pg-colors__color\">\n					<div class=\"pg-colors__color-value bg__")
+    ; __line = 26
+    ; __append(escapeFn( color ))
+    ; __append("\">\n						<span>")
+    ; __line = 27
+    ; __append(escapeFn( color ))
+    ; __append("</span>\n						<span>")
+    ; __line = 28
+    ; __append(escapeFn( data.colors.dynamic[color].value ))
+    ; __append("</span>\n					</div>\n					<div class=\"pg-colors__color-meta\">")
+    ; __line = 30
+    ; __append(escapeFn( data.colors.dynamic[color].usage ))
+    ; __append("</div>\n				</li>\n			")
+    ; __line = 32
+    ;  }); 
+    ; __append("\n		</ul>\n		<p><em>Note: These specific color values are DirectScale specific colors, intended to illustrate how dynamic, client colors work. They are NOT UX approved colors and should NOT be used anywhere outside of setting default CSS color variables until client-specific colors are applied.</em></p>\n	</div>\n\n	<!-- Install & Setup. -->\n	<div class=\"tabs__content\">\n		")
+    ; __line = 39
+    ; (function(){
+      var __line = 1
+      , __lines = "<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
+      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
+      try {
+    ; __append("<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install ")
+    ; __line = 2
+    ; __append(escapeFn( data.brik.name ))
+    ; __append(" along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install ")
+    ; __line = 8
+    ; __append(escapeFn( data.brik.name ))
+    ; __append(" on its own:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install ")
+    ; __line = 11
+    ; __append(escapeFn( data.brik.npmPath ))
+    ; __append(" --save-dev</pre>\n</editor>\n\n")
+    ; __line = 14
+    ;  if (typeof data.brik.setup === 'object') { 
+    ; __append("<h3 class=\"font__title\">Setup</h3>\n")
+    ; __line = 15
+    ;  if (data.brik.setup.summary) { 
+    ; __append( data.brik.setup.summary )
+    ;  } 
+    ; __append("\n")
+    ; __line = 16
+    ;  if (data.brik.setup.list) { 
+    ; __append("<ol class=\"numbers\">\n	")
+    ; __line = 17
+    ;  data.brik.setup.list.forEach(item => { 
+    ; __append("\n		")
+    ; __line = 18
+    ;  if (typeof item === 'object') { 
+    ; __append("\n			<li>")
+    ; __line = 19
+    ; __append( item.intro )
+    ; __append("\n				")
+    ; __line = 20
+    ;  if (item.class === 'numbers') { 
+    ; __append("<ol class=\"numbers\">")
+    ;  } else { 
+    ; __append("<ul class=\"bullets\">")
+    ;  } 
+    ; __append("\n					")
+    ; __line = 21
+    ;  item.list.forEach(subitem => { 
+    ; __append("<li>")
+    ; __append( subitem )
+    ; __append("</li>")
+    ;  }); 
+    ; __append("\n				")
+    ; __line = 22
+    ;  if (item.class === 'numbers') { 
+    ; __append("</ol>")
+    ;  } else { 
+    ; __append("</ul>")
+    ;  } 
+    ; __append("\n			</li>\n		")
+    ; __line = 24
+    ;  } else { 
+    ; __append("<li>")
+    ; __append( item )
+    ; __append("</li>")
+    ;  } 
+    ; __append("\n	")
+    ; __line = 25
+    ;  }); 
+    ; __append("\n</ol>")
+    ; __line = 26
+    ;  } 
+    ; __append("\n")
+    ; __line = 27
+    ;  } 
+    ; __append("\n")
+    ; __line = 28
+      } catch (e) {
+        rethrow(e, __lines, __filename, __line, escapeFn);
+      }
+    ; }).call(this)
+    ; __append("\n	</div>\n\n	<!-- Usage. -->\n	<div class=\"tabs__content\">\n		<h2 class=\"font__headline\">Usage</h2>\n		<h3 class=\"font__title\">Need to know:</h3>\n		<ul class=\"bullets\">\n			<li><em>Never</em> use the <code>background-color</code> property.</li>\n			<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>\n		</ul>\n\n		<h3 class=\"font__title\">Classes and Helpers</h3>\n		<h4 class=\"font__subheading\"><code>c($name)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-selector {\n	border: 1px solid c(dark4);\n}</pre>\n			<pre>.my-selector {\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>color($name, $level: 1)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-selector {\n	background-color: c(dark);\n	border: 1px solid c(dark, 4);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>@include bg($name, $level: 1);</code></h4>\n		<p><em>Type</em>: SASS mixin</p>\n		<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n		<p><em>Example</em>:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-selector {\n	@include bg(dark, 2);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	color: hsl(0, 0%, 0%, 0.54);\n}</pre>\n		</editor>\n	</div>\n\n	<!-- Examples. -->\n	<!-- <div class=\"tabs__content\" data-ng-class=\"{'tabs__content--active': pageCtrl.activePageTab === 'examples'}\"></div> -->\n")
+    ; __line = 97
+  return __output.join("");
+} catch (e) {
+  rethrow(e, __lines, __filename, __line, escapeFn);
+}
+
+}
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', advanced: 'Advanced'}\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t\t\t<div class=\"dsui-page__about\">\n\t\t\t\t<p>DS UI Typography is a system for managing font faces and styles.</p>\n\t\t\t</div>\n\n\t\t\t<div class=\"dsui-page__related\">\n\t\t\t\t<h2 class=\"font__title\">Related</h2>\n\t\t\t\t<ul class=\"bullets\">\n\t\t\t\t\t<li><a ui-sref=\"colors\">Colors</a></li>\n\t\t\t\t\t<li><a ui-sref=\"lists\">Lists</a></li>\n\t\t\t\t\t<li><a ui-sref=\"links\">Link</a></li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<h2 class=\"font__headline\">Guidelines</h2>\n\n\t\t<h3 class=\"font__title\">Font Face</h3>\n\t\t<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>\n\n\t\t<h3 class=\"font__title\">Font Styles</h3>\n\t\t<p>Font styles should only be selected from the UX approved list of predefined styles, outlined on this page. <em>In other words, do not write application-specific CSS for typography styles.</em> Instead, use the provided classes and helpers. Any exceptions require UX approval.</p>\n\t\t<p>Follow any listed use case guidelines when applying typography styles.</p>\n\n\t\t<h3 class=\"font__title\">Text Colors</h3>\n\t\t<p>Text colors are part of the <a ui-sref=\"colors\">Colors component</a>.</p>\n\n\t\t<h3 class=\"font__title\">Line Length / Readability</h3>\n\t\t<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>\n\n\t\t<h3 class=\"font__title\">Additional Guidelines</h3>\n\t\t<p><a href=\"https://material.io/guidelines/style/typography.html\" title=\"Typography specs for Material Design\"><abbr title=\"Material Design\">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Install</h2>\n\t\t<p>It is strongly encouraged to install typography with DS UI Core:</p>\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/core --save-dev</pre>\n\t\t</editor>\n\n\t\t<p>You may also install typography on its own:</p>\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/typography --save-dev</pre>\n\t\t</editor>\n\n\t\t<h2 class=\"font__headline\">Setup</h2>\n\t\t<ol class=\"numbers\">\n\t\t\t<li>Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you be putting it into your build.</li>\n\t\t\t<li>Include <code>_typography.abstract.scss</code> in your SASS build.</li>\n\t\t\t<li>Initialize typography styles by doing one of the following:<ul class=\"bullets\">\n\t\t\t\t<li><em>Basic</em>: Include <code>_typography.init.scss</code> into your SASS build.</li>\n\t\t\t\t<li><em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.</li>\n\t\t\t</ul></li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Basic Usage - HTML Classes</h2>\n\t\t<h3 class=\"font__title\">Font Style Classes</h3>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__caption</code> Caption font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__caption\">Caption: Regular 12sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__button</code> Button font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Buttons. Tabs.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__button\">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__body</code> Body font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__body\">Body: Regular 14sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__bold</code> Bold font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Bold text. Text with emphasis. Ask UX for specific use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__bold\">Bold: Medium 14sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__subheading</code> Subheading font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Subheadings, such as widget section subheadings (see Marketing Sites widget, Community widget).</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__subheading\">Subheading: Regular 16sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__title</code> Title font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> App bar (header) title. Widget title when not in a header (see Social Networking widget). Rank titles (see rank titles in Rank Information widget).</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__title\">Title: Medium 20sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__headline</code> Headline font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Widget header title.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__headline\">Headline: Regular 24sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display1</code> Display 1 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Use sparingly, with caution, when needing to call out large text.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display1\">Display 1: Regular 34sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display2</code> Display 2 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display2\">Display 2: Regular 45sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display3</code> Display 3 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display3\">Display 3: Regular 56sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display4</code> Display 4 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display4\">Display 4: Light 112sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\">Text body length classes</h3>\n\n\t\t<p class=\"font__bold\"><code>.font__short-line</code></p>\n\t\t<p class=\"sp__0 font__short-line\"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__short-line\">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h2 class=\"font__headline\">Basic Usage - SASS Helpers</h2>\n\t\t<p class=\"text__short\">In addition to the HTML classes above, SASS helpers are available for more control.</p>\n\n\t\t<h3 class=\"font__title\"><code>sp($name)</code> function</h3>\n\t\t<p class=\"text__short\">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>\n\t\t<editor lang=\"scss,css\">\n\t\t\t<pre>.my-custom-selector {\n\t\t\tfont-size: sp('subheading');\n\t\t}</pre>\n\t\t\t<pre>.my-custom-selector {\n\t\t\t/* Assuming a base font size of 14px, the compiled result will be: */\n\t\t\tfont-size: 1.14286em;\n\t\t}</pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\"><code>@include font($style)</code> mixin</h3>\n\t\t<p>This mixin applies a predefined font style to a selector.</p>\n\t\t<editor lang=\"scss,css\">\n\t\t\t<pre>.my-custom-selector {\n\t\t\t@include font('display');\n\t\t}</pre>\n\t\t\t<pre>.my-custom-selector {\n\t\t\t/* Assuming a base font size of 14px, the compiled result will be: */\n\t\t\tfont-size: 2.42857em;\n\t\t\tline-height: 1.5rem;\n\t\t\tcolor: hsla(0, 0%, 0%, 0.54));\n\t\t}</pre>\n\t\t</editor>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Advanced Usage</h2>\n\t\t<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href=\"#\">let the DS UI / platform team know</a>.</p>\n\t</div>\n</tabs>\n"
+module.exports = function anonymous(data, escapeFn, include, rethrow
+/*``*/) {
+rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
+  var lines = str.split('\n');
+  var start = Math.max(lineno - 3, 0);
+  var end = Math.min(lines.length, lineno + 3);
+  var filename = esc(flnm); // eslint-disable-line
+  // Error context
+  var context = lines.slice(start, end).map(function (line, i){
+    var curr = i + start + 1;
+    return (curr == lineno ? ' >> ' : '    ')
+      + curr
+      + '| '
+      + line;
+  }).join('\n');
+
+  // Alter exception message
+  err.path = filename;
+  err.message = (filename || 'ejs') + ':'
+    + lineno + '\n'
+    + context + '\n\n'
+    + err.message;
+
+  throw err;
+};
+escapeFn = escapeFn || function (markup) {
+  return markup == undefined
+    ? ''
+    : String(markup)
+        .replace(_MATCH_HTML, encode_char);
+};
+var _ENCODE_HTML_RULES = {
+      "&": "&amp;"
+    , "<": "&lt;"
+    , ">": "&gt;"
+    , '"': "&#34;"
+    , "'": "&#39;"
+    }
+  , _MATCH_HTML = /[&<>'"]/g;
+function encode_char(c) {
+  return _ENCODE_HTML_RULES[c] || c;
+};
+;
+var __line = 1
+  , __lines = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples', advanced: 'Advanced'}\">\n\t<div>\n\t\t<%- include partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__headline\">Guidelines</h2>\n\n\t\t<h3 class=\"font__title\">Font Face</h3>\n\t\t<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>\n\n\t\t<h3 class=\"font__title\">Font Styles</h3>\n\t\t<p>Font styles should only be selected from the UX approved list of predefined styles, outlined on this page. <em>In other words, do not write application-specific CSS for typography styles.</em> Instead, use the provided classes and helpers. Any exceptions require UX approval.</p>\n\t\t<p>Follow any listed use case guidelines when applying typography styles.</p>\n\n\t\t<h3 class=\"font__title\">Text Colors</h3>\n\t\t<p>Text colors are part of the <a ui-sref=\"colors\">Colors component</a>.</p>\n\n\t\t<h3 class=\"font__title\">Line Length / Readability</h3>\n\t\t<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>\n\n\t\t<h3 class=\"font__title\">Additional Guidelines</h3>\n\t\t<p><a href=\"https://material.io/guidelines/style/typography.html\" title=\"Typography specs for Material Design\"><abbr title=\"Material Design\">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>\n\t</div>\n\n\t<div>\n\t\t<%- include partials/_install.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Usage</h2>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><em>Don't</em> apply any CSS font properties on your own.</li>\n\t\t\t<li><em>Do</em> use the predefined classes and helpers to apply font styles.</li>\n\t\t\t<li><em>Avoid</em> appyling font styles to an element whose parent already has a style applied.</li>\n\t\t\t<li>\n\t\t\t\t<p><em>Do</em> apply a \"font reset\" method whenever you need to add a font style on an element whose parent has a different font style applied.</p>\n\t\t\t\t<p><em>Why?</em> DS UI Typography uses <code>em</code>s <a href=\"https://css-tricks.com/why-ems/\" title=\"Why ems?\">to handle responsive typography</a>. <code>1em</code> is <a href=\"https://www.impressivewebs.com/understanding-em-units-css/\" title=\"Definition of one em unit.\">equal to the <strong>computed value</strong> of the <code>font-size</code> property of the element on which its used</a>. This means children elements inherit the computed font size value of its first parent which already has font size defined. If we don't reset the font size in these cases using one of the methods below, the computed <code>font-size</code> will not be correct.</p>\n\t\t\t</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title\">How to apply a font style</h3>\n\t\t<p>HTML: Add a class:</p>\n\t\t<editor lang=\"html\">\n\t\t\t<pre>&lt;h2 class=\"font__title\"&gt;My awesome font in \"title\" style.&lt;/h2&gt;</pre>\n\t\t</editor>\n\t\t<p>SASS: Include the <code>font</code> mixin:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-headline {\n\t@include font(headline);\n}</pre>\n\t\t\t<pre>.my-headline {\n\t/* This is the computed font-size value; will be applied in ems. */\n\tfont-size: 24px;\n\tline-height: 1.5rem;\n}</pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\">How to \"reset\" <code>font-size</code></h3>\n\t\t<p>When an element's parent already has a font style applied, applying a font style to the element will likely make its <code>font-size</code> incorrect. To \"reset\" the element's font size, do one of the following:</p>\n\t\t<ol class=\"numbers\">\n\t\t\t<li>\n\t\t\t\t<p>HTML: Add the <code>.font__reset</code> or <code>.font__reset-size</code> class:</p>\n\t\t\t\t<editor lang=\"html\">\n\t\t\t\t\t<pre>&lt;div class=\"font__subheading\"&gt;\n\t&lt;p&gt;My subheading paragraph text...&lt;/p&gt;\n\t&lt;div class=\"font__reset\"&gt;\n\t\t&lt;p&gt;More paragraph text, but I am \"reset\" to normal body text...&lt;/p&gt;\n\t\t&lt;h2 class=\"font__title\"&gt;I am title text... just the right size&lt;/h2&gt;\n\t&lt;/div&gt;\n&lt;div&gt;</pre>\n\t\t\t\t</editor>\n\t\t\t</li>\n\t\t\t<li>\n\t\t\t\t<p>SASS: Add a flag in the <code>font</code> mixin:</p>\n\t\t\t\t<editor lang=\"scss,html\">\n\t\t\t\t\t<pre>.parent {\n\t@include font(subheading);\n}\n\n.child {\n\t@include font(body, true);\n}</pre>\n\t\t\t\t\t<pre>&lt;div class=\"parent\"&gt;\n\t&lt;p&gt;My subheading paragraph text...&lt;/p&gt;\n\t&lt;div class=\"child\"&gt;\n\t\t&lt;p&gt;More paragraph text, but I am \"reset\" to normal body text...&lt;/p&gt;\n\t\t&lt;h2 class=\"font__title\"&gt;I am title text... just the right size&lt;/h2&gt;\n\t&lt;/div&gt;\n&lt;div&gt;</pre>\n\t\t\t\t</editor>\n\t\t\t</li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Basic Usage - HTML Classes</h2>\n\t\t<h3 class=\"font__title\">Font Style Classes</h3>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__caption</code> Caption font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__caption\">Caption: Regular 12sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__button</code> Button font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Buttons. Tabs.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__button\">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__body</code> Body font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__body\">Body: Regular 14sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__bold</code> Bold font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Bold text. Text with emphasis. Ask UX for specific use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__bold\">Bold: Medium 14sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__subheading</code> Subheading font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Subheadings, such as widget section subheadings (see Marketing Sites widget, Community widget).</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__subheading\">Subheading: Regular 16sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__title</code> Title font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> App bar (header) title. Widget title when not in a header (see Social Networking widget). Rank titles (see rank titles in Rank Information widget).</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__title\">Title: Medium 20sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__headline</code> Headline font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Widget header title.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__headline\">Headline: Regular 24sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display1</code> Display 1 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Use sparingly, with caution, when needing to call out large text.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display1\">Display 1: Regular 34sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display2</code> Display 2 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display2\">Display 2: Regular 45sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display3</code> Display 3 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display3\">Display 3: Regular 56sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display4</code> Display 4 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__display4\">Display 4: Light 112sp&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\">Text body length classes</h3>\n\n\t\t<p class=\"font__bold\"><code>.font__short-line</code></p>\n\t\t<p class=\"sp__0 font__short-line\"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>\n\t\t<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n\t\t\t<pre>&lt;p class=\"font__short-line\">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></pre>\n\t\t</editor>\n\n\t\t<h2 class=\"font__headline\">Basic Usage - SASS Helpers</h2>\n\t\t<p class=\"text__short\">In addition to the HTML classes above, SASS helpers are available for more control.</p>\n\n\t\t<h3 class=\"font__title\"><code>sp($name)</code> function</h3>\n\t\t<p class=\"text__short\">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>\n\t\t<editor lang=\"scss,css\">\n\t\t\t<pre>.my-custom-selector {\n\t\t\tfont-size: sp('subheading');\n\t\t}</pre>\n\t\t\t<pre>.my-custom-selector {\n\t\t\t/* Assuming a base font size of 14px, the compiled result will be: */\n\t\t\tfont-size: 1.14286em;\n\t\t}</pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\"><code>@include font($style)</code> mixin</h3>\n\t\t<p>This mixin applies a predefined font style to a selector.</p>\n\t\t<editor lang=\"scss,css\">\n\t\t\t<pre>.my-custom-selector {\n\t\t\t@include font('display');\n\t\t}</pre>\n\t\t\t<pre>.my-custom-selector {\n\t\t\t/* Assuming a base font size of 14px, the compiled result will be: */\n\t\t\tfont-size: 2.42857em;\n\t\t\tline-height: 1.5rem;\n\t\t\tcolor: hsla(0, 0%, 0%, 0.54));\n\t\t}</pre>\n\t\t</editor>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Advanced Usage</h2>\n\t\t<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href=\"#\">let the DS UI / platform team know</a>.</p>\n\t</div>\n</tabs>\n"
+  , __filename = "src/pages/typography.html.ejs";
+try {
+  var __output = [], __append = __output.push.bind(__output);
+    ; __append("<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples', advanced: 'Advanced'}\">\n	<div>\n		")
+    ; __line = 3
+    ; (function(){
+      var __line = 1
+      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
+      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
+      try {
+    ; __append("<div class=\"dsui-page__intro\">\n	")
+    ; __line = 2
+    ;  if (data.brik.intro) { 
+    ; __append("<div class=\"dsui-page__about\">\n		")
+    ; __line = 3
+    ; __append( data.brik.intro )
+    ; __append("\n	</div>")
+    ; __line = 4
+    ;  } 
+    ; __append("\n\n	")
+    ; __line = 6
+    ;  if (data.brik.related) { 
+    ; __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
+    ; __line = 9
+    ;  data.brik.related.forEach(link => { 
+    ; __append("\n				<li><a ui-sref=\"")
+    ; __line = 10
+    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
+    ; __append("\">")
+    ; __append(escapeFn( link ))
+    ; __append("</a></li>\n			")
+    ; __line = 11
+    ;  }); 
+    ; __append("\n		</ul>\n	</div>")
+    ; __line = 13
+    ;  } 
+    ; __append("\n</div>\n")
+    ; __line = 15
+      } catch (e) {
+        rethrow(e, __lines, __filename, __line, escapeFn);
+      }
+    ; }).call(this)
+    ; __append("\n\n		<h2 class=\"font__headline\">Guidelines</h2>\n\n		<h3 class=\"font__title\">Font Face</h3>\n		<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>\n\n		<h3 class=\"font__title\">Font Styles</h3>\n		<p>Font styles should only be selected from the UX approved list of predefined styles, outlined on this page. <em>In other words, do not write application-specific CSS for typography styles.</em> Instead, use the provided classes and helpers. Any exceptions require UX approval.</p>\n		<p>Follow any listed use case guidelines when applying typography styles.</p>\n\n		<h3 class=\"font__title\">Text Colors</h3>\n		<p>Text colors are part of the <a ui-sref=\"colors\">Colors component</a>.</p>\n\n		<h3 class=\"font__title\">Line Length / Readability</h3>\n		<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>\n\n		<h3 class=\"font__title\">Additional Guidelines</h3>\n		<p><a href=\"https://material.io/guidelines/style/typography.html\" title=\"Typography specs for Material Design\"><abbr title=\"Material Design\">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>\n	</div>\n\n	<div>\n		")
+    ; __line = 25
+    ; (function(){
+      var __line = 1
+      , __lines = "<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
+      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
+      try {
+    ; __append("<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install ")
+    ; __line = 2
+    ; __append(escapeFn( data.brik.name ))
+    ; __append(" along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install ")
+    ; __line = 8
+    ; __append(escapeFn( data.brik.name ))
+    ; __append(" on its own:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install ")
+    ; __line = 11
+    ; __append(escapeFn( data.brik.npmPath ))
+    ; __append(" --save-dev</pre>\n</editor>\n\n")
+    ; __line = 14
+    ;  if (typeof data.brik.setup === 'object') { 
+    ; __append("<h3 class=\"font__title\">Setup</h3>\n")
+    ; __line = 15
+    ;  if (data.brik.setup.summary) { 
+    ; __append( data.brik.setup.summary )
+    ;  } 
+    ; __append("\n")
+    ; __line = 16
+    ;  if (data.brik.setup.list) { 
+    ; __append("<ol class=\"numbers\">\n	")
+    ; __line = 17
+    ;  data.brik.setup.list.forEach(item => { 
+    ; __append("\n		")
+    ; __line = 18
+    ;  if (typeof item === 'object') { 
+    ; __append("\n			<li>")
+    ; __line = 19
+    ; __append( item.intro )
+    ; __append("\n				")
+    ; __line = 20
+    ;  if (item.class === 'numbers') { 
+    ; __append("<ol class=\"numbers\">")
+    ;  } else { 
+    ; __append("<ul class=\"bullets\">")
+    ;  } 
+    ; __append("\n					")
+    ; __line = 21
+    ;  item.list.forEach(subitem => { 
+    ; __append("<li>")
+    ; __append( subitem )
+    ; __append("</li>")
+    ;  }); 
+    ; __append("\n				")
+    ; __line = 22
+    ;  if (item.class === 'numbers') { 
+    ; __append("</ol>")
+    ;  } else { 
+    ; __append("</ul>")
+    ;  } 
+    ; __append("\n			</li>\n		")
+    ; __line = 24
+    ;  } else { 
+    ; __append("<li>")
+    ; __append( item )
+    ; __append("</li>")
+    ;  } 
+    ; __append("\n	")
+    ; __line = 25
+    ;  }); 
+    ; __append("\n</ol>")
+    ; __line = 26
+    ;  } 
+    ; __append("\n")
+    ; __line = 27
+    ;  } 
+    ; __append("\n")
+    ; __line = 28
+      } catch (e) {
+        rethrow(e, __lines, __filename, __line, escapeFn);
+      }
+    ; }).call(this)
+    ; __append("\n	</div>\n\n	<div>\n		<h2 class=\"font__headline\">Usage</h2>\n		<ul class=\"bullets\">\n			<li><em>Don't</em> apply any CSS font properties on your own.</li>\n			<li><em>Do</em> use the predefined classes and helpers to apply font styles.</li>\n			<li><em>Avoid</em> appyling font styles to an element whose parent already has a style applied.</li>\n			<li>\n				<p><em>Do</em> apply a \"font reset\" method whenever you need to add a font style on an element whose parent has a different font style applied.</p>\n				<p><em>Why?</em> DS UI Typography uses <code>em</code>s <a href=\"https://css-tricks.com/why-ems/\" title=\"Why ems?\">to handle responsive typography</a>. <code>1em</code> is <a href=\"https://www.impressivewebs.com/understanding-em-units-css/\" title=\"Definition of one em unit.\">equal to the <strong>computed value</strong> of the <code>font-size</code> property of the element on which its used</a>. This means children elements inherit the computed font size value of its first parent which already has font size defined. If we don't reset the font size in these cases using one of the methods below, the computed <code>font-size</code> will not be correct.</p>\n			</li>\n		</ul>\n\n		<h3 class=\"font__title\">How to apply a font style</h3>\n		<p>HTML: Add a class:</p>\n		<editor lang=\"html\">\n			<pre>&lt;h2 class=\"font__title\"&gt;My awesome font in \"title\" style.&lt;/h2&gt;</pre>\n		</editor>\n		<p>SASS: Include the <code>font</code> mixin:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-headline {\n	@include font(headline);\n}</pre>\n			<pre>.my-headline {\n	/* This is the computed font-size value; will be applied in ems. */\n	font-size: 24px;\n	line-height: 1.5rem;\n}</pre>\n		</editor>\n\n		<h3 class=\"font__title\">How to \"reset\" <code>font-size</code></h3>\n		<p>When an element's parent already has a font style applied, applying a font style to the element will likely make its <code>font-size</code> incorrect. To \"reset\" the element's font size, do one of the following:</p>\n		<ol class=\"numbers\">\n			<li>\n				<p>HTML: Add the <code>.font__reset</code> or <code>.font__reset-size</code> class:</p>\n				<editor lang=\"html\">\n					<pre>&lt;div class=\"font__subheading\"&gt;\n	&lt;p&gt;My subheading paragraph text...&lt;/p&gt;\n	&lt;div class=\"font__reset\"&gt;\n		&lt;p&gt;More paragraph text, but I am \"reset\" to normal body text...&lt;/p&gt;\n		&lt;h2 class=\"font__title\"&gt;I am title text... just the right size&lt;/h2&gt;\n	&lt;/div&gt;\n&lt;div&gt;</pre>\n				</editor>\n			</li>\n			<li>\n				<p>SASS: Add a flag in the <code>font</code> mixin:</p>\n				<editor lang=\"scss,html\">\n					<pre>.parent {\n	@include font(subheading);\n}\n\n.child {\n	@include font(body, true);\n}</pre>\n					<pre>&lt;div class=\"parent\"&gt;\n	&lt;p&gt;My subheading paragraph text...&lt;/p&gt;\n	&lt;div class=\"child\"&gt;\n		&lt;p&gt;More paragraph text, but I am \"reset\" to normal body text...&lt;/p&gt;\n		&lt;h2 class=\"font__title\"&gt;I am title text... just the right size&lt;/h2&gt;\n	&lt;/div&gt;\n&lt;div&gt;</pre>\n				</editor>\n			</li>\n		</ol>\n	</div>\n\n	<div>\n		<h2 class=\"font__headline\">Basic Usage - HTML Classes</h2>\n		<h3 class=\"font__title\">Font Style Classes</h3>\n\n		<h4 class=\"font__subheading\"><code>.font__caption</code> Caption font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__caption\">Caption: Regular 12sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__button</code> Button font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Buttons. Tabs.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__button\">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__body</code> Body font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__body\">Body: Regular 14sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__bold</code> Bold font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Bold text. Text with emphasis. Ask UX for specific use cases.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__bold\">Bold: Medium 14sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__subheading</code> Subheading font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Subheadings, such as widget section subheadings (see Marketing Sites widget, Community widget).</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__subheading\">Subheading: Regular 16sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__title</code> Title font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> App bar (header) title. Widget title when not in a header (see Social Networking widget). Rank titles (see rank titles in Rank Information widget).</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__title\">Title: Medium 20sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__headline</code> Headline font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Widget header title.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__headline\">Headline: Regular 24sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__display1</code> Display 1 font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Use sparingly, with caution, when needing to call out large text.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__display1\">Display 1: Regular 34sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__display2</code> Display 2 font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__display2\">Display 2: Regular 45sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__display3</code> Display 3 font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__display3\">Display 3: Regular 56sp&lt;/p></pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>.font__display4</code> Display 4 font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__display4\">Display 4: Light 112sp&lt;/p></pre>\n		</editor>\n\n		<h3 class=\"font__title\">Text body length classes</h3>\n\n		<p class=\"font__bold\"><code>.font__short-line</code></p>\n		<p class=\"sp__0 font__short-line\"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>\n		<editor lang=\"html\" editable=\"true\" live-preview=\"true\">\n			<pre>&lt;p class=\"font__short-line\">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></pre>\n		</editor>\n\n		<h2 class=\"font__headline\">Basic Usage - SASS Helpers</h2>\n		<p class=\"text__short\">In addition to the HTML classes above, SASS helpers are available for more control.</p>\n\n		<h3 class=\"font__title\"><code>sp($name)</code> function</h3>\n		<p class=\"text__short\">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>\n		<editor lang=\"scss,css\">\n			<pre>.my-custom-selector {\n			font-size: sp('subheading');\n		}</pre>\n			<pre>.my-custom-selector {\n			/* Assuming a base font size of 14px, the compiled result will be: */\n			font-size: 1.14286em;\n		}</pre>\n		</editor>\n\n		<h3 class=\"font__title\"><code>@include font($style)</code> mixin</h3>\n		<p>This mixin applies a predefined font style to a selector.</p>\n		<editor lang=\"scss,css\">\n			<pre>.my-custom-selector {\n			@include font('display');\n		}</pre>\n			<pre>.my-custom-selector {\n			/* Assuming a base font size of 14px, the compiled result will be: */\n			font-size: 2.42857em;\n			line-height: 1.5rem;\n			color: hsla(0, 0%, 0%, 0.54));\n		}</pre>\n		</editor>\n	</div>\n\n	<div>\n		<h2 class=\"font__headline\">Advanced Usage</h2>\n		<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href=\"#\">let the DS UI / platform team know</a>.</p>\n	</div>\n</tabs>\n")
+    ; __line = 207
+  return __output.join("");
+} catch (e) {
+  rethrow(e, __lines, __filename, __line, escapeFn);
+}
+
+}
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = function (obj) {
-obj || (obj = {});
-var __t, __p = '', __j = Array.prototype.join;
-function print() { __p += __j.call(arguments, '') }
-with (obj) {
+module.exports = function anonymous(data, escapeFn, include, rethrow
+/*``*/) {
+rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
+  var lines = str.split('\n');
+  var start = Math.max(lineno - 3, 0);
+  var end = Math.min(lines.length, lineno + 3);
+  var filename = esc(flnm); // eslint-disable-line
+  // Error context
+  var context = lines.slice(start, end).map(function (line, i){
+    var curr = i + start + 1;
+    return (curr == lineno ? ' >> ' : '    ')
+      + curr
+      + '| '
+      + line;
+  }).join('\n');
 
+  // Alter exception message
+  err.path = filename;
+  err.message = (filename || 'ejs') + ':'
+    + lineno + '\n'
+    + context + '\n\n'
+    + err.message;
 
-	const colors = {
-		static: {
-			'dark | dark1': {
-				value: 'hsla(0, 0%, 0%, 0.87)',
-				usage: 'Primary dark text',
-			},
-			dark2: {
-				value: 'hsla(0, 0%, 0%, 0.54)',
-				usage: 'Active dark icons, Secondary dark text',
-			},
-			dark3: {
-				value: 'hsla(0, 0%, 0%, 0.38)',
-				usage: 'Inactive dark icons, Disabled / hint dark text',
-			},
-			dark4: {
-				value: 'hsla(0, 0%, 0%, 0.12)',
-				usage: 'Dark borders / dividers',
-			},
-			'light | light1': {
-				value: 'hsla(0, 0%, 100%, 1)',
-				usage: 'Primary light text',
-			},
-			light2: {
-				value: 'hsla(0, 0%, 100%, 0.7)',
-				usage: 'Active light icons, Secondary light text',
-			},
-			light3: {
-				value: 'hsla(0, 0%, 100%, 0.5)',
-				usage: 'Inactive light icons, Disabled / hint light text',
-			},
-			light4: {
-				value: 'hsla(0, 0%, 100%, 0.12)',
-				usage: 'Light borders / dividers',
-			},
-			gray: {
-				value: 'hsl(0, 0%, 90%)',
-				usage: 'Neutral background',
-			},
-			superbar: {
-				value: 'hsl(209, 24%, 30%)',
-				usage: 'Sidebar header',
-			},
-			'superbar-icon': {
-				value: 'hsl(208, 11%, 65%)',
-				usage: 'Sidebar icons',
-			},
-		},
-		dynamic: {
-			color1: {
-				value: 'hsl(194, 76%, 65%)',
-				usage: 'Primary app bar, text links, visual tree',
-			},
-			color2: {
-				value: 'hsl(69, 67%, 51%)',
-				usage: 'Buttons, profile avatars',
-			},
-			color3: {
-				value: 'hsl(36, 96%, 54%)',
-				usage: 'Selections, checkboxes, selected state for dropdowns, active tab underlines',
-			},
-			color4: {
-				value: 'hsl(205, 7%, 45%)',
-				usage: 'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree',
-			}
-		}
-	};
+  throw err;
+};
+escapeFn = escapeFn || function (markup) {
+  return markup == undefined
+    ? ''
+    : String(markup)
+        .replace(_MATCH_HTML, encode_char);
+};
+var _ENCODE_HTML_RULES = {
+      "&": "&amp;"
+    , "<": "&lt;"
+    , ">": "&gt;"
+    , '"': "&#34;"
+    , "'": "&#39;"
+    }
+  , _MATCH_HTML = /[&<>'"]/g;
+function encode_char(c) {
+  return _ENCODE_HTML_RULES[c] || c;
+};
 ;
-__p += '\n<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: \'About\', install: \'Install &amp; Setup\', usage: \'Usage\'}" data-ng-init="pageCtrl.activePageTab = \'about\'">\n	<!-- About. -->\n	<div class="tabs__content">\n		<div class="dsui-page__intro">\n			<div class="dsui-page__about">\n				<p>DS UI Colors provide an easy way to apply and manage all of your app\'s colors. Define colors once and reuse them everywhere. It also helps manage a "live theme" (i.e., client colors) using native CSS variables.</p>\n			</div>\n\n			<div class="dsui-page__related">\n				<h2 class="font__title">Related</h2>\n				<ul class="bullets">\n					<li><a ui-sref="typography">Typography</a></li>\n				</ul>\n			</div>\n		</div>\n\n		<h2 class="font__headline">Approved Colors</h2>\n		<p>Only approved colors below (including client-specific colors) should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are needed since we should be using client-specific colors.</em></p>\n		<h3 class="font__title">App Colors</h3>\n		<ul class="pg-colors__colors-list">\n			';
- Object.keys(colors.static).forEach(color => { ;
-__p += '\n				<li class="pg-colors__color';
- if (color.indexOf('light') === 0) { ;
-__p += ' pg-colors__color--dark';
- } ;
-__p += '">\n					<div class="pg-colors__color-value bg__' +
-((__t = ( color )) == null ? '' : __t) +
-'">\n						<span>' +
-((__t = ( color )) == null ? '' : __t) +
-'</span>\n						<span>' +
-((__t = ( colors.static[color].value )) == null ? '' : __t) +
-'</span>\n					</div>\n					<div class="pg-colors__color-meta">' +
-((__t = ( colors.static[color].usage )) == null ? '' : __t) +
-'</div>\n				</li>\n			';
- }); ;
-__p += '\n		</ul>\n\n		<h3 class="font__title">Dynamic Client Colors</h3>\n		<p>DS UI Colors makes an easy way to apply dynamic, client-specific colors, which are selected by each client and applied at app runtime. Here are the names of DS UI dynamic color variables and "placeholder" color values:</p>\n		<ul class="pg-colors__colors-list">\n			';
- Object.keys(colors.dynamic).forEach(color => { ;
-__p += '\n				<li class="pg-colors__color">\n					<div class="pg-colors__color-value bg__' +
-((__t = ( color )) == null ? '' : __t) +
-'">\n						<span>' +
-((__t = ( color )) == null ? '' : __t) +
-'</span>\n						<span>' +
-((__t = ( colors.dynamic[color].value )) == null ? '' : __t) +
-'</span>\n					</div>\n					<div class="pg-colors__color-meta">' +
-((__t = ( colors.dynamic[color].usage )) == null ? '' : __t) +
-'</div>\n				</li>\n			';
- }); ;
-__p += '\n		</ul>\n		<p><em>Note: These specific color values are NOT approved colors and should NOT be used anywhere outside of setting default CSS color variables until client-specific colors are applied.</em></p>\n	</div>\n\n	<!-- Install & Setup. -->\n	<div class="tabs__content">\n		<h2 class="font__headline">Install</h2>\n		<p>It is strongly encouraged to install Colors with DS UI Core:</p>\n\n		<editor lang="bash">\n			<pre>npm install @directscale/core --save-dev</pre>\n		</editor>\n\n		<p>You may install Colors on its own:</p>\n\n		<editor lang="bash">\n			<pre>npm install @directscale/colors --save-dev</pre>\n		</editor>\n\n		<h3 class="font__headline">Setup</h3>\n		<ol class="numbers">\n			<li>Include <code>_rhythm.abstract.scss</code> in your SASS build.</li>\n			<li>Initialize vertical rhythm styles by doing one of the following:<ul class="bullets">\n				<li><em>Basic</em>: Include <code>_rhythm.init.scss</code> into your SASS build.</li>\n				<li><em>Advanced</em>: For greater customization, use <code>_rhythm.init.scss</code> as an example to initialize vertical rhythm on your own.</li>\n			</ul></li>\n		</ol>\n	</div>\n\n	<!-- Usage. -->\n	<div class="tabs__content">\n		<h2 class="font__headline">Usage</h2>\n		<h3 class="font__title">Need to know:</h3>\n		<ul class="bullets">\n			<li>Never apply <code>background-color</code> again. Instead, always use the <code>@include bg($name)</code> mixin.</li>\n		</ul>\n\n		<h3 class="font__title">Classes and Helpers</h3>\n		<h4 class="font__subheading"><code>c($name)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang="scss,css:result">\n			<pre>.my-selector {\n	border: 1px solid c(dark4);\n}</pre>\n			<pre>.my-selector {\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class="font__subheading"><code>color($name, $level: 1)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang="scss,css:result">\n			<pre>.my-selector {\n	background-color: c(dark);\n	border: 1px solid c(dark, 4);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class="font__subheading"><code>@include bg($name, $level: 1);</code></h4>\n		<p><em>Type</em>: SASS mixin</p>\n		<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n		<p><em>Example</em>:</p>\n		<editor lang="scss,css:result">\n			<pre>.my-selector {\n	@include bg(dark, 2);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	color: hsl(0, 0%, 0%, 0.54);\n}</pre>\n		</editor>\n	</div>\n\n	<!-- Examples. -->\n	<!-- <div class="tabs__content" data-ng-class="{\'tabs__content--active\': pageCtrl.activePageTab === \'examples\'}"></div> -->\n</tabs>\n';
-
+var __line = 1
+  , __lines = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', advanced: 'Advanced'}\">\n\t<div>\n\t\t<%- include partials/_intro.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<%- include partials/_install.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Basic Usage</h2>\n\t\t<h3 class=\"font__title\">Definitions:</h3>\n\t\t<dl>\n\t\t\t<dt>Dimensional properties</dt>\n\t\t\t<dd><code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>, or any other CSS property which affects an element's dimensions.</dd>\n\t\t\t<dt>1rem</dt>\n\t\t\t<dd>One (1) line in the vertical rhythm grid.</dd>\n\t\t</dl>\n\n\t\t<h3 class=\"font__title\">Rhythm Rules</h3>\n\t\t<p>In order to keep the vertical grid \"in rhythm\", it is important to strictly follow these rules:</p>\n\t\t<ol class=\"numbers\">\n\t\t\t<li><strong>Always</strong> use <code>rem</code> units to apply <em>dimensional properties</em>.</li>\n\t\t\t<li>Apply <code>rem</code> values, if at all possible, in whole numbers. As necessary, <code>rem</code> values may also be applied in halves (x.5rem), or <em>in rare cases</em> in quarters (x.25rem, x.75rem). It is strongly discouraged to avoid any other fractional <code>rem</code> value since it will break the vertical rhythm.</li>\n\t\t\t<li>There may be rare cases where it's necessary to break the rhythm. Perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. In such cases, follow these guidelines:<ul class=\"bullets\">\n\t\t\t\t<li>Ask yourself, <em>is this really necessary</em>? If at all possible, avoid breaking the vertical grid.</li>\n\t\t\t\t<li>\n\t\t\t\t\t<p>If you must temporarily break the rhythm, follow this rule to bring the grid back in rhythm:</p>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<blockquote>\n\t\t\t\t\t\t\t<strong>The sum of all dimensional property values for a given element, converted to <code>rems</code>, must be an integer.</strong>\n\t\t\t\t\t\t</blockquote>\n\t\t\t\t\t</p>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<p>A couple of examples to illustrate:</p>\n\t\t\t\t\t<editor lang=\"scss\">\n\t\t\t\t\t\t<pre>// This pixel border may throw the vertical\n// rhythm off by 2px (1px for border-top and\n// border-bottom). Using the calc() function to\n// readjust another vertical dimension by 2px\n// will put the grid back in rhythm.\n.pixel-border {\n\tborder: 1px solid hsl(0, 0, 80%);\n\theight: calc(3rem - 2px);\n}\n\n// Let's assume this image must be 300px, and\n// that our vertical rhythm (one vertical line)\n// is set to 32px.\n// A height of 300px = 9.375rem + (0.3125rem * 2)\n// equals 10rem. With a 300px tall image, we're\n// still \"in rhythm\"!\n.pixel-image {\n\theight: 300px;\n\tmargin-bottom: 0.3125rem;\n\tmargin-top: 0.3125rem;\n}</pre>\n\t\t\t\t\t</editor>\n\t\t\t\t\t<p></p>\n\t\t\t\t</li>\n\t\t\t</ul></li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Advanced Usage</h2>\n\t\t<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href=\"#\">let the DS UI / platform team know</a>.</p>\n\t</div>\n</tabs>\n"
+  , __filename = "src/pages/vertical-rhythm.html.ejs";
+try {
+  var __output = [], __append = __output.push.bind(__output);
+    ; __append("<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', advanced: 'Advanced'}\">\n	<div>\n		")
+    ; __line = 3
+    ; (function(){
+      var __line = 1
+      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
+      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
+      try {
+    ; __append("<div class=\"dsui-page__intro\">\n	")
+    ; __line = 2
+    ;  if (data.brik.intro) { 
+    ; __append("<div class=\"dsui-page__about\">\n		")
+    ; __line = 3
+    ; __append( data.brik.intro )
+    ; __append("\n	</div>")
+    ; __line = 4
+    ;  } 
+    ; __append("\n\n	")
+    ; __line = 6
+    ;  if (data.brik.related) { 
+    ; __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
+    ; __line = 9
+    ;  data.brik.related.forEach(link => { 
+    ; __append("\n				<li><a ui-sref=\"")
+    ; __line = 10
+    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
+    ; __append("\">")
+    ; __append(escapeFn( link ))
+    ; __append("</a></li>\n			")
+    ; __line = 11
+    ;  }); 
+    ; __append("\n		</ul>\n	</div>")
+    ; __line = 13
+    ;  } 
+    ; __append("\n</div>\n")
+    ; __line = 15
+      } catch (e) {
+        rethrow(e, __lines, __filename, __line, escapeFn);
+      }
+    ; }).call(this)
+    ; __append("\n	</div>\n\n	<div>\n		")
+    ; __line = 7
+    ; (function(){
+      var __line = 1
+      , __lines = "<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
+      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
+      try {
+    ; __append("<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install ")
+    ; __line = 2
+    ; __append(escapeFn( data.brik.name ))
+    ; __append(" along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install ")
+    ; __line = 8
+    ; __append(escapeFn( data.brik.name ))
+    ; __append(" on its own:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install ")
+    ; __line = 11
+    ; __append(escapeFn( data.brik.npmPath ))
+    ; __append(" --save-dev</pre>\n</editor>\n\n")
+    ; __line = 14
+    ;  if (typeof data.brik.setup === 'object') { 
+    ; __append("<h3 class=\"font__title\">Setup</h3>\n")
+    ; __line = 15
+    ;  if (data.brik.setup.summary) { 
+    ; __append( data.brik.setup.summary )
+    ;  } 
+    ; __append("\n")
+    ; __line = 16
+    ;  if (data.brik.setup.list) { 
+    ; __append("<ol class=\"numbers\">\n	")
+    ; __line = 17
+    ;  data.brik.setup.list.forEach(item => { 
+    ; __append("\n		")
+    ; __line = 18
+    ;  if (typeof item === 'object') { 
+    ; __append("\n			<li>")
+    ; __line = 19
+    ; __append( item.intro )
+    ; __append("\n				")
+    ; __line = 20
+    ;  if (item.class === 'numbers') { 
+    ; __append("<ol class=\"numbers\">")
+    ;  } else { 
+    ; __append("<ul class=\"bullets\">")
+    ;  } 
+    ; __append("\n					")
+    ; __line = 21
+    ;  item.list.forEach(subitem => { 
+    ; __append("<li>")
+    ; __append( subitem )
+    ; __append("</li>")
+    ;  }); 
+    ; __append("\n				")
+    ; __line = 22
+    ;  if (item.class === 'numbers') { 
+    ; __append("</ol>")
+    ;  } else { 
+    ; __append("</ul>")
+    ;  } 
+    ; __append("\n			</li>\n		")
+    ; __line = 24
+    ;  } else { 
+    ; __append("<li>")
+    ; __append( item )
+    ; __append("</li>")
+    ;  } 
+    ; __append("\n	")
+    ; __line = 25
+    ;  }); 
+    ; __append("\n</ol>")
+    ; __line = 26
+    ;  } 
+    ; __append("\n")
+    ; __line = 27
+    ;  } 
+    ; __append("\n")
+    ; __line = 28
+      } catch (e) {
+        rethrow(e, __lines, __filename, __line, escapeFn);
+      }
+    ; }).call(this)
+    ; __append("\n	</div>\n\n	<div>\n		<h2 class=\"font__headline\">Basic Usage</h2>\n		<h3 class=\"font__title\">Definitions:</h3>\n		<dl>\n			<dt>Dimensional properties</dt>\n			<dd><code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>, or any other CSS property which affects an element's dimensions.</dd>\n			<dt>1rem</dt>\n			<dd>One (1) line in the vertical rhythm grid.</dd>\n		</dl>\n\n		<h3 class=\"font__title\">Rhythm Rules</h3>\n		<p>In order to keep the vertical grid \"in rhythm\", it is important to strictly follow these rules:</p>\n		<ol class=\"numbers\">\n			<li><strong>Always</strong> use <code>rem</code> units to apply <em>dimensional properties</em>.</li>\n			<li>Apply <code>rem</code> values, if at all possible, in whole numbers. As necessary, <code>rem</code> values may also be applied in halves (x.5rem), or <em>in rare cases</em> in quarters (x.25rem, x.75rem). It is strongly discouraged to avoid any other fractional <code>rem</code> value since it will break the vertical rhythm.</li>\n			<li>There may be rare cases where it's necessary to break the rhythm. Perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. In such cases, follow these guidelines:<ul class=\"bullets\">\n				<li>Ask yourself, <em>is this really necessary</em>? If at all possible, avoid breaking the vertical grid.</li>\n				<li>\n					<p>If you must temporarily break the rhythm, follow this rule to bring the grid back in rhythm:</p>\n					<p>\n						<blockquote>\n							<strong>The sum of all dimensional property values for a given element, converted to <code>rems</code>, must be an integer.</strong>\n						</blockquote>\n					</p>\n				</li>\n				<li>\n					<p>A couple of examples to illustrate:</p>\n					<editor lang=\"scss\">\n						<pre>// This pixel border may throw the vertical\n// rhythm off by 2px (1px for border-top and\n// border-bottom). Using the calc() function to\n// readjust another vertical dimension by 2px\n// will put the grid back in rhythm.\n.pixel-border {\n	border: 1px solid hsl(0, 0, 80%);\n	height: calc(3rem - 2px);\n}\n\n// Let's assume this image must be 300px, and\n// that our vertical rhythm (one vertical line)\n// is set to 32px.\n// A height of 300px = 9.375rem + (0.3125rem * 2)\n// equals 10rem. With a 300px tall image, we're\n// still \"in rhythm\"!\n.pixel-image {\n	height: 300px;\n	margin-bottom: 0.3125rem;\n	margin-top: 0.3125rem;\n}</pre>\n					</editor>\n					<p></p>\n				</li>\n			</ul></li>\n		</ol>\n	</div>\n\n	<div>\n		<h2 class=\"font__headline\">Advanced Usage</h2>\n		<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href=\"#\">let the DS UI / platform team know</a>.</p>\n	</div>\n</tabs>\n")
+    ; __line = 71
+  return __output.join("");
+} catch (e) {
+  rethrow(e, __lines, __filename, __line, escapeFn);
 }
-return __p
+
 }
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Uh oh...</h1>\n<p>The page you are looking for doesn't seem to exist... try again?</p>\n"
+module.exports = "<h1 class=\"font__display1\">Uh oh...</h1>\n<p class=\"font__subheading\">The page you are looking for doesn't seem to exist... try again?</p>\n"
 
 /***/ }),
 /* 23 */
@@ -56770,12 +57520,6 @@ module.exports = exports['default'];
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"tabs__buttons\">\n\t<button class=\"tabs__button\" type=\"button\" data-ng-repeat=\"tab in tabs\" data-ng-class=\"{'tabs__button--active': activeTabLocal === tab.id}\" data-ng-click=\"activateTab(tab)\">{{tab.label || tab.id}}</button>\n</div>\n<div class=\"tabs__contents\" data-ng-transclude></div>\n"
-
-/***/ }),
-/* 208 */
-/***/ (function(module, exports) {
-
-module.exports = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup'}\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t\t\t<div class=\"dsui-page__about\">\n\t\t\t\t<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p>\n\t\t\t\t<p><em>Every DS app should include this in their codebase.</em></p>\n\t\t\t</div>\n\n\t\t\t<div class=\"dsui-page__related\">\n\t\t\t\t<h2 class=\"font__title\">Related</h2>\n\t\t\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t\t\t<li><a ui-sref=\"typography\">Typography</a></li>\n\t\t\t\t\t<li><a ui-sref=\"typography\">Links</a></li>\n\t\t\t\t\t<li><a ui-sref=\"typography\">Spacing</a></li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\n\t<div>\n\t\t<h3 class=\"font__title\">Install</h3>\n\t\t<p>It is encouraged to install the browser reset along with DS UI Core:</p>\n\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/core --save-dev</pre>\n\t\t</editor>\n\n\t\t<p>You may also install the browser reset on its own:</p>\n\n\t\t<editor lang=\"bash\">\n\t\t\t<pre>npm install @directscale/reset --save-dev</pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\">Setup</h3>\n\t\t<p>Include <code>_reset.init.scss</code> as the first CSS-producing file (after abstract code) in your SASS build. No other steps are necessary.</p>\n\t</div>\n</tabs>\n\n\n"
 
 /***/ })
 /******/ ]);
