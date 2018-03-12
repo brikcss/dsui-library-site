@@ -331,6 +331,10 @@ li {
 
 	&__about {
 		font-size: sp(subheading);
+
+		.font__body {
+			font-size: sp(body, subheading);
+		}
 	}
 
 	// stylelint-disable-next-line scss/media-feature-value-dollar-variable

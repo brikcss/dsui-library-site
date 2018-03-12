@@ -68,7 +68,7 @@
 		"watch:templates": "concurrently --raw \"npm run watch:pkg\" \"npm run watch:homepage\""
 	},
 	"devDependencies": {
-		"@brikcss/eslint-config": "0.x",
+		"@brikcss/eslint-config": "0.1.3",
 		"@brikcss/stylelint-config-css": "0.0.7",
 		"@brikcss/stylelint-config-sass": "0.0.10",
 		"@commitlint/cli": "6.x",
@@ -85,7 +85,7 @@
 		"commitizen": "2.x",
 		"concurrently": "3.x",
 		"cross-env": "5.x",
-		"ejs-loader": "0.3.0",
+		"ejs": "2.5.7",
 		"eslint": "4.x",
 		"gh-pages": "1.1.0",
 		"highlight.js": "9.12.0",

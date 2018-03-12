@@ -1,0 +1,27 @@
+<h3 class="font__title">Install</h3>
+<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>
+
+<editor lang="bash">
+	<pre>npm install @directscale/core --save-dev</pre>
+</editor>
+
+<p>You may also install <%= data.brik.name %> on its own:</p>
+
+<editor lang="bash">
+	<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>
+</editor>
+
+<% if (typeof data.brik.setup === 'object') { %><h3 class="font__title">Setup</h3>
+<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>
+<% if (data.brik.setup.list) { %><ol class="numbers">
+	<% data.brik.setup.list.forEach(item => { %>
+		<% if (typeof item === 'object') { %>
+			<li><%- item.intro %>
+				<% if (item.class === 'numbers') { %><ol class="numbers"><% } else { %><ul class="bullets"><% } %>
+					<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>
+				<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>
+			</li>
+		<% } else { %><li><%- item %></li><% } %>
+	<% }); %>
+</ol><% } %>
+<% } %>

@@ -1,98 +1,19 @@
-<%
-	const colors = {
-		static: {
-			'dark | dark1': {
-				value: 'hsla(0, 0%, 0%, 0.87)',
-				usage: 'Primary dark text',
-			},
-			dark2: {
-				value: 'hsla(0, 0%, 0%, 0.54)',
-				usage: 'Active dark icons, Secondary dark text',
-			},
-			dark3: {
-				value: 'hsla(0, 0%, 0%, 0.38)',
-				usage: 'Inactive dark icons, Disabled / hint dark text',
-			},
-			dark4: {
-				value: 'hsla(0, 0%, 0%, 0.12)',
-				usage: 'Dark borders / dividers',
-			},
-			'light | light1': {
-				value: 'hsla(0, 0%, 100%, 1)',
-				usage: 'Primary light text',
-			},
-			light2: {
-				value: 'hsla(0, 0%, 100%, 0.7)',
-				usage: 'Active light icons, Secondary light text',
-			},
-			light3: {
-				value: 'hsla(0, 0%, 100%, 0.5)',
-				usage: 'Inactive light icons, Disabled / hint light text',
-			},
-			light4: {
-				value: 'hsla(0, 0%, 100%, 0.12)',
-				usage: 'Light borders / dividers',
-			},
-			gray: {
-				value: 'hsl(0, 0%, 90%)',
-				usage: 'Neutral background',
-			},
-			superbar: {
-				value: 'hsl(209, 24%, 30%)',
-				usage: 'Sidebar header',
-			},
-			'superbar-icon': {
-				value: 'hsl(208, 11%, 65%)',
-				usage: 'Sidebar icons',
-			},
-		},
-		dynamic: {
-			color1: {
-				value: 'hsl(194, 76%, 65%)',
-				usage: 'Primary app bar, text links, visual tree',
-			},
-			color2: {
-				value: 'hsl(69, 67%, 51%)',
-				usage: 'Buttons, profile avatars',
-			},
-			color3: {
-				value: 'hsl(36, 96%, 54%)',
-				usage: 'Selections, checkboxes, selected state for dropdowns, active tab underlines',
-			},
-			color4: {
-				value: 'hsl(205, 7%, 45%)',
-				usage: 'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree',
-			}
-		}
-	};
-%>
-<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'About', install: 'Install &amp; Setup', usage: 'Usage'}" data-ng-init="pageCtrl.activePageTab = 'about'">
+<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'About', install: 'Install &amp; Setup', usage: 'Usage'}">
 	<!-- About. -->
 	<div class="tabs__content">
-		<div class="dsui-page__intro">
-			<div class="dsui-page__about">
-				<p>DS UI Colors provide an easy way to apply and manage all of your app's colors. Define colors once and reuse them everywhere. It also helps manage a "live theme" (i.e., client colors) using native CSS variables.</p>
-			</div>
-
-			<div class="dsui-page__related">
-				<h2 class="font__title">Related</h2>
-				<ul class="bullets">
-					<li><a ui-sref="typography">Typography</a></li>
-				</ul>
-			</div>
-		</div>
+		<%- include partials/_intro.html.ejs %>
 
 		<h2 class="font__headline">Approved Colors</h2>
-		<p>Only approved colors below (including client-specific colors) should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are needed since we should be using client-specific colors.</em></p>
+		<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are needed since we should be using client-specific colors.</em></p>
 		<h3 class="font__title">App Colors</h3>
 		<ul class="pg-colors__colors-list">
-			<% Object.keys(colors.static).forEach(color => { %>
+			<% Object.keys(data.colors.static).forEach(color => { %>
 				<li class="pg-colors__color<% if (color.indexOf('light') === 0) { %> pg-colors__color--dark<% } %>">
 					<div class="pg-colors__color-value bg__<%= color %>">
 						<span><%= color %></span>
-						<span><%= colors.static[color].value %></span>
+						<span><%= data.colors.static[color].value %></span>
 					</div>
-					<div class="pg-colors__color-meta"><%= colors.static[color].usage %></div>
+					<div class="pg-colors__color-meta"><%= data.colors.static[color].usage %></div>
 				</li>
 			<% }); %>
 		</ul>
@@ -100,42 +21,22 @@
 		<h3 class="font__title">Dynamic Client Colors</h3>
 		<p>DS UI Colors makes an easy way to apply dynamic, client-specific colors, which are selected by each client and applied at app runtime. Here are the names of DS UI dynamic color variables and "placeholder" color values:</p>
 		<ul class="pg-colors__colors-list">
-			<% Object.keys(colors.dynamic).forEach(color => { %>
+			<% Object.keys(data.colors.dynamic).forEach(color => { %>
 				<li class="pg-colors__color">
 					<div class="pg-colors__color-value bg__<%= color %>">
 						<span><%= color %></span>
-						<span><%= colors.dynamic[color].value %></span>
+						<span><%= data.colors.dynamic[color].value %></span>
 					</div>
-					<div class="pg-colors__color-meta"><%= colors.dynamic[color].usage %></div>
+					<div class="pg-colors__color-meta"><%= data.colors.dynamic[color].usage %></div>
 				</li>
 			<% }); %>
 		</ul>
-		<p><em>Note: These specific color values are NOT approved colors and should NOT be used anywhere outside of setting default CSS color variables until client-specific colors are applied.</em></p>
+		<p><em>Note: These specific color values are DirectScale specific colors, intended to illustrate how dynamic, client colors work. They are NOT UX approved colors and should NOT be used anywhere outside of setting default CSS color variables until client-specific colors are applied.</em></p>
 	</div>
 
 	<!-- Install & Setup. -->
 	<div class="tabs__content">
-		<h2 class="font__headline">Install</h2>
-		<p>It is strongly encouraged to install Colors with DS UI Core:</p>
-
-		<editor lang="bash">
-			<pre>npm install @directscale/core --save-dev</pre>
-		</editor>
-
-		<p>You may install Colors on its own:</p>
-
-		<editor lang="bash">
-			<pre>npm install @directscale/colors --save-dev</pre>
-		</editor>
-
-		<h3 class="font__headline">Setup</h3>
-		<ol class="numbers">
-			<li>Include <code>_rhythm.abstract.scss</code> in your SASS build.</li>
-			<li>Initialize vertical rhythm styles by doing one of the following:<ul class="bullets">
-				<li><em>Basic</em>: Include <code>_rhythm.init.scss</code> into your SASS build.</li>
-				<li><em>Advanced</em>: For greater customization, use <code>_rhythm.init.scss</code> as an example to initialize vertical rhythm on your own.</li>
-			</ul></li>
-		</ol>
+		<%- include partials/_install.html.ejs %>
 	</div>
 
 	<!-- Usage. -->
@@ -143,7 +44,8 @@
 		<h2 class="font__headline">Usage</h2>
 		<h3 class="font__title">Need to know:</h3>
 		<ul class="bullets">
-			<li>Never apply <code>background-color</code> again. Instead, always use the <code>@include bg($name)</code> mixin.</li>
+			<li><em>Never</em> use the <code>background-color</code> property.</li>
+			<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>
 		</ul>
 
 		<h3 class="font__title">Classes and Helpers</h3>
@@ -192,4 +94,3 @@
 
 	<!-- Examples. -->
 	<!-- <div class="tabs__content" data-ng-class="{'tabs__content--active': pageCtrl.activePageTab === 'examples'}"></div> -->
-</tabs>

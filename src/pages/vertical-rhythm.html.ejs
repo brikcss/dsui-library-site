@@ -1,44 +1,10 @@
 <tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', advanced: 'Advanced'}">
 	<div>
-		<div class="dsui-page__intro">
-			<div class="dsui-page__about">
-				<p>Vertical Rhythm is <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">a principle of good typography</a> which fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetation and familiarity</a>, and creates a layout that is more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>. DS UI's Vertical Rhythm provides an easy way to apply and manage vertical rhythm in any app.</p>
-				<p>To see an example of what vertical rhythm is: <button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid" type="button">Toggle Vertical Rhythm grid</button></p>
-				<p>Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That's Vertical Rhythm.</p>
-			</div>
-
-			<div class="dsui-page__related">
-				<h2 class="font__title">Related</h2>
-				<ul class="bullets">
-					<li><a ui-sref="typography">Typography</a></li>
-					<li><a ui-sref="spacing">Spacing</a></li>
-				</ul>
-			</div>
-		</div>
+		<%- include partials/_intro.html.ejs %>
 	</div>
 
 	<div>
-		<h2 class="font__headline">Install</h2>
-		<p>It is strongly encouraged to install vertical rhythm with DS UI Core:</p>
-
-		<editor lang="bash">
-			<pre>npm install @directscale/core --save-dev</pre>
-		</editor>
-
-		<p>You may install vertical rhythm on its own:</p>
-
-		<editor lang="bash">
-			<pre>npm install @directscale/rhythm --save-dev</pre>
-		</editor>
-
-		<h2 class="font__headline">Setup</h2>
-		<ol class="numbers">
-			<li>Include <code>_rhythm.abstract.scss</code> in your SASS build.</li>
-			<li>Initialize vertical rhythm styles by doing one of the following:<ul class="bullets">
-				<li><em>Basic</em>: Include <code>_rhythm.init.scss</code> into your SASS build.</li>
-				<li><em>Advanced</em>: For greater customization, use <code>_rhythm.init.scss</code> as an example to initialize vertical rhythm on your own.</li>
-			</ul></li>
-		</ol>
+		<%- include partials/_install.html.ejs %>
 	</div>
 
 	<div>
@@ -46,7 +12,7 @@
 		<h3 class="font__title">Definitions:</h3>
 		<dl>
 			<dt>Dimensional properties</dt>
-			<dd>CSS properties which apply <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>, or any other property which affects layout dimensions.</dd>
+			<dd><code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>, or any other CSS property which affects an element's dimensions.</dd>
 			<dt>1rem</dt>
 			<dd>One (1) line in the vertical rhythm grid.</dd>
 		</dl>

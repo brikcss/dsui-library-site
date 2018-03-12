@@ -1,0 +1,14 @@
+<div class="dsui-page__intro">
+	<% if (data.brik.intro) { %><div class="dsui-page__about">
+		<%- data.brik.intro %>
+	</div><% } %>
+
+	<% if (data.brik.related) { %><div class="dsui-page__related">
+		<h2 class="font__title">Related</h2>
+		<ul class="bullets dsui-page__related-links">
+			<% data.brik.related.forEach(link => { %>
+				<li><a ui-sref="<%= link.replace(/\s+/g, '-').toLowerCase() %>"><%= link %></a></li>
+			<% }); %>
+		</ul>
+	</div><% } %>
+</div>

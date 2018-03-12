@@ -1,19 +1,6 @@
-<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', advanced: 'Advanced'}">
+<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples', advanced: 'Advanced'}">
 	<div>
-		<div class="dsui-page__intro">
-			<div class="dsui-page__about">
-				<p>DS UI Typography is a system for managing font faces and styles.</p>
-			</div>
-
-			<div class="dsui-page__related">
-				<h2 class="font__title">Related</h2>
-				<ul class="bullets">
-					<li><a ui-sref="colors">Colors</a></li>
-					<li><a ui-sref="lists">Lists</a></li>
-					<li><a ui-sref="links">Link</a></li>
-				</ul>
-			</div>
-		</div>
+		<%- include partials/_intro.html.ejs %>
 
 		<h2 class="font__headline">Guidelines</h2>
 
@@ -35,25 +22,72 @@
 	</div>
 
 	<div>
-		<h2 class="font__headline">Install</h2>
-		<p>It is strongly encouraged to install typography with DS UI Core:</p>
-		<editor lang="bash">
-			<pre>npm install @directscale/core --save-dev</pre>
+		<%- include partials/_install.html.ejs %>
+	</div>
+
+	<div>
+		<h2 class="font__headline">Usage</h2>
+		<ul class="bullets">
+			<li><em>Don't</em> apply any CSS font properties on your own.</li>
+			<li><em>Do</em> use the predefined classes and helpers to apply font styles.</li>
+			<li><em>Avoid</em> appyling font styles to an element whose parent already has a style applied.</li>
+			<li>
+				<p><em>Do</em> apply a "font reset" method whenever you need to add a font style on an element whose parent has a different font style applied.</p>
+				<p><em>Why?</em> DS UI Typography uses <code>em</code>s <a href="https://css-tricks.com/why-ems/" title="Why ems?">to handle responsive typography</a>. <code>1em</code> is <a href="https://www.impressivewebs.com/understanding-em-units-css/" title="Definition of one em unit.">equal to the <strong>computed value</strong> of the <code>font-size</code> property of the element on which its used</a>. This means children elements inherit the computed font size value of its first parent which already has font size defined. If we don't reset the font size in these cases using one of the methods below, the computed <code>font-size</code> will not be correct.</p>
+			</li>
+		</ul>
+
+		<h3 class="font__title">How to apply a font style</h3>
+		<p>HTML: Add a class:</p>
+		<editor lang="html">
+			<pre>&lt;h2 class="font__title"&gt;My awesome font in "title" style.&lt;/h2&gt;</pre>
+		</editor>
+		<p>SASS: Include the <code>font</code> mixin:</p>
+		<editor lang="scss,css:result">
+			<pre>.my-headline {
+	@include font(headline);
+}</pre>
+			<pre>.my-headline {
+	/* This is the computed font-size value; will be applied in ems. */
+	font-size: 24px;
+	line-height: 1.5rem;
+}</pre>
 		</editor>
 
-		<p>You may also install typography on its own:</p>
-		<editor lang="bash">
-			<pre>npm install @directscale/typography --save-dev</pre>
-		</editor>
-
-		<h2 class="font__headline">Setup</h2>
+		<h3 class="font__title">How to "reset" <code>font-size</code></h3>
+		<p>When an element's parent already has a font style applied, applying a font style to the element will likely make its <code>font-size</code> incorrect. To "reset" the element's font size, do one of the following:</p>
 		<ol class="numbers">
-			<li>Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you be putting it into your build.</li>
-			<li>Include <code>_typography.abstract.scss</code> in your SASS build.</li>
-			<li>Initialize typography styles by doing one of the following:<ul class="bullets">
-				<li><em>Basic</em>: Include <code>_typography.init.scss</code> into your SASS build.</li>
-				<li><em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.</li>
-			</ul></li>
+			<li>
+				<p>HTML: Add the <code>.font__reset</code> or <code>.font__reset-size</code> class:</p>
+				<editor lang="html">
+					<pre>&lt;div class="font__subheading"&gt;
+	&lt;p&gt;My subheading paragraph text...&lt;/p&gt;
+	&lt;div class="font__reset"&gt;
+		&lt;p&gt;More paragraph text, but I am "reset" to normal body text...&lt;/p&gt;
+		&lt;h2 class="font__title"&gt;I am title text... just the right size&lt;/h2&gt;
+	&lt;/div&gt;
+&lt;div&gt;</pre>
+				</editor>
+			</li>
+			<li>
+				<p>SASS: Add a flag in the <code>font</code> mixin:</p>
+				<editor lang="scss,html">
+					<pre>.parent {
+	@include font(subheading);
+}
+
+.child {
+	@include font(body, true);
+}</pre>
+					<pre>&lt;div class="parent"&gt;
+	&lt;p&gt;My subheading paragraph text...&lt;/p&gt;
+	&lt;div class="child"&gt;
+		&lt;p&gt;More paragraph text, but I am "reset" to normal body text...&lt;/p&gt;
+		&lt;h2 class="font__title"&gt;I am title text... just the right size&lt;/h2&gt;
+	&lt;/div&gt;
+&lt;div&gt;</pre>
+				</editor>
+			</li>
 		</ol>
 	</div>
 
