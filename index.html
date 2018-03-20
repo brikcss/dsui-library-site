@@ -12,7 +12,7 @@
 
 	<div sidebars="app">
 		
-<aside class="superbar sidebars__left" data-ng-class="{'rhythm__grid': appCtrl.showVerticalGrid}">
+<aside class="superbar sidebars__left" data-ng-class="{'rhythm__grid': appCtrl.showRhythmGrid}">
 	<div class="superbar__header">
 		<img class="superbar__logo" src="https://s3.amazonaws.com/dscorpsite-media/wp-content/uploads/2017/01/23120757/logo1-1.png" alt="DirectScale, a full-stack direct &amp; social selling software.">
 	</div>
@@ -88,10 +88,7 @@
 								<a class="superbar__link" ui-sref="typography">Typography</a>
 							</li>
 							<li>
-								<a class="superbar__link" ui-sref="vertical-rhythm">Vertical Rhythm</a>
-							</li>
-							<li>
-								<a class="superbar__link" ui-sref="spacing">Spacing</a>
+								<a class="superbar__link" ui-sref="rhythm">Rhythm / Spacing</a>
 							</li>
 
 					</ul>
@@ -183,13 +180,13 @@
 
 
 		<div class="sidebars__content page">
-			<header class="header">
+			<header class="header" data-ng-class="{'rhythm__grid': appCtrl.showRhythmGrid}">
 	<button type="button" class="burger" data-ng-click="appCtrl.sidebars.toggle('left')" data-ng-class="{'--is-active': appCtrl.sidebars.left.active}"><span class="burger__toppings"></span></button>
 	<h1 class="header__title font__title">
 		{{$state.current.data.pageTitle}}
 		<span class="header__version" data-ng-if="$state.current.data.version" data-ng-bind="'v' + $state.current.data.version"></span>
 	</h1>
-	<div class="header__toolbar"><button class="header__button font__button" ng-click="appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid" type="button">Rhythm</button></div>
+	<div class="header__toolbar"><button class="header__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Rhythm</button></div>
 </header>
 
 
@@ -198,11 +195,11 @@
 				<!-- @todo: Support content level sidebars? -->
 				<!-- <aside class="sidebar--left"></aside> -->
 
-				<div class="page__content" data-ng-class="{'rhythm__grid': appCtrl.showVerticalGrid}" ui-view="content"></div>
+				<div class="page__content" data-ng-class="{'rhythm__grid': appCtrl.showRhythmGrid}" ui-view="content"></div>
 
 				<!-- @todo: Support content level sidebars? -->
 				<!-- <aside class="sidebar--right"></aside> -->
-				<footer class="footer">Copyright &copy; 2018 DirectScale</footer>
+				<footer class="footer" data-ng-class="{'rhythm__grid': appCtrl.showRhythmGrid}">Copyright &copy; 2018 DirectScale</footer>
 
 			</main>
 
