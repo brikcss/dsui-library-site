@@ -1,15 +1,12 @@
 /** ------------------------------------------------------------------------------------------------
- *  _rhythm.abstract.scss
- *  ---------------------
+ *  @filename  _rhythm.abstract.scss
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Establishes a vertical rhythm grid. This offers the following benefits:
- *      - Easily manage vertical rhythm and dimensional properties (see "@tutorial" for list of
- *        dimensional properties) with `rem` units (see
- *        https://webdesign.tutsplus.com/articles/improving-layout-with-vertical-rhythm--webdesign-14070).
- *      - Easily manage responsive typography with `em` units.
+ *  @description  Allows us to easily create and manage a repeatable dimensional rhythm (see
+ *      https://webdesign.tutsplus.com/articles/improving-layout-with-vertical-rhythm--webdesign-14070).
  *
- *  @tutorial  It is extremely important to follow these rules in order to keep the vertical grid
- *      "in rhythm".
+ *  @tutorial  These concepts are based on a "vertical" rhythm, but apply to horizontal dimensions
+ *      as well. It is extremely important to follow these rules in order to keep the grid "in
+ *      rhythm".
  *      - Definitions:
  *          - List of "dimensional properties": height, width, margin, padding, line-height, border.
  *          - 1rem = 1 vertical line unit.
@@ -31,12 +28,12 @@
  *              10.125rem // Acceptable but discouraged, since division of 8 is > division of 4.
  *              ```
  *          - There may be cases where it is necessary to break the rules above and apply a
- *            dimension that throws the vertical grid out of rhythm. Examples might be an element
+ *            dimension that throws the grid out of rhythm. Examples might be an element
  *            that needs a 1px border, or an image that must have a certain pixel height. In such
  *            cases, follow these guidelines:
  *              - First, avoid doing so if at all possible. Use proper rem values wherever possible
- *                as it simplifies managing the vertical grid.
- *              - If breaking the rules is necessary, apply this rule to ensure the vertical grid
+ *                as it simplifies managing the grid.
+ *              - If breaking the rules is necessary, apply this rule to ensure the grid
  *                stays in rhythm: The sum of all "dimensional properties" (which are listed above)
  *                must equal a whole rem unit.
  *              - Examples where it might be necessary to break the rules and how the above rule
@@ -66,100 +63,160 @@
 // -----------------
 // Rhythm variables.
 //
-// stylelint-disable unit-blacklist
-$rhythm-init: true !default;
-$rhythm-grid: true !default;
-$rhythm__queries: (30px 0, 32px 768px) !default;
-$rhythm__base: rhythm !default;
-$rhythm-grid__bg: hsla(0, 0%, 0%, 0.1) !default;
-// stylelint-enable unit-blacklist
+$rhythm__init: true !default;
+$rhythm__grid: true !default;
+$rhythm__queries: (0: 8px, 768: 12px) !default;
+$rhythm__line-height: 1rem !default;
+$rhythm__spacing-values: 0 0.5rem 1rem 1.5rem 2rem 3rem 4rem !default;
+$rhythm__spacing-lingo: (
+		padding: p,
+		margin: m,
+		top: t,
+		bottom: b,
+		left: l,
+		right: r,
+		horizontal: x,
+		vertical: y,
+		dot: '-'
+	)
+	!default;
 
-/**
- *  Apply multiple rhythms at once. Each list item applies a separate rhythm for a different media
- *  query breakpoint.
- *
- *  @param   {list}  $rhythms  $rhythm__queries  List of rhythms. Each rhythm is a list of the
- *      following values (in pixels): rhythm's vertical line height and media query min-width
- *      breakpoint at which the rhythm will be applied.
- */
-@mixin rhythms($rhythms: $rhythm__queries) {
-	@for $i from 1 through length($rhythms) {
-		$add-body: false;
-		@if $i == 1 {
-			$add-body: true;
-		}
-		@include rhythm(nth($rhythms, $i), $add-body);
+// Validate / normalize variables.
+@if unit($rhythm__line-height) != rem {
+	@if unitless($rhythm__line-height) {
+		$rhythm__line-height: $rhythm__line-height * 1rem;
+	} @else {
+		@error '$rhythm__line-height variable (#{$rhythm__line-height}) must be in rems.';
 	}
 }
 
 /**
- *  Apply a single rhythm from a list of values.
+ *  Look up rhythm value at a given breakpoint.
  *
- *  @param  {list}  $rhythm:  32px 0  List of rhythms. Each rhythm is a list of the following values
- *      (in pixels): rhythm's vertical line height and media query min-width breakpoint at which the
- *      rhythm will be applied.
- */
-@mixin rhythm($rhythm: 32px 0, $add-body: true) {
-	$query-width: nth($rhythm, 2);
-
-	// stylelint-disable selector-max-type
-	html {
-		@if ($query-width > 0) {
-			@media (min-width: $query-width) {
-				font-size: nth($rhythm, 1);
-			}
-		} @else {
-			font-size: nth($rhythm, 1);
-		}
-	}
-
-	@if $add-body == true {
-		body {
-			line-height: 1rem;
-		}
-	}
-	// stylelint-enable selector-max-type
-}
-
-/**
- *  Look up vertical line height or font size at a given rhythm query.
- *
- *  @param   {number}  $query:  nth(nth($rhythm__queries, 1), 2)  Query width, in pixels.
+ *  @param   {number}  $at:  nth(nth($rhythm__queries, 1), 2)  Breakpoint to look up.
  *  @param   {string}  $property  line-height  Rhythm property to look up (line-height|font-size).
- *  @param   {list}  $rhythms:  $rhythm__queries  List of rhythm queries to be searched, each in the
- *      format of ($line-height, $font-size, $query-width).
- *  @return  {number}  $property at given $query width from list of $rhythms.
+ *  @param   {map}  $rhythms:  $rhythm__queries  List of rhythm queries to be searched.
+ *  @return  {number}  $property at given $at width from map of $rhythms.
  */
-@function px-rhythm($query: nth(nth($rhythm__queries, 1), 2), $rhythms: $rhythm__queries) {
-	// Loop through $rhythms and return the corresponding prop.
-	@for $i from 1 through length($rhythms) {
-		@if ($i == length($rhythms)) {
-			@return nth(nth($rhythms, $i), 1);
-		}
-		@if ($query >= nth(nth($rhythms, $i), 2)) and ($query < nth(nth($rhythms, $i + 1), 2)) {
-			@return nth(nth($rhythms, $i), 1);
-		}
+@function px-rhythm($at: 0, $rhythms: $rhythm__queries) {
+	// Validate that $rhythm__queries has a 0 breakpoint.
+	@if map-get($rhythm__queries, 0) == null {
+		@error 'Zero breakpoint (0) does not exist in $rhythm__queries (#{$rhythm__queries}) .';
 	}
+
+	// If the map only has a single query, return it.
+	@if length(map-keys($rhythm__queries)) == 1 {
+		@return nth(nth($rhythm__queries, 1), 2);
+		@return map-get($rhythm__queries, nth(map-keys($map), 1));
+	}
+
+	// Iterate over breakpoints and return the style that matches the $at.
+	$n: 1;
+	@each $breakpoint, $rhythm in $rhythm__queries {
+		@if ($n == length($rhythm__queries)) or ($at >= $breakpoint and $at < nth(map-keys($rhythm__queries), $n + 1)) {
+			@return $rhythm * 1px;
+		}
+
+		$n: $n + 1;
+	}
+}
+
+@function str-replace($string, $search, $replace: '') {
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
 }
 
 /**
  *  Convert px to rem value.
  *
  *  @param   {number}  $px:  1  Pixel value to convert to rems.
- *  @param   {number}  $line-height:  nth(nth($rhythm__queries,  1), 1)  Pixel value of one (1) vertical line.
+ *  @param   {number}  $at:  0  Breakpoint to look up.
+ *  @param   {map}  $rhythms:  $rhythm__queries  List of rhythm queries to be searched.
  *  @return  {number}  Value in rems.
  */
-@function pxrem($px: 1, $line-height: nth(nth($rhythm__queries, length($rhythm__queries)), 1)) {
-	@return ($px / ($line-height / ($line-height * 0 + 1))) * 1rem;
+@function pxrem($px: 1, $at: 0, $rhythms: $rhythm__queries) {
+	@return (($px * 1px) / px-rhythm($at, $rhythms)) * 1rem;
+}
+
+/**
+ *  Apply multiple rhythm values at a set of given breakpoints.
+ *
+ *  @param  {map}  $rhythms: $rhythm__queries  Map of rhythm breakpoints and values.
+ */
+@mixin rhythms($rhythms: $rhythm__queries) {
+	$n: 0;
+	@each $breakpoint, $rhythm in $rhythm__queries {
+		@include rhythm($rhythm, $breakpoint);
+
+		$n: $n + 1;
+	}
+}
+
+/**
+ *  Apply rhythm to the html element (or optionally to your own selector).
+ *
+ *  @param  {number}  $rhythm: px-rhythm(0)  Pixel value of rhythm to be applied.
+ *  @param  {number}  $at: 0  Pixel value of breakpoint to apply rhythm at.
+ *  @param  {number}  $line-height: $rhythm__line-height  Rem value of default line-height.
+ *  @param  {boolean}  $tags: true  Whether to apply rhythm to the html tag.
+ */
+@mixin rhythm($rhythm: px-rhythm(0), $at: 0, $line-height: $rhythm__line-height, $tags: true) {
+	// stylelint-disable selector-max-type
+	@if $tags == true {
+		html {
+			@if ($at > 0) {
+				@media (min-width: $at) {
+					font-size: $rhythm;
+				}
+			} @else {
+				font-size: $rhythm;
+			}
+		}
+
+		@if $at == 0 {
+			body {
+				line-height: $line-height;
+			}
+		}
+	} @else {
+		@if ($at > 0) {
+			@media (min-width: $at) {
+				font-size: $rhythm;
+			}
+		} @else {
+			font-size: $rhythm;
+		}
+	}
+	// stylelint-enable selector-max-type
 }
 
 /**
  *  Styles for a rhythm grid.
  *
- *  @param   {color}  $bg:  $rhythm-grid__bg  Background color.
+ *  @param  {color}  $bg: hsla(0, 0%, 0%, 0.1)  Background color.
+ *  @param  {number}  $size: 1rem  Size of grid.
+ *  @param  {boolean}  $double: false  Double the grid lines and add 50% stops that are lighter.
  */
-@mixin rhythm-grid($bg: $rhythm-grid__bg) {
-	// stylelint-disable-next-line unit-blacklist
-	background-image: linear-gradient($bg 1px, transparent 1px);
-	background-size: 100% 0.5rem;
+@mixin rhythm-grid($bg: hsla(0, 0%, 0%, 0.2), $size: 1rem, $double: false) {
+	// stylelint-disable value-list-max-empty-lines, function-max-empty-lines
+	$gradient: if(
+		$double,
+
+		(
+			$bg 0,
+			transparent 1px,
+			transparent 50%,
+			change-color($bg, $alpha: opacity($bg) / 2) 50%,
+			transparent calc(50% + 1px)
+		),
+		 ($bg 0, transparent 1px)
+	);
+	$size: if($double, $size * 2, $size);
+	background-image: linear-gradient(0deg, $gradient), linear-gradient(90deg, $gradient);
+	background-size: $size $size;
 }

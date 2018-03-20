@@ -1,3 +1,9 @@
+/** ------------------------------------------------------------------------------------------------
+ *  @filename  _tabs.init.scss
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @dependencies  core/colors.abstract
+ ** --------------------------------------------------------------------------------------------- */
+
 // stylelint-disable-next-line selector-type-no-unknown, selector-max-type
 tabs {
 	display: block;
@@ -32,7 +38,7 @@ tabs {
 		}
 
 		+ .tabs__button {
-			margin-left: 1rem;
+			margin-left: 4rem;
 		}
 	}
 }

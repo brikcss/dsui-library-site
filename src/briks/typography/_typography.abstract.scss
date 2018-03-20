@@ -1,8 +1,7 @@
 /** ------------------------------------------------------------------------------------------------
- *  _typography.abstract.scss
- *  -------------------------
+ *  @filename  _typography.abstract.scss
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Typography (font) abstract.
+ *  @dependencies  core/colors.abstract
  ** --------------------------------------------------------------------------------------------- */
 
 // -----------
@@ -62,47 +61,48 @@ $font__faces: (
 // It's worth noting that since the line-height at the zero (0) breakpoint was left out (it is
 // optional), it uses the default line-height of 1rem.
 //
-// stylelint-disable unit-blacklist
 $font__style-queries: (
 		display4:
 			(
 				0: 112px
 					(
+						color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.53)),
 						font-weight: 300,
-						line-height: 4rem,
-						color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54))
+						line-height: 14rem,
+						letter-spacing: -0.04em
 					)
 			),
 		display3:
 			(
-				0: 56px (line-height: 2rem, color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54)))
+				0: 56px
+					(
+						line-height: 8rem,
+						color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.53)),
+						letter-spacing: -0.02em
+					)
 			),
 		display2:
 			(
-				0: 45px (line-height: 2rem, color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54)))
+				0: 45px (line-height: 6rem, color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.53)))
 			),
 		display1:
 			(
-				0: 34px
-					(
-						line-height: 1.5rem,
-						color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54))
-					)
+				0: 34px (line-height: 5rem, color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.53)))
 			),
-		headline: (0: 24px (line-height: 1.5rem)),
-		title: (0: 20px (font-weight: 500, letter-spacing: 0.025rem)),
+		headline: (0: 24px (line-height: 4rem)),
+		title: (0: 20px (font-weight: 500, line-height: 3rem, letter-spacing: 0.02em)),
 		subheading: (0: 16px),
 		body:
 			(
 				0: 14px
 					(
-						color: if(function-exists(c), c(dark1), hsla(0, 0%, 0%, 0.87)),
+						color: if(function-exists(c), c(dark1), hsla(0, 0%, 0%, 0.86)),
 						font-family: ('Roboto', sans-serif)
 					)
 			),
 		bold: (0: 14px (font-weight: 500)),
 		button: (0: 14px (font-weight: 500, text-transform: uppercase)),
-		caption: (0: 12px (color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54))))
+		caption: (0: 12px (color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.53))))
 	)
 	!default;
 
@@ -123,23 +123,30 @@ $font__line-lengths: (
 	60ex: (p, li, dt, dd),
 	40ex: ('.font__short-line')
 );
-// stylelint-enable unit-blacklist
 
 /**
  *  Apply a font size in ems from a given value which is one of the predefined $font__style-queries
  *  or from a pixel value.
  *
- *  @param   {string|number}  $size  Size to convert to ems. A string will look up the font query
- *      for that given style name. A pixel number will be converted to ems.
- *  @param   {string|number}  $parent:  body  Font size of parent / containing element. The
- *      font-size returned will be set relative to the parent.
+ *  @param   {string|number|list}  $size  Size to convert to ems. A string will look up the font
+ *      query for that given style name. $size can also be a list of two values, where the first
+ *      value is $size and the second value is the size of its relative parent. The second value is
+ *      'body' by default, and is used as the base em size in converting $size to ems.
  *  @param   {number}  $at:  0  Breakpoint / screen width for the base font size.
  *  @param   {base}  $base-query:  $font__base-query  Base font query styles. You shouldn't need to
  *      modify this.
  *  @return  {number}  Font size value in ems (unless you pass a unit other than pixels, in which
  *      case it will return that value and unit).
  */
-@function sp($size, $parent: body, $at: 0, $base-query: $font__base-query) {
+@function sp($size, $at: 0, $base-query: $font__base-query) {
+	$parent: body;
+
+	// If $size is a list, first value is $size and second value is $parent.
+	@if type-of($size) == list {
+		$parent: nth($size, 2);
+		$size: nth($size, 1);
+	}
+
 	// If $size is a string, look up the value from $sizes.
 	@if type-of($size) == string {
 		$size: font-query($size, $at);
@@ -160,7 +167,6 @@ $font__line-lengths: (
 
 	// Ensure $size and $parent are unitless.
 	@if unit($size) == px {
-		// stylelint-disable unit-blacklist
 		$size: $size / 1px;
 	} @else {
 		// If $size is not in pixels, return it.
@@ -168,7 +174,6 @@ $font__line-lengths: (
 	}
 	@if unit($parent) == px {
 		$parent: $parent / 1px;
-		// stylelint-enable unit-blacklist
 	}
 
 	// Return the em value of the pixel $size.
@@ -222,7 +227,6 @@ $font__line-lengths: (
 			} @else {
 				$style: append($style,  (at: $breakpoint));
 			}
-			@debug 'STYLE: #{$style}';
 			@return $style;
 		}
 
@@ -291,7 +295,6 @@ $font__line-lengths: (
 	}
 
 	// Apply font properties.
-	// stylelint-disable-next-line unit-blacklist
 	$at: $at * 1px;
 	@if $at > 0 {
 		@media (min-width: $at) {

@@ -1,15 +1,11 @@
 /** ------------------------------------------------------------------------------------------------
- *  @filename  _rhythm.init.scss
+ *  @filename  _config.scss
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Rhythm init.
+ *  @description  SASS configuration for DS UI site.
  ** --------------------------------------------------------------------------------------------- */
 
-@if ($rhythm__init) {
-	@include rhythms();
-}
-
-@if ($rhythm__grid) {
-	.rhythm__grid {
-		@include rhythm-grid();
-	}
-}
+// ----------------
+// Vertical rhythm.
+//
+$rhythm__queries: (0: 8px);
+$rhythm__line-height: 3rem;

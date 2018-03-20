@@ -1,8 +1,8 @@
 /** ------------------------------------------------------------------------------------------------
- *  _sidebars.abstract.scss
- *  -----------------------
+ *  @filename  _sidebars.abstract.scss
  *  @author  brikcss  <https://github.com/brikcss>
  *  @description  Sidebars brik adds a left and/or right sidebar to a view.
+ *  @dependencies  core/rhythm.abstract
  ** --------------------------------------------------------------------------------------------- */
 
 // ------------------
@@ -12,7 +12,7 @@ $sidebars-init: true !default;
 $sidebars-left: true !default;
 $sidebars-right: true !default;
 $sidebars__base: sidebars !default;
-$sidebars__width: pxrem(260) !default;
+$sidebars__width: 32rem !default;
 
 /**
  *  Create a left or right sidebar.
@@ -43,10 +43,10 @@ $sidebars__width: pxrem(260) !default;
 		&:before {
 			content: ' ';
 			background-color: inherit;
-			width: 1rem;
+			width: 4rem;
 			height: 100%;
 			position: absolute;
-			#{$side}: -1rem;
+			#{$side}: -4rem;
 			top: 0;
 		}
 	}

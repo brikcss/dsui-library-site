@@ -1,8 +1,7 @@
 /** ------------------------------------------------------------------------------------------------
- *  header.scss
- *  -----------
+ *  @filename  header.scss
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Global header.
+ *  @dependencies  core/colors.abstract
  ** --------------------------------------------------------------------------------------------- */
 
 // -------------
@@ -10,8 +9,8 @@
 //
 $header-init: true !default;
 $header__base: header !default;
-$header__height: 2rem !default;
-$header__padding: 0 1rem !default;
+$header__height: 8rem !default;
+$header__padding: 0 4rem !default;
 $header__bg: if(function-exists(c), c(color1), hsl(199, 98%, 48%)) !default;
 
 /**

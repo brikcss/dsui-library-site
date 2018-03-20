@@ -1,8 +1,7 @@
 /** ------------------------------------------------------------------------------------------------
- *  _footer.abstract.scss
- *  ---------------------
+ *  @filename  _footer.abstract.scss
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Footer abstract.
+ *  @dependencies  core/colors.abstract
  ** --------------------------------------------------------------------------------------------- */
 
 // -------------
@@ -10,8 +9,8 @@
 //
 $footer-init: true !default;
 $footer__base: footer !default;
-$footer__height: 2rem !default;
-$footer__padding: 0 1rem !default;
+$footer__height: 8rem !default;
+$footer__padding: 0 4rem !default;
 $footer__bg: if(function-exists(c), c(gray), hsl(0, 0%, 90%)) !default;
 
 /**

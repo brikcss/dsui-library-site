@@ -1,3 +1,9 @@
+/** ------------------------------------------------------------------------------------------------
+ *  @filename  _show-hide.abstract.scss
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @dependencies  core/rhythm.abstract
+ ** --------------------------------------------------------------------------------------------- */
+
 // ----------------
 // Show hide setup.
 //
@@ -7,7 +13,7 @@ $showhide__base: show-hide !default;
 /**
  *  Show hide element.
  */
-@mixin showhide($add-icons: true, $icon-size: 0.45rem, $icon-line-width: pxrem(2), $icon-color: hsl(0, 0%, 70%), $base: $showhide__base) {
+@mixin showhide($add-icons: true, $icon-size: 2rem, $icon-line-width: pxrem(2), $icon-color: hsl(0, 0%, 70%), $base: $showhide__base) {
 	$duration: 300ms;
 
 	cursor: pointer;
@@ -21,7 +27,7 @@ $showhide__base: show-hide !default;
 			width: $icon-size;
 			display: inline-block;
 			position: absolute;
-			right: 0.5rem;
+			right: 2rem;
 			top: calc(50% - #{$icon-size / 2});
 			transition: transform ($duration * 0.75) cubic-bezier(0.3, 0.2, 0.2, 1);
 

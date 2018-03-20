@@ -1,7 +1,7 @@
 function appController(sidebarsService) {
 	var ctrl = this;
 	ctrl.sidebars = sidebarsService;
-	ctrl.showVerticalGrid = false;
+	ctrl.showRhythmGrid = false;
 }
 
 appController.$inject = ['sidebarsService'];

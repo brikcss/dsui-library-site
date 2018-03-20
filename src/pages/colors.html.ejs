@@ -3,35 +3,25 @@
 	<div class="tabs__content">
 		<%- include partials/_intro.html.ejs %>
 
-		<h2 class="font__headline">Approved Colors</h2>
-		<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are needed since we should be using client-specific colors.</em></p>
-		<h3 class="font__title">App Colors</h3>
-		<ul class="pg-colors__colors-list">
-			<% Object.keys(data.colors.static).forEach(color => { %>
-				<li class="pg-colors__color<% if (color.indexOf('light') === 0) { %> pg-colors__color--dark<% } %>">
-					<div class="pg-colors__color-value bg__<%= color %>">
-						<span><%= color %></span>
-						<span><%= data.colors.static[color].value %></span>
-					</div>
-					<div class="pg-colors__color-meta"><%= data.colors.static[color].usage %></div>
-				</li>
-			<% }); %>
-		</ul>
+		<h2 class="font__headline">Guidelines</h2>
+		<h3 class="font__headline">Approved Colors</h3>
+		<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are provided since we should be using client-specific colors.</em></p>
 
-		<h3 class="font__title">Dynamic Client Colors</h3>
-		<p>DS UI Colors makes an easy way to apply dynamic, client-specific colors, which are selected by each client and applied at app runtime. Here are the names of DS UI dynamic color variables and "placeholder" color values:</p>
-		<ul class="pg-colors__colors-list">
-			<% Object.keys(data.colors.dynamic).forEach(color => { %>
-				<li class="pg-colors__color">
-					<div class="pg-colors__color-value bg__<%= color %>">
-						<span><%= color %></span>
-						<span><%= data.colors.dynamic[color].value %></span>
-					</div>
-					<div class="pg-colors__color-meta"><%= data.colors.dynamic[color].usage %></div>
-				</li>
-			<% }); %>
-		</ul>
-		<p><em>Note: These specific color values are DirectScale specific colors, intended to illustrate how dynamic, client colors work. They are NOT UX approved colors and should NOT be used anywhere outside of setting default CSS color variables until client-specific colors are applied.</em></p>
+		<% data.colors.forEach(category => { %>
+			<% if (category.heading) { %><h4 class="font__title"><%= category.heading %></h4><% } %>
+			<% if (category.description) { %><p><%- category.description %></p><% } %>
+			<ul class="pg-colors__colors-list">
+				<% category.colors.forEach(color => { %>
+					<li class="pg-colors__color<% if (category.darkBg) { %> pg-colors__color--dark<% } %>">
+						<div class="pg-colors__color-value bg__<%= color.name %>">
+							<span><%= color.name %></span>
+							<span><%= color.value %></span>
+						</div>
+						<div class="pg-colors__color-meta"><%= color.usage %></div>
+					</li>
+				<% }); %>
+			</ul>
+		<% }); %>
 	</div>
 
 	<!-- Install & Setup. -->

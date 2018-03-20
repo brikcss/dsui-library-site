@@ -26,17 +26,19 @@ module.exports = {
 		sass: {
 			angularjs: {
 				source: [
+					// DS UI SASS config (variables).
+					'./src/angularjs/config/_config.scss',
 					// Core component abstracts.
-					'./src/briks/rhythm/_rhythm.abstract.scss',
 					'./src/briks/colors/_colors.abstract.scss',
-					'./src/briks/typography/_typography.abstract.scss',
-					// None-core component abstracts.
+					'./src/briks/{reset,typography,rhythm}/*.abstract.scss',
+					// Non-core component abstracts.
 					'./src/briks/**/*.abstract.scss',
 					// Core components init.
-					'./src/briks/reset/_reset.init.scss',
-					'./src/briks/typography/_typography.init.scss',
+					'./src/angularjs/core/_core.init.scss',
 					// Other components init.
-					'./src/briks/**/*.init.scss',
+					'./src/briks/{core,tabs,header,footer,sidebars,show-hide,burger-button,code-editor}/*.init.scss',
+					// Utility classes.
+					'./src/briks/rhythm/_rhythm.utilities.scss',
 					// Site specific code.
 					'./node_modules/highlight.js/styles/atom-one-dark',
 					'./src/angularjs/**/*.scss',

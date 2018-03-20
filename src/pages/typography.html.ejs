@@ -1,23 +1,34 @@
-<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples', advanced: 'Advanced'}">
+<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}">
 	<div>
 		<%- include partials/_intro.html.ejs %>
 
 		<h2 class="font__headline">Guidelines</h2>
 
-		<h3 class="font__title">Font Face</h3>
+		<h3 class="font__title">Roboto font face</h3>
 		<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>
 
-		<h3 class="font__title">Font Styles</h3>
-		<p>Font styles should only be selected from the UX approved list of predefined styles, outlined on this page. <em>In other words, do not write application-specific CSS for typography styles.</em> Instead, use the provided classes and helpers. Any exceptions require UX approval.</p>
-		<p>Follow any listed use case guidelines when applying typography styles.</p>
+		<h3 class="font__title">Only use approved font styles</h3>
+		<p><em>Only use approved font styles.</em> Any exceptions require UX approval and should be added to this list. <a href="https://material.io/guidelines/style/typography.html">Refer to Material Design</a> for specific scenarios and use cases to apply each style; otherwise use them at your own discretion.</p>
+		<p>UX approved font styles (see Usage section for how to apply them):</p>
+		<p class="font__caption">Caption (12sp/inherited)</p>
+		<p class="font__button">Button (14sp/inherited)</p>
+		<p class="font__body">Body (14sp/24dp) (default)</p>
+		<p class="font__subheading">Subheading (16sp/24dp)</p>
+		<p class="font__title">Title (20sp/28dp)</p>
+		<p class="font__headline">Headline (24sp/32dp)</p>
+		<p class="font__display1">Display 1 (34sp/40dp)</p>
+		<p class="font__display2">Display 2 (45sp/48dp)</p>
+		<p class="font__display3">Display 3 (56sp/64dp)</p>
+		<p class="font__display4">Display 4 (112sp/112dp)</p>
+		<p class="font__caption"><em>Note: First number represents font-size, second number represents leading / line-height.</em></p>
 
-		<h3 class="font__title">Text Colors</h3>
-		<p>Text colors are part of the <a ui-sref="colors">Colors component</a>.</p>
-
-		<h3 class="font__title">Line Length / Readability</h3>
+		<h3 class="font__title">Limit line length for readability</h3>
 		<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>
 
-		<h3 class="font__title">Additional Guidelines</h3>
+		<h3 class="font__title">Approved text colors</h3>
+		<p><a ui-sref="colors">Refer to the Colors component</a> for applying text colors.</p>
+
+		<h3 class="font__title">Additional guidelines</h3>
 		<p><a href="https://material.io/guidelines/style/typography.html" title="Typography specs for Material Design"><abbr title="Material Design">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>
 	</div>
 
@@ -28,21 +39,22 @@
 	<div>
 		<h2 class="font__headline">Usage</h2>
 		<ul class="bullets">
-			<li><em>Don't</em> apply any CSS font properties on your own.</li>
-			<li><em>Do</em> use the predefined classes and helpers to apply font styles.</li>
-			<li><em>Avoid</em> appyling font styles to an element whose parent already has a style applied.</li>
 			<li>
-				<p><em>Do</em> apply a "font reset" method whenever you need to add a font style on an element whose parent has a different font style applied.</p>
+				<p><em>Do:</em> use the predefined classes and helpers to apply font styles.</p>
+				<p><em>Don't:</em> apply any CSS font properties on your own.</p>
+			</li>
+			<li>
+				<p><em>Avoid:</em> appyling nested font styles. However, when it is necessary to apply a font style to a child element whose parent has a different style applied, you must apply one of the "font reset" methods below.</p>
 				<p><em>Why?</em> DS UI Typography uses <code>em</code>s <a href="https://css-tricks.com/why-ems/" title="Why ems?">to handle responsive typography</a>. <code>1em</code> is <a href="https://www.impressivewebs.com/understanding-em-units-css/" title="Definition of one em unit.">equal to the <strong>computed value</strong> of the <code>font-size</code> property of the element on which its used</a>. This means children elements inherit the computed font size value of its first parent which already has font size defined. If we don't reset the font size in these cases using one of the methods below, the computed <code>font-size</code> will not be correct.</p>
 			</li>
 		</ul>
 
 		<h3 class="font__title">How to apply a font style</h3>
-		<p>HTML: Add a class:</p>
+		<p>(HTML) Add a font class:</p>
 		<editor lang="html">
 			<pre>&lt;h2 class="font__title"&gt;My awesome font in "title" style.&lt;/h2&gt;</pre>
 		</editor>
-		<p>SASS: Include the <code>font</code> mixin:</p>
+		<p>(SASS) Use the <code>font</code> mixin:</p>
 		<editor lang="scss,css:result">
 			<pre>.my-headline {
 	@include font(headline);
@@ -54,7 +66,7 @@
 }</pre>
 		</editor>
 
-		<h3 class="font__title">How to "reset" <code>font-size</code></h3>
+		<h3 class="font__title">How to apply a font style to nested elements</h3>
 		<p>When an element's parent already has a font style applied, applying a font style to the element will likely make its <code>font-size</code> incorrect. To "reset" the element's font size, do one of the following:</p>
 		<ol class="numbers">
 			<li>
@@ -197,10 +209,5 @@
 			color: hsla(0, 0%, 0%, 0.54));
 		}</pre>
 		</editor>
-	</div>
-
-	<div>
-		<h2 class="font__headline">Advanced Usage</h2>
-		<p>There are more advanced features, but documentation in the works. Feel free to check out the source code in <code>_typography.abstract.scss</code>. If you have a specific use case you need help implementing, <a href="#">let the DS UI / platform team know</a>.</p>
 	</div>
 </tabs>

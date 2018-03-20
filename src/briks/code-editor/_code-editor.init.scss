@@ -1,11 +1,17 @@
+/** ------------------------------------------------------------------------------------------------
+ *  @filename  _code-editor.init.scss
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @dependencies  core/colors.abstract
+ ** --------------------------------------------------------------------------------------------- */
+
 .editor {
 	display: block;
-	margin-top: 0.5rem;
-	margin-bottom: 1.5rem;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
 
 	.hljs {
-		line-height: 0.5rem;
-		padding: 0.5rem;
+		line-height: 2rem;
+		padding: 2rem;
 		tab-size: 4;
 	}
 
@@ -65,36 +71,31 @@
 	}
 
 	&__tab-button {
-		color: if(function-exists(c), c(dark2), hsla(0, 0%, 0%, 0.54));
+		color: c(dark2);
 
 		&--active {
-			color: if(function-exists(c), c(dark1), hsla(0, 0%, 0%, 0.87));
+			color: c(dark1);
 		}
 
 		+ .editor__tab-button {
-			margin-left: 1rem;
+			margin-left: 4rem;
 		}
 	}
 
 	&__preview {
-		border: 0.05rem solid if(function-exists(c), c(dark4), hsla(0, 0%, 0%, 0.12));
-		border-bottom: 0;
-		padding: 1.45rem 0.5rem 0.5rem;
+		border-color: c(dark4);
+		border-width: 1px 1px 0;
+		border-style: solid;
+		padding: 2rem;
 		position: relative;
+	}
 
-		&:before {
-			content: 'Live code preview';
-			position: absolute;
-			left: -0.05rem;
-			right: -0.05rem;
-			top: 0;
-			display: flex;
-			align-items: center;
-			background-color: if(function-exists(c), c(dark4), hsla(0, 0%, 0%, 0.12));
-			height: 1rem;
-			padding-left: 0.25rem;
-			padding-right: 0.25rem;
-			@include font(caption);
-		}
+	&__tabs {
+		background-color: c(gray);
+		border-color: c(dark4);
+		border-width: 1px 1px 0;
+		border-style: solid;
+		padding-left: 2rem;
+		padding-right: 2rem;
 	}
 }

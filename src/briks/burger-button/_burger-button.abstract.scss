@@ -1,16 +1,14 @@
 /** ------------------------------------------------------------------------------------------------
- *  burger-button.scss
- *  ------------------
+ *  @filename  burger-button.scss
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Burger button abstracts.
+ *  @dependencies  core/colors.abstract
  *  @todo  Add media query for $burger-hide-at value.
  ** --------------------------------------------------------------------------------------------- */
 
 $burger-init: true !default;
-// stylelint-disable-next-line unit-blacklist
 $burger-hide-at: 768px !default;
 $burger__base: burger !default;
-$burger__size: 0.7rem !default;
+$burger__size: 3rem !default;
 $burger__color: if(function-exists(c), c(light), hsla(0, 0%, 100%, 1)) !default;
 $burger__line-spacing: 1.4 !default;
 
@@ -18,7 +16,7 @@ $burger__line-spacing: 1.4 !default;
 @mixin burger($size: $burger__size, $color: $burger__color, $spacing: $burger__line-spacing, $line-size: $size / 8) {
 	height: $size;
 	width: $size;
-	margin-right: 0.5rem;
+	margin-right: 2rem;
 	cursor: pointer;
 	position: relative;
 

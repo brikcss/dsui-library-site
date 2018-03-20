@@ -1,6 +1,5 @@
 /** ------------------------------------------------------------------------------------------------
- *  burger-button.init.scss
- *  -----------------------
+ *  @filename  burger-button.init.scss
  *  @author  brikcss  <https://github.com/brikcss>
  *  @description  Burger button init.
  ** --------------------------------------------------------------------------------------------- */
@@ -10,7 +9,6 @@
 		@include burger();
 
 		// @todo  Move this to the burger mixin.
-		// stylelint-disable unit-blacklist
 		$hide-burger-at: 1080px;
 		@media (min-width: $hide-burger-at) {
 			display: none;

@@ -31,73 +31,115 @@ const pages = {
 					related: ['Typography'],
 					npmPath: '@directscale/colors',
 				},
-				colors: {
-					static: {
-						'dark | dark1': {
-							value: 'hsla(0, 0%, 0%, 0.87)',
-							usage: 'Primary dark text',
-						},
-						dark2: {
-							value: 'hsla(0, 0%, 0%, 0.54)',
-							usage: 'Active dark icons, Secondary dark text',
-						},
-						dark3: {
-							value: 'hsla(0, 0%, 0%, 0.38)',
-							usage: 'Inactive dark icons, Disabled / hint dark text',
-						},
-						dark4: {
-							value: 'hsla(0, 0%, 0%, 0.12)',
-							usage: 'Dark borders / dividers',
-						},
-						'light | light1': {
-							value: 'hsla(0, 0%, 100%, 1)',
-							usage: 'Primary light text',
-						},
-						light2: {
-							value: 'hsla(0, 0%, 100%, 0.7)',
-							usage: 'Active light icons, Secondary light text',
-						},
-						light3: {
-							value: 'hsla(0, 0%, 100%, 0.5)',
-							usage: 'Inactive light icons, Disabled / hint light text',
-						},
-						light4: {
-							value: 'hsla(0, 0%, 100%, 0.12)',
-							usage: 'Light borders / dividers',
-						},
-						gray: {
-							value: 'hsl(0, 0%, 90%)',
-							usage: 'Neutral background',
-						},
-						superbar: {
-							value: 'hsl(209, 24%, 30%)',
-							usage: 'Sidebar header',
-						},
-						'superbar-icon': {
-							value: 'hsl(208, 11%, 65%)',
-							usage: 'Sidebar icons',
-						},
+				colors: [
+					{
+						heading: 'Dark (text, icons, borders)',
+						description:
+							'Dark colors are black with various applied levels of opacity. Dark colors can be used in text, icons, and borders on light backgrounds.',
+						colors: [
+							{
+								name: 'dark | dark1',
+								class: 'dark1',
+								value: 'hsla(0, 0%, 0%, 0.87)',
+								usage: 'Primary dark text',
+							},
+							{
+								name: 'dark2',
+								value: 'hsla(0, 0%, 0%, 0.54)',
+								usage: 'Active dark icons, Secondary dark text',
+							},
+							{
+								name: 'dark3',
+								value: 'hsla(0, 0%, 0%, 0.38)',
+								usage: 'Inactive dark icons, Disabled / hint dark text',
+							},
+							{
+								name: 'dark4',
+								value: 'hsla(0, 0%, 0%, 0.12)',
+								usage: 'Dark borders / dividers',
+							},
+						],
 					},
-					dynamic: {
-						color1: {
-							value: 'hsl(194, 76%, 65%)',
-							usage: 'Primary app bar, text links, visual tree',
-						},
-						color2: {
-							value: 'hsl(69, 67%, 51%)',
-							usage: 'Buttons, profile avatars',
-						},
-						color3: {
-							value: 'hsl(36, 96%, 54%)',
-							usage: 'Selections, checkboxes, selected state for dropdowns, active tab underlines',
-						},
-						color4: {
-							value: 'hsl(205, 7%, 45%)',
-							usage:
-								'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree',
-						},
+					{
+						heading: 'Light (text, icons, borders)',
+						description:
+							'Light colors are white with various applied levels of opacity. Light colors can be used in text, icons, and borders on dark backgrounds.',
+						darkBg: true,
+						colors: [
+							{
+								name: 'light | light1',
+								class: 'light1',
+								value: 'hsla(0, 0%, 100%, 1)',
+								usage: 'Primary light text',
+							},
+							{
+								name: 'light2',
+								value: 'hsla(0, 0%, 100%, 0.7)',
+								usage: 'Active light icons, Secondary light text',
+							},
+							{
+								name: 'light3',
+								value: 'hsla(0, 0%, 100%, 0.5)',
+								usage: 'Inactive light icons, Disabled / hint light text',
+							},
+							{
+								name: 'light4',
+								value: 'hsla(0, 0%, 100%, 0.12)',
+								usage: 'Light borders / dividers',
+							},
+						],
 					},
-				},
+					{
+						heading: 'App colors',
+						description: 'Background colors with specific use cases.',
+						colors: [
+							{
+								name: 'gray',
+								value: 'hsl(0, 0%, 90%)',
+								usage: 'Neutral background',
+							},
+							{
+								name: 'superbar',
+								value: 'hsl(209, 24%, 30%)',
+								usage: 'Sidebar header',
+							},
+							{
+								name: 'superbar-icon',
+								value: 'hsl(208, 11%, 65%)',
+								usage: 'Sidebar icons',
+							},
+						],
+					},
+					{
+						heading: 'Dynamic client colors',
+						description:
+							'The following color names are provided by DS for clients to choose their own color scheme (<em>note that these specific color values are DirectScale company colors, provided to illustrate how dynamic client colors work; these are NOT UX approved color values and should NOT be used in your app.</em>):',
+						colors: [
+							{
+								name: 'color1',
+								value: 'hsl(194, 76%, 65%)',
+								usage: 'Primary app bar, text links, visual tree',
+							},
+							{
+								name: 'color2',
+								value: 'hsl(69, 67%, 51%)',
+								usage: 'Buttons, profile avatars',
+							},
+							{
+								name: 'color3',
+								value: 'hsl(36, 96%, 54%)',
+								usage:
+									'Selections, checkboxes, selected state for dropdowns, active tab underlines',
+							},
+							{
+								name: 'color4',
+								value: 'hsl(205, 7%, 45%)',
+								usage:
+									'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree',
+							},
+						],
+					},
+				],
 			}),
 			data: {
 				version: '0.0.1',
@@ -108,8 +150,9 @@ const pages = {
 				brik: {
 					name: 'Typography',
 					npmPath: '@directscale/typography',
-					intro: '<p>DS UI Typography is a system for managing font faces and styles.</p>',
-					related: ['Colors', 'Lists', 'Links'],
+					intro:
+						'<p>Instead of pixels, Material Design specs use <a href="https://material.io/guidelines/layout/units-measurements.html" title="Material Design sp and dp units">"sp" and "dp" units</a> to make pixels more responsive to various devices. DS UI Typography provides the mechanism for applying and managing responsive typography based on MD specs.</p>',
+					related: ['Colors', 'Lists', 'Links', 'Rhythm'],
 					setup: {
 						list: [
 							'Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you be putting it into your build.',
@@ -130,21 +173,20 @@ const pages = {
 				version: '0.0.1',
 			},
 		},
-		'Vertical Rhythm': {
-			tpl: require('../../../../lib/ejs-loader!../../../pages/vertical-rhythm.html.ejs')({
+		Rhythm: {
+			tpl: require('../../../../lib/ejs-loader!../../../pages/rhythm.html.ejs')({
 				brik: {
-					name: 'Vertical Rhythm',
+					name: 'Rhythm',
 					npmPath: '@directscale/rhythm',
 					intro:
-						'<p>Vertical Rhythm is <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">a principle of good typography</a> which fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetition and familiarity</a> , and creates a layout that is more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>. DS UI\'s Vertical Rhythm provides an easy way to apply and manage vertical rhythm in any app.</p><p>To see an example of what vertical rhythm is: <button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showVerticalGrid = !appCtrl.showVerticalGrid" type="button">Toggle Vertical Rhythm grid</button></p><p class="font__reset">Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That\'s Vertical Rhythm.</p>',
-					related: ['Typography', 'Spacing'],
+						'<p>DS UI Rhythm provides an easy way to apply and manage vertical and horizontal spacing anywhere. Rhythm is founded on <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">good principles of typography</a>, fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetition and familiarity</a> throughout the UI, and makes any layout more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>.</p><p>For a demonstration of Rhythm in action: <br><button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Toggle Rhythm grid</button></p><p class="font__reset">Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That\'s Rhythm.</p>',
+					related: ['Typography', 'Rhythm'],
 				},
 			}),
 			data: {
 				version: '0.0.1',
 			},
 		},
-		Spacing: '',
 	},
 	about: {
 		'Including Assets': '',
