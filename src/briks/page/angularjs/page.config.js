@@ -10,17 +10,17 @@ const pages = {
 						npmPath: '@directscale/reset',
 						intro:
 							'<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include this in their codebase.</em></p>',
-						related: ['Typography', 'Links', 'Spacing'],
+						related: ['Typography', 'Links', 'Rhythm'],
 						setup: {
 							summary:
-								'<p>Include <code>_reset.init.scss</code> as the first CSS-producing file (after abstract code) in your SASS build. No other steps are necessary.</p>',
-						},
-					},
+								'<p>Include <code>_reset.init.scss</code> as the first CSS-producing file (after abstract code) in your SASS build. No other steps are necessary.</p>'
+						}
+					}
 				}
 			),
 			data: {
-				version: '0.0.1',
-			},
+				version: '0.0.1'
+			}
 		},
 		Colors: {
 			tpl: require('../../../../lib/ejs-loader!../../../pages/colors.html.ejs')({
@@ -29,7 +29,7 @@ const pages = {
 					intro:
 						'<p>DS UI Colors provide an easy way to apply and manage all of your app\'s colors. Define colors once and reuse them everywhere. It also helps manage a "live theme" (i.e., client colors) using native CSS variables.</p>',
 					related: ['Typography'],
-					npmPath: '@directscale/colors',
+					npmPath: '@directscale/colors'
 				},
 				colors: [
 					{
@@ -41,24 +41,24 @@ const pages = {
 								name: 'dark | dark1',
 								class: 'dark1',
 								value: 'hsla(0, 0%, 0%, 0.87)',
-								usage: 'Primary dark text',
+								usage: 'Primary dark text'
 							},
 							{
 								name: 'dark2',
 								value: 'hsla(0, 0%, 0%, 0.54)',
-								usage: 'Active dark icons, Secondary dark text',
+								usage: 'Active dark icons, Secondary dark text'
 							},
 							{
 								name: 'dark3',
 								value: 'hsla(0, 0%, 0%, 0.38)',
-								usage: 'Inactive dark icons, Disabled / hint dark text',
+								usage: 'Inactive dark icons, Disabled / hint dark text'
 							},
 							{
 								name: 'dark4',
 								value: 'hsla(0, 0%, 0%, 0.12)',
-								usage: 'Dark borders / dividers',
-							},
-						],
+								usage: 'Dark borders / dividers'
+							}
+						]
 					},
 					{
 						heading: 'Light (text, icons, borders)',
@@ -70,24 +70,24 @@ const pages = {
 								name: 'light | light1',
 								class: 'light1',
 								value: 'hsla(0, 0%, 100%, 1)',
-								usage: 'Primary light text',
+								usage: 'Primary light text'
 							},
 							{
 								name: 'light2',
 								value: 'hsla(0, 0%, 100%, 0.7)',
-								usage: 'Active light icons, Secondary light text',
+								usage: 'Active light icons, Secondary light text'
 							},
 							{
 								name: 'light3',
 								value: 'hsla(0, 0%, 100%, 0.5)',
-								usage: 'Inactive light icons, Disabled / hint light text',
+								usage: 'Inactive light icons, Disabled / hint light text'
 							},
 							{
 								name: 'light4',
 								value: 'hsla(0, 0%, 100%, 0.12)',
-								usage: 'Light borders / dividers',
-							},
-						],
+								usage: 'Light borders / dividers'
+							}
+						]
 					},
 					{
 						heading: 'App colors',
@@ -96,19 +96,19 @@ const pages = {
 							{
 								name: 'gray',
 								value: 'hsl(0, 0%, 90%)',
-								usage: 'Neutral background',
+								usage: 'Neutral background'
 							},
 							{
 								name: 'superbar',
 								value: 'hsl(209, 24%, 30%)',
-								usage: 'Sidebar header',
+								usage: 'Sidebar header'
 							},
 							{
 								name: 'superbar-icon',
 								value: 'hsl(208, 11%, 65%)',
-								usage: 'Sidebar icons',
-							},
-						],
+								usage: 'Sidebar icons'
+							}
+						]
 					},
 					{
 						heading: 'Dynamic client colors',
@@ -118,32 +118,32 @@ const pages = {
 							{
 								name: 'color1',
 								value: 'hsl(194, 76%, 65%)',
-								usage: 'Primary app bar, text links, visual tree',
+								usage: 'Primary app bar, text links, visual tree'
 							},
 							{
 								name: 'color2',
 								value: 'hsl(69, 67%, 51%)',
-								usage: 'Buttons, profile avatars',
+								usage: 'Buttons, profile avatars'
 							},
 							{
 								name: 'color3',
 								value: 'hsl(36, 96%, 54%)',
 								usage:
-									'Selections, checkboxes, selected state for dropdowns, active tab underlines',
+									'Selections, checkboxes, selected state for dropdowns, active tab underlines'
 							},
 							{
 								name: 'color4',
 								value: 'hsl(205, 7%, 45%)',
 								usage:
-									'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree',
-							},
-						],
-					},
-				],
+									'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree'
+							}
+						]
+					}
+				]
 			}),
 			data: {
-				version: '0.0.1',
-			},
+				version: '0.0.1'
+			}
 		},
 		Typography: {
 			tpl: require('../../../../lib/ejs-loader!../../../pages/typography.html.ejs')({
@@ -159,19 +159,20 @@ const pages = {
 							'Include <code>_typography.abstract.scss</code> in your SASS build.',
 							{
 								class: 'bullets',
-								intro: 'Initialize typography styles by doing one of the following:',
+								intro:
+									'Initialize typography styles by doing one of the following:',
 								list: [
 									'<em>Basic</em>: Include <code>_typography.init.scss</code> into your SASS build.',
-									'<em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.',
-								],
-							},
-						],
-					},
-				},
+									'<em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.'
+								]
+							}
+						]
+					}
+				}
 			}),
 			data: {
-				version: '0.0.1',
-			},
+				version: '0.0.1'
+			}
 		},
 		Rhythm: {
 			tpl: require('../../../../lib/ejs-loader!../../../pages/rhythm.html.ejs')({
@@ -180,18 +181,18 @@ const pages = {
 					npmPath: '@directscale/rhythm',
 					intro:
 						'<p>DS UI Rhythm provides an easy way to apply and manage vertical and horizontal spacing anywhere. Rhythm is founded on <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">good principles of typography</a>, fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetition and familiarity</a> throughout the UI, and makes any layout more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>.</p><p>For a demonstration of Rhythm in action: <br><button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Toggle Rhythm grid</button></p><p class="font__reset">Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That\'s Rhythm.</p>',
-					related: ['Typography', 'Rhythm'],
-				},
+					related: ['Typography']
+				}
 			}),
 			data: {
-				version: '0.0.1',
-			},
-		},
+				version: '0.0.1'
+			}
+		}
 	},
 	about: {
-		'Including Assets': '',
+		'Including Assets': ''
 	},
-	404: require('../../../pages/404.tpl.html'),
+	404: require('../../../pages/404.tpl.html')
 };
 
 pageConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -219,12 +220,12 @@ function pageConfig($stateProvider, $urlRouterProvider) {
 	function createRoute(name, page = {}) {
 		if (typeof page === 'string') {
 			page = {
-				tpl: page,
+				tpl: page
 			};
 		}
 		page.data = Object.assign(
 			{
-				pageTitle: page.section === 'about' ? 'About DS UI' : name,
+				pageTitle: page.section === 'about' ? 'About DS UI' : name
 			},
 			page.data || {}
 		);
@@ -241,12 +242,12 @@ function pageConfig($stateProvider, $urlRouterProvider) {
 			views: {
 				content: {
 					template: page.tpl,
-					controller: 'appCtrl as app',
-				},
+					controller: 'appCtrl as app'
+				}
 			},
 			// @todo  Find way to split ejs and angularjs data so 1) we don't have to provide all
 			//     ejs data here, and 2) it stays DRY.
-			data: page.data,
+			data: page.data
 		};
 		$stateProvider.state(pageName, routeConfig);
 	}

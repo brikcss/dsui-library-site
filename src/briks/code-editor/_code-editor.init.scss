@@ -86,7 +86,8 @@
 		border-color: c(dark4);
 		border-width: 1px 1px 0;
 		border-style: solid;
-		padding: 2rem;
+		// stylelint-disable-next-line declaration-property-unit-whitelist
+		padding: calc(2rem - 1px) 2rem 2rem;
 		position: relative;
 	}
 

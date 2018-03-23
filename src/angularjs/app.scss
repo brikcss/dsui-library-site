@@ -177,8 +177,7 @@ li {
 	.tabs__buttons {
 		background-color: hsl(0, 0%, 100%);
 		border-bottom: 1px solid c(dark4);
-		// stylelint-disable-next-line declaration-property-unit-whitelist
-		height: calc(6rem - 1px);
+		height: 6rem;
 		position: relative;
 		z-index: 40;
 	}
