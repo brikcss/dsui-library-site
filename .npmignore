@@ -1,15 +1,6 @@
 ### ------------------------------------------------------------------------------------------------
-##  @filename  .gitignore
+##  @filename  .npmignore
 ##  @author  brikcss  <https://github.com/brikcss>
-##  @description  https://git-scm.com/docs/gitignore
+##  @description  https://docs.npmjs.com/misc/developers#keeping-files-out-of-your-package
 ### ------------------------------------------------------------------------------------------------
 
-# Node
-node_modules
-
-# MacOS
-.DS_Store
-
-# App
-dist
-.temp

@@ -25,9 +25,9 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "node ./lib/git-hooks/lint-staged-files.js --css=.css,.scss --js=.js,.xjs,.xjson --json=.json",
-			"commit-msg": "commitlint -e $GIT_PARAMS && . ./lib/git-hooks/add-branch-stamp.sh ${GIT_PARAMS}",
-			"pre-push": ". ./lib/git-hooks/check-stage.sh && echo \"\n Pushing code...\""
+			"pre-commit": "node ./node_modules/.bin/pre-commit-lint",
+			"commit-msg": "commitlint -e $GIT_PARAMS && . ./node_modules/.bin/commit-msg-stamp-branch ${GIT_PARAMS}",
+			"pre-push": ". ./node_modules/.bin/pre-push-check-stage && echo \"\n[ok] Pushing code...\""
 		}
 	},
 	"scripts": {
@@ -69,6 +69,7 @@
 	},
 	"devDependencies": {
 		"@brikcss/eslint-config": "0.1.3",
+		"@brikcss/git-hooks": "1.x",
 		"@brikcss/stylelint-config-css": "0.0.7",
 		"@brikcss/stylelint-config-sass": "0.0.10",
 		"@commitlint/cli": "6.x",
@@ -90,7 +91,6 @@
 		"gh-pages": "1.1.0",
 		"highlight.js": "9.12.0",
 		"html-loader": "0.5.5",
-		"husky": "0.15.0-rc.8",
 		"markdown-loader": "2.0.2",
 		"mocha": "4.x",
 		"mocha-better-spec-reporter": "3.x",

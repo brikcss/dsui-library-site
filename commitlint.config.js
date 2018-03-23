@@ -1,3 +1,9 @@
+/** ------------------------------------------------------------------------------------------------
+ *  @filename  commitlint.config.js
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  http://marionebl.github.io/commitlint/#/reference-configuration
+ ** --------------------------------------------------------------------------------------------- */
+
 module.exports = {
 	rules: {
 		'body-leading-blank': [2, 'always'],
@@ -13,7 +19,9 @@ module.exports = {
 			'always',
 			[
 				'feat',
+				'feature',
 				'fix',
+				'patch',
 				'docs',
 				'style',
 				'refactor',
@@ -21,11 +29,12 @@ module.exports = {
 				'revert',
 				'build',
 				'perf',
+				'performance',
 				'tools',
-				'chore',
-			],
+				'chore'
+			]
 		],
 		'type-case': [2, 'always', 'lowerCase'],
-		'type-empty': [2, 'never'],
-	},
+		'type-empty': [2, 'never']
+	}
 };
