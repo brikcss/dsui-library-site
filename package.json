@@ -31,7 +31,7 @@
 		}
 	},
 	"scripts": {
-		"compile:homepage": "tim ejs src/angularjs/home.html --output=dist/angularjs/index.html",
+		"compile:homepage": "stak src/angularjs/home.html --output=dist/angularjs/index.html --bundlers=@brikcss/stakcss-bundler-ejs",
 		"compile:js": "tim js",
 		"compile:pkg": "tim xjson src/package.xjson --output=package.json",
 		"compile:sass": "tim sass",
@@ -59,7 +59,7 @@
 		"test:unit": "mocha './**/*.spec.js' --reporter=mocha-better-spec-reporter --colors",
 		"watch": "concurrently --raw \"npm run watch:js\" \"npm run watch:sass\" \"npm run watch:templates\" \"npm run watch:config\" \"npm run watch:brikrc\"",
 		"watch:brikrc": "chokidar ./.brikrc.js --command \"npm run dev\"",
-		"watch:homepage": "chokidar \"./src/**/*.ejs.html\" \"./src/angularjs/home.html\" --command \"npm run compile:homepage\"",
+		"watch:homepage": "npm run compile:homepage -- --watch",
 		"watch:js": "tim js --watch",
 		"watch:jslint": "chokidar src/**/*.{.js,.xjs,.xjson} --command 'node_modules/.bin/eslint {path} --format=stylish && npm run postjslint'",
 		"watch:pkg": "chokidar ./src/package.xjson --command \"tim xjson {path} --output=./package.json\"",
@@ -70,8 +70,9 @@
 	"devDependencies": {
 		"@brikcss/eslint-config": "0.x",
 		"@brikcss/git-hooks": "1.x",
-		"@brikcss/stakcss": "0.2.0",
+		"@brikcss/stakcss": "0.x",
 		"@brikcss/stakcss-bundler-copy": "0.x",
+		"@brikcss/stakcss-bundler-ejs": "0.x",
 		"@brikcss/stylelint-config-css": "0.x",
 		"@brikcss/stylelint-config-sass": "0.x",
 		"@commitlint/cli": "6.x",
@@ -88,7 +89,6 @@
 		"commitizen": "2.x",
 		"concurrently": "3.x",
 		"cross-env": "5.x",
-		"ejs": "2.5.7",
 		"eslint": "4.x",
 		"gh-pages": "1.1.0",
 		"highlight.js": "9.12.0",
