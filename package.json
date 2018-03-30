@@ -31,7 +31,8 @@
 		}
 	},
 	"scripts": {
-		"start": "npm run build && concurrently --names=\" , \" \"npm run watch\" \"npm run serve\"",
+		"prestart": "npm run prebuild && concurrently \"npm run compile:sass\" \"npm run compile:homepage\" \"npm run copy:fonts\" \"npm run copy:assets\"",
+		"start": "concurrently \"npm run watch\" \"npm run serve\"",
 		"pretest": "echo \"\nRunning tests...\n\" && npm run build",
 		"test": "cross-env NODE_ENV=production concurrently --kill-others-on-fail --names=sass,js \"npm run lint:sass\" \"npm run lint:js\"",
 		"posttest": "echo \"\n[ok] Tests complete.\n\"",
@@ -57,6 +58,7 @@
 		"watch:sass": "npm run compile:sass -- --watch"
 	},
 	"devDependencies": {
+		"@brikcss/core": "0.x",
 		"@brikcss/eslint-config": "0.x",
 		"@brikcss/git-hooks": "1.x",
 		"@brikcss/stakcss": "0.x",

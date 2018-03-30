@@ -1,5 +1,6 @@
 # To dos
 
+- Minify code in production (when publishing).
 - Core: Publish each core component:
 	- Do the following for each:
 		- Standardize variable names to match BEM.
