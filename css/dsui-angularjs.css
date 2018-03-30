@@ -124,7 +124,7 @@
  *
  *  @param  {color}  $bg: hsla(0, 0%, 0%, 0.1)  Background color.
  *  @param  {number}  $size: 1rem  Size of grid.
- *  @param  {boolean}  $double: false  Double the grid lines and add 50% stops that are lighter.
+ *  @param  {boolean}  $double: true  Double the grid lines and add 50% stops that are lighter.
  */
 /** ------------------------------------------------------------------------------------------------
  *  @filename  _typography.abstract.scss
@@ -281,24 +281,220 @@
  *      from off-canvas.
  */
 /** ------------------------------------------------------------------------------------------------
- *  @filename  _core.init.scss
+ *  @filename  index.scss
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Initialize core components.
- *  @dependencies
- *  	- core/browser-reset
- *  	- core/colors
- *  	- core/typography
- *  	- core/rhythm
- *  	- core/spacing
+ *  @description  Import file for @brikcss/core.
  ** --------------------------------------------------------------------------------------------- */
 /** ------------------------------------------------------------------------------------------------
- *  @filename  _reset.init.scss
+ *  @filename  _rhythm.abstract.scss
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  Simple CSS browser reset.
+ *  @description  Allows us to easily create and manage a repeatable dimensional rhythm (see
+ *      https://webdesign.tutsplus.com/articles/improving-layout-with-vertical-rhythm--webdesign-14070).
+ *
+ *  @tutorial  These concepts are based on a "vertical" rhythm, but apply to horizontal dimensions
+ *      as well. It is extremely important to follow these rules in order to keep the grid "in
+ *      rhythm".
+ *      - Definitions:
+ *          - List of "dimensional properties": height, width, margin, padding, line-height, border.
+ *          - 1rem = 1 vertical line unit.
+ *          - 1em = 1 base font size unit.
+ *      - Rules:
+ *          - ALWAYS use `rem` units for dimensional properties.
+ *          - ALWAYS use `em` units for the `font-size` property.
+ *          - Whole numbers should be **highly** favored when applying `rem` units.
+ *          - If desired, fractional numbers may be applied, but **only** in divisions of two (2).
+ *            In other words, a `rem` unit can be applied in fractional divisions of 2, 4, 8, 16,
+ *            etc. However, it is strongly discouraged to apply fractional numbers in divisions of
+ *            more than 4. To illustrate:
+ *              ```
+ *              1rem // Whole numbers should be **highly** favored.
+ *              3.5rem // Acceptable, division of 2.
+ *              10.25rem // Acceptable, division of 4.
+ *              10.33rem // Unacceptable, division of 3. Fractionals must be in divisions of 2.
+ *              10.634574rem // Unacceptable, fractional numbers must be divisions of 2.
+ *              10.125rem // Acceptable but discouraged, since division of 8 is > division of 4.
+ *              ```
+ *          - There may be cases where it is necessary to break the rules above and apply a
+ *            dimension that throws the grid out of rhythm. Examples might be an element
+ *            that needs a 1px border, or an image that must have a certain pixel height. In such
+ *            cases, follow these guidelines:
+ *              - First, avoid doing so if at all possible. Use proper rem values wherever possible
+ *                as it simplifies managing the grid.
+ *              - If breaking the rules is necessary, apply this rule to ensure the grid
+ *                stays in rhythm: The sum of all "dimensional properties" (which are listed above)
+ *                must equal a whole rem unit.
+ *              - Examples where it might be necessary to break the rules and how the above rule
+ *                might be applied:
+ *                  ```
+ *                  // The border for this element absolutely must be 1px.
+ *                  .pixel-border {
+ *                      border: 1px solid hsl(0, 0, 80%);
+ *                      // Bring back into rhythm with the `calc()` function:
+ *                      // height = 3rem minus 1px for top border and 1px for bottom border.
+ *                      height: calc(3rem - 2px);
+ *                  }
+ *
+ *                  // This image must be 300px tall. To ensure the element stays in rhythm, a
+ *                  // margin (or padding) can be applied to bring the sum of height + margin = the
+ *                  // value of a whole number rem unit. Let's assume that a vertical line is 32px.
+ *                  // A height of 300px (which is 9.375rem in a 32px rhythm) + (0.3125rem * 2)
+ *                  // equals 10rem. With a 300px tall image, we're still "in rhythm"!
+ *                  .pixel-image {
+ *                      height: 300px;
+ *                      margin-bottom: 0.3125rem;
+ *                      margin-top: 0.3125rem;
+ *                  }
+ *                  ```
+ ** --------------------------------------------------------------------------------------------- */
+/**
+ *  Look up rhythm value at a given breakpoint.
+ *
+ *  @param   {number}  $at:  nth(nth($rhythm__queries, 1), 2)  Breakpoint to look up.
+ *  @param   {string}  $property  line-height  Rhythm property to look up (line-height|font-size).
+ *  @param   {map}  $rhythms:  $rhythm__queries  List of rhythm queries to be searched.
+ *  @return  {number}  $property at given $at width from map of $rhythms.
+ */
+/**
+ *  Convert px to rem value.
+ *
+ *  @param   {number}  $px:  1  Pixel value to convert to rems.
+ *  @param   {number}  $at:  0  Breakpoint to look up.
+ *  @param   {map}  $rhythms:  $rhythm__queries  List of rhythm queries to be searched.
+ *  @return  {number}  Value in rems.
+ */
+/**
+ *  Apply multiple rhythm values at a set of given breakpoints.
+ *
+ *  @param  {map}  $rhythms: $rhythm__queries  Map of rhythm breakpoints and values.
+ */
+/**
+ *  Apply rhythm to the html element (or optionally to your own selector).
+ *
+ *  @param  {number}  $rhythm: px-rhythm(0)  Pixel value of rhythm to be applied.
+ *  @param  {number}  $at: 0  Pixel value of breakpoint to apply rhythm at.
+ *  @param  {number}  $line-height: $rhythm__line-height  Rem value of default line-height.
+ *  @param  {boolean}  $tags: true  Whether to apply rhythm to the html tag.
+ */
+/**
+ *  Styles for a rhythm grid.
+ *
+ *  @param  {color}  $bg: hsla(0, 0%, 0%, 0.1)  Background color.
+ *  @param  {number}  $size: 1rem  Size of grid.
+ *  @param  {boolean}  $double: true  Double the grid lines and add 50% stops that are lighter.
+ */
+/** ------------------------------------------------------------------------------------------------
+ *  @filename  _colors.abstract.scss
+ *  @author  brikcss  <https://github.com/brikcss>
+ ** --------------------------------------------------------------------------------------------- */
+/**
+ *  Helper function which looks up a color from $colors__vars or $colors maps.
+ *
+ *  @param   {string}  $name  Name of color to look up.
+ *  @return  {color}  Color value of the color $name.
+ */
+/**
+ *  Apply a light or dark text color value based on a given background color.
+ *
+ *  @param   {color|string}  $bg  Background color the text color will be on.
+ *  @param   {number}  $level:  1  Level of light/dark value to look up. For example, if $level is
+ *      2, return value will be the light2 or dark2 value from the $colors map.
+ *  @return  {color}  Will return value of the map item called light + <level> or dark + <level>.
+ */
+/**
+ *  Apply background-color and color properties. Should replace any usage of background-color in app
+ *  code.
+ *
+ *  @param   {color|string}  $bg  Background color.
+ *  @param   {number}  $level:  1  Level of light/dark value to look up. For example, if $level is
+ *      2, return value will be the light2 or dark2 value from the $colors map.
+ */
+/** ------------------------------------------------------------------------------------------------
+ *  @filename  _typography.abstract.scss
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @dependencies  core/colors.abstract
+ ** --------------------------------------------------------------------------------------------- */
+/**
+ *  Apply a font size in ems from a given value which is one of the predefined $font__style-queries
+ *  or from a pixel value.
+ *
+ *  @param   {string|number|list}  $size  Size to convert to ems. A string will look up the font
+ *      query for that given style name. $size can also be a list of two values, where the first
+ *      value is $size and the second value is the size of its relative parent. The second value is
+ *      'body' by default, and is used as the base em size in converting $size to ems.
+ *  @param   {number}  $at:  0  Breakpoint / screen width for the base font size.
+ *  @param   {base}  $base-query:  $font__base-query  Base font query styles. You shouldn't need to
+ *      modify this.
+ *  @return  {number}  Font size value in ems (unless you pass a unit other than pixels, in which
+ *      case it will return that value and unit).
+ */
+/**
+ *  Look up a font query for a given breakpoint from a list of font queries.
+ *
+ *  @param  {string|list}  $base-query  $font__base-query  A string will look up the font style
+ *      query from $font__style-queries. It is recommended to always use a string since it utilizes
+ *      your predefined list of font styles. However, for flexibility, you may also pass a custom
+ *      font styles query.
+ *  @param  {number}  $at  0  Breakpoint / screen width for the base font styles.
+ *  @return  {list}  Font styles that match given breakpoint.
+ */
+/**
+ *  Apply base font styles.
+ */
+/**
+ *  Apply all font styles at breakpoints in a given font styles query.
+ *
+ *  @param   {string|list}  $font-query:  $font__base-query  List of font queries -- or name of list
+ *      from $font__style-queries -- to apply styles for.
+ *  @param   {boolean}  $px:  false  Whether to apply pixels. Should only be `true` when applying
+ *      base font sizes to the body tag.
+ *  @param   {string}  $size-only:  false  Whether to apply font-size or all font style properties.
+ */
+/**
+ *  INTERNAL: Apply a font style at a given breakpoint.
+ *
+ *  @param   {string|list}  $query-style  Font styles -- or name of font query from $font__style-queries at
+ *      specific $breakpoint -- to apply styles for.
+ *  @param   {number}  $at:  0  Breakpoint / screen width for the base font.
+ *  @param   {boolean}  $px:  false  Whether to apply pixels. Should only be `true` when applying
+ *      base font sizes to the body tag.
+ *  @param   {string}  $size-only:  false  Whether to apply font-size or all font style properties.
+ */
+/**
+ *  INTERNAL: Apply font styles for a given font query style.
+ *
+ *  @param   {list}  $query-style  Font styles to apply.
+ *  @param   {boolean}  $px:  false  Whether to apply pixels. Should only be `true` when applying
+ *      base font sizes to the body tag.
+ *  @param   {string}  $size-only:  false  Whether to apply font-size or all font style properties.
+ */
+/**
+ *  Apply class selectors for all font queries in a given font queries map.
+ *
+ *  @param   {map}  $font-queries:  $font__style-queries  Font queries map, formatted like $font__style-queries.
+ */
+/**
+ *  Apply a custom font face.
+ *
+ *  @param   {string}  $name  Name you want to refer to font face as.
+ *  @param   {string}  $path  Directory of font file.
+ *  @param   {number|string}  $weight:  400  Font weight.
+ *  @param   {string}  $style:  normal  Font style.
+ */
+/**
+ *  Applies a max-width $value to each $selector in the $map. This limits the length a line can be,
+ *  which helps to follow MD typography specifications.
+ *
+ *  @param   {map}  $map:  $font__line-lengths  Map key is $value and map value is $selectors to
+ *      apply a max-width $value to.
+ */
+/** ------------------------------------------------------------------------------------------------
+ *  @filename  _browser-reset.init.css
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  Brikcss CSS browser reset.
  *  @dependencies  None.
  ** --------------------------------------------------------------------------------------------- */
 /* stylelint-disable selector-max-type */
-/* line 9, src/briks/reset/_reset.init.scss */
+/* line 9, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 html,
 body,
 div,
@@ -355,7 +551,7 @@ video {
 	vertical-align: baseline;
 }
 
-/* line 65, src/briks/reset/_reset.init.scss */
+/* line 65, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 article,
 aside,
 figure,
@@ -366,7 +562,7 @@ section {
 	display: block;
 }
 
-/* line 75, src/briks/reset/_reset.init.scss */
+/* line 75, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 html {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
@@ -374,7 +570,7 @@ html {
 }
 
 /* stylelint-disable selector-max-universal */
-/* line 81, src/briks/reset/_reset.init.scss */
+/* line 81, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 *,
 *:before,
 *:after {
@@ -383,64 +579,64 @@ html {
 }
 
 /* stylelint-enable selector-max-universal */
-/* line 88, src/briks/reset/_reset.init.scss */
+/* line 88, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 img,
 object {
 	max-width: 100%;
 }
 
-/* line 93, src/briks/reset/_reset.init.scss */
+/* line 93, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 ul {
 	list-style: none;
 }
 
-/* line 97, src/briks/reset/_reset.init.scss */
+/* line 97, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
 
-/* line 102, src/briks/reset/_reset.init.scss */
+/* line 102, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 th {
 	font-weight: bold;
 	vertical-align: bottom;
 }
 
-/* line 107, src/briks/reset/_reset.init.scss */
+/* line 107, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 td {
 	font-weight: normal;
 	vertical-align: top;
 }
 
-/* line 112, src/briks/reset/_reset.init.scss */
+/* line 112, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 input,
 select {
 	vertical-align: middle;
 }
 
 /* stylelint-disable selector-no-qualifying-type */
-/* line 118, src/briks/reset/_reset.init.scss */
+/* line 118, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 input[type='radio'] {
 	vertical-align: text-bottom;
 }
 
-/* line 122, src/briks/reset/_reset.init.scss */
+/* line 122, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 input[type='checkbox'] {
 	vertical-align: bottom;
 }
 
-/* line 126, src/briks/reset/_reset.init.scss */
+/* line 126, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 strong {
 	font-weight: bold;
 }
 
-/* line 130, src/briks/reset/_reset.init.scss */
+/* line 130, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 label,
 input[type='file'] {
 	cursor: pointer;
 }
 
-/* line 135, src/briks/reset/_reset.init.scss */
+/* line 135, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 input,
 select,
 textarea {
@@ -448,7 +644,7 @@ textarea {
 	margin: 0;
 }
 
-/* line 142, src/briks/reset/_reset.init.scss */
+/* line 142, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 button,
 input[type='button'],
 input[type='submit'] {
@@ -461,29 +657,34 @@ input[type='submit'] {
 }
 
 /* stylelint-enable selector-no-qualifying-type */
-/* line 154, src/briks/reset/_reset.init.scss */
+/* line 154, node_modules/@brikcss/core/dist/sass/browser-reset/_browser-reset.init.css */
 button::-moz-focus-inner {
 	padding: 0;
 	border: 0;
 }
 
-/* line 171, src/briks/rhythm/_rhythm.abstract.scss */
+/** ------------------------------------------------------------------------------------------------
+ *  @filename  _rhythm.init.scss
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  Rhythm init.
+ ** --------------------------------------------------------------------------------------------- */
+/* line 176, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.abstract.scss */
 html {
 	font-size: 8px;
 }
 
-/* line 182, src/briks/rhythm/_rhythm.abstract.scss */
+/* line 187, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.abstract.scss */
 body {
 	line-height: 3rem;
 }
 
-/* line 23, src/angularjs/core/_core.init.scss */
+/* line 12, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.init.scss */
 .rhythm__grid {
 	background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0, transparent 1px, transparent 50%, rgba(0, 0, 0, 0.1) 50%, transparent calc(50% + 1px)), linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0, transparent 1px, transparent 50%, rgba(0, 0, 0, 0.1) 50%, transparent calc(50% + 1px));
 	background-size: 2rem 2rem;
 }
 
-/* line 2, src/briks/colors/_colors.init.scss */
+/* line 2, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 :root {
 	--color1: #62caea;
 	--color2: #bdd62e;
@@ -491,196 +692,196 @@ body {
 	--color4: #6b747b;
 }
 
-/* line 13, src/briks/colors/_colors.init.scss */
+/* line 13, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 body {
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__dark {
 	background-color: rgba(0, 0, 0, 0.87);
 	color: white;
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__dark1 {
 	background-color: rgba(0, 0, 0, 0.87);
 	color: white;
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__dark2 {
 	background-color: rgba(0, 0, 0, 0.54);
 	color: white;
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__dark3 {
 	background-color: rgba(0, 0, 0, 0.38);
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__dark4 {
 	background-color: rgba(0, 0, 0, 0.12);
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__light {
 	background-color: white;
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__light1 {
 	background-color: white;
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__light2 {
 	background-color: rgba(255, 255, 255, 0.7);
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__light3 {
 	background-color: rgba(255, 255, 255, 0.5);
 	color: white;
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__light4 {
 	background-color: rgba(255, 255, 255, 0.12);
 	color: white;
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__superbar {
 	background-color: #3a4d5f;
 	color: white;
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__superbar-icon {
 	background-color: #9ca6b0;
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__gray {
 	background-color: #e6e6e6;
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__color1 {
 	background-color: var(--color1);
 	color: white;
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__color2 {
-	background-color: var(--color2);
+	background-color: var(--color1);
 	color: white;
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__color3 {
-	background-color: var(--color3);
+	background-color: var(--color1);
 	color: white;
 }
 
-/* line 19, src/briks/colors/_colors.init.scss */
+/* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__color4 {
-	background-color: var(--color4);
+	background-color: var(--color1);
 	color: white;
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__dark {
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__dark1 {
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__dark2 {
 	color: rgba(0, 0, 0, 0.54);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__dark3 {
 	color: rgba(0, 0, 0, 0.38);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__dark4 {
 	color: rgba(0, 0, 0, 0.12);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__light {
 	color: white;
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__light1 {
 	color: white;
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__light2 {
 	color: rgba(255, 255, 255, 0.7);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__light3 {
 	color: rgba(255, 255, 255, 0.5);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__light4 {
 	color: rgba(255, 255, 255, 0.12);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__superbar {
 	color: #3a4d5f;
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__superbar-icon {
 	color: #9ca6b0;
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__gray {
 	color: #e6e6e6;
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__color1 {
 	color: var(--color1);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__color2 {
-	color: var(--color2);
+	color: var(--color1);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__color3 {
-	color: var(--color3);
+	color: var(--color1);
 }
 
-/* line 27, src/briks/colors/_colors.init.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__color4 {
-	color: var(--color4);
+	color: var(--color1);
 }
 
 /** ------------------------------------------------------------------------------------------------
@@ -716,26 +917,26 @@ body {
 	src: url("./fonts/RobotoMono-Regular.woff2") format("woff2"), url("./fonts/RobotoMono-Regular.woff") format("woff"), url("./fonts/RobotoMono-Regular.ttf") format("truetype");
 }
 
-/* line 249, src/briks/typography/_typography.abstract.scss */
+/* line 251, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 body {
 	font-size: 14px;
 	color: rgba(0, 0, 0, 0.87);
 	font-family: "Roboto", sans-serif;
 }
 
-/* line 361, src/briks/typography/_typography.abstract.scss */
+/* line 369, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__reset-size {
 	font-size: 14px;
 }
 
-/* line 365, src/briks/typography/_typography.abstract.scss */
+/* line 373, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__reset {
 	font-size: 14px;
 	color: rgba(0, 0, 0, 0.87);
 	font-family: "Roboto", sans-serif;
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__display4 {
 	font-size: 8em;
 	color: rgba(0, 0, 0, 0.54);
@@ -744,7 +945,7 @@ body {
 	letter-spacing: -0.04em;
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__display3 {
 	font-size: 4em;
 	line-height: 8rem;
@@ -752,27 +953,27 @@ body {
 	letter-spacing: -0.02em;
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__display2 {
 	font-size: 3.21429em;
 	line-height: 6rem;
 	color: rgba(0, 0, 0, 0.54);
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__display1 {
 	font-size: 2.42857em;
 	line-height: 5rem;
 	color: rgba(0, 0, 0, 0.54);
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__headline {
 	font-size: 1.71429em;
 	line-height: 4rem;
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__title {
 	font-size: 1.42857em;
 	font-weight: 500;
@@ -780,58 +981,58 @@ body {
 	letter-spacing: 0.02em;
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__subheading {
 	font-size: 1.14286em;
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__body {
 	font-size: 1em;
 	color: rgba(0, 0, 0, 0.87);
 	font-family: "Roboto", sans-serif;
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__bold {
 	font-size: 1em;
 	font-weight: 500;
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__button {
 	font-size: 1em;
 	font-weight: 500;
 	text-transform: uppercase;
 }
 
-/* line 371, src/briks/typography/_typography.abstract.scss */
+/* line 379, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__caption {
 	font-size: 0.85714em;
 	color: rgba(0, 0, 0, 0.54);
 }
 
-/* line 410, src/briks/typography/_typography.abstract.scss */
+/* line 418, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 p {
 	max-width: 60ex;
 }
 
-/* line 410, src/briks/typography/_typography.abstract.scss */
+/* line 418, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 li {
 	max-width: 60ex;
 }
 
-/* line 410, src/briks/typography/_typography.abstract.scss */
+/* line 418, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 dt {
 	max-width: 60ex;
 }
 
-/* line 410, src/briks/typography/_typography.abstract.scss */
+/* line 418, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 dd {
 	max-width: 60ex;
 }
 
-/* line 410, src/briks/typography/_typography.abstract.scss */
+/* line 418, node_modules/@brikcss/core/dist/sass/typography/_typography.abstract.scss */
 .font__short-line {
 	max-width: 40ex;
 }
@@ -1302,520 +1503,520 @@ tabs {
 	margin-left: 4rem;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .p-0 {
 	padding: 0 !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .px-0 {
 	padding-left: 0 !important;
 	padding-right: 0 !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .py-0 {
 	padding-bottom: 0 !important;
 	padding-top: 0 !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pl-0 {
 	padding-left: 0 !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pr-0 {
 	padding-right: 0 !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pb-0 {
 	padding-bottom: 0 !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pt-0 {
 	padding-top: 0 !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .m-0 {
 	margin: 0 !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mx-0 {
 	margin-left: 0 !important;
 	margin-right: 0 !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .my-0 {
 	margin-bottom: 0 !important;
 	margin-top: 0 !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .ml-0 {
 	margin-left: 0 !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mr-0 {
 	margin-right: 0 !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mb-0 {
 	margin-bottom: 0 !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mt-0 {
 	margin-top: 0 !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .p-0-5 {
 	padding: 0.5rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .px-0-5 {
 	padding-left: 0.5rem !important;
 	padding-right: 0.5rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .py-0-5 {
 	padding-bottom: 0.5rem !important;
 	padding-top: 0.5rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pl-0-5 {
 	padding-left: 0.5rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pr-0-5 {
 	padding-right: 0.5rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pb-0-5 {
 	padding-bottom: 0.5rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pt-0-5 {
 	padding-top: 0.5rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .m-0-5 {
 	margin: 0.5rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mx-0-5 {
 	margin-left: 0.5rem !important;
 	margin-right: 0.5rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .my-0-5 {
 	margin-bottom: 0.5rem !important;
 	margin-top: 0.5rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .ml-0-5 {
 	margin-left: 0.5rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mr-0-5 {
 	margin-right: 0.5rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mb-0-5 {
 	margin-bottom: 0.5rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mt-0-5 {
 	margin-top: 0.5rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .p-1 {
 	padding: 1rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .px-1 {
 	padding-left: 1rem !important;
 	padding-right: 1rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .py-1 {
 	padding-bottom: 1rem !important;
 	padding-top: 1rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pl-1 {
 	padding-left: 1rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pr-1 {
 	padding-right: 1rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pb-1 {
 	padding-bottom: 1rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pt-1 {
 	padding-top: 1rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .m-1 {
 	margin: 1rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mx-1 {
 	margin-left: 1rem !important;
 	margin-right: 1rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .my-1 {
 	margin-bottom: 1rem !important;
 	margin-top: 1rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .ml-1 {
 	margin-left: 1rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mr-1 {
 	margin-right: 1rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mb-1 {
 	margin-bottom: 1rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mt-1 {
 	margin-top: 1rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .p-1-5 {
 	padding: 1.5rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .px-1-5 {
 	padding-left: 1.5rem !important;
 	padding-right: 1.5rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .py-1-5 {
 	padding-bottom: 1.5rem !important;
 	padding-top: 1.5rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pl-1-5 {
 	padding-left: 1.5rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pr-1-5 {
 	padding-right: 1.5rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pb-1-5 {
 	padding-bottom: 1.5rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pt-1-5 {
 	padding-top: 1.5rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .m-1-5 {
 	margin: 1.5rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mx-1-5 {
 	margin-left: 1.5rem !important;
 	margin-right: 1.5rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .my-1-5 {
 	margin-bottom: 1.5rem !important;
 	margin-top: 1.5rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .ml-1-5 {
 	margin-left: 1.5rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mr-1-5 {
 	margin-right: 1.5rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mb-1-5 {
 	margin-bottom: 1.5rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mt-1-5 {
 	margin-top: 1.5rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .p-2 {
 	padding: 2rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .px-2 {
 	padding-left: 2rem !important;
 	padding-right: 2rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .py-2 {
 	padding-bottom: 2rem !important;
 	padding-top: 2rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pl-2 {
 	padding-left: 2rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pr-2 {
 	padding-right: 2rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pb-2 {
 	padding-bottom: 2rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pt-2 {
 	padding-top: 2rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .m-2 {
 	margin: 2rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mx-2 {
 	margin-left: 2rem !important;
 	margin-right: 2rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .my-2 {
 	margin-bottom: 2rem !important;
 	margin-top: 2rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .ml-2 {
 	margin-left: 2rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mr-2 {
 	margin-right: 2rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mb-2 {
 	margin-bottom: 2rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mt-2 {
 	margin-top: 2rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .p-3 {
 	padding: 3rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .px-3 {
 	padding-left: 3rem !important;
 	padding-right: 3rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .py-3 {
 	padding-bottom: 3rem !important;
 	padding-top: 3rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pl-3 {
 	padding-left: 3rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pr-3 {
 	padding-right: 3rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pb-3 {
 	padding-bottom: 3rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pt-3 {
 	padding-top: 3rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .m-3 {
 	margin: 3rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mx-3 {
 	margin-left: 3rem !important;
 	margin-right: 3rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .my-3 {
 	margin-bottom: 3rem !important;
 	margin-top: 3rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .ml-3 {
 	margin-left: 3rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mr-3 {
 	margin-right: 3rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mb-3 {
 	margin-bottom: 3rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mt-3 {
 	margin-top: 3rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .p-4 {
 	padding: 4rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .px-4 {
 	padding-left: 4rem !important;
 	padding-right: 4rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .py-4 {
 	padding-bottom: 4rem !important;
 	padding-top: 4rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pl-4 {
 	padding-left: 4rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pr-4 {
 	padding-right: 4rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pb-4 {
 	padding-bottom: 4rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .pt-4 {
 	padding-top: 4rem !important;
 }
 
-/* line 7, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 7, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .m-4 {
 	margin: 4rem !important;
 }
 
-/* line 10, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 10, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mx-4 {
 	margin-left: 4rem !important;
 	margin-right: 4rem !important;
 }
 
-/* line 14, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 14, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .my-4 {
 	margin-bottom: 4rem !important;
 	margin-top: 4rem !important;
 }
 
-/* line 18, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 18, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .ml-4 {
 	margin-left: 4rem !important;
 }
 
-/* line 21, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 21, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mr-4 {
 	margin-right: 4rem !important;
 }
 
-/* line 24, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 24, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mb-4 {
 	margin-bottom: 4rem !important;
 }
 
-/* line 27, src/briks/rhythm/_rhythm.utilities.scss */
+/* line 27, node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss */
 .mt-4 {
 	margin-top: 4rem !important;
 }
