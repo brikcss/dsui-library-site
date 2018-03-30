@@ -34,4 +34,3 @@
 		- How to install from NPM.
 		- FAQ
 - Publish `@brikcss/rollup-plugin-ejs` to NPM.
-- Remove chokidar in favor of watch-cli. Need to be able to pass {path} to only lint changed files.

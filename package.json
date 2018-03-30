@@ -74,7 +74,6 @@
 		"babel-plugin-external-helpers": "6.x",
 		"babel-preset-env": "1.x",
 		"browser-sync": "2.x",
-		"chokidar-cli": "1.x",
 		"concurrently": "3.x",
 		"cross-env": "5.x",
 		"eslint": "4.x",
