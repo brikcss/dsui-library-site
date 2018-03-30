@@ -2,7 +2,7 @@
 	:root {
 		@each $key, $value in $colors__vars {
 			@if length($value) > 1 {
-				--#{$key}: nth($value, 1);
+				--#{$key}: #{nth($value, 1)};
 			} @else {
 				--#{$key}: $value;
 			}

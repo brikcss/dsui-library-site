@@ -1,29 +1,35 @@
+import resetTpl from '../../../pages/browser-reset.tpl.ejs';
+import colorsTpl from '../../../pages/colors.html.ejs';
+import typographyTpl from '../../../pages/typography.html.ejs';
+import rhythmTpl from '../../../pages/rhythm.html.ejs';
+import homeTpl from '../../../pages/home.tpl.html';
+import getStartedTpl from '../../../pages/getting-started.tpl.html';
+import errorTpl from '../../../pages/404.tpl.html';
+
 const pages = {
-	Home: require('../../../pages/home.tpl.html'),
-	'Getting Started': require('../../../pages/getting-started.tpl.html'),
+	Home: homeTpl,
+	'Getting Started': getStartedTpl,
 	core: {
 		'Browser Reset': {
-			tpl: require('../../../../lib/ejs-loader?key=one&two=three!../../../pages/browser-reset.tpl.ejs')(
-				{
-					brik: {
-						name: 'Browser Reset',
-						npmPath: '@directscale/reset',
-						intro:
-							'<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include this in their codebase.</em></p>',
-						related: ['Typography', 'Links', 'Rhythm'],
-						setup: {
-							summary:
-								'<p>Include <code>_reset.init.scss</code> as the first CSS-producing file (after abstract code) in your SASS build. No other steps are necessary.</p>'
-						}
+			tpl: resetTpl({
+				brik: {
+					name: 'Browser Reset',
+					npmPath: '@directscale/reset',
+					intro:
+						'<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include this in their codebase.</em></p>',
+					related: ['Typography', 'Links', 'Rhythm'],
+					setup: {
+						summary:
+							'<p>Include <code>_reset.init.scss</code> as the first CSS-producing file (after abstract code) in your SASS build. No other steps are necessary.</p>'
 					}
 				}
-			),
+			}),
 			data: {
 				version: '0.0.1'
 			}
 		},
 		Colors: {
-			tpl: require('../../../../lib/ejs-loader!../../../pages/colors.html.ejs')({
+			tpl: colorsTpl({
 				brik: {
 					name: 'Colors',
 					intro:
@@ -146,7 +152,7 @@ const pages = {
 			}
 		},
 		Typography: {
-			tpl: require('../../../../lib/ejs-loader!../../../pages/typography.html.ejs')({
+			tpl: typographyTpl({
 				brik: {
 					name: 'Typography',
 					npmPath: '@directscale/typography',
@@ -175,7 +181,7 @@ const pages = {
 			}
 		},
 		Rhythm: {
-			tpl: require('../../../../lib/ejs-loader!../../../pages/rhythm.html.ejs')({
+			tpl: rhythmTpl({
 				brik: {
 					name: 'Rhythm',
 					npmPath: '@directscale/rhythm',
@@ -192,7 +198,7 @@ const pages = {
 	about: {
 		'Including Assets': ''
 	},
-	404: require('../../../pages/404.tpl.html')
+	404: errorTpl
 };
 
 pageConfig.$inject = ['$stateProvider', '$urlRouterProvider'];

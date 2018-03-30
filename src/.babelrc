@@ -1,0 +1,15 @@
+{
+	"moduleId": "merge",
+	"presets": [
+		[
+			"env",
+			{
+				"targets": {
+					"browsers": ["last 2 versions", "> 2%"]
+				},
+				"modules": false
+			}
+		]
+	],
+	"plugins": ["external-helpers"]
+}
