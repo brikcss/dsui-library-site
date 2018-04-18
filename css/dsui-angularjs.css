@@ -3137,19 +3137,20 @@ li {
 	padding: 1rem;
 	font-size: 0.85714em;
 	color: rgba(0, 0, 0, 0.54);
+	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 403, src/angularjs/app.scss */
+/* line 404, src/angularjs/app.scss */
 .pg-colors__color-meta:empty {
 	padding: 0;
 }
 
-/* line 407, src/angularjs/app.scss */
+/* line 408, src/angularjs/app.scss */
 .pg-colors__color--dark .pg-colors__color-meta {
-	color: rgba(255, 255, 255, 0.7);
+	color: white;
 }
 
-/* line 413, src/angularjs/app.scss */
+/* line 414, src/angularjs/app.scss */
 .heading__separator {
 	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 	padding-bottom: calc(1rem - 2px);
