@@ -824,19 +824,19 @@ body {
 
 /* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__color2 {
-	background-color: var(--color1);
+	background-color: var(--color2);
 	color: white;
 }
 
 /* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__color3 {
-	background-color: var(--color1);
+	background-color: var(--color3);
 	color: white;
 }
 
 /* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .bg__color4 {
-	background-color: var(--color1);
+	background-color: var(--color4);
 	color: white;
 }
 
@@ -851,7 +851,7 @@ body {
 }
 
 /* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
-.color__dark2 {
+.color__dark2, .heading__separator {
 	color: rgba(0, 0, 0, 0.54);
 }
 
@@ -912,17 +912,17 @@ body {
 
 /* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__color2 {
-	color: var(--color1);
+	color: var(--color2);
 }
 
 /* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__color3 {
-	color: var(--color1);
+	color: var(--color3);
 }
 
 /* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
 .color__color4 {
-	color: var(--color1);
+	color: var(--color4);
 }
 
 /** ------------------------------------------------------------------------------------------------
@@ -3065,8 +3065,8 @@ li {
 	display: flex;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
-	margin-left: -1rem;
-	margin-right: -1rem;
+	margin-left: -1.5rem;
+	margin-right: -1.5rem;
 }
 
 /* line 361, src/angularjs/app.scss */
@@ -3079,6 +3079,8 @@ li {
 
 /* line 369, src/angularjs/app.scss */
 .pg-colors__color {
+	-webkit-box-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.3);
+	box-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.3);
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -3092,11 +3094,10 @@ li {
 	-webkit-box-pack: center;
 	-ms-flex-pack: center;
 	justify-content: center;
-	border: 0.125rem solid rgba(0, 0, 0, 0.38);
 	width: 20rem;
 	line-height: 2rem;
-	margin-left: 1rem;
-	margin-right: 1rem;
+	margin-left: 1.5rem;
+	margin-right: 1.5rem;
 }
 
 /* line 380, src/angularjs/app.scss */
@@ -3108,10 +3109,6 @@ li {
 /* line 385, src/angularjs/app.scss */
 .pg-colors__color-value {
 	font-size: 0.9em;
-}
-
-/* line 390, src/angularjs/app.scss */
-.pg-colors__color-value {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -3119,17 +3116,12 @@ li {
 	-webkit-box-direction: normal;
 	-ms-flex-direction: column;
 	flex-direction: column;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	height: 7.75rem;
+	height: 12rem;
 	width: 100%;
+	padding: 2rem;
 }
 
-/* line 399, src/angularjs/app.scss */
+/* line 395, src/angularjs/app.scss */
 .pg-colors__color-meta {
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -3147,14 +3139,20 @@ li {
 	color: rgba(0, 0, 0, 0.54);
 }
 
-/* line 407, src/angularjs/app.scss */
+/* line 403, src/angularjs/app.scss */
 .pg-colors__color-meta:empty {
 	padding: 0;
 }
 
-/* line 411, src/angularjs/app.scss */
+/* line 407, src/angularjs/app.scss */
 .pg-colors__color--dark .pg-colors__color-meta {
 	color: rgba(255, 255, 255, 0.7);
+}
+
+/* line 413, src/angularjs/app.scss */
+.heading__separator {
+	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+	padding-bottom: calc(1rem - 2px);
 }
 
 /*# sourceMappingURL=dsui-angularjs.css.map */
