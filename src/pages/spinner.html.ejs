@@ -78,13 +78,32 @@
 			<pre>&lt;spinner options="{mods: ['active']}">&lt;/spinner></pre>
 		</editor>
 
-		<h3 class="font__title heading__separator">Toggleable Spinner</h3>
+		<h3 class="font__title heading__separator">Toggling a Spinner</h3>
 		<p>Use the <code>ng-class</code> directive to activate and deactivate a spinner.</p>
 		<editor lang="html" live-preview="true" editable="true">
-			<pre>&lt;div data-ng-init="toggleableIsSpinning = true;">
-	&lt;spinner options="{mods: ['active']}" data-ng-class="{'spinner--is-spinning':  toggleableIsSpinning}">&lt;/spinner>
-	&lt;button type="button" data-ng-click="toggleableIsSpinning = !toggleableIsSpinning">Toggle&lt;/button>
+			<pre>&lt;div data-ng-init="toggleableActive = true;">
+	&lt;spinner options="{mods: ['active']}" data-ng-class="{'spinner--is-spinning': toggleableActive}">&lt;/spinner>
+	&lt;button class="font__button" type="button" data-ng-click="toggleableActive = !toggleableActive">Toggle&lt;/button>
 &lt;/div></pre>
+		</editor>
+
+		<h3 class="font__title heading__separator">Inline Spinner</h3>
+		<editor lang="html,css" live-preview="true" editable="true">
+			<pre>&lt;button class="font__button my-inline-spinner" type="button" data-ng-click="inlineActive = !inlineActive" data-ng-init="inlineActive = true">
+	Inline Spinner
+	&lt;spinner options="{mods: ['active', 'inline']}" style="margin-left: 1rem;" data-ng-class="{'spinner--is-spinning':  inlineActive}">&lt;/spinner>
+&lt;/button>
+&lt;p>(Click to toggle spinner)&lt;/p></pre>
+			<pre>.my-inline-spinner {
+	background-color: hsla(0, 0%, 0%, 0.1);
+	display: inline-flex;
+	align-items: center;
+	padding: 1rem 2rem;
+}
+
+.my-inline-spinner .spinner {
+	margin-left: 1rem;
+}</pre>
 		</editor>
 	</div>
 </tabs>
