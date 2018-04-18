@@ -133,7 +133,7 @@ const pages = {
 					{
 						heading: 'Dynamic client colors',
 						description:
-							'The following color names are provided by DS for clients to choose their own color scheme (<em>note that these specific color values are DirectScale company colors, provided to illustrate how dynamic client colors work; these are NOT UX approved color values and should NOT be used in your app.</em>):',
+							'Dynamic client colors are four theme colors chosen by the client. <strong>These specific color values are NOT UX approved; they are provided to illustrate how dynamic client colors work, and how developers can use dynamic client colors in their code.</strong>',
 						colors: [
 							{
 								name: 'color1',

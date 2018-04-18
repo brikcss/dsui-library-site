@@ -391,7 +391,7 @@ li {
 			font-size: 0.9em;
 			display: flex;
 			flex-direction: column;
-			height: 12rem;
+			min-height: 12rem;
 			width: 100%;
 			padding: 2rem;
 		}
@@ -416,6 +416,10 @@ li {
 	}
 
 	&__color-name {
+		margin-bottom: 1rem;
+	}
+
+	&__color-hex {
 		margin-bottom: 1rem;
 	}
 }
