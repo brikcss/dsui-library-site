@@ -1,12 +1,11 @@
 <h3 class="font__title">Install</h3>
-<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>
 
+<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>
 <editor lang="bash">
-	<pre>npm install @directscale/core --save-dev</pre>
+	<pre>npm install @brikcss/core --save-dev</pre>
 </editor>
 
-<p>You may also install <%= data.brik.name %> on its own:</p>
-
+<p>You may also install <%= data.brik.name %> on its own:</p><% } %>
 <editor lang="bash">
 	<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>
 </editor>

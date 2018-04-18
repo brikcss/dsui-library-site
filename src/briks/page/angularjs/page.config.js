@@ -4,6 +4,7 @@ import typographyTpl from '../../../pages/typography.html.ejs';
 import rhythmTpl from '../../../pages/rhythm.html.ejs';
 import homeTpl from '../../../pages/home.tpl.html';
 import getStartedTpl from '../../../pages/getting-started.tpl.html';
+import spinnerTpl from '../../../pages/spinner.html.ejs';
 import errorTpl from '../../../pages/404.tpl.html';
 
 const pages = {
@@ -14,7 +15,8 @@ const pages = {
 			tpl: resetTpl({
 				brik: {
 					name: 'Browser Reset',
-					npmPath: '@directscale/reset',
+					npmPath: '@brikcss/reset',
+					isCore: true,
 					intro:
 						'<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include this in their codebase.</em></p>',
 					related: ['Typography', 'Links', 'Rhythm'],
@@ -32,10 +34,11 @@ const pages = {
 			tpl: colorsTpl({
 				brik: {
 					name: 'Colors',
+					isCore: true,
 					intro:
 						'<p>DS UI Colors provide an easy way to apply and manage all of your app\'s colors. Define colors once and reuse them everywhere. It also helps manage a "live theme" (i.e., client colors) using native CSS variables.</p>',
 					related: ['Typography'],
-					npmPath: '@directscale/colors'
+					npmPath: '@brikcss/colors'
 				},
 				colors: [
 					{
@@ -155,7 +158,8 @@ const pages = {
 			tpl: typographyTpl({
 				brik: {
 					name: 'Typography',
-					npmPath: '@directscale/typography',
+					npmPath: '@brikcss/typography',
+					isCore: true,
 					intro:
 						'<p>Instead of pixels, Material Design specs use <a href="https://material.io/guidelines/layout/units-measurements.html" title="Material Design sp and dp units">"sp" and "dp" units</a> to make pixels more responsive to various devices. DS UI Typography provides the mechanism for applying and managing responsive typography based on MD specs.</p>',
 					related: ['Colors', 'Lists', 'Links', 'Rhythm'],
@@ -184,10 +188,27 @@ const pages = {
 			tpl: rhythmTpl({
 				brik: {
 					name: 'Rhythm',
-					npmPath: '@directscale/rhythm',
+					npmPath: '@brikcss/rhythm',
+					isCore: true,
 					intro:
 						'<p>DS UI Rhythm provides an easy way to apply and manage vertical and horizontal spacing anywhere. Rhythm is founded on <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">good principles of typography</a>, fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetition and familiarity</a> throughout the UI, and makes any layout more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>.</p><p>For a demonstration of Rhythm in action: <br><button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Toggle Rhythm grid</button></p><p class="font__reset">Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That\'s Rhythm.</p>',
 					related: ['Typography']
+				}
+			}),
+			data: {
+				version: '0.0.1'
+			}
+		}
+	},
+	components: {
+		Spinner: {
+			tpl: spinnerTpl({
+				brik: {
+					name: 'Spinner',
+					npmPath: '@brikcss/spinner',
+					intro:
+						'<p>Spinner is a visual indicator that content on the page is loading. Spinner can optionally display the progress of an operation.</p>',
+					related: []
 				}
 			}),
 			data: {

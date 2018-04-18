@@ -1,0 +1,89 @@
+<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'About', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}">
+	<div>
+		<%- include partials/_intro.html.ejs %>
+
+		<h2 class="font__headline">Guidelines</h2>
+
+		<p class="font__subheading">We are working on this page.</p>
+	</div>
+
+	<div>
+		<%- include partials/_install.html.ejs %>
+	</div>
+
+	<div>
+		<h2 class="font__headline">JS Usage</h2>
+
+		<h3 class="font__title">Supported JS environments</h3>
+		<ul class="bullets">
+			<li>AngularJS (prebundled)</li>
+			<li>AngularJS (ES Modules)</li>
+			<li>ES Module</li>
+			<li>Vanilla JS</li>
+			<li>CommonJS</li>
+			<li>Universal Module (UMD)</li>
+		</ul>
+
+		<h3 class="font__title">Spinner API</h3>
+		<ul class="bullets">
+			<li><strong><code>all</code></strong>: Access all spinner instances, grouped by ID.</li>
+			<li><strong><code>Spinner.create(element, options)</code></strong>: Create a spinner instance.</li>
+			<li><strong><code>Spinner.toggle(id)</code></strong>: Toggle a spinner instance.</li>
+			<li><strong><code>Spinner.load(id)</code></strong>: Load / activate a spinner instance.</li>
+			<li><strong><code>Spinner.unload(id)</code></strong>: Unload / deactivate a spinner instance.</li>
+			<li><strong><code>Spinner.destroy(id)</code></strong>: Destroy a spinner instance.</li>
+		</ul>
+		<p><em>Note: Each method returns the spinner instance, except the <code>destroy</code> method, which returns a Boolean.</em></p>
+
+		<h3 class="font__title">Spinner instance</h3>
+		<p>Most of the same methods can be called on a spinner instance without knowing its ID.</p>
+		<ul class="bullets">
+			<li><strong><code>instance.toggle()</code></strong>: Toggle a spinner instance.</li>
+			<li><strong><code>instance.load()</code></strong>: Load / activate a spinner instance.</li>
+			<li><strong><code>instance.unload()</code></strong>: Unload / deactivate a spinner instance.</li>
+			<li><strong><code>instance.destroy()</code></strong>: Destroy a spinner instance.</li>
+		</ul>
+
+		<h3 class="font__title">AngularJS</h3>
+		<p>The AngularJS <code>SpinnerService</code> is a thin AngularJS wrapper around the vanilla core Spinner service, with the following directives added for convenience in interacting with Spinner:</p>
+		<ul class="bullets">
+			<li><strong><code>&lt;spinner options="{...}"&gt;</code></strong>: Create a spinner element in the DOM.</li>
+			<li><strong><code>[spinner-toggle="{{id}}"]</code></strong>: Toggle the spinner that matches <code>id</code>.</li>
+		</ul>
+
+		<h2 class="font__headline">CSS Usage</h2>
+
+		<h3 class="font__title">Supported CSS Environments</h3>
+		<ul class="bullets">
+			<li>SASS</li>
+			<li>Vanilla CSS</li>
+			<li>PostCSS</li>
+		</ul>
+
+		<h3 class="font__title">Classes and selectors</h3>
+		<ul class="bullets">
+			<li><code>.spinner</code>: Spinner base class. <em>Nothing will be displayed in the UI until the active modifier class is added.</em></li>
+			<li><code>.spinner--is-spinning</code>: Active / spinning spinner.</li>
+			<li><code>.spinner--inline</code>: Inline spinner, for display with surrounding inline elements such as text or buttons.</li>
+			<li><code>.spinner--clean</code>: Cleans / removes background and padding for a clean spinner UI.</li>
+			<li><code>.spinner--absolute</code>: Absolutely positioned spinner.</li>
+			<li><code>.spinner--slide</code> Spinner which slides from the top of an element.</li>
+		</ul>
+	</div>
+
+	<div>
+		<h2 class="font__headline">Examples</h2>
+		<h3 class="font__title">Active Spinner</h3>
+		<editor lang="html" live-preview="true" editable="true">
+			<pre>&lt;spinner options="{mods: ['active']}">&lt;/spinner></pre>
+		</editor>
+
+		<h3 class="font__title">Toggleable Spinner</h3>
+		<editor lang="html" live-preview="true" editable="true">
+			<pre>&lt;div data-ng-init="toggleableIsSpinning = true;">
+	&lt;spinner options="{mods: ['active']}" data-ng-class="{'spinner--is-spinning':  toggleableIsSpinning}">&lt;/spinner>
+	&lt;button type="button" data-ng-click="toggleableIsSpinning = !toggleableIsSpinning">Toggle&lt;/button>
+&lt;/div></pre>
+		</editor>
+	</div>
+</tabs>

@@ -13,11 +13,12 @@ module.exports = {
 			'./node_modules/@brikcss/core/dist/sass/colors/_colors.abstract.scss',
 			'./node_modules/@brikcss/core/dist/sass/{reset,typography,rhythm}/*.abstract.scss',
 			// Non-core component abstracts.
+			'./node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss',
 			'./src/briks/**/*.abstract.scss',
 			// Core components init.
 			'./node_modules/@brikcss/core/dist/sass/core.init.scss',
 			// Other components init.
-			'./src/briks/{tabs,header,footer,sidebars,show-hide,burger-button,code-editor}/*.init.scss',
+			'./src/briks/{tabs,header,footer,sidebars,show-hide,burger-button,code-editor,spinner}/*.init.scss',
 			// Utility classes.
 			'./node_modules/@brikcss/core/dist/sass/rhythm/_rhythm.utilities.scss',
 			// Site specific code.
@@ -43,9 +44,9 @@ module.exports = {
 		bundlers: ['@brikcss/stakcss-bundler-copy']
 	},
 	assets: {
-		source: './static/**/*',
+		source: 'static/**/*',
 		output: 'dist/angularjs/assets/',
-		cwd: './static',
+		root: 'static',
 		bundlers: ['@brikcss/stakcss-bundler-copy']
 	}
 };

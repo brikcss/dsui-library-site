@@ -1,13 +1,13 @@
 import editorTpl from './editor.tpl.html';
 import highlightjs from 'highlight.js';
 
-function codeEditor() {
+function codeEditor($compile) {
 	return {
 		restrict: 'E',
 		scope: {
 			editable: '@',
 			livePreview: '@',
-			lang: '@',
+			lang: '@'
 		},
 		transclude: true,
 		template: editorTpl,
@@ -46,7 +46,11 @@ function codeEditor() {
 				wrapEl.setAttribute('data-tab', tab.name);
 				highlightEl.classList.add('hljs', 'editor__highlighted-code');
 				highlightEl.innerHTML =
-					'<code class="editor__highlighted-code--' + tab.name + '">' + originalCode + '</code>';
+					'<code class="editor__highlighted-code--' +
+					tab.name +
+					'">' +
+					originalCode +
+					'</code>';
 				// Make code editable if it's not read only.
 				if ($scope.editable) {
 					const rawPreEl = document.createElement('pre');
@@ -99,7 +103,9 @@ function codeEditor() {
 						let code = '';
 						let codeEl = codeParentEl.querySelector('.editor__raw-code--' + tab.name);
 						if (!codeEl) {
-							codeEl = codeParentEl.querySelector('.editor__highlighted-code--' + tab.name);
+							codeEl = codeParentEl.querySelector(
+								'.editor__highlighted-code--' + tab.name
+							);
 						}
 						codeEl.childNodes.forEach((node) => {
 							code += node.nodeValue;
@@ -110,6 +116,7 @@ function codeEditor() {
 						).innerHTML = highlightjs.highlight(tab.name, code).value;
 						// Update HTML content.
 						if ($scope.livePreview) {
+							// Create new content.
 							if (tab.name === 'css') {
 								html += '<style>' + code + '</style>';
 							} else if (tab.name === 'html') {
@@ -126,7 +133,11 @@ function codeEditor() {
 						}
 					});
 					if ($scope.livePreview) {
-						previewEl.innerHTML = html;
+						// Remove old content.
+						previewEl.innerHTML = '';
+						// previewEl.innerHTML = html;
+						// Add new content.
+						previewEl.appendChild($compile(html)($scope)[0]);
 						if (script) {
 							previewEl.appendChild(script);
 						}
@@ -188,8 +199,10 @@ function codeEditor() {
 					window.getSelection().addRange(range);
 				}
 			}
-		},
+		}
 	};
 }
+
+codeEditor.$inject = ['$compile'];
 
 export default codeEditor;

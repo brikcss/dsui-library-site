@@ -26,7 +26,7 @@
 - Documentation:
 	- Update Home page.
 	- Add pages to "About DS UI":
-		- How to include assets.
+		- How to include assets. See Spinner and Material components for good examples of including different "flavors".
 			- File types:
 				- *.abstract.scss
 				- *.init.scss

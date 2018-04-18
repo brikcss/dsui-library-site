@@ -1,0 +1,5 @@
+$spinner__size: 6rem;
+
+.spinner {
+	@include spinner(dressed multicolor, inline clean absolute slide, true, true);
+}
