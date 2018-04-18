@@ -38371,7 +38371,7 @@
     function encode_char(c) {
       return _ENCODE_HTML_RULES[c] || c;
     }  var __line = 1,
-        __lines = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup', usage: 'Usage'}\">\n\t<!-- About. -->\n\t<div class=\"tabs__content\">\n\t\t<%- include partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__headline\">Guidelines</h2>\n\t\t<h3 class=\"font__title\">Approved Colors</h3>\n\t\t<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are provided since we should be using client-specific colors.</em></p>\n\n\t\t<% data.colors.forEach(category => { %>\n\t\t\t<% if (category.heading) { %><h4 class=\"font__title heading__separator\"><%= category.heading %></h4><% } %>\n\t\t\t<% if (category.description) { %><p><%- category.description %></p><% } %>\n\t\t\t<ul class=\"pg-colors__colors-list\">\n\t\t\t\t<% category.colors.forEach(color => { %>\n\t\t\t\t\t<li class=\"pg-colors__color<% if (category.darkBg) { %> pg-colors__color--dark<% } %>\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value bg__<%= color.name %>\">\n\t\t\t\t\t\t\t<span><%= color.name %></span>\n\t\t\t\t\t\t\t<span><%= color.value %></span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\"><%= color.usage %></div>\n\t\t\t\t\t</li>\n\t\t\t\t<% }); %>\n\t\t\t</ul>\n\t\t<% }); %>\n\t</div>\n\n\t<!-- Install & Setup. -->\n\t<div class=\"tabs__content\">\n\t\t<%- include partials/_install.html.ejs %>\n\t</div>\n\n\t<!-- Usage. -->\n\t<div class=\"tabs__content\">\n\t\t<h2 class=\"font__headline\">Usage</h2>\n\t\t<h3 class=\"font__title heading__separator\">Need to know</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><em>Never</em> use the <code>background-color</code> property.</li>\n\t\t\t<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title heading__separator\">Classes and Helpers</h3>\n\t\t<h4 class=\"font__subheading\"><code>c($name)</code></h4>\n\t\t<p><em>Type</em>: SASS function</p>\n\t\t<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-selector {\n\tborder: 1px solid c(dark4);\n}</pre>\n\t\t\t<pre>.my-selector {\n\tborder: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>color($name, $level: 1)</code></h4>\n\t\t<p><em>Type</em>: SASS function</p>\n\t\t<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-selector {\n\tbackground-color: c(dark);\n\tborder: 1px solid c(dark, 4);\n}</pre>\n\t\t\t<pre>.my-selector {\n\tbackground-color: hsl(0, 0%, 0%, 0.87);\n\tborder: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>@include bg($name, $level: 1);</code></h4>\n\t\t<p><em>Type</em>: SASS mixin</p>\n\t\t<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-selector {\n\t@include bg(dark, 2);\n}</pre>\n\t\t\t<pre>.my-selector {\n\tbackground-color: hsl(0, 0%, 0%, 0.87);\n\tcolor: hsl(0, 0%, 0%, 0.54);\n}</pre>\n\t\t</editor>\n\t</div>\n\n\t<!-- Examples. -->\n\t<!-- <div class=\"tabs__content\" data-ng-class=\"{'tabs__content--active': pageCtrl.activePageTab === 'examples'}\"></div> -->\n",
+        __lines = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup', usage: 'Usage'}\">\n\t<!-- About. -->\n\t<div class=\"tabs__content\">\n\t\t<%- include partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__headline\">Guidelines</h2>\n\t\t<h3 class=\"font__title\">Approved Colors</h3>\n\t\t<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are provided since we should be using client-specific colors.</em></p>\n\n\t\t<% data.colors.forEach(category => { %>\n\t\t\t<% if (category.heading) { %><h4 class=\"font__title heading__separator\"><%= category.heading %></h4><% } %>\n\t\t\t<% if (category.description) { %><p><%- category.description %></p><% } %>\n\t\t\t<ul class=\"pg-colors__colors-list\">\n\t\t\t\t<% category.colors.forEach(color => { %>\n\t\t\t\t\t<li class=\"pg-colors__color<% if (category.darkBg) { %> pg-colors__color--dark<% } %>\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value bg__<%= color.name %>\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\"><%= color.name %></span>\n\t\t\t\t\t\t\t<span><%= color.hex %></span>\n\t\t\t\t\t\t\t<span><%= color.hsl %></span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\"><%= color.usage %></div>\n\t\t\t\t\t</li>\n\t\t\t\t<% }); %>\n\t\t\t</ul>\n\t\t<% }); %>\n\t</div>\n\n\t<!-- Install & Setup. -->\n\t<div class=\"tabs__content\">\n\t\t<%- include partials/_install.html.ejs %>\n\t</div>\n\n\t<!-- Usage. -->\n\t<div class=\"tabs__content\">\n\t\t<h2 class=\"font__headline\">Usage</h2>\n\t\t<h3 class=\"font__title heading__separator\">Need to know</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><em>Never</em> use the <code>background-color</code> property.</li>\n\t\t\t<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title heading__separator\">Classes and Helpers</h3>\n\t\t<h4 class=\"font__subheading\"><code>c($name)</code></h4>\n\t\t<p><em>Type</em>: SASS function</p>\n\t\t<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-selector {\n\tborder: 1px solid c(dark4);\n}</pre>\n\t\t\t<pre>.my-selector {\n\tborder: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>color($name, $level: 1)</code></h4>\n\t\t<p><em>Type</em>: SASS function</p>\n\t\t<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-selector {\n\tbackground-color: c(dark);\n\tborder: 1px solid c(dark, 4);\n}</pre>\n\t\t\t<pre>.my-selector {\n\tbackground-color: hsl(0, 0%, 0%, 0.87);\n\tborder: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n\t\t</editor>\n\n\t\t<h4 class=\"font__subheading\"><code>@include bg($name, $level: 1);</code></h4>\n\t\t<p><em>Type</em>: SASS mixin</p>\n\t\t<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<editor lang=\"scss,css:result\">\n\t\t\t<pre>.my-selector {\n\t@include bg(dark, 2);\n}</pre>\n\t\t\t<pre>.my-selector {\n\tbackground-color: hsl(0, 0%, 0%, 0.87);\n\tcolor: hsl(0, 0%, 0%, 0.54);\n}</pre>\n\t\t</editor>\n\t</div>\n\n\t<!-- Examples. -->\n\t<!-- <div class=\"tabs__content\" data-ng-class=\"{'tabs__content--active': pageCtrl.activePageTab === 'examples'}\"></div> -->\n",
         __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/colors.html.ejs";
     try {
       var __output = [],
@@ -38405,11 +38405,11 @@
   __append("\n					<li class=\"pg-colors__color");__line = 15;if (category.darkBg) {
   __append(" pg-colors__color--dark");
           }
-  __append("\">\n						<div class=\"pg-colors__color-value bg__");__line = 16;__append(escapeFn(color.name));__append("\">\n							<span>");__line = 17;__append(escapeFn(color.name));__append("</span>\n							<span>");__line = 18;__append(escapeFn(color.value));__append("</span>\n						</div>\n						<div class=\"pg-colors__color-meta\">");__line = 20;__append(escapeFn(color.usage));__append("</div>\n					</li>\n				");__line = 22;
+  __append("\">\n						<div class=\"pg-colors__color-value bg__");__line = 16;__append(escapeFn(color.name));__append("\">\n							<span class=\"pg-colors__color-name\">");__line = 17;__append(escapeFn(color.name));__append("</span>\n							<span>");__line = 18;__append(escapeFn(color.hex));__append("</span>\n							<span>");__line = 19;__append(escapeFn(color.hsl));__append("</span>\n						</div>\n						<div class=\"pg-colors__color-meta\">");__line = 21;__append(escapeFn(color.usage));__append("</div>\n					</li>\n				");__line = 23;
         });
-  __append("\n			</ul>\n		");__line = 24;
+  __append("\n			</ul>\n		");__line = 25;
       });
-  __append("\n	</div>\n\n	<!-- Install & Setup. -->\n	<div class=\"tabs__content\">\n		");__line = 29;(function () {
+  __append("\n	</div>\n\n	<!-- Install & Setup. -->\n	<div class=\"tabs__content\">\n		");__line = 30;(function () {
         var __line = 1,
             __lines = "<h3 class=\"font__title\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<editor lang=\"bash\">\n\t<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
             __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
@@ -38451,7 +38451,7 @@
         } catch (e) {
           rethrow(e, __lines, __filename, __line, escapeFn);
         }
-      }).call(this);__append("\n	</div>\n\n	<!-- Usage. -->\n	<div class=\"tabs__content\">\n		<h2 class=\"font__headline\">Usage</h2>\n		<h3 class=\"font__title heading__separator\">Need to know</h3>\n		<ul class=\"bullets\">\n			<li><em>Never</em> use the <code>background-color</code> property.</li>\n			<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>\n		</ul>\n\n		<h3 class=\"font__title heading__separator\">Classes and Helpers</h3>\n		<h4 class=\"font__subheading\"><code>c($name)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-selector {\n	border: 1px solid c(dark4);\n}</pre>\n			<pre>.my-selector {\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>color($name, $level: 1)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-selector {\n	background-color: c(dark);\n	border: 1px solid c(dark, 4);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>@include bg($name, $level: 1);</code></h4>\n		<p><em>Type</em>: SASS mixin</p>\n		<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n		<p><em>Example</em>:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-selector {\n	@include bg(dark, 2);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	color: hsl(0, 0%, 0%, 0.54);\n}</pre>\n		</editor>\n	</div>\n\n	<!-- Examples. -->\n	<!-- <div class=\"tabs__content\" data-ng-class=\"{'tabs__content--active': pageCtrl.activePageTab === 'examples'}\"></div> -->\n");__line = 87;
+      }).call(this);__append("\n	</div>\n\n	<!-- Usage. -->\n	<div class=\"tabs__content\">\n		<h2 class=\"font__headline\">Usage</h2>\n		<h3 class=\"font__title heading__separator\">Need to know</h3>\n		<ul class=\"bullets\">\n			<li><em>Never</em> use the <code>background-color</code> property.</li>\n			<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>\n		</ul>\n\n		<h3 class=\"font__title heading__separator\">Classes and Helpers</h3>\n		<h4 class=\"font__subheading\"><code>c($name)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-selector {\n	border: 1px solid c(dark4);\n}</pre>\n			<pre>.my-selector {\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>color($name, $level: 1)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n		<p><em>Example</em>:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-selector {\n	background-color: c(dark);\n	border: 1px solid c(dark, 4);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</pre>\n		</editor>\n\n		<h4 class=\"font__subheading\"><code>@include bg($name, $level: 1);</code></h4>\n		<p><em>Type</em>: SASS mixin</p>\n		<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n		<p><em>Example</em>:</p>\n		<editor lang=\"scss,css:result\">\n			<pre>.my-selector {\n	@include bg(dark, 2);\n}</pre>\n			<pre>.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	color: hsl(0, 0%, 0%, 0.54);\n}</pre>\n		</editor>\n	</div>\n\n	<!-- Examples. -->\n	<!-- <div class=\"tabs__content\" data-ng-class=\"{'tabs__content--active': pageCtrl.activePageTab === 'examples'}\"></div> -->\n");__line = 88;
       return __output.join("");
     } catch (e) {
       rethrow(e, __lines, __filename, __line, escapeFn);
@@ -38815,19 +38815,23 @@
   					colors: [{
   						name: 'dark | dark1',
   						class: 'dark1',
-  						value: 'hsla(0, 0%, 0%, 0.87)',
+  						hsl: 'hsla(0, 0%, 0%, 0.87)',
+  						hex: '#000000, 87% opacity',
   						usage: 'Primary dark text'
   					}, {
   						name: 'dark2',
-  						value: 'hsla(0, 0%, 0%, 0.54)',
+  						hsl: 'hsla(0, 0%, 0%, 0.54)',
+  						hex: '#000000, 54% opacity',
   						usage: 'Active dark icons, Secondary dark text'
   					}, {
   						name: 'dark3',
-  						value: 'hsla(0, 0%, 0%, 0.38)',
+  						hsl: 'hsla(0, 0%, 0%, 0.38)',
+  						hex: '#000000, 38% opacity',
   						usage: 'Inactive dark icons, Disabled / hint dark text'
   					}, {
   						name: 'dark4',
-  						value: 'hsla(0, 0%, 0%, 0.12)',
+  						hsl: 'hsla(0, 0%, 0%, 0.12)',
+  						hex: '#000000, 12% opacity',
   						usage: 'Dark borders / dividers'
   					}]
   				}, {
@@ -38837,19 +38841,23 @@
   					colors: [{
   						name: 'light | light1',
   						class: 'light1',
-  						value: 'hsla(0, 0%, 100%, 1)',
+  						hsl: 'hsla(0, 0%, 100%, 1)',
+  						hex: '#ffffff, 100% opacity',
   						usage: 'Primary light text'
   					}, {
   						name: 'light2',
-  						value: 'hsla(0, 0%, 100%, 0.7)',
+  						hsl: 'hsla(0, 0%, 100%, 0.7)',
+  						hex: '#ffffff, 70% opacity',
   						usage: 'Active light icons, Secondary light text'
   					}, {
   						name: 'light3',
-  						value: 'hsla(0, 0%, 100%, 0.5)',
+  						hsl: 'hsla(0, 0%, 100%, 0.5)',
+  						hex: '#ffffff, 50% opacity',
   						usage: 'Inactive light icons, Disabled / hint light text'
   					}, {
   						name: 'light4',
-  						value: 'hsla(0, 0%, 100%, 0.12)',
+  						hsl: 'hsla(0, 0%, 100%, 0.12)',
+  						hex: '#ffffff, 12% opacity',
   						usage: 'Light borders / dividers'
   					}]
   				}, {
@@ -38857,15 +38865,18 @@
   					description: 'Background colors with specific use cases.',
   					colors: [{
   						name: 'gray',
-  						value: 'hsl(0, 0%, 90%)',
+  						hsl: 'hsl(0, 0%, 90%)',
+  						hex: '#000000',
   						usage: 'Neutral background'
   					}, {
   						name: 'superbar',
-  						value: 'hsl(209, 24%, 30%)',
+  						hsl: 'hsl(209, 24%, 30%)',
+  						hex: '#3a4d5f',
   						usage: 'Sidebar header'
   					}, {
   						name: 'superbar-icon',
-  						value: 'hsl(208, 11%, 65%)',
+  						hsl: 'hsl(208, 11%, 65%)',
+  						hex: '#9ca6b0',
   						usage: 'Sidebar icons'
   					}]
   				}, {
@@ -38873,19 +38884,23 @@
   					description: 'The following color names are provided by DS for clients to choose their own color scheme (<em>note that these specific color values are DirectScale company colors, provided to illustrate how dynamic client colors work; these are NOT UX approved color values and should NOT be used in your app.</em>):',
   					colors: [{
   						name: 'color1',
-  						value: 'hsl(194, 76%, 65%)',
+  						hsl: 'hsl(194, 76%, 65%)',
+  						hex: '#62caea',
   						usage: 'Primary app bar, text links, visual tree'
   					}, {
   						name: 'color2',
-  						value: 'hsl(69, 67%, 51%)',
+  						hsl: 'hsl(69, 67%, 51%)',
+  						hex: '#bdd62e',
   						usage: 'Buttons, profile avatars'
   					}, {
   						name: 'color3',
-  						value: 'hsl(36, 96%, 54%)',
+  						hsl: 'hsl(36, 96%, 54%)',
+  						hex: '#faa019',
   						usage: 'Selections, checkboxes, selected state for dropdowns, active tab underlines'
   					}, {
   						name: 'color4',
-  						value: 'hsl(205, 7%, 45%)',
+  						hsl: 'hsl(205, 7%, 45%)',
+  						hex: '#6b747b',
   						usage: 'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree'
   					}]
   				}]

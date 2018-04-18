@@ -2611,6 +2611,12 @@ body {
 }
 
 /* line 13, src/angularjs/app.scss */
+*:focus {
+	outline-width: 2px;
+	outline-style: solid;
+}
+
+/* line 18, src/angularjs/app.scss */
 sub,
 sup {
 	/* Specified in % so that the sup/sup is the right size relative to the surrounding text */
@@ -2623,148 +2629,148 @@ sup {
 	vertical-align: baseline;
 }
 
-/* line 28, src/angularjs/app.scss */
+/* line 33, src/angularjs/app.scss */
 sup {
 	/* Move the superscripted text up */
 	top: -0.5em;
 }
 
-/* line 33, src/angularjs/app.scss */
+/* line 38, src/angularjs/app.scss */
 sub {
 	/* Move the subscripted text down, but only half as far down as the superscript moved up */
 	bottom: -0.25em;
 }
 
-/* line 38, src/angularjs/app.scss */
+/* line 43, src/angularjs/app.scss */
 dt {
 	font-style: italic;
 }
 
-/* line 42, src/angularjs/app.scss */
+/* line 47, src/angularjs/app.scss */
 blockquote {
 	padding-left: 2rem;
 	border-left: 0.5rem solid #e6e6e6;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h2 {
 	margin-top: 6rem;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h3 {
 	margin-top: 6rem;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h4 {
 	margin-top: 4rem;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h5 {
 	margin-top: 2rem;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h6 {
 	margin-top: 2rem;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 p {
 	margin-top: 2rem;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 blockquote {
 	margin-top: 2rem;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h1:first-child {
 	margin-top: 0;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h2:first-child {
 	margin-top: 0;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h3:first-child {
 	margin-top: 0;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h4:first-child {
 	margin-top: 0;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h5:first-child {
 	margin-top: 0;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 h6:first-child {
 	margin-top: 0;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 p:first-child {
 	margin-top: 0;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 ul:first-child {
 	margin-top: 0;
 }
 
-/* line 70, src/angularjs/app.scss */
+/* line 75, src/angularjs/app.scss */
 ol:first-child {
 	margin-top: 0;
 }
 
-/* line 76, src/angularjs/app.scss */
+/* line 81, src/angularjs/app.scss */
 .sp__0 {
 	margin: 0;
 }
 
-/* line 84, src/angularjs/app.scss */
+/* line 89, src/angularjs/app.scss */
 code {
 	background-color: rgba(51, 51, 51, 0.12);
 	font-family: 'Roboto Mono', monospace;
 	line-height: 1;
 }
 
-/* line 90, src/angularjs/app.scss */
+/* line 95, src/angularjs/app.scss */
 pre code {
 	background-color: transparent;
 }
 
-/* line 96, src/angularjs/app.scss */
+/* line 101, src/angularjs/app.scss */
 li {
 	margin-top: 2rem;
 }
 
-/* line 100, src/angularjs/app.scss */
+/* line 105, src/angularjs/app.scss */
 .bullets,
 .numbers {
 	padding-left: 4rem;
 }
 
-/* line 105, src/angularjs/app.scss */
+/* line 110, src/angularjs/app.scss */
 .bullets {
 	list-style-type: disc;
 }
 
-/* line 109, src/angularjs/app.scss */
+/* line 114, src/angularjs/app.scss */
 .numbers {
 	list-style-type: decimal;
 }
 
-/* line 117, src/angularjs/app.scss */
+/* line 122, src/angularjs/app.scss */
 .header__title {
 	padding-right: 2rem;
 	-webkit-box-flex: 1;
@@ -2772,12 +2778,12 @@ li {
 	flex-grow: 1;
 }
 
-/* line 121, src/angularjs/app.scss */
+/* line 126, src/angularjs/app.scss */
 .header__title:first-child {
 	padding-left: 0;
 }
 
-/* line 126, src/angularjs/app.scss */
+/* line 131, src/angularjs/app.scss */
 .header__version {
 	color: rgba(255, 255, 255, 0.7);
 	font-size: 0.6em;
@@ -2785,17 +2791,17 @@ li {
 	margin-left: 1rem;
 }
 
-/* line 133, src/angularjs/app.scss */
+/* line 138, src/angularjs/app.scss */
 .header__button {
 	color: inherit;
 }
 
-/* line 137, src/angularjs/app.scss */
+/* line 142, src/angularjs/app.scss */
 .header .burger {
 	padding-right: 2rem;
 }
 
-/* line 145, src/angularjs/app.scss */
+/* line 150, src/angularjs/app.scss */
 .page {
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -2809,13 +2815,13 @@ li {
 }
 
 @media (min-width: 1080px) {
-	/* line 145, src/angularjs/app.scss */
+	/* line 150, src/angularjs/app.scss */
 	.page {
 		min-width: 0;
 	}
 }
 
-/* line 155, src/angularjs/app.scss */
+/* line 160, src/angularjs/app.scss */
 .page__scroller {
 	height: calc(100vh - 8rem);
 	-webkit-box-flex: 1;
@@ -2824,7 +2830,7 @@ li {
 	overflow-y: auto;
 }
 
-/* line 161, src/angularjs/app.scss */
+/* line 166, src/angularjs/app.scss */
 .page__content {
 	-webkit-box-flex: 1;
 	-ms-flex-positive: 1;
@@ -2833,19 +2839,19 @@ li {
 	padding: 4rem;
 }
 
-/* line 168, src/angularjs/app.scss */
+/* line 173, src/angularjs/app.scss */
 .page-tabs {
 	margin-left: -4rem;
 	margin-right: -4rem;
 	margin-top: -4rem;
 }
 
-/* line 173, src/angularjs/app.scss */
+/* line 178, src/angularjs/app.scss */
 .page-tabs .tabs__content {
 	padding: 4rem 4rem 0;
 }
 
-/* line 177, src/angularjs/app.scss */
+/* line 182, src/angularjs/app.scss */
 .page-tabs .tabs__buttons {
 	background-color: white;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -2854,7 +2860,7 @@ li {
 	z-index: 40;
 }
 
-/* line 185, src/angularjs/app.scss */
+/* line 190, src/angularjs/app.scss */
 .page-tabs .tabs__button {
 	height: 100%;
 	padding-left: 4rem;
@@ -2865,7 +2871,7 @@ li {
 	transition: color 200ms;
 }
 
-/* line 193, src/angularjs/app.scss */
+/* line 198, src/angularjs/app.scss */
 .page-tabs .tabs__button:before {
 	content: ' ';
 	border-color: var(--color1) transparent transparent transparent;
@@ -2885,7 +2891,7 @@ li {
 	transition-timing-function: cubic-bezier(0.3, 0.2, 0.2, 1.3);
 }
 
-/* line 209, src/angularjs/app.scss */
+/* line 214, src/angularjs/app.scss */
 .page-tabs .tabs__button:after {
 	content: ' ';
 	background-color: transparent;
@@ -2900,35 +2906,35 @@ li {
 	z-index: -1;
 }
 
-/* line 222, src/angularjs/app.scss */
+/* line 227, src/angularjs/app.scss */
 .page-tabs .tabs__button--active {
 	color: white;
 }
 
-/* line 225, src/angularjs/app.scss */
+/* line 230, src/angularjs/app.scss */
 .page-tabs .tabs__button--active:before {
 	border-width: 1.25rem 1rem 0;
 	left: calc(50% - 1rem);
 }
 
-/* line 230, src/angularjs/app.scss */
+/* line 235, src/angularjs/app.scss */
 .page-tabs .tabs__button--active:after {
 	background-color: var(--color1);
 }
 
-/* line 236, src/angularjs/app.scss */
+/* line 241, src/angularjs/app.scss */
 .page-tabs .tabs__button-label {
 	position: relative;
 	z-index: 1;
 }
 
-/* line 245, src/angularjs/app.scss */
+/* line 250, src/angularjs/app.scss */
 .superbar {
 	background-color: #e6e6e6;
 	overflow: hidden;
 }
 
-/* line 249, src/angularjs/app.scss */
+/* line 254, src/angularjs/app.scss */
 .superbar__header {
 	background-color: #3a4d5f;
 	height: 8rem;
@@ -2943,25 +2949,25 @@ li {
 	justify-content: center;
 }
 
-/* line 257, src/angularjs/app.scss */
+/* line 262, src/angularjs/app.scss */
 .superbar__logo {
 	max-height: 80%;
 	max-width: 80%;
 }
 
-/* line 262, src/angularjs/app.scss */
+/* line 267, src/angularjs/app.scss */
 .superbar__body {
 	height: calc(100vh - 8rem);
 	overflow-y: auto;
 }
 
-/* line 267, src/angularjs/app.scss */
+/* line 272, src/angularjs/app.scss */
 .superbar__section {
 	border-bottom: 1px solid #cccccc;
 	height: 6rem;
 }
 
-/* line 272, src/angularjs/app.scss */
+/* line 277, src/angularjs/app.scss */
 .superbar__link {
 	font-size: 1.14286em;
 	color: inherit;
@@ -2976,17 +2982,17 @@ li {
 	text-decoration: none;
 }
 
-/* line 282, src/angularjs/app.scss */
+/* line 287, src/angularjs/app.scss */
 .superbar__menu {
 	list-style-type: none;
 }
 
-/* line 286, src/angularjs/app.scss */
+/* line 291, src/angularjs/app.scss */
 .superbar__menu li {
 	margin-top: 0;
 }
 
-/* line 290, src/angularjs/app.scss */
+/* line 295, src/angularjs/app.scss */
 .superbar__menu .superbar__link {
 	font-size: 1em;
 	color: rgba(0, 0, 0, 0.87);
@@ -2995,7 +3001,7 @@ li {
 	padding-left: 6rem;
 }
 
-/* line 297, src/angularjs/app.scss */
+/* line 302, src/angularjs/app.scss */
 .superbar__menu-icon {
 	color: #9ca6b0;
 	display: -webkit-inline-box;
@@ -3011,46 +3017,46 @@ li {
 	width: 6rem;
 }
 
-/* line 307, src/angularjs/app.scss */
+/* line 312, src/angularjs/app.scss */
 .editor {
 	display: block;
 }
 
-/* line 311, src/angularjs/app.scss */
+/* line 316, src/angularjs/app.scss */
 .version {
 	font-size: 0.6em;
 	line-height: 4rem;
 }
 
-/* line 317, src/angularjs/app.scss */
+/* line 322, src/angularjs/app.scss */
 .dsui-page__related {
 	margin-top: 4rem;
 }
 
-/* line 320, src/angularjs/app.scss */
+/* line 325, src/angularjs/app.scss */
 .dsui-page__related li {
 	margin-top: 0;
 }
 
-/* line 324, src/angularjs/app.scss */
+/* line 329, src/angularjs/app.scss */
 .dsui-page__related li:first-child {
 	margin-top: 2rem;
 }
 
-/* line 330, src/angularjs/app.scss */
+/* line 335, src/angularjs/app.scss */
 .dsui-page__about {
 	font-size: 1.14286em;
 }
 
 @media (min-width: 768px) {
-	/* line 336, src/angularjs/app.scss */
+	/* line 341, src/angularjs/app.scss */
 	.dsui-page__intro {
 		display: -webkit-box;
 		display: -ms-flexbox;
 		display: flex;
 		width: 100%;
 	}
-	/* line 345, src/angularjs/app.scss */
+	/* line 350, src/angularjs/app.scss */
 	.dsui-page__related {
 		width: 20em;
 		margin-top: 0;
@@ -3058,7 +3064,7 @@ li {
 	}
 }
 
-/* line 355, src/angularjs/app.scss */
+/* line 360, src/angularjs/app.scss */
 .pg-colors__colors-list {
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -3069,7 +3075,7 @@ li {
 	margin-right: -1.5rem;
 }
 
-/* line 361, src/angularjs/app.scss */
+/* line 366, src/angularjs/app.scss */
 .pg-colors__colors-list--dark {
 	background-color: #3a4d5f;
 	padding-bottom: 2rem;
@@ -3077,7 +3083,7 @@ li {
 	margin-right: 0;
 }
 
-/* line 369, src/angularjs/app.scss */
+/* line 374, src/angularjs/app.scss */
 .pg-colors__color {
 	-webkit-box-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.3);
 	box-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.3);
@@ -3100,13 +3106,13 @@ li {
 	margin-right: 1.5rem;
 }
 
-/* line 380, src/angularjs/app.scss */
+/* line 385, src/angularjs/app.scss */
 .pg-colors__color--dark {
 	background-color: #333333;
 	color: white;
 }
 
-/* line 385, src/angularjs/app.scss */
+/* line 390, src/angularjs/app.scss */
 .pg-colors__color-value {
 	font-size: 0.9em;
 	display: -webkit-box;
@@ -3121,7 +3127,7 @@ li {
 	padding: 2rem;
 }
 
-/* line 395, src/angularjs/app.scss */
+/* line 400, src/angularjs/app.scss */
 .pg-colors__color-meta {
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -3140,17 +3146,22 @@ li {
 	color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 404, src/angularjs/app.scss */
+/* line 409, src/angularjs/app.scss */
 .pg-colors__color-meta:empty {
 	padding: 0;
 }
 
-/* line 408, src/angularjs/app.scss */
+/* line 413, src/angularjs/app.scss */
 .pg-colors__color--dark .pg-colors__color-meta {
 	color: white;
 }
 
-/* line 414, src/angularjs/app.scss */
+/* line 418, src/angularjs/app.scss */
+.pg-colors__color-name {
+	margin-bottom: 1rem;
+}
+
+/* line 423, src/angularjs/app.scss */
 .heading__separator {
 	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 	padding-bottom: calc(1rem - 2px);
