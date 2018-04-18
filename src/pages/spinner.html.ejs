@@ -14,7 +14,7 @@
 	<div>
 		<h2 class="font__headline">JS Usage</h2>
 
-		<h3 class="font__title">Supported JS environments</h3>
+		<h3 class="font__title heading__separator">Supported JS environments</h3>
 		<ul class="bullets">
 			<li>AngularJS (prebundled)</li>
 			<li>AngularJS (ES Modules)</li>
@@ -24,7 +24,7 @@
 			<li>Universal Module (UMD)</li>
 		</ul>
 
-		<h3 class="font__title">Spinner API</h3>
+		<h3 class="font__title heading__separator">Spinner API</h3>
 		<ul class="bullets">
 			<li><strong><code>all</code></strong>: Access all spinner instances, grouped by ID.</li>
 			<li><strong><code>Spinner.create(element, options)</code></strong>: Create a spinner instance.</li>
@@ -35,7 +35,7 @@
 		</ul>
 		<p><em>Note: Each method returns the spinner instance, except the <code>destroy</code> method, which returns a Boolean.</em></p>
 
-		<h3 class="font__title">Spinner instance</h3>
+		<h3 class="font__title heading__separator">Spinner instance</h3>
 		<p>Most of the same methods can be called on a spinner instance without knowing its ID.</p>
 		<ul class="bullets">
 			<li><strong><code>instance.toggle()</code></strong>: Toggle a spinner instance.</li>
@@ -44,7 +44,7 @@
 			<li><strong><code>instance.destroy()</code></strong>: Destroy a spinner instance.</li>
 		</ul>
 
-		<h3 class="font__title">AngularJS</h3>
+		<h3 class="font__title heading__separator">AngularJS</h3>
 		<p>The AngularJS <code>SpinnerService</code> is a thin AngularJS wrapper around the vanilla core Spinner service, with the following directives added for convenience in interacting with Spinner:</p>
 		<ul class="bullets">
 			<li><strong><code>&lt;spinner options="{...}"&gt;</code></strong>: Create a spinner element in the DOM.</li>
@@ -53,14 +53,14 @@
 
 		<h2 class="font__headline">CSS Usage</h2>
 
-		<h3 class="font__title">Supported CSS Environments</h3>
+		<h3 class="font__title heading__separator">Supported CSS Environments</h3>
 		<ul class="bullets">
 			<li>SASS</li>
 			<li>Vanilla CSS</li>
 			<li>PostCSS</li>
 		</ul>
 
-		<h3 class="font__title">Classes and selectors</h3>
+		<h3 class="font__title heading__separator">Classes and selectors</h3>
 		<ul class="bullets">
 			<li><code>.spinner</code>: Spinner base class. <em>Nothing will be displayed in the UI until the active modifier class is added.</em></li>
 			<li><code>.spinner--is-spinning</code>: Active / spinning spinner.</li>
@@ -73,12 +73,12 @@
 
 	<div>
 		<h2 class="font__headline">Examples</h2>
-		<h3 class="font__title">Active Spinner</h3>
+		<h3 class="font__title heading__separator">Active Spinner</h3>
 		<editor lang="html" live-preview="true" editable="true">
 			<pre>&lt;spinner options="{mods: ['active']}">&lt;/spinner></pre>
 		</editor>
 
-		<h3 class="font__title">Toggleable Spinner</h3>
+		<h3 class="font__title heading__separator">Toggleable Spinner</h3>
 		<p>Use the <code>ng-class</code> directive to activate and deactivate a spinner.</p>
 		<editor lang="html" live-preview="true" editable="true">
 			<pre>&lt;div data-ng-init="toggleableIsSpinning = true;">
