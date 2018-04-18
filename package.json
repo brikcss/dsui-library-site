@@ -36,7 +36,7 @@
 		"pretest": "echo \"\nRunning tests...\n\" && npm run build",
 		"test": "cross-env NODE_ENV=production concurrently --kill-others-on-fail --names=sass,js \"npm run lint:sass\" \"npm run lint:js\"",
 		"posttest": "echo \"\n[ok] Tests complete.\n\"",
-		"prepublish": "npm test && echo \"\nPublishing to github pages...\"",
+		"prepublish": "npm test && echo \"Publishing to github pages...\"",
 		"publish": "gh-pages -d ./dist/angularjs --repo https://thezimmee@github.com/brikcss/dsui-library-site.git",
 		"// TASKS": "// Below this line are helper tasks and typically won't need to be called by user.",
 		"prebuild": "rimraf dist --glob=false",
