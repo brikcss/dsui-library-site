@@ -206,6 +206,47 @@
  *      apply a max-width $value to.
  */
 /** ------------------------------------------------------------------------------------------------
+ *  @filename  spinner.abstract.scss
+ *  @author  brikcss  <https://github.com/brikcss>
+ *  @description  SASS for Brikcss Spinner.
+ *  @notes  This currently uses the `clip` property, which is deprecated but supported. When a new
+ *      browser discontinues support for that, we will need to do one of the following:
+ *        1. Use the `clip-path` property instead.
+ *        2. Remove `clip`. Instead make borders for of __left and __right :after pseudo elements
+ *           transparent on two sides and make sure the parent has `overflow: hidden`.
+ *  @credit  Thanks to the following for guidance and inspiration:
+ *        - [Andre Firchow - CSS Percentage Circles](http://circle.firchow.net/)
+ *        - [Codepen user Misiu](https://codepen.io/Misiu/pen/MpZvNK)
+ *        - [Material Design](https://material.io/guidelines/components/progress-activity.html)
+ ** --------------------------------------------------------------------------------------------- */
+/**
+ *  Merge given options with default options.
+ *  @param   {Map}  $options:  ()  Options map.
+ */
+/**
+ *  Test whether a mod name is equal to or contained in a string or list of mods.
+ *
+ *  @param   {String}  $mod  Value to test.
+ *  @param   {String|List}  $mods  List of mods to check.
+ */
+/**
+ *  Include styles for one or more spinner mod(s).
+ *
+ *  @param   {String|List}  $mods  Name(s) of mod(s) to include.
+ *  @param   {Map}  $options:  ()  Options map.
+ */
+/**
+ *  Include spinner styles for a default type and optionally add modifier classes.
+ *
+ *  @param   {List}  $type:  ()  Mod types to include as default styles.
+ *  @param   {List}  $mods:  $spinner__mods  List of mods to add modifier classes for.
+ *  @param   {Boolean}  $add-base:  false  Add base spinner styles. If no types are set,
+ *      automatically set to true.
+ *  @param   {Boolean}  $add-animation:  false  Add animation styles. Should typically only be added
+ *      once. If no types are set, automatically set to true.
+ *  @param   {Map}  $options:  ()  Options map.
+ */
+/** ------------------------------------------------------------------------------------------------
  *  @filename  burger-button.scss
  *  @author  brikcss  <https://github.com/brikcss>
  *  @dependencies  core/colors.abstract
@@ -1448,6 +1489,435 @@ dd {
 /* line 72, src/briks/sidebars/_sidebars.abstract.scss */
 .sidebars__right.--is-active {
 	margin-right: 0;
+}
+
+/* line 3, src/briks/spinner/_spinner.init.scss */
+.spinner {
+	height: 6rem;
+	width: 6rem;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border-radius: 50%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	position: relative;
+	will-change: transform, width, top;
+	-webkit-transform: scale(0);
+	transform: scale(0);
+	-webkit-transform-origin: center;
+	transform-origin: center;
+	-webkit-transition: width 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4) 125ms, top 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4), -webkit-transform 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4);
+	transition: width 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4) 125ms, top 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4), -webkit-transform 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4);
+	transition: transform 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4), width 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4) 125ms, top 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4);
+	transition: transform 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4), width 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4) 125ms, top 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4), -webkit-transform 250ms cubic-bezier(0.6, 0.5, 0.2, 1.4);
+	background-color: white;
+	-webkit-box-shadow: 0 0.21429rem 0.25rem rgba(0, 0, 0, 0.2), 0 0.375rem 0.5rem rgba(0, 0, 0, 0.15);
+	box-shadow: 0 0.21429rem 0.25rem rgba(0, 0, 0, 0.2), 0 0.375rem 0.5rem rgba(0, 0, 0, 0.15);
+	padding: 1.5rem;
+	height: 6rem;
+	width: 6rem;
+}
+
+/* line 349, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner__track {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border-radius: 50%;
+	-webkit-box-shadow: inset 0 0 0 0.4rem;
+	box-shadow: inset 0 0 0 0.4rem;
+	color: transparent;
+	background-color: transparent;
+	position: absolute;
+	height: 6rem;
+	width: 6rem;
+	-webkit-animation: rotate-spinner 1.3s linear infinite;
+	animation: rotate-spinner 1.3s linear infinite;
+	-webkit-transform-origin: center;
+	transform-origin: center;
+}
+
+/* line 367, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner__right, .spinner__left {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 50%;
+	overflow: hidden;
+}
+
+/* line 375, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner__right:after, .spinner__left:after {
+	content: '';
+	clip: rect(0 3rem 6rem 0);
+	border: 0.4rem solid #2094f3;
+	border-radius: 50%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	height: 100%;
+	width: 200%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	-webkit-transition: -webkit-transform 0.15s ease-in-out;
+	transition: -webkit-transform 0.15s ease-in-out;
+	transition: transform 0.15s ease-in-out;
+	transition: transform 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out;
+}
+
+/* line 390, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner__right {
+	right: 0;
+	-webkit-transform-origin: center left;
+	transform-origin: center left;
+	-webkit-animation: rotate-spinner-offset 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+	animation: rotate-spinner-offset 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* line 395, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner__right:after {
+	-webkit-animation: rotate-right-bar 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+	animation: rotate-right-bar 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+	left: -100%;
+}
+
+/* line 401, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner__left {
+	left: 0;
+	-webkit-transform-origin: center right;
+	transform-origin: center right;
+	-webkit-animation: rotate-spinner-offset 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+	animation: rotate-spinner-offset 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* line 406, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner__left:after {
+	-webkit-animation: rotate-left-bar 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+	animation: rotate-left-bar 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+	-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+/* line 412, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner__progress {
+	position: relative;
+	z-index: 1;
+}
+
+/* line 418, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--is-spinning {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+@-webkit-keyframes rotate-left-bar {
+	0%,
+	100% {
+		-webkit-transform: rotate(-189deg);
+		transform: rotate(-189deg);
+	}
+	50% {
+		-webkit-transform: rotate(-324deg);
+		transform: rotate(-324deg);
+	}
+}
+
+@keyframes rotate-left-bar {
+	0%,
+	100% {
+		-webkit-transform: rotate(-189deg);
+		transform: rotate(-189deg);
+	}
+	50% {
+		-webkit-transform: rotate(-324deg);
+		transform: rotate(-324deg);
+	}
+}
+
+@-webkit-keyframes rotate-right-bar {
+	0%,
+	100% {
+		-webkit-transform: rotate(9deg);
+		transform: rotate(9deg);
+	}
+	50% {
+		-webkit-transform: rotate(144deg);
+		transform: rotate(144deg);
+	}
+}
+
+@keyframes rotate-right-bar {
+	0%,
+	100% {
+		-webkit-transform: rotate(9deg);
+		transform: rotate(9deg);
+	}
+	50% {
+		-webkit-transform: rotate(144deg);
+		transform: rotate(144deg);
+	}
+}
+
+@-webkit-keyframes rotate-spinner {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	50% {
+		-webkit-transform: rotate(180deg);
+		transform: rotate(180deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes rotate-spinner {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	50% {
+		-webkit-transform: rotate(180deg);
+		transform: rotate(180deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-webkit-keyframes rotate-spinner-offset {
+	12.5% {
+		-webkit-transform: rotate(135deg);
+		transform: rotate(135deg);
+	}
+	25% {
+		-webkit-transform: rotate(270deg);
+		transform: rotate(270deg);
+	}
+	37.5% {
+		-webkit-transform: rotate(405deg);
+		transform: rotate(405deg);
+	}
+	50% {
+		-webkit-transform: rotate(540deg);
+		transform: rotate(540deg);
+	}
+	62.5% {
+		-webkit-transform: rotate(675deg);
+		transform: rotate(675deg);
+	}
+	75% {
+		-webkit-transform: rotate(810deg);
+		transform: rotate(810deg);
+	}
+	87.5% {
+		-webkit-transform: rotate(945deg);
+		transform: rotate(945deg);
+	}
+	100% {
+		-webkit-transform: rotate(1080deg);
+		transform: rotate(1080deg);
+	}
+}
+
+@keyframes rotate-spinner-offset {
+	12.5% {
+		-webkit-transform: rotate(135deg);
+		transform: rotate(135deg);
+	}
+	25% {
+		-webkit-transform: rotate(270deg);
+		transform: rotate(270deg);
+	}
+	37.5% {
+		-webkit-transform: rotate(405deg);
+		transform: rotate(405deg);
+	}
+	50% {
+		-webkit-transform: rotate(540deg);
+		transform: rotate(540deg);
+	}
+	62.5% {
+		-webkit-transform: rotate(675deg);
+		transform: rotate(675deg);
+	}
+	75% {
+		-webkit-transform: rotate(810deg);
+		transform: rotate(810deg);
+	}
+	87.5% {
+		-webkit-transform: rotate(945deg);
+		transform: rotate(945deg);
+	}
+	100% {
+		-webkit-transform: rotate(1080deg);
+		transform: rotate(1080deg);
+	}
+}
+
+/* line 88, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner .spinner__track {
+	height: 3.75rem;
+	width: 3.75rem;
+}
+
+/* line 94, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner .spinner__right:after {
+	border-width: 0.375rem;
+	clip: rect(0 1.875rem 3.75rem 0);
+}
+
+/* line 101, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner .spinner__left:after {
+	border-width: 0.375rem;
+	clip: rect(0 1.875rem 3.75rem 0);
+}
+
+/* line 239, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner.spinner--is-spinning .spinner__left:after {
+	-webkit-animation: rotate-left-bar 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate-spinner-colors 7.8s ease-in-out infinite;
+	animation: rotate-left-bar 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate-spinner-colors 7.8s ease-in-out infinite;
+}
+
+/* line 250, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner.spinner--is-spinning .spinner__right:after {
+	-webkit-animation: rotate-right-bar 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate-spinner-colors 7.8s ease-in-out infinite;
+	animation: rotate-right-bar 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate-spinner-colors 7.8s ease-in-out infinite;
+}
+
+@-webkit-keyframes rotate-spinner-colors {
+	0% {
+		border-color: #f44034;
+	}
+	25% {
+		border-color: #2094f3;
+	}
+	50% {
+		border-color: #4cae4f;
+	}
+	75% {
+		border-color: #ff9900;
+	}
+	100% {
+		border-color: #f44034;
+	}
+}
+
+@keyframes rotate-spinner-colors {
+	0% {
+		border-color: #f44034;
+	}
+	25% {
+		border-color: #2094f3;
+	}
+	50% {
+		border-color: #4cae4f;
+	}
+	75% {
+		border-color: #ff9900;
+	}
+	100% {
+		border-color: #f44034;
+	}
+}
+
+/* line 505, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--inline {
+	height: 1em;
+	width: 1em;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	padding: 0;
+	display: inline-block;
+	vertical-align: top;
+	width: 0;
+	overflow: hidden;
+}
+
+/* line 88, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--inline .spinner__track {
+	height: 1em;
+	width: 1em;
+}
+
+/* line 94, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--inline .spinner__right:after {
+	border-width: 0.15em;
+	clip: rect(0 0.5em 1em 0);
+}
+
+/* line 101, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--inline .spinner__left:after {
+	border-width: 0.15em;
+	clip: rect(0 0.5em 1em 0);
+}
+
+/* line 225, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--inline .spinner__track {
+	left: 0;
+	top: 0;
+}
+
+/* line 230, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--inline.spinner--is-spinning {
+	width: 1em;
+	-webkit-transition-delay: 0s;
+	transition-delay: 0s;
+}
+
+/* line 505, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--clean {
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	padding: 0;
+	height: 6rem;
+	width: 6rem;
+}
+
+/* line 88, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--clean .spinner__track {
+	height: 6rem;
+	width: 6rem;
+}
+
+/* line 94, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--clean .spinner__right:after {
+	border-width: 0.4rem;
+	clip: rect(0 3rem 6rem 0);
+}
+
+/* line 101, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--clean .spinner__left:after {
+	border-width: 0.4rem;
+	clip: rect(0 3rem 6rem 0);
+}
+
+/* line 505, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--absolute {
+	position: absolute;
+	top: 2rem;
+}
+
+/* line 505, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--slide {
+	position: absolute;
+	top: -5rem;
+}
+
+/* line 291, node_modules/@brikcss/spinner/dist/sass/_spinner.abstract.scss */
+.spinner--slide.spinner--is-spinning {
+	top: 2rem;
 }
 
 /** ------------------------------------------------------------------------------------------------

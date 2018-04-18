@@ -38273,58 +38273,61 @@
           __append = __output.push.bind(__output);
   __append("<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup'}\">\n	<div>\n		");__line = 3;(function () {
         var __line = 1,
-            __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n",
+            __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n",
             __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
         try {
   __append("<div class=\"dsui-page__intro\">\n	");__line = 2;if (data.brik.intro) {
-  __append("<div class=\"dsui-page__about\">\n		");__line = 3;__append(data.brik.intro);__append("\n	</div>");__line = 4;
+  __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n		");__line = 4;__append(data.brik.intro);__append("\n	</div>");__line = 5;
           }
-  __append("\n\n	");__line = 6;if (data.brik.related) {
-  __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			");__line = 9;data.brik.related.forEach(function (link) {
-  __append("\n				<li><a ui-sref=\"");__line = 10;__append(escapeFn(link.replace(/\s+/g, '-').toLowerCase()));__append("\">");__append(escapeFn(link));__append("</a></li>\n			");__line = 11;
+  __append("\n\n	");__line = 7;if (data.brik.related) {
+  __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			");__line = 10;data.brik.related.forEach(function (link) {
+  __append("\n				<li><a ui-sref=\"");__line = 11;__append(escapeFn(link.replace(/\s+/g, '-').toLowerCase()));__append("\">");__append(escapeFn(link));__append("</a></li>\n			");__line = 12;
             });
-  __append("\n		</ul>\n	</div>");__line = 13;
+  __append("\n		</ul>\n	</div>");__line = 14;
           }
-  __append("\n</div>\n");__line = 15;
+  __append("\n</div>\n");__line = 16;
         } catch (e) {
           rethrow(e, __lines, __filename, __line, escapeFn);
         }
       }).call(this);__append("\n	</div>\n\n	<div>\n		");__line = 7;(function () {
         var __line = 1,
-            __lines = "<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
+            __lines = "<h3 class=\"font__title\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<editor lang=\"bash\">\n\t<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
             __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
         try {
-  __append("<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install ");__line = 2;__append(escapeFn(data.brik.name));__append(" along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install ");__line = 8;__append(escapeFn(data.brik.name));__append(" on its own:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install ");__line = 11;__append(escapeFn(data.brik.npmPath));__append(" --save-dev</pre>\n</editor>\n\n");__line = 14;if (_typeof(data.brik.setup) === 'object') {
-  __append("<h3 class=\"font__title\">Setup</h3>\n");__line = 15;if (data.brik.setup.summary) {
+  __append("<h3 class=\"font__title\">Install</h3>\n\n");__line = 3;if (data.brik.isCore) {
+  __append("<p>It is encouraged to install ");__append(escapeFn(data.brik.name));__append(" along with DS UI Core:</p>\n<editor lang=\"bash\">\n	<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install ");__line = 8;__append(escapeFn(data.brik.name));__append(" on its own:</p>");
+          }
+  __append("\n<editor lang=\"bash\">\n	<pre>npm install ");__line = 10;__append(escapeFn(data.brik.npmPath));__append(" --save-dev</pre>\n</editor>\n\n");__line = 13;if (_typeof(data.brik.setup) === 'object') {
+  __append("<h3 class=\"font__title\">Setup</h3>\n");__line = 14;if (data.brik.setup.summary) {
   __append(data.brik.setup.summary);
             }
-  __append("\n");__line = 16;if (data.brik.setup.list) {
-  __append("<ol class=\"numbers\">\n	");__line = 17;data.brik.setup.list.forEach(function (item) {
-  __append("\n		");__line = 18;if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
-  __append("\n			<li>");__line = 19;__append(item.intro);__append("\n				");__line = 20;if (item.class === 'numbers') {
+  __append("\n");__line = 15;if (data.brik.setup.list) {
+  __append("<ol class=\"numbers\">\n	");__line = 16;data.brik.setup.list.forEach(function (item) {
+  __append("\n		");__line = 17;if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+  __append("\n			<li>");__line = 18;__append(item.intro);__append("\n				");__line = 19;if (item.class === 'numbers') {
   __append("<ol class=\"numbers\">");
                   } else {
   __append("<ul class=\"bullets\">");
                   }
-  __append("\n					");__line = 21;item.list.forEach(function (subitem) {
+  __append("\n					");__line = 20;item.list.forEach(function (subitem) {
   __append("<li>");__append(subitem);__append("</li>");
                   });
-  __append("\n				");__line = 22;if (item.class === 'numbers') {
+  __append("\n				");__line = 21;if (item.class === 'numbers') {
   __append("</ol>");
                   } else {
   __append("</ul>");
                   }
-  __append("\n			</li>\n		");__line = 24;
+  __append("\n			</li>\n		");__line = 23;
                 } else {
   __append("<li>");__append(item);__append("</li>");
                 }
-  __append("\n	");__line = 25;
+  __append("\n	");__line = 24;
               });
-  __append("\n</ol>");__line = 26;
+  __append("\n</ol>");__line = 25;
             }
-  __append("\n");__line = 27;
+  __append("\n");__line = 26;
           }
-  __append("\n");__line = 28;
+  __append("\n");__line = 27;
         } catch (e) {
           rethrow(e, __lines, __filename, __line, escapeFn);
         }
@@ -38375,19 +38378,19 @@
           __append = __output.push.bind(__output);
   __append("<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup', usage: 'Usage'}\">\n	<!-- About. -->\n	<div class=\"tabs__content\">\n		");__line = 4;(function () {
         var __line = 1,
-            __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n",
+            __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n",
             __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
         try {
   __append("<div class=\"dsui-page__intro\">\n	");__line = 2;if (data.brik.intro) {
-  __append("<div class=\"dsui-page__about\">\n		");__line = 3;__append(data.brik.intro);__append("\n	</div>");__line = 4;
+  __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n		");__line = 4;__append(data.brik.intro);__append("\n	</div>");__line = 5;
           }
-  __append("\n\n	");__line = 6;if (data.brik.related) {
-  __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			");__line = 9;data.brik.related.forEach(function (link) {
-  __append("\n				<li><a ui-sref=\"");__line = 10;__append(escapeFn(link.replace(/\s+/g, '-').toLowerCase()));__append("\">");__append(escapeFn(link));__append("</a></li>\n			");__line = 11;
+  __append("\n\n	");__line = 7;if (data.brik.related) {
+  __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			");__line = 10;data.brik.related.forEach(function (link) {
+  __append("\n				<li><a ui-sref=\"");__line = 11;__append(escapeFn(link.replace(/\s+/g, '-').toLowerCase()));__append("\">");__append(escapeFn(link));__append("</a></li>\n			");__line = 12;
             });
-  __append("\n		</ul>\n	</div>");__line = 13;
+  __append("\n		</ul>\n	</div>");__line = 14;
           }
-  __append("\n</div>\n");__line = 15;
+  __append("\n</div>\n");__line = 16;
         } catch (e) {
           rethrow(e, __lines, __filename, __line, escapeFn);
         }
@@ -38408,40 +38411,43 @@
       });
   __append("\n	</div>\n\n	<!-- Install & Setup. -->\n	<div class=\"tabs__content\">\n		");__line = 29;(function () {
         var __line = 1,
-            __lines = "<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
+            __lines = "<h3 class=\"font__title\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<editor lang=\"bash\">\n\t<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
             __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
         try {
-  __append("<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install ");__line = 2;__append(escapeFn(data.brik.name));__append(" along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install ");__line = 8;__append(escapeFn(data.brik.name));__append(" on its own:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install ");__line = 11;__append(escapeFn(data.brik.npmPath));__append(" --save-dev</pre>\n</editor>\n\n");__line = 14;if (_typeof(data.brik.setup) === 'object') {
-  __append("<h3 class=\"font__title\">Setup</h3>\n");__line = 15;if (data.brik.setup.summary) {
+  __append("<h3 class=\"font__title\">Install</h3>\n\n");__line = 3;if (data.brik.isCore) {
+  __append("<p>It is encouraged to install ");__append(escapeFn(data.brik.name));__append(" along with DS UI Core:</p>\n<editor lang=\"bash\">\n	<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install ");__line = 8;__append(escapeFn(data.brik.name));__append(" on its own:</p>");
+          }
+  __append("\n<editor lang=\"bash\">\n	<pre>npm install ");__line = 10;__append(escapeFn(data.brik.npmPath));__append(" --save-dev</pre>\n</editor>\n\n");__line = 13;if (_typeof(data.brik.setup) === 'object') {
+  __append("<h3 class=\"font__title\">Setup</h3>\n");__line = 14;if (data.brik.setup.summary) {
   __append(data.brik.setup.summary);
             }
-  __append("\n");__line = 16;if (data.brik.setup.list) {
-  __append("<ol class=\"numbers\">\n	");__line = 17;data.brik.setup.list.forEach(function (item) {
-  __append("\n		");__line = 18;if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
-  __append("\n			<li>");__line = 19;__append(item.intro);__append("\n				");__line = 20;if (item.class === 'numbers') {
+  __append("\n");__line = 15;if (data.brik.setup.list) {
+  __append("<ol class=\"numbers\">\n	");__line = 16;data.brik.setup.list.forEach(function (item) {
+  __append("\n		");__line = 17;if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+  __append("\n			<li>");__line = 18;__append(item.intro);__append("\n				");__line = 19;if (item.class === 'numbers') {
   __append("<ol class=\"numbers\">");
                   } else {
   __append("<ul class=\"bullets\">");
                   }
-  __append("\n					");__line = 21;item.list.forEach(function (subitem) {
+  __append("\n					");__line = 20;item.list.forEach(function (subitem) {
   __append("<li>");__append(subitem);__append("</li>");
                   });
-  __append("\n				");__line = 22;if (item.class === 'numbers') {
+  __append("\n				");__line = 21;if (item.class === 'numbers') {
   __append("</ol>");
                   } else {
   __append("</ul>");
                   }
-  __append("\n			</li>\n		");__line = 24;
+  __append("\n			</li>\n		");__line = 23;
                 } else {
   __append("<li>");__append(item);__append("</li>");
                 }
-  __append("\n	");__line = 25;
+  __append("\n	");__line = 24;
               });
-  __append("\n</ol>");__line = 26;
+  __append("\n</ol>");__line = 25;
             }
-  __append("\n");__line = 27;
+  __append("\n");__line = 26;
           }
-  __append("\n");__line = 28;
+  __append("\n");__line = 27;
         } catch (e) {
           rethrow(e, __lines, __filename, __line, escapeFn);
         }
@@ -38492,58 +38498,61 @@
           __append = __output.push.bind(__output);
   __append("<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}\">\n	<div>\n		");__line = 3;(function () {
         var __line = 1,
-            __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n",
+            __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n",
             __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
         try {
   __append("<div class=\"dsui-page__intro\">\n	");__line = 2;if (data.brik.intro) {
-  __append("<div class=\"dsui-page__about\">\n		");__line = 3;__append(data.brik.intro);__append("\n	</div>");__line = 4;
+  __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n		");__line = 4;__append(data.brik.intro);__append("\n	</div>");__line = 5;
           }
-  __append("\n\n	");__line = 6;if (data.brik.related) {
-  __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			");__line = 9;data.brik.related.forEach(function (link) {
-  __append("\n				<li><a ui-sref=\"");__line = 10;__append(escapeFn(link.replace(/\s+/g, '-').toLowerCase()));__append("\">");__append(escapeFn(link));__append("</a></li>\n			");__line = 11;
+  __append("\n\n	");__line = 7;if (data.brik.related) {
+  __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			");__line = 10;data.brik.related.forEach(function (link) {
+  __append("\n				<li><a ui-sref=\"");__line = 11;__append(escapeFn(link.replace(/\s+/g, '-').toLowerCase()));__append("\">");__append(escapeFn(link));__append("</a></li>\n			");__line = 12;
             });
-  __append("\n		</ul>\n	</div>");__line = 13;
+  __append("\n		</ul>\n	</div>");__line = 14;
           }
-  __append("\n</div>\n");__line = 15;
+  __append("\n</div>\n");__line = 16;
         } catch (e) {
           rethrow(e, __lines, __filename, __line, escapeFn);
         }
       }).call(this);__append("\n\n		<h2 class=\"font__headline\">Guidelines</h2>\n\n		<h3 class=\"font__title\">Roboto font face</h3>\n		<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>\n\n		<h3 class=\"font__title\">Only use approved font styles</h3>\n		<p><em>Only use approved font styles.</em> Any exceptions require UX approval and should be added to this list. <a href=\"https://material.io/guidelines/style/typography.html\">Refer to Material Design</a> for specific scenarios and use cases to apply each style; otherwise use them at your own discretion.</p>\n		<p>UX approved font styles (see Usage section for how to apply them):</p>\n		<p class=\"font__caption\">Caption (12sp/inherited)</p>\n		<p class=\"font__button\">Button (14sp/inherited)</p>\n		<p class=\"font__body\">Body (14sp/24dp) (default)</p>\n		<p class=\"font__subheading\">Subheading (16sp/24dp)</p>\n		<p class=\"font__title\">Title (20sp/28dp)</p>\n		<p class=\"font__headline\">Headline (24sp/32dp)</p>\n		<p class=\"font__display1\">Display 1 (34sp/40dp)</p>\n		<p class=\"font__display2\">Display 2 (45sp/48dp)</p>\n		<p class=\"font__display3\">Display 3 (56sp/64dp)</p>\n		<p class=\"font__display4\">Display 4 (112sp/112dp)</p>\n		<p class=\"font__caption\"><em>Note: First number represents font-size, second number represents leading / line-height.</em></p>\n\n		<h3 class=\"font__title\">Limit line length for readability</h3>\n		<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>\n\n		<h3 class=\"font__title\">Approved text colors</h3>\n		<p><a ui-sref=\"colors\">Refer to the Colors component</a> for applying text colors.</p>\n\n		<h3 class=\"font__title\">Additional guidelines</h3>\n		<p><a href=\"https://material.io/guidelines/style/typography.html\" title=\"Typography specs for Material Design\"><abbr title=\"Material Design\">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>\n	</div>\n\n	<div>\n		");__line = 36;(function () {
         var __line = 1,
-            __lines = "<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
+            __lines = "<h3 class=\"font__title\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<editor lang=\"bash\">\n\t<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
             __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
         try {
-  __append("<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install ");__line = 2;__append(escapeFn(data.brik.name));__append(" along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install ");__line = 8;__append(escapeFn(data.brik.name));__append(" on its own:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install ");__line = 11;__append(escapeFn(data.brik.npmPath));__append(" --save-dev</pre>\n</editor>\n\n");__line = 14;if (_typeof(data.brik.setup) === 'object') {
-  __append("<h3 class=\"font__title\">Setup</h3>\n");__line = 15;if (data.brik.setup.summary) {
+  __append("<h3 class=\"font__title\">Install</h3>\n\n");__line = 3;if (data.brik.isCore) {
+  __append("<p>It is encouraged to install ");__append(escapeFn(data.brik.name));__append(" along with DS UI Core:</p>\n<editor lang=\"bash\">\n	<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install ");__line = 8;__append(escapeFn(data.brik.name));__append(" on its own:</p>");
+          }
+  __append("\n<editor lang=\"bash\">\n	<pre>npm install ");__line = 10;__append(escapeFn(data.brik.npmPath));__append(" --save-dev</pre>\n</editor>\n\n");__line = 13;if (_typeof(data.brik.setup) === 'object') {
+  __append("<h3 class=\"font__title\">Setup</h3>\n");__line = 14;if (data.brik.setup.summary) {
   __append(data.brik.setup.summary);
             }
-  __append("\n");__line = 16;if (data.brik.setup.list) {
-  __append("<ol class=\"numbers\">\n	");__line = 17;data.brik.setup.list.forEach(function (item) {
-  __append("\n		");__line = 18;if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
-  __append("\n			<li>");__line = 19;__append(item.intro);__append("\n				");__line = 20;if (item.class === 'numbers') {
+  __append("\n");__line = 15;if (data.brik.setup.list) {
+  __append("<ol class=\"numbers\">\n	");__line = 16;data.brik.setup.list.forEach(function (item) {
+  __append("\n		");__line = 17;if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+  __append("\n			<li>");__line = 18;__append(item.intro);__append("\n				");__line = 19;if (item.class === 'numbers') {
   __append("<ol class=\"numbers\">");
                   } else {
   __append("<ul class=\"bullets\">");
                   }
-  __append("\n					");__line = 21;item.list.forEach(function (subitem) {
+  __append("\n					");__line = 20;item.list.forEach(function (subitem) {
   __append("<li>");__append(subitem);__append("</li>");
                   });
-  __append("\n				");__line = 22;if (item.class === 'numbers') {
+  __append("\n				");__line = 21;if (item.class === 'numbers') {
   __append("</ol>");
                   } else {
   __append("</ul>");
                   }
-  __append("\n			</li>\n		");__line = 24;
+  __append("\n			</li>\n		");__line = 23;
                 } else {
   __append("<li>");__append(item);__append("</li>");
                 }
-  __append("\n	");__line = 25;
+  __append("\n	");__line = 24;
               });
-  __append("\n</ol>");__line = 26;
+  __append("\n</ol>");__line = 25;
             }
-  __append("\n");__line = 27;
+  __append("\n");__line = 26;
           }
-  __append("\n");__line = 28;
+  __append("\n");__line = 27;
         } catch (e) {
           rethrow(e, __lines, __filename, __line, escapeFn);
         }
@@ -38594,58 +38603,61 @@
           __append = __output.push.bind(__output);
   __append("<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}\">\n	<div>\n		");__line = 3;(function () {
         var __line = 1,
-            __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n",
+            __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n",
             __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
         try {
   __append("<div class=\"dsui-page__intro\">\n	");__line = 2;if (data.brik.intro) {
-  __append("<div class=\"dsui-page__about\">\n		");__line = 3;__append(data.brik.intro);__append("\n	</div>");__line = 4;
+  __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n		");__line = 4;__append(data.brik.intro);__append("\n	</div>");__line = 5;
           }
-  __append("\n\n	");__line = 6;if (data.brik.related) {
-  __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			");__line = 9;data.brik.related.forEach(function (link) {
-  __append("\n				<li><a ui-sref=\"");__line = 10;__append(escapeFn(link.replace(/\s+/g, '-').toLowerCase()));__append("\">");__append(escapeFn(link));__append("</a></li>\n			");__line = 11;
+  __append("\n\n	");__line = 7;if (data.brik.related) {
+  __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			");__line = 10;data.brik.related.forEach(function (link) {
+  __append("\n				<li><a ui-sref=\"");__line = 11;__append(escapeFn(link.replace(/\s+/g, '-').toLowerCase()));__append("\">");__append(escapeFn(link));__append("</a></li>\n			");__line = 12;
             });
-  __append("\n		</ul>\n	</div>");__line = 13;
+  __append("\n		</ul>\n	</div>");__line = 14;
           }
-  __append("\n</div>\n");__line = 15;
+  __append("\n</div>\n");__line = 16;
         } catch (e) {
           rethrow(e, __lines, __filename, __line, escapeFn);
         }
       }).call(this);__append("\n\n		<h2 class=\"font__headline\">Definitions</h2>\n		<dl>\n			<dt>Dimensional properties</dt>\n			<dd>Any CSS property which affects an element's dimensions and/or spacing, including but not limited to: <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>.</dd>\n			<dt>1rem</dt>\n			<dd>Height/width of one (1) square in the rhythm grid.</dd>\n		</dl>\n\n		<h2 class=\"font__headline\">Guidelines</h2>\n\n		<h3 class=\"font__title\">Use <code>rems</code> for all dimensional properties</h3>\n		<p>DS UI uses <a href=\"https://www.sitepoint.com/understanding-and-using-rem-units-in-css/\" title=\"Understanding rem units in CSS\">CSS <code>rem</code> units</a> to apply rhythm and spacing. <em>Follow the \"rules of Rhythm\" below when applying <code>rems</code>.</em></p>\n\n		<h3 class=\"font__title\">Strictly follow the \"Rules of Rhythm\"</h3>\n		<p>In DS UI, <code>1rem</code> unit is equivalent to <code>8px</code>, which follows <a href=\"https://material.io/guidelines/layout/metrics-keylines.html\" title=\"Material Design spacing grid\">MD specifications for grid layout and spacing</a>. In order to keep the grid \"in rhythm\", strictly follow the \"Rules of Rhythm\" in the Usage section.</p>\n	</div>\n\n	<div>\n		");__line = 23;(function () {
         var __line = 1,
-            __lines = "<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p>\n\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
+            __lines = "<h3 class=\"font__title\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<editor lang=\"bash\">\n\t<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
             __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
         try {
-  __append("<h3 class=\"font__title\">Install</h3>\n<p>It is encouraged to install ");__line = 2;__append(escapeFn(data.brik.name));__append(" along with DS UI Core:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install @directscale/core --save-dev</pre>\n</editor>\n\n<p>You may also install ");__line = 8;__append(escapeFn(data.brik.name));__append(" on its own:</p>\n\n<editor lang=\"bash\">\n	<pre>npm install ");__line = 11;__append(escapeFn(data.brik.npmPath));__append(" --save-dev</pre>\n</editor>\n\n");__line = 14;if (_typeof(data.brik.setup) === 'object') {
-  __append("<h3 class=\"font__title\">Setup</h3>\n");__line = 15;if (data.brik.setup.summary) {
+  __append("<h3 class=\"font__title\">Install</h3>\n\n");__line = 3;if (data.brik.isCore) {
+  __append("<p>It is encouraged to install ");__append(escapeFn(data.brik.name));__append(" along with DS UI Core:</p>\n<editor lang=\"bash\">\n	<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install ");__line = 8;__append(escapeFn(data.brik.name));__append(" on its own:</p>");
+          }
+  __append("\n<editor lang=\"bash\">\n	<pre>npm install ");__line = 10;__append(escapeFn(data.brik.npmPath));__append(" --save-dev</pre>\n</editor>\n\n");__line = 13;if (_typeof(data.brik.setup) === 'object') {
+  __append("<h3 class=\"font__title\">Setup</h3>\n");__line = 14;if (data.brik.setup.summary) {
   __append(data.brik.setup.summary);
             }
-  __append("\n");__line = 16;if (data.brik.setup.list) {
-  __append("<ol class=\"numbers\">\n	");__line = 17;data.brik.setup.list.forEach(function (item) {
-  __append("\n		");__line = 18;if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
-  __append("\n			<li>");__line = 19;__append(item.intro);__append("\n				");__line = 20;if (item.class === 'numbers') {
+  __append("\n");__line = 15;if (data.brik.setup.list) {
+  __append("<ol class=\"numbers\">\n	");__line = 16;data.brik.setup.list.forEach(function (item) {
+  __append("\n		");__line = 17;if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+  __append("\n			<li>");__line = 18;__append(item.intro);__append("\n				");__line = 19;if (item.class === 'numbers') {
   __append("<ol class=\"numbers\">");
                   } else {
   __append("<ul class=\"bullets\">");
                   }
-  __append("\n					");__line = 21;item.list.forEach(function (subitem) {
+  __append("\n					");__line = 20;item.list.forEach(function (subitem) {
   __append("<li>");__append(subitem);__append("</li>");
                   });
-  __append("\n				");__line = 22;if (item.class === 'numbers') {
+  __append("\n				");__line = 21;if (item.class === 'numbers') {
   __append("</ol>");
                   } else {
   __append("</ul>");
                   }
-  __append("\n			</li>\n		");__line = 24;
+  __append("\n			</li>\n		");__line = 23;
                 } else {
   __append("<li>");__append(item);__append("</li>");
                 }
-  __append("\n	");__line = 25;
+  __append("\n	");__line = 24;
               });
-  __append("\n</ol>");__line = 26;
+  __append("\n</ol>");__line = 25;
             }
-  __append("\n");__line = 27;
+  __append("\n");__line = 26;
           }
-  __append("\n");__line = 28;
+  __append("\n");__line = 27;
         } catch (e) {
           rethrow(e, __lines, __filename, __line, escapeFn);
         }
@@ -38660,6 +38672,111 @@
 
   var getStartedTpl = "<h1>Getting Started</h1>\n<p>We're working on documentation. Try back soon!</p>\n";
 
+  function anonymous$4(data, escapeFn, include, rethrow
+  /*``*/) {
+    rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc) {
+      var lines = str.split('\n');
+      var start = Math.max(lineno - 3, 0);
+      var end = Math.min(lines.length, lineno + 3);
+      var filename = esc(flnm); // eslint-disable-line
+      // Error context
+      var context = lines.slice(start, end).map(function (line, i) {
+        var curr = i + start + 1;
+        return (curr == lineno ? ' >> ' : '    ') + curr + '| ' + line;
+      }).join('\n');
+
+      // Alter exception message
+      err.path = filename;
+      err.message = (filename || 'ejs') + ':' + lineno + '\n' + context + '\n\n' + err.message;
+
+      throw err;
+    };
+    escapeFn = escapeFn || function (markup) {
+      return markup == undefined ? '' : String(markup).replace(_MATCH_HTML, encode_char);
+    };
+    var _ENCODE_HTML_RULES = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&#34;",
+      "'": "&#39;"
+    },
+        _MATCH_HTML = /[&<>'"]/g;
+    function encode_char(c) {
+      return _ENCODE_HTML_RULES[c] || c;
+    }  var __line = 1,
+        __lines = "<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}\">\n\t<div>\n\t\t<%- include partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__headline\">Guidelines</h2>\n\n\t\t<p class=\"font__subheading\">We are working on this page.</p>\n\t</div>\n\n\t<div>\n\t\t<%- include partials/_install.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">JS Usage</h2>\n\n\t\t<h3 class=\"font__title\">Supported JS environments</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li>AngularJS (prebundled)</li>\n\t\t\t<li>AngularJS (ES Modules)</li>\n\t\t\t<li>ES Module</li>\n\t\t\t<li>Vanilla JS</li>\n\t\t\t<li>CommonJS</li>\n\t\t\t<li>Universal Module (UMD)</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title\">Spinner API</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><strong><code>all</code></strong>: Access all spinner instances, grouped by ID.</li>\n\t\t\t<li><strong><code>Spinner.create(element, options)</code></strong>: Create a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.toggle(id)</code></strong>: Toggle a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.load(id)</code></strong>: Load / activate a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.unload(id)</code></strong>: Unload / deactivate a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.destroy(id)</code></strong>: Destroy a spinner instance.</li>\n\t\t</ul>\n\t\t<p><em>Note: Each method returns the spinner instance, except the <code>destroy</code> method, which returns a Boolean.</em></p>\n\n\t\t<h3 class=\"font__title\">Spinner instance</h3>\n\t\t<p>Most of the same methods can be called on a spinner instance without knowing its ID.</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><strong><code>instance.toggle()</code></strong>: Toggle a spinner instance.</li>\n\t\t\t<li><strong><code>instance.load()</code></strong>: Load / activate a spinner instance.</li>\n\t\t\t<li><strong><code>instance.unload()</code></strong>: Unload / deactivate a spinner instance.</li>\n\t\t\t<li><strong><code>instance.destroy()</code></strong>: Destroy a spinner instance.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title\">AngularJS</h3>\n\t\t<p>The AngularJS <code>SpinnerService</code> is a thin AngularJS wrapper around the vanilla core Spinner service, with the following directives added for convenience in interacting with Spinner:</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><strong><code>&lt;spinner options=\"{...}\"&gt;</code></strong>: Create a spinner element in the DOM.</li>\n\t\t\t<li><strong><code>[spinner-toggle=\"{{id}}\"]</code></strong>: Toggle the spinner that matches <code>id</code>.</li>\n\t\t</ul>\n\n\t\t<h2 class=\"font__headline\">CSS Usage</h2>\n\n\t\t<h3 class=\"font__title\">Supported CSS Environments</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li>SASS</li>\n\t\t\t<li>Vanilla CSS</li>\n\t\t\t<li>PostCSS</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title\">Classes and selectors</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><code>.spinner</code>: Spinner base class. <em>Nothing will be displayed in the UI until the active modifier class is added.</em></li>\n\t\t\t<li><code>.spinner--is-spinning</code>: Active / spinning spinner.</li>\n\t\t\t<li><code>.spinner--inline</code>: Inline spinner, for display with surrounding inline elements such as text or buttons.</li>\n\t\t\t<li><code>.spinner--clean</code>: Cleans / removes background and padding for a clean spinner UI.</li>\n\t\t\t<li><code>.spinner--absolute</code>: Absolutely positioned spinner.</li>\n\t\t\t<li><code>.spinner--slide</code> Spinner which slides from the top of an element.</li>\n\t\t</ul>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__headline\">Examples</h2>\n\t\t<h3 class=\"font__title\">Active Spinner</h3>\n\t\t<editor lang=\"html\" live-preview=\"true\" editable=\"true\">\n\t\t\t<pre>&lt;spinner options=\"{mods: ['active']}\">&lt;/spinner></pre>\n\t\t</editor>\n\n\t\t<h3 class=\"font__title\">Toggleable Spinner</h3>\n\t\t<editor lang=\"html\" live-preview=\"true\" editable=\"true\">\n\t\t\t<pre>&lt;div data-ng-init=\"toggleableIsSpinning = true;\">\n\t&lt;spinner options=\"{mods: ['active']}\" data-ng-class=\"{'spinner--is-spinning':  toggleableIsSpinning}\">&lt;/spinner>\n\t&lt;button type=\"button\" data-ng-click=\"toggleableIsSpinning = !toggleableIsSpinning\">Toggle&lt;/button>\n&lt;/div></pre>\n\t\t</editor>\n\t</div>\n</tabs>\n",
+        __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/spinner.html.ejs";
+    try {
+      var __output = [],
+          __append = __output.push.bind(__output);
+  __append("<tabs class=\"page-tabs\" active-tab=\"pageCtrl.activePageTab\" tabs=\"{about: 'About', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}\">\n	<div>\n		");__line = 3;(function () {
+        var __line = 1,
+            __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n",
+            __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
+        try {
+  __append("<div class=\"dsui-page__intro\">\n	");__line = 2;if (data.brik.intro) {
+  __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__subheading\">Purpose</h2> -->\n		");__line = 4;__append(data.brik.intro);__append("\n	</div>");__line = 5;
+          }
+  __append("\n\n	");__line = 7;if (data.brik.related) {
+  __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			");__line = 10;data.brik.related.forEach(function (link) {
+  __append("\n				<li><a ui-sref=\"");__line = 11;__append(escapeFn(link.replace(/\s+/g, '-').toLowerCase()));__append("\">");__append(escapeFn(link));__append("</a></li>\n			");__line = 12;
+            });
+  __append("\n		</ul>\n	</div>");__line = 14;
+          }
+  __append("\n</div>\n");__line = 16;
+        } catch (e) {
+          rethrow(e, __lines, __filename, __line, escapeFn);
+        }
+      }).call(this);__append("\n\n		<h2 class=\"font__headline\">Guidelines</h2>\n\n		<p class=\"font__subheading\">We are working on this page.</p>\n	</div>\n\n	<div>\n		");__line = 11;(function () {
+        var __line = 1,
+            __lines = "<h3 class=\"font__title\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<editor lang=\"bash\">\n\t<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<editor lang=\"bash\">\n\t<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>\n</editor>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n",
+            __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
+        try {
+  __append("<h3 class=\"font__title\">Install</h3>\n\n");__line = 3;if (data.brik.isCore) {
+  __append("<p>It is encouraged to install ");__append(escapeFn(data.brik.name));__append(" along with DS UI Core:</p>\n<editor lang=\"bash\">\n	<pre>npm install @brikcss/core --save-dev</pre>\n</editor>\n\n<p>You may also install ");__line = 8;__append(escapeFn(data.brik.name));__append(" on its own:</p>");
+          }
+  __append("\n<editor lang=\"bash\">\n	<pre>npm install ");__line = 10;__append(escapeFn(data.brik.npmPath));__append(" --save-dev</pre>\n</editor>\n\n");__line = 13;if (_typeof(data.brik.setup) === 'object') {
+  __append("<h3 class=\"font__title\">Setup</h3>\n");__line = 14;if (data.brik.setup.summary) {
+  __append(data.brik.setup.summary);
+            }
+  __append("\n");__line = 15;if (data.brik.setup.list) {
+  __append("<ol class=\"numbers\">\n	");__line = 16;data.brik.setup.list.forEach(function (item) {
+  __append("\n		");__line = 17;if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+  __append("\n			<li>");__line = 18;__append(item.intro);__append("\n				");__line = 19;if (item.class === 'numbers') {
+  __append("<ol class=\"numbers\">");
+                  } else {
+  __append("<ul class=\"bullets\">");
+                  }
+  __append("\n					");__line = 20;item.list.forEach(function (subitem) {
+  __append("<li>");__append(subitem);__append("</li>");
+                  });
+  __append("\n				");__line = 21;if (item.class === 'numbers') {
+  __append("</ol>");
+                  } else {
+  __append("</ul>");
+                  }
+  __append("\n			</li>\n		");__line = 23;
+                } else {
+  __append("<li>");__append(item);__append("</li>");
+                }
+  __append("\n	");__line = 24;
+              });
+  __append("\n</ol>");__line = 25;
+            }
+  __append("\n");__line = 26;
+          }
+  __append("\n");__line = 27;
+        } catch (e) {
+          rethrow(e, __lines, __filename, __line, escapeFn);
+        }
+      }).call(this);__append("\n	</div>\n\n	<div>\n		<h2 class=\"font__headline\">JS Usage</h2>\n\n		<h3 class=\"font__title\">Supported JS environments</h3>\n		<ul class=\"bullets\">\n			<li>AngularJS (prebundled)</li>\n			<li>AngularJS (ES Modules)</li>\n			<li>ES Module</li>\n			<li>Vanilla JS</li>\n			<li>CommonJS</li>\n			<li>Universal Module (UMD)</li>\n		</ul>\n\n		<h3 class=\"font__title\">Spinner API</h3>\n		<ul class=\"bullets\">\n			<li><strong><code>all</code></strong>: Access all spinner instances, grouped by ID.</li>\n			<li><strong><code>Spinner.create(element, options)</code></strong>: Create a spinner instance.</li>\n			<li><strong><code>Spinner.toggle(id)</code></strong>: Toggle a spinner instance.</li>\n			<li><strong><code>Spinner.load(id)</code></strong>: Load / activate a spinner instance.</li>\n			<li><strong><code>Spinner.unload(id)</code></strong>: Unload / deactivate a spinner instance.</li>\n			<li><strong><code>Spinner.destroy(id)</code></strong>: Destroy a spinner instance.</li>\n		</ul>\n		<p><em>Note: Each method returns the spinner instance, except the <code>destroy</code> method, which returns a Boolean.</em></p>\n\n		<h3 class=\"font__title\">Spinner instance</h3>\n		<p>Most of the same methods can be called on a spinner instance without knowing its ID.</p>\n		<ul class=\"bullets\">\n			<li><strong><code>instance.toggle()</code></strong>: Toggle a spinner instance.</li>\n			<li><strong><code>instance.load()</code></strong>: Load / activate a spinner instance.</li>\n			<li><strong><code>instance.unload()</code></strong>: Unload / deactivate a spinner instance.</li>\n			<li><strong><code>instance.destroy()</code></strong>: Destroy a spinner instance.</li>\n		</ul>\n\n		<h3 class=\"font__title\">AngularJS</h3>\n		<p>The AngularJS <code>SpinnerService</code> is a thin AngularJS wrapper around the vanilla core Spinner service, with the following directives added for convenience in interacting with Spinner:</p>\n		<ul class=\"bullets\">\n			<li><strong><code>&lt;spinner options=\"{...}\"&gt;</code></strong>: Create a spinner element in the DOM.</li>\n			<li><strong><code>[spinner-toggle=\"{{id}}\"]</code></strong>: Toggle the spinner that matches <code>id</code>.</li>\n		</ul>\n\n		<h2 class=\"font__headline\">CSS Usage</h2>\n\n		<h3 class=\"font__title\">Supported CSS Environments</h3>\n		<ul class=\"bullets\">\n			<li>SASS</li>\n			<li>Vanilla CSS</li>\n			<li>PostCSS</li>\n		</ul>\n\n		<h3 class=\"font__title\">Classes and selectors</h3>\n		<ul class=\"bullets\">\n			<li><code>.spinner</code>: Spinner base class. <em>Nothing will be displayed in the UI until the active modifier class is added.</em></li>\n			<li><code>.spinner--is-spinning</code>: Active / spinning spinner.</li>\n			<li><code>.spinner--inline</code>: Inline spinner, for display with surrounding inline elements such as text or buttons.</li>\n			<li><code>.spinner--clean</code>: Cleans / removes background and padding for a clean spinner UI.</li>\n			<li><code>.spinner--absolute</code>: Absolutely positioned spinner.</li>\n			<li><code>.spinner--slide</code> Spinner which slides from the top of an element.</li>\n		</ul>\n	</div>\n\n	<div>\n		<h2 class=\"font__headline\">Examples</h2>\n		<h3 class=\"font__title\">Active Spinner</h3>\n		<editor lang=\"html\" live-preview=\"true\" editable=\"true\">\n			<pre>&lt;spinner options=\"{mods: ['active']}\">&lt;/spinner></pre>\n		</editor>\n\n		<h3 class=\"font__title\">Toggleable Spinner</h3>\n		<editor lang=\"html\" live-preview=\"true\" editable=\"true\">\n			<pre>&lt;div data-ng-init=\"toggleableIsSpinning = true;\">\n	&lt;spinner options=\"{mods: ['active']}\" data-ng-class=\"{'spinner--is-spinning':  toggleableIsSpinning}\">&lt;/spinner>\n	&lt;button type=\"button\" data-ng-click=\"toggleableIsSpinning = !toggleableIsSpinning\">Toggle&lt;/button>\n&lt;/div></pre>\n		</editor>\n	</div>\n</tabs>\n");__line = 90;
+      return __output.join("");
+    } catch (e) {
+      rethrow(e, __lines, __filename, __line, escapeFn);
+    }
+  }
+
   var errorTpl = "<h1 class=\"font__display1\">Uh oh...</h1>\n<p class=\"font__subheading\">The page you are looking for doesn't seem to exist... try again?</p>\n";
 
   var pages = {
@@ -38670,7 +38787,8 @@
   			tpl: anonymous({
   				brik: {
   					name: 'Browser Reset',
-  					npmPath: '@directscale/reset',
+  					npmPath: '@brikcss/reset',
+  					isCore: true,
   					intro: '<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include this in their codebase.</em></p>',
   					related: ['Typography', 'Links', 'Rhythm'],
   					setup: {
@@ -38686,9 +38804,10 @@
   			tpl: anonymous$1({
   				brik: {
   					name: 'Colors',
+  					isCore: true,
   					intro: '<p>DS UI Colors provide an easy way to apply and manage all of your app\'s colors. Define colors once and reuse them everywhere. It also helps manage a "live theme" (i.e., client colors) using native CSS variables.</p>',
   					related: ['Typography'],
-  					npmPath: '@directscale/colors'
+  					npmPath: '@brikcss/colors'
   				},
   				colors: [{
   					heading: 'Dark (text, icons, borders)',
@@ -38779,7 +38898,8 @@
   			tpl: anonymous$2({
   				brik: {
   					name: 'Typography',
-  					npmPath: '@directscale/typography',
+  					npmPath: '@brikcss/typography',
+  					isCore: true,
   					intro: '<p>Instead of pixels, Material Design specs use <a href="https://material.io/guidelines/layout/units-measurements.html" title="Material Design sp and dp units">"sp" and "dp" units</a> to make pixels more responsive to various devices. DS UI Typography provides the mechanism for applying and managing responsive typography based on MD specs.</p>',
   					related: ['Colors', 'Lists', 'Links', 'Rhythm'],
   					setup: {
@@ -38799,9 +38919,25 @@
   			tpl: anonymous$3({
   				brik: {
   					name: 'Rhythm',
-  					npmPath: '@directscale/rhythm',
+  					npmPath: '@brikcss/rhythm',
+  					isCore: true,
   					intro: '<p>DS UI Rhythm provides an easy way to apply and manage vertical and horizontal spacing anywhere. Rhythm is founded on <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">good principles of typography</a>, fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetition and familiarity</a> throughout the UI, and makes any layout more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>.</p><p>For a demonstration of Rhythm in action: <br><button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Toggle Rhythm grid</button></p><p class="font__reset">Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That\'s Rhythm.</p>',
   					related: ['Typography']
+  				}
+  			}),
+  			data: {
+  				version: '0.0.1'
+  			}
+  		}
+  	},
+  	components: {
+  		Spinner: {
+  			tpl: anonymous$4({
+  				brik: {
+  					name: 'Spinner',
+  					npmPath: '@brikcss/spinner',
+  					intro: '<p>Spinner is a visual indicator that content on the page is loading. Spinner can optionally display the progress of an operation.</p>',
+  					related: []
   				}
   			}),
   			data: {
@@ -55673,7 +55809,7 @@
 
   var lib = highlight;
 
-  function codeEditor() {
+  function codeEditor($compile) {
   	return {
   		restrict: 'E',
   		scope: {
@@ -55777,6 +55913,7 @@
   						codeParentEl.querySelector('.editor__highlighted-code--' + tab.name).innerHTML = lib.highlight(tab.name, code).value;
   						// Update HTML content.
   						if ($scope.livePreview) {
+  							// Create new content.
   							if (tab.name === 'css') {
   								html += '<style>' + code + '</style>';
   							} else if (tab.name === 'html') {
@@ -55793,7 +55930,11 @@
   						}
   					});
   					if ($scope.livePreview) {
-  						previewEl.innerHTML = html;
+  						// Remove old content.
+  						previewEl.innerHTML = '';
+  						// previewEl.innerHTML = html;
+  						// Add new content.
+  						previewEl.appendChild($compile(html)($scope)[0]);
   						if (script) {
   							previewEl.appendChild(script);
   						}
@@ -55859,6 +56000,8 @@
   	};
   }
 
+  codeEditor.$inject = ['$compile'];
+
   function codeHighlighter() {
   	return {
   		restrict: 'A',
@@ -55922,6 +56065,245 @@
 
   var tabs = angular_1.module('brikcss.tabs', []).directive('tabs', tabsDirective).name;
 
+  // ------
+  // Setup.
+  //
+  const cache = {
+  	id: 0,
+  	defaults: {
+  		base: 'spinner',
+  		mods: [], // 'active'|'determinate'|'small'|'large'|'inline'|'dressed'|'multicolor'|'absolute'|'slide'
+  		progress: 0,
+  		progressAttribute: 'progress',
+  		animation: 250 // Duration (ms) of animation from inactive to active.
+  	},
+  	mods: {
+  		active: '--is-spinning'
+  	},
+  	class: (mod, options = {}) => options.base + (cache.mods[mod] || '--' + mod)
+  };
+
+  // -----------------------
+  // Create Spinner service.
+  //
+  const Spinners = {
+  	all: {},
+  	create,
+  	toggle,
+  	load,
+  	unload,
+  	setProgress,
+  	destroy
+  };
+
+  // ----------------------
+  // Create spinner method.
+  //
+  function create(element, options = {}) {
+  	options = Object.assign({}, cache.defaults, options);
+
+  	// ----------------------
+  	// Create spinner object.
+  	//
+  	const spinner = {};
+  	spinner.id = options.id || cache.id++;
+  	spinner.element = element;
+  	spinner.base = options.base;
+  	options.mods.forEach((mod) => (spinner[mod] = true));
+  	spinner.active = options.mods.indexOf('active') > -1;
+
+  	// --------------------------------------------------
+  	// Override any settings based on certain conditions.
+  	//
+  	if (
+  		options.mods.indexOf('determinate') > -1 ||
+  		spinner.element.dataset[options.progressAttribute]
+  	) {
+  		spinner.determinate = true;
+  	}
+
+  	// -------------------------
+  	// Create the spinner's DOM.
+  	//
+  	// Hide by default if it's not determinate.
+  	if (!spinner.determinate) spinner.element.style.display = 'none';
+  	// Get outer element.
+  	spinner.element.classList.add(options.base);
+  	spinner.element.dataset.spinnerId = spinner.id;
+  	spinner.element.setAttribute('role', 'progressbar');
+  	// Create DOM for track.
+  	spinner.track = document.createElement('span');
+  	spinner.track.classList.add(options.base + '__track');
+  	spinner.track.innerHTML = `<span class="${options.base}__left"></span> <span class="${
+		options.base
+	}__right"></span>`;
+  	// Add classes for each mod.
+  	if (options.mods && options.mods.length) {
+  		options.mods.forEach((mod) => {
+  			if (mod === 'active') return;
+  			spinner.element.classList.add(cache.class(mod, options));
+  		});
+  	}
+
+  	// ---------------
+  	// Attach methods.
+  	//
+  	if (spinner.determinate) {
+  		spinner.progress =
+  			options.progress || spinner.element.dataset[options.progressAttribute] || 0;
+  		spinner.progressElement = spinner.element.querySelector('.' + options.base + '__progress');
+  		spinner.setProgress = (progress) => {
+  			spinner.progress = progress;
+  			if (spinner.progressElement) spinner.progressElement.textContent = progress + '%';
+  			return (spinner.element.dataset.progress = progress);
+  		};
+  		spinner.setProgress(spinner.progress);
+  	}
+  	spinner.toggle = () => {
+  		if (spinner.element.classList.contains(cache.class('active', options))) {
+  			return spinner.unload();
+  		} else {
+  			return spinner.load();
+  		}
+  	};
+  	spinner.load = () => {
+  		if (!spinner.determinate) spinner.element.style.display = '';
+  		setTimeout(() => spinner.element.classList.add(cache.class('active', options)), 10);
+  		return spinner;
+  	};
+  	spinner.unload = () => {
+  		spinner.element.classList.remove(cache.class('active', options));
+  		if (!spinner.determinate) {
+  			setTimeout(() => (spinner.element.style.display = 'none'), options.animation + 10);
+  		}
+  		return spinner;
+  	};
+  	spinner.destroy = () => {
+  		delete spinner.element.dataset.spinnerId;
+  		spinner.toggle = undefined;
+  		spinner.load = undefined;
+  		spinner.unload = undefined;
+  		spinner.element.removeChild(spinner.track);
+  		return true;
+  	};
+
+  	// ---------------
+  	// Create spinner.
+  	//
+  	Spinners.all[spinner.id] = spinner;
+  	spinner.element.appendChild(spinner.track);
+  	if (spinner.active) spinner.load();
+
+  	// ---------------
+  	// Return spinner.
+  	//
+  	return spinner;
+  }
+
+  // ------------------------
+  // Spinner service methods.
+  //
+  function toggle(id) {
+  	return Spinners.all[id].toggle();
+  }
+
+  function load(id) {
+  	return Spinners.all[id].load();
+  }
+
+  function unload(id) {
+  	return Spinners.all[id].unload();
+  }
+
+  function setProgress(id) {
+  	return Spinners.all[id].setProgress();
+  }
+
+  function destroy(id) {
+  	if (id === 'all') {
+  		return Object.keys(Spinners.all).forEach(destroy);
+  	}
+  	return Spinners.all[id].destroy();
+  }
+
+  /** ------------------------------------------------------------------------------------------------
+   *  spinner-service.js
+   *  ------------------
+   *  @author  brikcss  <https://github.com/brikcss>
+   *  @description  AngularJS service wrapper for BrikCSS.Spinner.
+   ** --------------------------------------------------------------------------------------------- */
+  var spinnerService = () => Spinners;
+
+  /** ------------------------------------------------------------------------------------------------
+   *  spinner-directive.js
+   *  --------------------
+   *  @author  brikcss  <https://github.com/brikcss>
+   *  @description  AngularJS directive to instantiate a new BrikCSS.Spinner.
+   ** --------------------------------------------------------------------------------------------- */
+
+  function spinnerDirective(spinnerService) {
+  	return {
+  		restrict: 'E',
+  		scope: {
+  			options: '=?'
+  		},
+  		link: function linkSpinnerDirective($scope, $element) {
+  			// Create spinner instance.
+  			const spinner = spinnerService.create($element[0], $scope.options);
+  			$scope.id = spinner.id;
+
+  			// Destroy spinner instance.
+  			$scope.$on('$destroy', () => {
+  				spinnerService.destroy($scope.id);
+  			});
+  		}
+  	};
+  }
+
+  /** ------------------------------------------------------------------------------------------------
+   *  spinner-toggle-directive.js
+   *  ---------------------------
+   *  @author  brikcss  <https://github.com/brikcss>
+   *  @description  AngularJS directive to toggle a BrikCSS.Spinner.
+   ** --------------------------------------------------------------------------------------------- */
+
+  function toggleSpinnerDirective(spinnerService) {
+  	return {
+  		restrict: 'A',
+  		link: function linkToggleSpinnerDirective($scope, $element, $attributes) {
+  			// Spinner id comes from `toggle-spinner` attribute.
+  			const id = $attributes.spinnerToggle;
+  			if (id === undefined) return false;
+
+  			// Bind click event.
+  			$element[0].addEventListener('click', toggleSpinner);
+
+  			// Cache toggleSpinner() so we can easily destroy it.
+  			function toggleSpinner() {
+  				spinnerService.toggle(id);
+  			}
+
+  			// Destroy spinner.
+  			$scope.$on('$destroy', () => {
+  				$element[0].removeEventListener('click', toggleSpinner);
+  			});
+  		}
+  	};
+  }
+
+  /** ------------------------------------------------------------------------------------------------
+   *  angularjs/index.js
+   *  ------------------
+   *  @author  brikcss  <https://github.com/brikcss>
+   *  @description  AngularJS module for BrikCSS.Spinner.
+   ** --------------------------------------------------------------------------------------------- */
+
+  var spinner = angular_1
+  	.module('brikcss.spinner', [])
+  	.factory('spinnerService', spinnerService)
+  	.directive('spinner', ['spinnerService', spinnerDirective])
+  	.directive('spinnerToggle', ['spinnerService', toggleSpinnerDirective]).name;
+
   /** ------------------------------------------------------------------------------------------------
    *  app.js
    *  ------
@@ -55929,7 +56311,7 @@
    *  @description  Main entry for DS UI's AngularJS site.
    ** --------------------------------------------------------------------------------------------- */
 
-  angular_1.module('dsui', [angularUiRouter, pages$1, sidebars, showHide, codeEditor$1, tabs]).run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
+  angular_1.module('dsui', [angularUiRouter, pages$1, sidebars, showHide, codeEditor$1, tabs, spinner]).run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
   	$rootScope.$state = $state;
   	$rootScope.$stateParams = $stateParams;
   }]).config(appConfig).controller('appCtrl', appController);
