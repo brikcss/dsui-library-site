@@ -799,13 +799,13 @@ body {
 }
 
 /* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
-.bg__superbar {
+.bg__supernav {
 	background-color: #3a4d5f;
 	color: white;
 }
 
 /* line 19, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
-.bg__superbar-icon {
+.bg__supernav-icon {
 	background-color: #9ca6b0;
 	color: rgba(0, 0, 0, 0.87);
 }
@@ -891,12 +891,12 @@ body {
 }
 
 /* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
-.color__superbar {
+.color__supernav {
 	color: #3a4d5f;
 }
 
 /* line 27, node_modules/@brikcss/core/dist/sass/colors/_colors.init.scss */
-.color__superbar-icon {
+.color__supernav-icon {
 	color: #9ca6b0;
 }
 
@@ -2929,13 +2929,13 @@ li {
 }
 
 /* line 250, src/angularjs/app.scss */
-.superbar {
+.supernav {
 	background-color: #e6e6e6;
 	overflow: hidden;
 }
 
 /* line 254, src/angularjs/app.scss */
-.superbar__header {
+.supernav__header {
 	background-color: #3a4d5f;
 	height: 8rem;
 	display: -webkit-box;
@@ -2950,25 +2950,25 @@ li {
 }
 
 /* line 262, src/angularjs/app.scss */
-.superbar__logo {
+.supernav__logo {
 	max-height: 80%;
 	max-width: 80%;
 }
 
 /* line 267, src/angularjs/app.scss */
-.superbar__body {
+.supernav__body {
 	height: calc(100vh - 8rem);
 	overflow-y: auto;
 }
 
 /* line 272, src/angularjs/app.scss */
-.superbar__section {
+.supernav__section {
 	border-bottom: 1px solid #cccccc;
 	height: 6rem;
 }
 
 /* line 277, src/angularjs/app.scss */
-.superbar__link {
+.supernav__link {
 	font-size: 1.14286em;
 	color: inherit;
 	display: -webkit-box;
@@ -2983,17 +2983,17 @@ li {
 }
 
 /* line 287, src/angularjs/app.scss */
-.superbar__menu {
+.supernav__menu {
 	list-style-type: none;
 }
 
 /* line 291, src/angularjs/app.scss */
-.superbar__menu li {
+.supernav__menu li {
 	margin-top: 0;
 }
 
 /* line 295, src/angularjs/app.scss */
-.superbar__menu .superbar__link {
+.supernav__menu .supernav__link {
 	font-size: 1em;
 	color: rgba(0, 0, 0, 0.87);
 	font-family: "Roboto", sans-serif;
@@ -3002,7 +3002,7 @@ li {
 }
 
 /* line 302, src/angularjs/app.scss */
-.superbar__menu-icon {
+.supernav__menu-icon {
 	color: #9ca6b0;
 	display: -webkit-inline-box;
 	display: -ms-inline-flexbox;
@@ -3122,7 +3122,7 @@ li {
 	-webkit-box-direction: normal;
 	-ms-flex-direction: column;
 	flex-direction: column;
-	height: 12rem;
+	min-height: 12rem;
 	width: 100%;
 	padding: 2rem;
 }
@@ -3161,7 +3161,12 @@ li {
 	margin-bottom: 1rem;
 }
 
-/* line 423, src/angularjs/app.scss */
+/* line 422, src/angularjs/app.scss */
+.pg-colors__color-hex {
+	margin-bottom: 1rem;
+}
+
+/* line 427, src/angularjs/app.scss */
 .heading__separator {
 	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 	padding-bottom: calc(1rem - 2px);
