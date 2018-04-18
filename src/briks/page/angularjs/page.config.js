@@ -117,13 +117,13 @@ const pages = {
 								usage: 'Neutral background'
 							},
 							{
-								name: 'superbar',
+								name: 'supernav',
 								hsl: 'hsl(209, 24%, 30%)',
 								hex: '#3a4d5f',
 								usage: 'Sidebar header'
 							},
 							{
-								name: 'superbar-icon',
+								name: 'supernav-icon',
 								hsl: 'hsl(208, 11%, 65%)',
 								hex: '#9ca6b0',
 								usage: 'Sidebar icons'

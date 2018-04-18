@@ -245,14 +245,14 @@ li {
 }
 
 // ---------
-// Superbar.
+// Supernav.
 //
-.superbar {
+.supernav {
 	background-color: c(gray);
 	overflow: hidden;
 
 	&__header {
-		background-color: c(superbar);
+		background-color: c(supernav);
 		height: 8rem;
 		display: flex;
 		align-items: center;
@@ -292,7 +292,7 @@ li {
 			margin-top: 0;
 		}
 
-		.superbar__link {
+		.supernav__link {
 			@include font(body);
 			height: 4rem;
 			padding-left: 6rem;
@@ -300,7 +300,7 @@ li {
 	}
 
 	&__menu-icon {
-		color: c(superbar-icon);
+		color: c(supernav-icon);
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -364,7 +364,7 @@ li {
 		margin-right: -1.5rem;
 
 		&--dark {
-			background-color: c(superbar);
+			background-color: c(supernav);
 			padding-bottom: 2rem;
 			margin-left: 0;
 			margin-right: 0;
