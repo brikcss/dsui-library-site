@@ -98,7 +98,7 @@ function codeEditor($compile) {
 			function updateEditor() {
 				if (!throttleEditorUpdate) {
 					let html = '';
-					let script;
+					let script, styles;
 					$scope.tabs.forEach((tab) => {
 						let code = '';
 						let codeEl = codeParentEl.querySelector('.editor__raw-code--' + tab.name);
@@ -117,10 +117,17 @@ function codeEditor($compile) {
 						// Update HTML content.
 						if ($scope.livePreview) {
 							// Create new content.
+							if (tab.name === 'html') {
+								html = code;
+							}
 							if (tab.name === 'css') {
+								styles = document.createElement('style');
+								try {
+									styles.appendChild(document.createTextNode(code));
+								} catch (e) {
+									styles.text = code;
+								}
 								html += '<style>' + code + '</style>';
-							} else if (tab.name === 'html') {
-								html += code;
 							}
 							if (tab.name === 'js') {
 								script = document.createElement('script');
@@ -138,6 +145,9 @@ function codeEditor($compile) {
 						// previewEl.innerHTML = html;
 						// Add new content.
 						previewEl.appendChild($compile(html)($scope)[0]);
+						if (styles) {
+							previewEl.appendChild(styles);
+						}
 						if (script) {
 							previewEl.appendChild(script);
 						}
