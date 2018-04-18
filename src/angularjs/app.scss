@@ -399,13 +399,14 @@ li {
 		width: 20rem;
 		padding: 1rem;
 		@include font(caption);
+		color: c(dark1);
 
 		&:empty {
 			padding: 0;
 		}
 
 		.pg-colors__color--dark & {
-			color: c(light2);
+			color: c(light1);
 		}
 	}
 }
