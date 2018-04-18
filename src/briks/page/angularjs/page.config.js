@@ -49,22 +49,26 @@ const pages = {
 							{
 								name: 'dark | dark1',
 								class: 'dark1',
-								value: 'hsla(0, 0%, 0%, 0.87)',
+								hsl: 'hsla(0, 0%, 0%, 0.87)',
+								hex: '#000000, 87% opacity',
 								usage: 'Primary dark text'
 							},
 							{
 								name: 'dark2',
-								value: 'hsla(0, 0%, 0%, 0.54)',
+								hsl: 'hsla(0, 0%, 0%, 0.54)',
+								hex: '#000000, 54% opacity',
 								usage: 'Active dark icons, Secondary dark text'
 							},
 							{
 								name: 'dark3',
-								value: 'hsla(0, 0%, 0%, 0.38)',
+								hsl: 'hsla(0, 0%, 0%, 0.38)',
+								hex: '#000000, 38% opacity',
 								usage: 'Inactive dark icons, Disabled / hint dark text'
 							},
 							{
 								name: 'dark4',
-								value: 'hsla(0, 0%, 0%, 0.12)',
+								hsl: 'hsla(0, 0%, 0%, 0.12)',
+								hex: '#000000, 12% opacity',
 								usage: 'Dark borders / dividers'
 							}
 						]
@@ -78,22 +82,26 @@ const pages = {
 							{
 								name: 'light | light1',
 								class: 'light1',
-								value: 'hsla(0, 0%, 100%, 1)',
+								hsl: 'hsla(0, 0%, 100%, 1)',
+								hex: '#ffffff, 100% opacity',
 								usage: 'Primary light text'
 							},
 							{
 								name: 'light2',
-								value: 'hsla(0, 0%, 100%, 0.7)',
+								hsl: 'hsla(0, 0%, 100%, 0.7)',
+								hex: '#ffffff, 70% opacity',
 								usage: 'Active light icons, Secondary light text'
 							},
 							{
 								name: 'light3',
-								value: 'hsla(0, 0%, 100%, 0.5)',
+								hsl: 'hsla(0, 0%, 100%, 0.5)',
+								hex: '#ffffff, 50% opacity',
 								usage: 'Inactive light icons, Disabled / hint light text'
 							},
 							{
 								name: 'light4',
-								value: 'hsla(0, 0%, 100%, 0.12)',
+								hsl: 'hsla(0, 0%, 100%, 0.12)',
+								hex: '#ffffff, 12% opacity',
 								usage: 'Light borders / dividers'
 							}
 						]
@@ -104,17 +112,20 @@ const pages = {
 						colors: [
 							{
 								name: 'gray',
-								value: 'hsl(0, 0%, 90%)',
+								hsl: 'hsl(0, 0%, 90%)',
+								hex: '#000000',
 								usage: 'Neutral background'
 							},
 							{
 								name: 'superbar',
-								value: 'hsl(209, 24%, 30%)',
+								hsl: 'hsl(209, 24%, 30%)',
+								hex: '#3a4d5f',
 								usage: 'Sidebar header'
 							},
 							{
 								name: 'superbar-icon',
-								value: 'hsl(208, 11%, 65%)',
+								hsl: 'hsl(208, 11%, 65%)',
+								hex: '#9ca6b0',
 								usage: 'Sidebar icons'
 							}
 						]
@@ -126,23 +137,27 @@ const pages = {
 						colors: [
 							{
 								name: 'color1',
-								value: 'hsl(194, 76%, 65%)',
+								hsl: 'hsl(194, 76%, 65%)',
+								hex: '#62caea',
 								usage: 'Primary app bar, text links, visual tree'
 							},
 							{
 								name: 'color2',
-								value: 'hsl(69, 67%, 51%)',
+								hsl: 'hsl(69, 67%, 51%)',
+								hex: '#bdd62e',
 								usage: 'Buttons, profile avatars'
 							},
 							{
 								name: 'color3',
-								value: 'hsl(36, 96%, 54%)',
+								hsl: 'hsl(36, 96%, 54%)',
+								hex: '#faa019',
 								usage:
 									'Selections, checkboxes, selected state for dropdowns, active tab underlines'
 							},
 							{
 								name: 'color4',
-								value: 'hsl(205, 7%, 45%)',
+								hsl: 'hsl(205, 7%, 45%)',
+								hex: '#6b747b',
 								usage:
 									'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree'
 							}

@@ -14,8 +14,9 @@
 				<% category.colors.forEach(color => { %>
 					<li class="pg-colors__color<% if (category.darkBg) { %> pg-colors__color--dark<% } %>">
 						<div class="pg-colors__color-value bg__<%= color.name %>">
-							<span><%= color.name %></span>
-							<span><%= color.value %></span>
+							<span class="pg-colors__color-name"><%= color.name %></span>
+							<span><%= color.hex %></span>
+							<span><%= color.hsl %></span>
 						</div>
 						<div class="pg-colors__color-meta"><%= color.usage %></div>
 					</li>

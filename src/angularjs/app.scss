@@ -10,6 +10,11 @@ body {
 	overflow: hidden;
 }
 
+*:focus {
+	outline-width: 2px;
+	outline-style: solid;
+}
+
 sub,
 sup {
 	/* Specified in % so that the sup/sup is the right size relative to the surrounding text */
@@ -408,6 +413,10 @@ li {
 		.pg-colors__color--dark & {
 			color: c(light1);
 		}
+	}
+
+	&__color-name {
+		margin-bottom: 1rem;
 	}
 }
 
