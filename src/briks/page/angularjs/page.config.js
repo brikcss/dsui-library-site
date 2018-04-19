@@ -1,14 +1,26 @@
-import resetTpl from '../../../pages/browser-reset.tpl.ejs';
-import colorsTpl from '../../../pages/colors.html.ejs';
-import typographyTpl from '../../../pages/typography.html.ejs';
-import rhythmTpl from '../../../pages/rhythm.html.ejs';
-import homeTpl from '../../../pages/home.tpl.html';
+// Root level pages.
+import homeTpl from '../../../pages/home.page.md';
 import getStartedTpl from '../../../pages/getting-started.tpl.html';
-import spinnerTpl from '../../../pages/spinner.html.ejs';
 import errorTpl from '../../../pages/404.tpl.html';
+// Core component pages.
+import resetTpl from '../../../pages/core/browser-reset.tpl.ejs';
+import colorsTpl from '../../../pages/core/colors.html.ejs';
+import typographyTpl from '../../../pages/core/typography.html.ejs';
+import rhythmTpl from '../../../pages/core/rhythm.html.ejs';
+// Component pages.
+import spinnerTpl from '../../../pages/components/spinner.html.ejs';
+// About pages.
+import includingAssetsPage from '../../../pages/about/including-assets.page.md';
+import workingWithNpmPage from '../../../pages/about/working-with-npm.page.md';
+import packageStructurePage from '../../../pages/about/package-structure.page.md';
 
 const pages = {
-	Home: homeTpl,
+	Home: {
+		tpl: homeTpl,
+		data: {
+			pageTitle: 'DS UI Library'
+		}
+	},
 	'Getting Started': getStartedTpl,
 	core: {
 		'Browser Reset': {
@@ -21,8 +33,9 @@ const pages = {
 						'<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include this in their codebase.</em></p>',
 					related: ['Typography', 'Links', 'Rhythm'],
 					setup: {
+						hideIntro: true,
 						summary:
-							'<p>Include <code>_reset.init.scss</code> as the first CSS-producing file (after abstract code) in your SASS build. No other steps are necessary.</p>'
+							'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p> Make sure <code>_reset.init.scss</code> is the first CSS-producing file (after abstract code) included in your SASS build. No other steps are necessary.</p>'
 					}
 				}
 			}),
@@ -38,7 +51,11 @@ const pages = {
 					intro:
 						'<p>DS UI Colors provide an easy way to apply and manage all of your app\'s colors. Define colors once and reuse them everywhere. It also helps manage a "live theme" (i.e., client colors) using native CSS variables.</p>',
 					related: ['Typography'],
-					npmPath: '@brikcss/colors'
+					npmPath: '@brikcss/colors',
+					setup: {
+						summary:
+							'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
+					}
 				},
 				colors: [
 					{
@@ -180,8 +197,8 @@ const pages = {
 					related: ['Colors', 'Lists', 'Links', 'Rhythm'],
 					setup: {
 						list: [
-							'Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you be putting it into your build.',
-							'Include <code>_typography.abstract.scss</code> in your SASS build.',
+							'Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you by putting it into your build.',
+							'<a ui-sref="including-assets">Include <code>_typography.abstract.scss</code></a> in your SASS build.',
 							{
 								class: 'bullets',
 								intro:
@@ -207,7 +224,11 @@ const pages = {
 					isCore: true,
 					intro:
 						'<p>DS UI Rhythm provides an easy way to apply and manage vertical and horizontal spacing anywhere. Rhythm is founded on <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">good principles of typography</a>, fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetition and familiarity</a> throughout the UI, and makes any layout more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>.</p><p>For a demonstration of Rhythm in action: <br><button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Toggle Rhythm grid</button></p><p class="font__reset">Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That\'s Rhythm.</p>',
-					related: ['Typography']
+					related: ['Typography'],
+					setup: {
+						summary:
+							'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
+					}
 				}
 			}),
 			data: {
@@ -223,7 +244,11 @@ const pages = {
 					npmPath: '@brikcss/spinner',
 					intro:
 						'<p>Spinner is a visual indicator that content on the page is loading. Spinner can optionally display the progress of an operation.</p>',
-					related: []
+					related: [],
+					setup: {
+						summary:
+							'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
+					}
 				}
 			}),
 			data: {
@@ -232,7 +257,9 @@ const pages = {
 		}
 	},
 	about: {
-		'Including Assets': ''
+		'Working with NPM': workingWithNpmPage,
+		'Package Structure': packageStructurePage,
+		'Including Assets': includingAssetsPage
 	},
 	404: errorTpl
 };
@@ -244,10 +271,10 @@ function pageConfig($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('404');
 
 	// Iterate through pages object and create pages.
+	const sections = ['core', 'components', 'about'];
 	Object.keys(pages).forEach((section) => {
-		if (typeof pages[section] === 'string') {
-			createRoute(section, pages[section]);
-		} else if (typeof pages[section] === 'object') {
+		if (sections.indexOf(section) > -1) {
+			// Sections of pages.
 			Object.keys(pages[section]).forEach((page) => {
 				let pageData = Object.assign({ section }, pages[section][page]);
 				if (typeof pages[section][page] === 'string') {
@@ -255,6 +282,9 @@ function pageConfig($stateProvider, $urlRouterProvider) {
 				}
 				createRoute(page, pageData);
 			});
+		} else {
+			// Pages.
+			createRoute(section, pages[section]);
 		}
 	});
 

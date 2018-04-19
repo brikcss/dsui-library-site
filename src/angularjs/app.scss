@@ -86,6 +86,10 @@ $spacing__elements: (
 // Typography.
 //
 // stylelint-disable-next-line selector-max-type
+pre {
+	tab-size: 4;
+}
+
 code {
 	background-color: lighten(c(dark4), 20%);
 	font-family: 'Roboto Mono', monospace;
@@ -428,4 +432,44 @@ li {
 	border-bottom: 2px solid hsla(0, 0%, 0%, 0.1);
 	padding-bottom: calc(1rem - 2px);
 	@extend .color__dark2;
+}
+
+.markdown {
+	h1 {
+		@include font(display1);
+	}
+
+	h2 {
+		@include font(headline);
+	}
+
+	h3 {
+		@include font(title);
+	}
+
+	h4 {
+		@include font(subheading);
+	}
+
+	h5,
+	h6 {
+		@include font(bold);
+	}
+
+	ul:not(.contains-task-list) {
+		@extend .bullets;
+	}
+
+	ol {
+		@extend .numbers;
+	}
+
+	.task-list-item {
+		display: flex;
+		align-items: center;
+	}
+
+	.task-list-item-checkbox {
+		margin-right: 1rem;
+	}
 }
