@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>DirectScale UI Library - Front End Components with BrikCSS</title>
+	<link rel="stylesheet" type="text/css" href="./css/app.css">
+</head>
+<body>
+
+	<div>
+		<div class="supernav"></div>
+
+		<div class="sidebars__content page">
+			<header class="header">Header</header>
+
+			<main class="page__scroller">
+				<div class="page__content">Content</div>
+				<ds-icon name="account" size="4rem"></ds-icon>
+				<footer class="footer"><ds-icon name="twitter"></ds-icon> Footer</footer>
+			</main>
+
+		</div>
+
+		<aside class="rightbar"></aside>
+		<div class="sidebar__overlay"></div>
+	</div>
+
+	<!-- ES MODULE SCRIPT LOADING TECHNIQUE -->
+	<!-- The script loading technique below loads different scripts for modern browsers and older browsers that don't support ES modules. Browsers with ES module support will not load `nomodule` scripts, but will load scripts with `type="module"`; the opposite is true for browsers without ES module support. See https://philipwalton.com/articles/deploying-es2015-code-in-production-today/ for details. -->
+	<script>
+		// SAFARI 10.1 fix: Safari 10 has a bug which loads `nomodule` scripts, even though Safari 10 supports ES modules. The first script below fixes that bug. See https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc.
+		(function() {
+			var check = document.createElement('script');
+			if (!('noModule' in check) && 'onbeforeload' in check) {
+				var support = false;
+				document.addEventListener(
+					'beforeload',
+					function(e) {
+						if (e.target === check) {
+							support = true;
+						} else if (!e.target.hasAttribute('nomodule') || !support) {
+							return;
+						}
+						e.preventDefault();
+					},
+					true
+				);
+
+				check.type = 'module';
+				check.src = '.';
+				document.head.appendChild(check);
+				check.remove();
+			}
+		})();
+	</script>
+	<script type="module" src="js/app.js"></script>
+	<script nomodule src="js/app-legacy.js"></script>
+</body>
+</html>

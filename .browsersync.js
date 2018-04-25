@@ -1,9 +1,9 @@
 module.exports = {
 	server: {
-		baseDir: './dist/angularjs/',
+		baseDir: './dist/',
 		directory: true,
 		index: 'index.html',
-		routes: {},
+		routes: {}
 	},
 	files: ['dist'],
 	ignore: [],
@@ -18,8 +18,8 @@ module.exports = {
 		forms: {
 			submit: false,
 			inputs: false,
-			toggles: false,
-		},
+			toggles: false
+		}
 	},
 	logLevel: 'info',
 	logPrefix: 'BS',
@@ -36,13 +36,13 @@ module.exports = {
 			bottom: 0,
 			padding: '5px 15px',
 			'border-radius': '6px 0 0 0',
-			'background-color': 'rgba(0, 0, 0, .6)',
-		},
+			'background-color': 'rgba(0, 0, 0, .6)'
+		}
 	},
 	hostnameSuffix: false,
 	scrollProportionally: false,
 	scrollThrottle: 100,
 	scrollRestoreTechnique: 'window.name',
 	scrollElements: [],
-	scrollElementMapping: [],
+	scrollElementMapping: []
 };

@@ -1,0 +1,6 @@
+/* stylelint-disable-next-line selector-max-type, selector-pseudo-class-no-unknown */
+ds-icon:not(:defined) {
+	display: inline-flex;
+	height: 2rem;
+	width: 2rem;
+}

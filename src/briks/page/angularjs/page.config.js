@@ -8,7 +8,8 @@ import colorsTpl from '../../../pages/core/colors.html.ejs';
 import typographyTpl from '../../../pages/core/typography.html.ejs';
 import rhythmTpl from '../../../pages/core/rhythm.html.ejs';
 // Component pages.
-import spinnerTpl from '../../../pages/components/spinner.html.ejs';
+import spinnerPage from '../../../pages/components/spinner.html.ejs';
+import iconsPage from '../../../pages/components/icons.html.ejs';
 // About pages.
 import includingAssetsPage from '../../../pages/about/including-assets.page.md';
 import workingWithNpmPage from '../../../pages/about/working-with-npm.page.md';
@@ -238,12 +239,29 @@ const pages = {
 	},
 	components: {
 		Spinner: {
-			tpl: spinnerTpl({
+			tpl: spinnerPage({
 				brik: {
 					name: 'Spinner',
 					npmPath: '@brikcss/spinner',
 					intro:
 						'<p>Spinner is a visual indicator that content on the page is loading. Spinner can optionally display the progress of an operation.</p>',
+					related: [],
+					setup: {
+						summary:
+							'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
+					}
+				}
+			}),
+			data: {
+				version: '0.0.1'
+			}
+		},
+		Icons: {
+			tpl: iconsPage({
+				brik: {
+					name: 'Icons',
+					npmPath: '@brikcss/icons',
+					intro: '<p>Icons communicate something without text.</p>',
 					related: [],
 					setup: {
 						summary:

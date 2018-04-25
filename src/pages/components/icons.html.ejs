@@ -1,0 +1,32 @@
+<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'About', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}">
+	<div>
+		<%- include ../partials/_intro.html.ejs %>
+
+		<h2 class="font__headline">Guidelines</h2>
+
+		<p class="font__subheading">We are working on this page.</p>
+	</div>
+
+	<div>
+		<%- include ../partials/_install.html.ejs %>
+	</div>
+
+	<div>
+		<h2 class="font__headline">Usage</h2>
+		<p><code>&lt;icon/&gt;</code> is a <a ui-sref="web-components">Custom Element</a> with the following API:</p>
+		<ul class="bullets">
+			<li><code>name</code>: Gets or sets the icon name, which should be the path of the icon SVG file, relative to <code>../svg/</code>, which is where the SVG icon files should reside.</li>
+			<li><code>size</code>: Gets or sets the size of the icon.</li>
+		</ul>
+	</div>
+
+	<div>
+		<h2 class="font__headline">Examples</h2>
+		<editor lang="html" live-preview="true" editable="true">
+			<pre>&lt;div>
+	&lt;ds-icon name="twitter">&lt;/ds-icon>
+	&lt;ds-icon name="facebook" size="8rem">&lt;/ds-icon>
+&lt;/div></pre>
+		</editor>
+	</div>
+</tabs>

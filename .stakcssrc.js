@@ -1,9 +1,15 @@
 module.exports = {
-	homepage: {
+	html_angularjs: {
 		source: 'src/angularjs/home.html',
 		output: 'dist/angularjs/index.html',
 		bundlers: ['@brikcss/stakcss-bundler-ejs'],
-		watchPaths: './src/briks/{sidebars,header,footer,rightbar}/*.ejs.html'
+		watchPaths: './src/briks/**/*.ejs.html'
+	},
+	html_vanillajs: {
+		source: 'src/vanillajs/index.html',
+		output: 'dist/vanillajs/index.html',
+		bundlers: ['@brikcss/stakcss-bundler-ejs'],
+		watchPaths: './src/briks/**/*.ejs.html'
 	},
 	sass: {
 		source: [
@@ -38,6 +44,20 @@ module.exports = {
 			}
 		]
 	},
+	css: {
+		source: 'src/vanillajs/app.css',
+		output: './dist/vanillajs/css/app.css',
+		bundlers: [
+			{
+				run: '@brikcss/stakcss-bundler-postcss',
+				options: {},
+				plugins: [
+					require('autoprefixer')({ cascade: false }),
+					require('postcss-reporter')({ clearReportedMessages: true })
+				]
+			}
+		]
+	},
 	fonts: {
 		source: './node_modules/@brikcss/core/dist/sass/typography/fonts/*.{woff,woff2,ttf}',
 		output: 'dist/angularjs/css/fonts/',
@@ -48,5 +68,27 @@ module.exports = {
 		output: 'dist/angularjs/assets/',
 		root: 'static',
 		bundlers: ['@brikcss/stakcss-bundler-copy']
+	},
+	svg: {
+		source: './node_modules/@mdi/svg/svg/**',
+		output: 'dist/vanillajs/svg/',
+		root: 'node_modules/@mdi/svg/svg',
+		bundlers: [
+			{
+				run: './lib/stakcss-bundler-svg.js',
+				options: { plugins: [{ removeViewBox: false }, { removeDimensions: true }] }
+			}
+		]
+	},
+	svg_angularjs: {
+		source: './node_modules/@mdi/svg/svg/**',
+		output: 'dist/angularjs/svg/',
+		root: 'node_modules/@mdi/svg/svg',
+		bundlers: [
+			{
+				run: './lib/stakcss-bundler-svg.js',
+				options: { plugins: [{ removeViewBox: false }, { removeDimensions: true }] }
+			}
+		]
 	}
 };
