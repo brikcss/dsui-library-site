@@ -15,9 +15,14 @@ import pages from '../briks/page/angularjs/index.js';
 import codeEditor from '../briks/code-editor/angularjs/index.js';
 import tabs from '../briks/tabs/angularjs/index.js';
 import spinner from '../../node_modules/@brikcss/spinner/dist/angularjs/esmodule';
-import { init as icon } from '../../components/icons/icon';
+import * as icon from '../../briks/icons/icon';
 
-customElements.define('ds-icon', icon({ size: '4rem' }));
+window.brikcss = {
+	config: {
+		prefix: 'ds'
+	}
+};
+icon.define({ size: '4rem' });
 
 angular
 	.module('dsui', [uiRouter, pages, sidebars, showHide, codeEditor, tabs, spinner])

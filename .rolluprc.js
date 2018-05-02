@@ -18,6 +18,7 @@ import mdAttrs from 'markdown-it-attrs';
 import mdContainer from 'markdown-it-container';
 import mdTasks from 'markdown-it-task-lists';
 import mdInclude from 'markdown-it-include';
+import templateLiteral from './lib/rollup-plugin-template-literal';
 // import prettier from 'rollup-plugin-prettier';
 // const prettierConfig = require('./.prettierrc.js');
 import uglify from 'rollup-plugin-uglify';
@@ -62,13 +63,6 @@ let configs = [
 			}
 		}
 	),
-	createConfig({
-		input: 'src/vanillajs/app.js',
-		output: {
-			file: 'dist/vanillajs/js/app-legacy.js',
-			format: 'iife'
-		}
-	}),
 	createConfig(
 		{
 			input: 'src/angularjs/app.js',
@@ -99,18 +93,27 @@ let configs = [
 				plugins: ['external-helpers']
 			}
 		}
-	),
-	createConfig({
-		input: 'src/angularjs/app.js',
-		output: {
-			file: 'dist/angularjs/js/app-legacy.js',
-			format: 'iife'
-		}
-	})
+	)
 ];
 
 // Add production configs when isProd.
 if (isProd) {
+	configs = configs.concat(
+		createConfig({
+			input: 'src/vanillajs/app.js',
+			output: {
+				file: 'dist/vanillajs/js/app-legacy.js',
+				format: 'iife'
+			}
+		}),
+		createConfig({
+			input: 'src/angularjs/app.js',
+			output: {
+				file: 'dist/angularjs/js/app-legacy.js',
+				format: 'iife'
+			}
+		})
+	);
 	configs.forEach((config) => {
 		configs.push(createConfig(merge({}, config), { env: 'production' }));
 	});
@@ -170,7 +173,10 @@ function createConfig(config = {}, options = {}) {
 					}
 				},
 				string: {
-					include: '**/*.tpl.html'
+					include: ['**/*.tpl.html', '**/*.css']
+				},
+				templateLiteral: {
+					include: '**/*.tplit.html'
 				},
 				ejs: {
 					include: ['**/*.ejs*'],
@@ -202,6 +208,11 @@ function createConfig(config = {}, options = {}) {
 	// Build base config.
 	config = merge(
 		{
+			moduleContext: (id) => {
+				if (id.indexOf('.tplit.html') > -1) {
+					return 'context';
+				}
+			},
 			watch: {
 				chokidar: true,
 				exclude: 'node_modules/**',
@@ -216,6 +227,7 @@ function createConfig(config = {}, options = {}) {
 		resolve(),
 		commonjs(),
 		md(options.md),
+		templateLiteral(options.templateLiteral),
 		string(options.string),
 		ejs(options.ejs),
 		babel(options.babel)

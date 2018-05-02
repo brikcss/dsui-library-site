@@ -9,23 +9,32 @@
 </head>
 <body>
 
-	<div>
-		<div class="supernav"></div>
+	<brik-page>
+		<brik-supernav slot="sidebar-left">
+			<h1>SuperNav!!!</h1>
+		</brik-supernav>
 
-		<div class="sidebars__content page">
-			<header class="header">Header</header>
+		<brik-page-content slot="content">
+			<brik-header>
+				<brik-burger-button sidebar="left"></brik-burger-button>
+				Header
+			</brik-header>
 
-			<main class="page__scroller">
-				<div class="page__content">Content</div>
-				<ds-icon name="account" size="4rem"></ds-icon>
-				<footer class="footer"><ds-icon name="twitter"></ds-icon> Footer</footer>
-			</main>
+			<brik-scroller>
+				<brik-test>Hello world.</brik-test>
+				<div>
+					<brik-icon name="account"></brik-icon>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</div>
+				<brik-footer class="footer"><brik-icon name="twitter"></brik-icon> Footer</brik-footer>
+			</brik-scroller>
+		</brik-page-content>
 
-		</div>
-
-		<aside class="rightbar"></aside>
-		<div class="sidebar__overlay"></div>
-	</div>
+		<brik-rightbar slot="sidebar-right">
+			<h2>Right Sidebar</h2>
+		</brik-rightbar>
+	</brik-page>
 
 	<!-- ES MODULE SCRIPT LOADING TECHNIQUE -->
 	<!-- The script loading technique below loads different scripts for modern browsers and older browsers that don't support ES modules. Browsers with ES module support will not load `nomodule` scripts, but will load scripts with `type="module"`; the opposite is true for browsers without ES module support. See https://philipwalton.com/articles/deploying-es2015-code-in-production-today/ for details. -->

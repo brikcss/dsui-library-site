@@ -1,3 +1,14 @@
+/* stylelint-disable selector-max-type, declaration-property-unit-whitelist */
+html {
+	font-size: 8px;
+}
+
+body {
+	font-size: 14px;
+	margin: 0;
+}
+/* stylelint-enable selector-max-type, declaration-property-unit-whitelist */
+
 /* stylelint-disable-next-line selector-max-type, selector-pseudo-class-no-unknown */
 ds-icon:not(:defined) {
 	display: inline-flex;
