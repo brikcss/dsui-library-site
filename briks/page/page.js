@@ -1,3 +1,6 @@
+import { createRouter } from 'router5';
+import browserPlugin from 'router5/plugins/browser';
+import listenersPlugin from 'router5/plugins/listeners';
 import BrikElement from '../brik-element/brik.js';
 import tpl from './page.tplit.html';
 import stylesheet from './page.css';
@@ -22,6 +25,65 @@ export default class Page extends BrikElement {
 	}
 
 	connectedCallback() {
+		this.router = this.buildRoutes(
+			[
+				{
+					name: 'home',
+					path: '/home'
+				},
+				{
+					name: 'about',
+					path: '/about'
+				},
+				{
+					name: 'not-found',
+					path: '/not-found'
+				},
+				{
+					name: 'user',
+					path: '/:userid'
+				},
+				{
+					name: 'user.edit',
+					path: '/:userid/edit'
+				},
+				{
+					name: 'users',
+					path: '/users'
+				}
+			],
+			{
+				allowNotFound: false,
+				autoCleanUp: true,
+				defaultRoute: 'home',
+				defaultParams: {},
+				queryParams: {
+					arrayFormat: 'default',
+					nullFormat: 'default',
+					booleanFormat: 'default'
+				},
+				queryParamsMode: 'default',
+				trailingSlashMode: 'default',
+				strictTrailingSlash: false,
+				caseSensitive: true
+			}
+		)
+			.usePlugin(
+				browserPlugin({
+					useHash: true,
+					hashPrefix: '!',
+					// base:
+					preserveHash: true,
+					mergeState: false
+				})
+			)
+			.usePlugin(listenersPlugin())
+			.start();
+
+		// this.router.addNodeListener('', (to, from) => {
+		// 	console.log('PAGE LISTENER:', to, from);
+		// });
+
 		this.$overlay = this.shadowRoot.querySelector('brik-page-overlay');
 		setTimeout(() => {
 			// this.update({ sidebarActive: 'right' }, { setAttr: true });
@@ -44,6 +106,10 @@ export default class Page extends BrikElement {
 	disconnectedCallback() {
 		this.removeEventListener('sidebars.toggle', this.toggle);
 		this.$overlay.removeEventListener('click', this.handleOverlayClick);
+	}
+
+	buildRoutes(routes = [], options = {}) {
+		return createRouter(routes, options);
 	}
 
 	onSidebarActive(value) {

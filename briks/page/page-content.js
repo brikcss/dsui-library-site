@@ -18,4 +18,8 @@ export default class PageContent extends BrikElement {
 	render() {
 		return this.html`<slot></slot>`;
 	}
+
+	get router() {
+		return this.parentNode.host.router;
+	}
 }

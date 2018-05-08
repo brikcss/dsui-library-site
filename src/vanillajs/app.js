@@ -45,6 +45,7 @@ import Icon from '../../briks/icons/icon.js';
 import Header from '../../briks/header/header.js';
 import BurgerButton from '../../briks/burger-button/burger-button.js';
 import Scroller from '../../briks/scroller/scroller.js';
+import Content from '../../briks/content/content.js';
 import BrikElement from '../../briks/brik-element/brik.js';
 
 // ---------------------
@@ -115,3 +116,4 @@ BrikElement.define(
 	}
 );
 Header.define();
+Content.define();
