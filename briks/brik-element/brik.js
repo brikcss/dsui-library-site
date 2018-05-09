@@ -5,58 +5,6 @@
  *  @credit  Thank you to @WebReflection for the awesome HyperHTML set of libraries. Much of the
  *      inspiration for BrikElement was drawn from this work:
  *      https://github.com/WebReflection/hyperHTML-Element.
- *  @features  BrikElement extends HTMLElement with the following features:
- *             - created() replaces constructor(). No super(). Element is known to
- *               browser and you have full access to attributes and childNodes.
- *             - define() auto attaches observedAttributes from child's static get defaults().
- *             - props (this.props):
- *                 - observedAttributes are reflected (by default) in element attributes and props
- *                   and vice versa. This can be configured with config.reflect.attrs and
- *                   config.reflect.props (both can be set with `config.reflect = <boolean>`).
- *                 - props are automatically converted to camelCase, and attributes are converted
- *                   to kebab-case.
- *                 - update() updates props and (by default) calls render() after updating props. It
- *                   can optionally set attributes as well, in which case it will not call render().
- *                 - To summarize:
- *                     - For any observedAttribute, call `this[prop] = <value>` or
- *                       `this.setAttribute(...)` to update attr/prop and render().
- *                     - Call `this.update(props, {})` to update multiple props and optionally
- *                       render() (renders by default). Call `this.update(null, {})` to update all
- *                       props. This can optionally reflect props to attributes.
- *                     - For attributes that are not observed, props and attributes are not
- *                       reflected. This is useful to prevent unnecessary renders, but it also means
- *                       you will need to do the following after updating props or attributes:
- *                         - manually call update() and optionally reflect props to attributes.
- *                         - manually reflect props to attrs (hint: use the hyperhtml template).
- *                         - manually call render().
- *                 - NOTE: Generally do not set props with `this.props[prop] = ...;` since
- *                   attributes do not get reflected this way.
- *             - attributeChangedCallback is only called on child if the value changes.
- *             - Event handling:
- *                 - handleEvent() handles events by context. Ex: `onclick="${this}"` binds the
- *                   click event to this.shadowRoot, this._shadowRoot, or this.
- *                 - handle*() can handle any event (i.e., handleClick()). Ex:
- *                   `onclick="${this.handleClick}"`.
- *                 - data-call handles any event. Ex: `data-call="onAnyEvent"` binds any event to
- *                   the onAnyEvent(e) method.
- *                 - Event handling. Ex: `onclick=${this.handleClick}` binds click event to the
- *                   handleClick() method.
- *             - Flexible ways to call define(config, Class):
- *                 - Can be called on a Class or on BrikElement itself. Ex:
- *                     - `MyClass.define(...);`
- *                     - `BrikElement.define(...);`.
- *                 - Flexible ways of passing arguments:
- *                     - Config can be Object or String. String will set config.tag.
- *                     - config.tag can be omitted in favor of the Class name, converted to
- *                       kebab-case.
- *                     - Config can be omitted (and Class can be first argument).
- *                     - Or both config and Class can be omitted.
- *                     - Examples:
- *                         - `BrikElement.define('my-element', MyClass);
- *                         - `BrikElement.define({tag: 'my-element', ...}, MyClass);
- *                         - `MyClass.define({tag: 'my-element', ...});
- *                         - `MyClass.define();` // so long as MyClass has a define method.
- *                         - `BrikElement.define(MyClass); // so long as MyClass has define method.
  ** --------------------------------------------------------------------------------------------- */
 
 import { Component, bind, define, hyper, wire } from 'hyperhtml';
@@ -85,38 +33,31 @@ class BrikElement extends HTMLElement {
 			config
 		);
 
-		// Set default props.
-		Class.prototype.props = Class.defaults || {};
-
 		// observedAttributes create a mechanism to reflect attributes to props and vice versa. For
 		// each observedAttributes, an accessor is defined at `this[prop]` which, when set, will
 		// reflect the value to props. Note: attributes are converted to kebab-case, while props are
 		// converted to camelCase.
-		if (!Class.observedAttributes && Class.defaults && Object.keys(Class.defaults).length) {
-			Class.observedAttributes = Object.keys(Class.defaults).map((prop) => {
+		if (!Class.observedAttributes) {
+			const defaults = Object.assign({}, Class.prototype.defaults, Class.defaults);
+			Class.observedAttributes = Object.keys(defaults).map((prop) => {
 				return camelToKebabCase(prop);
 			});
 		}
-		if (
-			typeof Class.observedAttributes === 'object' &&
-			Object.keys(Class.observedAttributes).length
-		) {
-			Class.observedAttributes.forEach((attr) => {
-				const prop = kebabToCamelCase(attr);
-				if (!(prop in Class.prototype)) {
-					Object.defineProperty(Class.prototype, prop, {
-						configurable: true,
-						get() {
-							return this.props[prop];
-						},
-						set(value) {
-							this.props[prop] = value;
-							return this.setAttribute(attr, value);
-						}
-					});
-				}
-			});
-		}
+		(Class.observedAttributes || []).forEach((attr) => {
+			const prop = kebabToCamelCase(attr);
+			if (!(prop in Class.prototype)) {
+				Object.defineProperty(Class.prototype, prop, {
+					configurable: true,
+					get() {
+						return this.props[prop];
+					},
+					set(value) {
+						this.props[prop] = value;
+						this.setAttribute(attr, value);
+					}
+				});
+			}
+		});
 
 		// Wrapper around child's attributeChangedCallback to reflect attribute changes to props. It
 		// also upgrade the child's attributeChangedCallback to only run if the value has changed,
@@ -124,32 +65,34 @@ class BrikElement extends HTMLElement {
 		// NOTE: In the initial render, attributes are not set in the DOM. This is because it
 		// creates unnecessary renders and can bloat the markup. As soon as any attribute or prop
 		// changes, however, it gets reflected in the DOM.
+		const created = Class.prototype.created;
 		const onChanged = Class.prototype.attributeChangedCallback;
 		const hasChange = !!onChanged;
-		Object.defineProperty(Class.prototype, 'attributeChangedCallback', {
-			configurable: true,
-			value(attr, oldValue, value) {
-				if (created && !this._initialized) {
-					checkReady.call(this, created);
-				}
-				if (oldValue !== value) {
-					const prop = kebabToCamelCase(attr);
-					const propCapitalized = prop.replace(/(?:^|\s)\S/g, function(a) {
-						return a.toUpperCase();
-					});
-					this.props[prop] = value;
-					if (hasChange) onChanged.call(this, prop, oldValue, value, attr);
-					if (typeof this['on' + propCapitalized] === 'function') {
-						this['on' + propCapitalized].call(this, value, oldValue, prop, attr);
+		if (created || hasChange) {
+			Object.defineProperty(Class.prototype, 'attributeChangedCallback', {
+				configurable: true,
+				value(attr, oldValue, value) {
+					if (created && !this._initialized) {
+						checkReady.call(this, created);
+					}
+					if (oldValue !== value) {
+						const prop = kebabToCamelCase(attr);
+						const propCapitalized = prop.replace(/(?:^|\s)\S/g, function(a) {
+							return a.toUpperCase();
+						});
+						this.props[prop] = value;
+						if (hasChange) onChanged.call(this, prop, oldValue, value, attr);
+						if (typeof this['on' + propCapitalized] === 'function') {
+							this['on' + propCapitalized].call(this, value, oldValue, prop, attr);
+						}
 					}
 				}
-			}
-		});
+			});
+		}
 
 		// Created() replaces constructor() and ensures the node is fully known to the browser. It
 		// is ensured to run either after DOMContentLoaded or once there is a next sibling. This
 		// ensures you have full access to element attributes and/or childNodes.
-		const created = Class.prototype.created;
 		if (created) {
 			// Ensures create() is only called once.
 			Object.defineProperty(Class.prototype, '_initialized', {
@@ -238,8 +181,23 @@ class BrikElement extends HTMLElement {
 		Object.defineProperty(this, '_html', { configurable: true, value: value });
 	}
 
+	// Default props.
+	get defaults() {
+		return {};
+	}
+
 	// Overwrite this method with your own render
 	render() {}
+
+	// the state with a default
+	get props() {
+		return this._props || (this.props = this.defaults);
+	}
+
+	// it can be set too if necessary, it won't invoke render()
+	set props(value) {
+		Object.defineProperty(this, '_props', { configurable: true, value });
+	}
 
 	// Shallow copies props to this.props, and (by default) calls this.render() after updating
 	// props. It can optionally set each element property, in which case it will not render.
@@ -297,6 +255,7 @@ if (!dom.ready) {
 function checkReady(created) {
 	if (dom.ready || isReady.call(this, created)) {
 		if (!this._initialized) {
+			init.call(this);
 			created.call(Object.defineProperty(this, '_initialized', { value: true }));
 		}
 	} else {
@@ -317,6 +276,15 @@ function isReady(created) {
 	} while ((el = el.parentNode));
 	setTimeout(checkReady.bind(this, created));
 	return false;
+}
+
+function init() {
+	// Set up defaults.
+	this.props = Object.assign({}, this.props, this.constructor.defaults, this.defaults);
+	Object.keys(this.props).forEach((prop) => {
+		this.props[prop] = this.getAttribute(camelToKebabCase(prop)) || this.props[prop];
+	});
+	Object.defineProperty(this, '_initialized', { value: true });
 }
 
 /**

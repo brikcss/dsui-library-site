@@ -3,14 +3,11 @@ import browserPlugin from 'router5/plugins/browser';
 import listenersPlugin from 'router5/plugins/listeners';
 import BrikElement from '../brik-element/brik.js';
 import tpl from './page.tplit.html';
-import stylesheet from './page.css';
 
 export default class Page extends BrikElement {
 	static get defaults() {
 		return {
-			sidebarActive: '',
-			pinLeftAt: '',
-			pinRightAt: ''
+			activeSidebar: ''
 		};
 	}
 
@@ -20,7 +17,15 @@ export default class Page extends BrikElement {
 			throw new Error('Only one <brik-page/> element allowed on a page.');
 		}
 		this.attachShadow({ mode: 'open' });
-		this.addEventListener('sidebars.toggle', this.toggle);
+		// Cache sidebars.
+		this.$ = {
+			overlay: this.shadowRoot.querySelector('brik-page-overlay'),
+			sidebars: {}
+		};
+		this.querySelectorAll('brik-sidebar').forEach((sidebar) => {
+			this.$.sidebars[sidebar.getAttribute('side')] = sidebar;
+		});
+		this.addEventListener('sidebars.toggle', this.toggleSidebar);
 		this.render();
 	}
 
@@ -84,104 +89,74 @@ export default class Page extends BrikElement {
 		// 	console.log('PAGE LISTENER:', to, from);
 		// });
 
-		this.$overlay = this.shadowRoot.querySelector('brik-page-overlay');
 		setTimeout(() => {
-			// this.update({ sidebarActive: 'right' }, { setAttr: true });
-			this.sidebarActive = 'right';
+			this.toggleSidebar('right');
 		}, 1000);
 		setTimeout(() => {
-			// this.update({ sidebarActive: '' }, { setAttr: true });
-			this.sidebarActive = '';
+			this.toggleSidebar('');
 		}, 2000);
 		setTimeout(() => {
-			// this.update({ sidebarActive: 'left' }, { setAttr: true });
-			this.sidebarActive = 'left';
+			this.toggleSidebar('left');
 		}, 3000);
 		setTimeout(() => {
-			// this.update({ sidebarActive: '' }, { setAttr: true });
-			this.sidebarActive = '';
+			this.toggleSidebar('');
 		}, 4000);
 	}
 
 	disconnectedCallback() {
-		this.removeEventListener('sidebars.toggle', this.toggle);
-		this.$overlay.removeEventListener('click', this.handleOverlayClick);
+		this.removeEventListener('sidebars.toggle', this.toggleSidebar);
+		this.$.overlay.removeEventListener('click', this.handleOverlayClick);
 	}
 
 	buildRoutes(routes = [], options = {}) {
 		return createRouter(routes, options);
 	}
 
-	onSidebarActive(value) {
-		this.dispatchEvent(
-			new CustomEvent('sidebars.toggled', {
-				detail: value,
-				composed: true,
-				bubbles: true
-			})
-		);
-	}
-
 	handleOverlayClick() {
-		this.sidebarActive = '';
+		this.toggleSidebar('');
 	}
 
-	toggle(event) {
-		const sidebar = event && event.detail ? event.detail : '';
-		this.sidebarActive = this.sidebarActive === sidebar ? '' : sidebar;
+	toggleSidebar(side) {
+		// Side can come from event.detail or be passed explicitly as a string.
+		side =
+			typeof side === 'object'
+				? event.detail
+				: side === undefined ? this.activeSidebar : side;
+		// If side is already '', don't do anything.
+		if (side === '' && this.activeSidebar === '') return;
+		// Get values.
+		const windowWidth = window.innerWidth;
+		const sidebar = this.$.sidebars[side];
+		const isPinned = sidebar && sidebar.pinAt && parseInt(sidebar.pinAt, 10) <= windowWidth;
+		const isMini = sidebar && sidebar.miniAt && parseInt(sidebar.miniAt, 10) <= windowWidth;
+		// Don't do anything if the sidebar is pinned.
+		if (isPinned || isMini) {
+			return;
+		}
+		// Otherwise set the active sidebar prop.
+		this.activeSidebar = this.activeSidebar === side ? '' : side;
 	}
 
 	// Render the DOM with hyperhtml, a native approach to virtual DOM which efficiently renders
 	// nodes, data or attributes that change. See
 	// https://viperhtml.js.org/hyperhtml/documentation/.
 	render() {
-		this.props.css = stylesheet;
-		if (this.props.pinLeftAt) {
-			this.props.css += `@media (min-width: ${this.props.pinLeftAt}) {
-				brik-page-content {
-					min-width: 0;
-				}
-				.brik-sidebar__left {
-					margin-left: 0;
-				}
-				:host([sidebarActive='left']) brik-page-content {
-					transform: translate3d(0, 0, 0);
-				}
-				:host([sidebarActive='left']) .brik-sidebar__left {
-					box-shadow: none;
-					transform: none;
-				}
-				:host([sidebarActive='left']) .brik-sidebar__right {
-					transform: none;
-				}`;
-			if (parseInt(this.props.pinLeftAt, 10) < parseInt(this.props.pinRightAt, 10)) {
-				this.props.css += `brik-page-overlay { display: none; }`;
-			}
-			this.props.css += `}`;
-		}
-		if (this.props.pinRightAt) {
-			this.props.css += `@media (min-width: ${this.props.pinRightAt}) {
-				brik-page-content {
-					min-width: 0;
-				}
-				.brik-sidebar__right {
-					margin-right: 0;
-				}
-				:host([sidebarActive='right']) brik-page-content {
-					transform: translate3d(0, 0, 0);
-				}
-				:host([sidebarActive='right']) .brik-sidebar__right {
-					box-shadow: none;
-					transform: none;
-				}
-				:host([sidebarActive='right']) .brik-sidebar__left {
-					transform: none;
-				}`;
-			if (parseInt(this.props.pinRightAt, 10) < parseInt(this.props.pinLeftAt, 10)) {
-				this.props.css += `brik-page-overlay { display: none; }`;
-			}
-			this.props.css += `}`;
-		}
+		this.props.css = `:host {
+			--sidebar-bg: hsl(0, 0%, 100%);
+			--sidebar-width: 30rem;
+			--sidebar-mini-width: 12rem;
+			--sidebar-push-content: 0;
+			--sidebar-left-bg: var(--sidebar-bg);
+			--sidebar-left-width: var(--sidebar-width);
+			--sidebar-left-push: var(--sidebar-push-content);
+			--sidebar-right-bg: var(--sidebar-bg);
+			--sidebar-right-width: var(--sidebar-width);
+			--sidebar-right-push: var(--sidebar-push-content);
+			display: flex;
+			height: 100vh;
+			width: 100vw;
+			overflow: hidden;
+		}`;
 		return tpl(BrikElement.bind(this.shadowRoot), this);
 	}
 }

@@ -31,6 +31,7 @@
  *         	- Fetch
  *         	- Promise??
  *         	- Proxy object (https://github.com/tvcutsem/harmony-reflect)
+ *         	- ES6 (Class?)
  ** --------------------------------------------------------------------------------------------- */
 
 // -------------------
@@ -39,13 +40,13 @@
 // import 'document-register-element';
 //
 import Page from '../../briks/page/page.js';
+import PageViewport from '../../briks/page/page-viewport.js';
+import PageOverlay from '../../briks/page/page-overlay.js';
 import Sidebar from '../../briks/page/sidebar.js';
-import PageContent from '../../briks/page/page-content.js';
 import Icon from '../../briks/icons/icon.js';
 import Header from '../../briks/header/header.js';
 import BurgerButton from '../../briks/burger-button/burger-button.js';
 import Scroller from '../../briks/scroller/scroller.js';
-import Content from '../../briks/content/content.js';
 import BrikElement from '../../briks/brik-element/brik.js';
 
 // ---------------------
@@ -57,24 +58,25 @@ window.brikcss = window.brikcss || {};
 // Define custom elements.
 //
 Page.define();
+PageViewport.define();
+PageOverlay.define();
 Sidebar.define();
 Scroller.define();
 // Icon.define({ size: '4rem' });
 BrikElement.define(
 	class extends Icon {
-		static get defaults() {
+		get defaults() {
 			return Object.assign({}, Icon.defaults, {
 				size: '4rem'
 			});
 		}
 	}
 );
-PageContent.define();
 BurgerButton.define();
 
 BrikElement.define(
 	class Test extends BrikElement {
-		static get defaults() {
+		get defaults() {
 			return {
 				height: '40px',
 				width: '100%',
@@ -116,4 +118,9 @@ BrikElement.define(
 	}
 );
 Header.define();
-Content.define();
+
+const rightToggle = document.querySelector('.toggle__right');
+const page = document.querySelector('brik-page');
+rightToggle.addEventListener('click', () => {
+	page.toggleSidebar('right');
+});
