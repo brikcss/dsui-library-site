@@ -1,0 +1,147 @@
+:host {
+	background-color: var(--color-supernav);
+	color: var(--color-light);
+	flex-direction: column-reverse;
+}
+
+.brik-supernav__header {
+	display: none;
+}
+
+.brik-supernav__item {
+	/* stylelint-disable-next-line declaration-no-important */
+	height: 9rem !important;
+	position: static;
+}
+
+.brik-supernav__link {
+	color: var(--color-light2);
+	fill: var(--color-supernav-icon);
+	font-weight: normal;
+	font-size: 0.85em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	position: relative;
+	transition: color 350ms, background-color 350ms;
+}
+
+.brik-supernav__link-icon {
+	fill: inherit;
+	height: 4rem;
+	width: 4rem;
+	transition: fill 350ms;
+}
+
+.brik-supernav__link-label {
+	margin-top: 0.5rem;
+}
+
+.brik-supernav__logo-link {
+	height: 8rem;
+	transition: background-color 250ms;
+}
+
+.brik-supernav__menu-icon {
+	display: none;
+}
+
+.brik-supernav__menu {
+	background-color: var(--color-supernav-dark);
+	color: var(--color-light);
+	fill: var(--color-light);
+	height: 100vh;
+	width: 30rem;
+	padding-left: 4rem;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: -1;
+	will-change: transform;
+	transform: translate3d(0, 0, 0);
+	transition-property: transform, box-shadow, color;
+	transition-duration: 350ms;
+	transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);
+}
+
+.brik-supernav__menu-link,
+.brik-supernav__menu-title {
+	color: var(--color-light);
+	padding-left: 2rem;
+}
+
+.brik-supernav__menu-title {
+	display: flex;
+	font-size: 1.2em;
+	align-items: center;
+	height: 8rem;
+}
+
+.brik-supernav__menu-link,
+.brik--menu-is-active .brik-supernav__menu-link {
+	background-color: transparent;
+	justify-content: flex-start;
+	transition: background-color 250ms;
+}
+
+.brik--menu-is-active .brik-supernav__menu,
+.brik-supernav__menu:hover,
+.brik-supernav__menu:focus,
+.brik-supernav__link:hover + .brik-supernav__menu,
+.brik-supernav__link:focus + .brik-supernav__menu,
+.brik-supernav__item:hover .brik-supernav__menu,
+.brik-supernav__item:focus .brik-supernav__menu {
+	box-shadow: 0 3rem 8rem hsla(0, 0%, 0%, 0.6);
+	transform: translate3d(30rem, 0, 0);
+}
+
+.brik-supernav__logo-link:hover,
+.brik-supernav__logo-link:focus {
+	background-color: var(--color-supernav-dark);
+}
+
+.brik--menu-is-active .brik-supernav__link,
+.brik-supernav__link:hover,
+.brik-supernav__link:focus,
+.brik-supernav__item:hover .brik-supernav__link,
+.brik-supernav__item:focus .brik-supernav__link {
+	background-color: var(--color-supernav-dark);
+	color: var(--color-light);
+	fill: var(--color-light);
+}
+
+/* stylelint-disable no-descending-specificity */
+.brik--menu-is-active .brik-supernav__menu-link:hover,
+.brik--menu-is-active .brik-supernav__menu-link:focus,
+.brik-supernav__menu-link:hover,
+.brik-supernav__menu-link:focus {
+	background-color: var(--color3);
+	color: var(--color-light);
+}
+
+.brik-supernav__link:before {
+	content: '';
+	display: block;
+	background-color: var(--color3);
+	position: absolute;
+	left: -0.5rem;
+	top: calc(50% - 0.25rem);
+	width: 0.5rem;
+	height: 0;
+	transition-property: left, top, height;
+	transition-duration: 300ms;
+	transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);
+}
+
+.brik--menu-is-active .brik-supernav__link:before,
+.brik-supernav__link:hover:before,
+.brik-supernav__link:focus:before,
+.brik-supernav__item:hover .brik-supernav__link:before,
+.brik-supernav__item:focus .brik-supernav__link:before {
+	left: 0;
+	top: calc(50% - 4.5rem);
+	height: 9rem;
+	transition-duration: 400ms, 300ms, 300ms;
+}

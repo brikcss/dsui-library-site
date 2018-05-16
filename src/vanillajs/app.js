@@ -43,6 +43,7 @@ import Page from '../../briks/page/page.js';
 import PageViewport from '../../briks/page/page-viewport.js';
 import PageOverlay from '../../briks/page/page-overlay.js';
 import Sidebar from '../../briks/page/sidebar.js';
+import SuperNav from '../../briks/supernav/supernav.js';
 import Icon from '../../briks/icons/icon.js';
 import Header from '../../briks/header/header.js';
 import BurgerButton from '../../briks/burger-button/burger-button.js';
@@ -61,6 +62,7 @@ Page.define();
 PageViewport.define();
 PageOverlay.define();
 Sidebar.define();
+SuperNav.define();
 Scroller.define();
 // Icon.define({ size: '4rem' });
 BrikElement.define(
@@ -119,6 +121,213 @@ BrikElement.define(
 );
 Header.define();
 
+// ---------------------
+// Build supernav links.
+//
+const supernav = document.querySelector('brik-super-nav');
+supernav.props.links = [
+	{
+		label: 'Home',
+		href: '#!/home',
+		icon: 'home'
+	},
+	{
+		label: 'News',
+		href: '#!/news',
+		icon: 'newspaper'
+	},
+	{
+		label: 'Business',
+		icon: 'chart-line',
+		menu: {
+			title: 'Business',
+			links: [
+				{
+					label: 'Team Dashboard',
+					href: '#!/team-dashboard'
+				},
+				{
+					label: 'Visual Tree',
+					href: '#!/visual-tree'
+				},
+				{
+					label: 'Report Center',
+					href: '#!/report-center'
+				},
+				{
+					label: 'Volume History',
+					href: '#!/volume'
+				},
+				{
+					label: 'Commission Earnings',
+					href: '#!/earnings'
+				},
+				{
+					label: 'Commission Checks',
+					href: '#!/checks'
+				},
+				{
+					label: 'Placement Suite',
+					href: '#!/placement'
+				},
+				{
+					label: 'New Enrollment',
+					href: '#!/enrollment'
+				}
+			]
+		}
+	},
+	{
+		label: 'Orders',
+		icon: 'cart',
+		menu: {
+			title: 'Orders',
+			links: [
+				{
+					label: 'Place an Order',
+					href: '#!/order'
+				},
+				{
+					label: 'Manage Autoship',
+					href: '#!/autoship'
+				},
+				{
+					label: 'Order History',
+					href: '#!/order-history'
+				},
+				{
+					label: 'Marketing Mall',
+					href: '#!/mall'
+				},
+				{
+					label: 'Stock Out Status',
+					href: '#!/stock-status'
+				}
+			]
+		}
+	},
+	{
+		label: 'Tools',
+		icon: 'wrench',
+		menu: {
+			title: 'Tools',
+			links: [
+				{
+					label: 'Documents & Media',
+					href: '#!/docs-media'
+				},
+				{
+					label: 'Calendar',
+					href: '#!/calendar'
+				},
+				{
+					label: 'Community',
+					href: '#!/community'
+				},
+				{
+					label: 'Prospect Manager',
+					href: '#!/prospects'
+				},
+				{
+					label: 'Funnels Signup',
+					href: '#!/funnels-sign-up'
+				},
+				{
+					label: 'Funnels Login',
+					href: '#!/funnels-login'
+				},
+				{
+					label: 'Taxbot',
+					href: '#!/taxbot'
+				}
+			]
+		}
+	},
+	{
+		label: 'Events',
+		icon: 'calendar-text',
+		menu: {
+			title: 'Events',
+			links: [
+				{
+					label: 'Weekly Call Schedule',
+					href: '#!/weekly-calls'
+				},
+				{
+					label: 'Meeting Calendar',
+					href: '#!/calendar'
+				}
+			]
+		}
+	},
+	{
+		label: 'Training',
+		icon: 'presentation',
+		menu: {
+			title: 'Training',
+			links: [
+				{
+					label: 'Training Courses',
+					href: '#!/training'
+				},
+				{
+					label: 'Recorded Calls and Webinars',
+					href: '#!/webinars'
+				}
+			]
+		}
+	},
+	{
+		label: 'Settings',
+		icon: 'settings',
+		menu: {
+			title: 'Settings',
+			links: [
+				{
+					label: 'Account',
+					href: '#!/account'
+				},
+				{
+					label: 'Marketing Site',
+					href: '#!/marketing'
+				},
+				{
+					label: 'Communication',
+					href: '#!/communication'
+				},
+				{
+					label: 'Billing',
+					href: '#!/billing'
+				}
+			]
+		}
+	},
+	{
+		label: 'Support',
+		icon: 'lifebuoy',
+		menu: {
+			title: 'Support',
+			links: [
+				{
+					label: 'Contact Us',
+					href: '#!/contact'
+				},
+				{
+					label: 'Support Center',
+					href: '#!/support'
+				}
+			]
+		}
+	},
+	{
+		label: 'Sign Out',
+		href: '#!/sign-out',
+		icon: 'power-standby',
+		separator: true
+	}
+];
+
+// Add temporary right sidebar toggle.
 const rightToggle = document.querySelector('.toggle__right');
 const page = document.querySelector('brik-page');
 rightToggle.addEventListener('click', () => {

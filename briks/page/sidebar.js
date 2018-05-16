@@ -13,6 +13,12 @@ export default class Sidebar extends BrikElement {
 		this.props.side = this.getAttribute('side');
 		this.attachShadow({ mode: 'open' });
 		this.classList.add('brik-sidebar', 'brik-sidebar__' + this.props.side);
+		this.$ = {
+			page: this.parentNode
+		};
+		if (this.tagName !== 'BRIK-SIDEBAR') {
+			this.$.page.$.sidebars[this.props.side] = this;
+		}
 		this.render();
 	}
 
@@ -45,11 +51,8 @@ export default class Sidebar extends BrikElement {
 			width: 40px;
 		}
 
-		:host-context([active-sidebar]) {
-			box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.18), 0 6px 9px 0 rgba(0, 0, 0, 0.13), 0 3px 11px 1px rgba(0, 0, 0, 0.11);
-		}
-
 		:host-context([active-sidebar='${this.props.side}']) {
+			box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.18), 0 6px 9px 0 rgba(0, 0, 0, 0.13), 0 3px 11px 1px rgba(0, 0, 0, 0.11);
 			transform: translate3d(${
 				this.props.side === 'right'
 					? 'calc(-1 * var(--sidebar-right-width))'
@@ -83,17 +86,15 @@ export default class Sidebar extends BrikElement {
 		if (this.props.pinAt) {
 			css += `@media (min-width: ${this.props.pinAt}) {
 				:host {
-					box-shadow: none;
+					box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.12);
 					width: var(--sidebar-${this.props.side}-width);
 					margin-${this.props.side}: 0;
 					z-index: 1;
 				}
 				:host-context([active-sidebar='${this.props.side}']) {
-					box-shadow: none;
 					transform: none;
 				}
 				:host-context([active-sidebar]) {
-					box-shadow: none;
 				}
 			}`;
 		}

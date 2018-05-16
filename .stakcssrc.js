@@ -65,6 +65,12 @@ module.exports = {
 	},
 	assets: {
 		source: 'static/**/*',
+		output: 'dist/vanillajs/assets/',
+		root: 'static',
+		bundlers: ['@brikcss/stakcss-bundler-copy']
+	},
+	assets_angularjs: {
+		source: 'static/**/*',
 		output: 'dist/angularjs/assets/',
 		root: 'static',
 		bundlers: ['@brikcss/stakcss-bundler-copy']

@@ -5,5 +5,8 @@
  ** --------------------------------------------------------------------------------------------- */
 
 module.exports = {
-	extends: '@brikcss/eslint-config'
+	extends: '@brikcss/eslint-config',
+	rules: {
+		'no-mixed-spaces-and-tabs': 0
+	}
 };

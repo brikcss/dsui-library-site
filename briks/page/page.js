@@ -17,28 +17,39 @@ export default class Page extends BrikElement {
 			throw new Error('Only one <brik-page/> element allowed on a page.');
 		}
 		this.attachShadow({ mode: 'open' });
-		// Cache sidebars.
+		this.render();
+		// Create empty cache for sidebars. Sidebars will populate these as they are created.
+		// @todo  Is there a better way to have the page cache sidebars itself? The problem is light DOM props are not available yet (on child sidebars).
 		this.$ = {
-			overlay: this.shadowRoot.querySelector('brik-page-overlay'),
+			overlay: this.shadowRoot.querySelector('.brik-page__overlay'),
 			sidebars: {}
 		};
-		this.querySelectorAll('brik-sidebar').forEach((sidebar) => {
-			this.$.sidebars[sidebar.getAttribute('side')] = sidebar;
+		Array.from(this.children).forEach((element) => {
+			if (element.tagName === 'BRIK-SIDEBAR') {
+				this.$.sidebars[element.getAttribute('side')] = element;
+			}
 		});
 		this.addEventListener('sidebars.toggle', this.toggleSidebar);
-		this.render();
 	}
 
 	connectedCallback() {
 		this.router = this.buildRoutes(
 			[
 				{
-					name: 'home',
+					name: 'Home',
 					path: '/home'
 				},
 				{
-					name: 'about',
-					path: '/about'
+					name: 'News',
+					path: '/news'
+				},
+				{
+					name: 'Team Dashboard',
+					path: '/team-dashboard'
+				},
+				{
+					name: 'Visual Tree',
+					path: '/visual-tree'
 				},
 				{
 					name: 'not-found',
@@ -85,22 +96,31 @@ export default class Page extends BrikElement {
 			.usePlugin(listenersPlugin())
 			.start();
 
-		// this.router.addNodeListener('', (to, from) => {
-		// 	console.log('PAGE LISTENER:', to, from);
-		// });
+		this.router.addNodeListener('', (toState, fromState) => {
+			this.dispatchEvent(
+				new CustomEvent('page.root', {
+					detail: {
+						to: toState,
+						from: fromState
+					},
+					composed: true,
+					bubbles: true
+				})
+			);
+		});
 
-		setTimeout(() => {
-			this.toggleSidebar('right');
-		}, 1000);
-		setTimeout(() => {
-			this.toggleSidebar('');
-		}, 2000);
-		setTimeout(() => {
-			this.toggleSidebar('left');
-		}, 3000);
-		setTimeout(() => {
-			this.toggleSidebar('');
-		}, 4000);
+		// setTimeout(() => {
+		// 	this.toggleSidebar('right');
+		// }, 1000);
+		// setTimeout(() => {
+		// 	this.toggleSidebar('');
+		// }, 2000);
+		// setTimeout(() => {
+		// 	this.toggleSidebar('left');
+		// }, 3000);
+		// setTimeout(() => {
+		// 	this.toggleSidebar('');
+		// }, 4000);
 	}
 
 	disconnectedCallback() {
@@ -108,8 +128,23 @@ export default class Page extends BrikElement {
 		this.$.overlay.removeEventListener('click', this.handleOverlayClick);
 	}
 
+	attributeChangedCallback(prop, oldValue, value) {
+		const falsy = ['', null];
+		if (oldValue === value || (falsy.indexOf(oldValue) > -1 && falsy.indexOf(value) > -1))
+			return;
+		if (prop === 'activeSidebar') {
+			this.dispatchEvent(
+				new CustomEvent('on.sidebar-toggle', {
+					detail: this.props.activeSidebar,
+					composed: true,
+					bubbles: true
+				})
+			);
+		}
+	}
+
 	buildRoutes(routes = [], options = {}) {
-		return createRouter(routes, options);
+		return (this.router = createRouter(routes, options));
 	}
 
 	handleOverlayClick() {
@@ -135,6 +170,7 @@ export default class Page extends BrikElement {
 		}
 		// Otherwise set the active sidebar prop.
 		this.activeSidebar = this.activeSidebar === side ? '' : side;
+		if (this.activeSidebar === '') this.removeAttribute('active-sidebar');
 	}
 
 	// Render the DOM with hyperhtml, a native approach to virtual DOM which efficiently renders
@@ -143,7 +179,7 @@ export default class Page extends BrikElement {
 	render() {
 		this.props.css = `:host {
 			--sidebar-bg: hsl(0, 0%, 100%);
-			--sidebar-width: 30rem;
+			--sidebar-width: 35rem;
 			--sidebar-mini-width: 12rem;
 			--sidebar-push-content: 0;
 			--sidebar-left-bg: var(--sidebar-bg);
