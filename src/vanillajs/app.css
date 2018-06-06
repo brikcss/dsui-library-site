@@ -1,37 +1,16 @@
-/* stylelint-disable selector-max-type, declaration-property-unit-whitelist */
+/** ================================================================================================
+ *  Core setup.
+ ** ----------- */
+
+@import '@brikcss/core';
+
 :root {
-	--color1: hsl(194, 76%, 65%);
-	--color2: hsl(69, 67%, 51%);
-	--color3: hsl(36, 96%, 54%);
-	--color4: hsl(206, 7%, 45%);
-	--color-dark: hsla(0, 0%, 0%, 0.87);
-	--color-dark1: hsla(0, 0%, 0%, 0.87);
-	--color-dark2: hsla(0, 0%, 0%, 0.54);
-	--color-dark3: hsla(0, 0%, 0%, 0.38);
-	--color-dark4: hsla(0, 0%, 0%, 0.12);
-	--color-light: hsla(0, 0%, 100%, 1);
-	--color-light1: hsla(0, 0%, 100%, 1);
-	--color-light2: hsla(0, 0%, 100%, 0.7);
-	--color-light3: hsla(0, 0%, 100%, 0.5);
-	--color-light4: hsla(0, 0%, 100%, 0.12);
-	--color-supernav: hsl(209, 24%, 30%);
-	--color-supernav-dark: hsl(209, 24%, 22%);
-	--color-supernav-icon: hsl(208, 11%, 65%);
-	--color-gray: hsl(0, 0%, 90%);
+	--base-font__size: 14px;
 }
 
-html {
-	font-size: 8px;
-}
-
-body {
-	font-size: 14px;
-	font-family: 'Roboto', sans-serif;
-	line-height: 1.4;
-	color: var(--color-dark);
-	margin: 0;
-}
-/* stylelint-enable selector-max-type, declaration-property-unit-whitelist */
+/** ================================================================================================
+ *  App layer.
+ ** ---------- */
 
 /* stylelint-disable-next-line selector-max-type, selector-pseudo-class-no-unknown */
 ds-icon:not(:defined) {

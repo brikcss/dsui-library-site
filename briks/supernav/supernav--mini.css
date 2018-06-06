@@ -1,6 +1,6 @@
 :host {
-	background-color: var(--color-supernav);
-	color: var(--color-light);
+	background-color: var(--color__supernav);
+	color: var(--color__light);
 	flex-direction: column-reverse;
 }
 
@@ -15,8 +15,8 @@
 }
 
 .brik-supernav__link {
-	color: var(--color-light2);
-	fill: var(--color-supernav-icon);
+	color: var(--color__light2);
+	fill: var(--color__supernav--icon);
 	font-weight: normal;
 	font-size: 0.85em;
 	display: flex;
@@ -49,9 +49,9 @@
 }
 
 .brik-supernav__menu {
-	background-color: var(--color-supernav-dark);
-	color: var(--color-light);
-	fill: var(--color-light);
+	background-color: var(--color__supernav--dark);
+	color: var(--color__light);
+	fill: var(--color__light);
 	height: 100vh;
 	width: 30rem;
 	padding-left: 4rem;
@@ -68,7 +68,7 @@
 
 .brik-supernav__menu-link,
 .brik-supernav__menu-title {
-	color: var(--color-light);
+	color: var(--color__light);
 	padding-left: 2rem;
 }
 
@@ -99,7 +99,7 @@
 
 .brik-supernav__logo-link:hover,
 .brik-supernav__logo-link:focus {
-	background-color: var(--color-supernav-dark);
+	background-color: var(--color__supernav--dark);
 }
 
 .brik--menu-is-active .brik-supernav__link,
@@ -107,9 +107,9 @@
 .brik-supernav__link:focus,
 .brik-supernav__item:hover .brik-supernav__link,
 .brik-supernav__item:focus .brik-supernav__link {
-	background-color: var(--color-supernav-dark);
-	color: var(--color-light);
-	fill: var(--color-light);
+	background-color: var(--color__supernav--dark);
+	color: var(--color__light);
+	fill: var(--color__light);
 }
 
 /* stylelint-disable no-descending-specificity */
@@ -117,14 +117,14 @@
 .brik--menu-is-active .brik-supernav__menu-link:focus,
 .brik-supernav__menu-link:hover,
 .brik-supernav__menu-link:focus {
-	background-color: var(--color3);
-	color: var(--color-light);
+	background-color: var(--color__brand3);
+	color: var(--color__light);
 }
 
 .brik-supernav__link:before {
 	content: '';
 	display: block;
-	background-color: var(--color3);
+	background-color: var(--color__brand3);
 	position: absolute;
 	left: -0.5rem;
 	top: calc(50% - 0.25rem);

@@ -1,10 +1,11 @@
 module.exports = {
 	server: {
 		baseDir: './dist/',
-		directory: true,
-		index: 'index.html',
-		routes: {}
+		directory: false
+		// index: 'index.html',
+		// routes: {}
 	},
+	startPath: 'vanillajs/index.html',
 	files: ['dist'],
 	ignore: [],
 	single: false,
@@ -28,7 +29,6 @@ module.exports = {
 	logSnippet: true,
 	open: true,
 	browser: 'default',
-	startPath: null,
 	reloadOnRestart: true,
 	notify: {
 		styles: {

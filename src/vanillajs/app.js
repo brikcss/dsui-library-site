@@ -326,6 +326,7 @@ supernav.props.links = [
 		separator: true
 	}
 ];
+supernav.render();
 
 // Add temporary right sidebar toggle.
 const rightToggle = document.querySelector('.toggle__right');
