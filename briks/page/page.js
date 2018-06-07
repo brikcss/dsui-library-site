@@ -1,6 +1,3 @@
-import { createRouter } from 'router5';
-import browserPlugin from 'router5/plugins/browser';
-import listenersPlugin from 'router5/plugins/listeners';
 import BrikElement from '../brik-element/brik.js';
 import tpl from './page.tplit.html';
 
@@ -33,82 +30,6 @@ export default class Page extends BrikElement {
 	}
 
 	connectedCallback() {
-		this.router = this.buildRoutes(
-			[
-				{
-					name: 'Home',
-					path: '/home'
-				},
-				{
-					name: 'News',
-					path: '/news'
-				},
-				{
-					name: 'Team Dashboard',
-					path: '/team-dashboard'
-				},
-				{
-					name: 'Visual Tree',
-					path: '/visual-tree'
-				},
-				{
-					name: 'not-found',
-					path: '/not-found'
-				},
-				{
-					name: 'user',
-					path: '/:userid'
-				},
-				{
-					name: 'user.edit',
-					path: '/:userid/edit'
-				},
-				{
-					name: 'users',
-					path: '/users'
-				}
-			],
-			{
-				allowNotFound: false,
-				autoCleanUp: true,
-				defaultRoute: 'home',
-				defaultParams: {},
-				queryParams: {
-					arrayFormat: 'default',
-					nullFormat: 'default',
-					booleanFormat: 'default'
-				},
-				queryParamsMode: 'default',
-				trailingSlashMode: 'default',
-				strictTrailingSlash: false,
-				caseSensitive: true
-			}
-		)
-			.usePlugin(
-				browserPlugin({
-					useHash: true,
-					hashPrefix: '!',
-					// base:
-					preserveHash: true,
-					mergeState: false
-				})
-			)
-			.usePlugin(listenersPlugin())
-			.start();
-
-		this.router.addNodeListener('', (toState, fromState) => {
-			this.dispatchEvent(
-				new CustomEvent('page.root', {
-					detail: {
-						to: toState,
-						from: fromState
-					},
-					composed: true,
-					bubbles: true
-				})
-			);
-		});
-
 		// setTimeout(() => {
 		// 	this.toggleSidebar('right');
 		// }, 1000);
@@ -143,10 +64,6 @@ export default class Page extends BrikElement {
 		}
 	}
 
-	buildRoutes(routes = [], options = {}) {
-		return (this.router = createRouter(routes, options));
-	}
-
 	handleOverlayClick() {
 		this.toggleSidebar('');
 	}
@@ -156,7 +73,9 @@ export default class Page extends BrikElement {
 		side =
 			typeof side === 'object'
 				? event.detail
-				: side === undefined ? this.activeSidebar : side;
+				: side === undefined
+					? this.activeSidebar
+					: side;
 		// If side is already '', don't do anything.
 		if (side === '' && this.activeSidebar === '') return;
 		// Get values.

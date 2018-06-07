@@ -24,8 +24,8 @@ export default class SuperNav extends BrikElement {
 			},
 			links: [
 				{
-					label: 'Home',
-					href: '#!/home',
+					name: 'Home',
+					path: '#!/home',
 					icon: 'home'
 				}
 			]
@@ -78,15 +78,12 @@ export default class SuperNav extends BrikElement {
 		window.addEventListener('resize', this.handleWindowResize);
 		// Render it.
 		this.render();
-		this.router = this.$.page.router;
-		this.$.page.addEventListener('page.root', this.handleRouteChange);
 		this.$.page.addEventListener('on.sidebar-toggle', this.handleOnSidebarToggle);
 	}
 
 	// Clean up.
 	disconnectedCallback() {
 		window.removeEventListener('resize', this.handleWindowResize);
-		this.$.page.removeEventListener('page.root', this.handleRouteChange);
 		this.$.page.removeEventListener('on.sidebar-toggle', this.handleOnSidebarToggle);
 	}
 
@@ -143,10 +140,6 @@ export default class SuperNav extends BrikElement {
 			if (!link.focused || this.props.state === 'default') link.active = false;
 			return link;
 		});
-	}
-
-	handleRouteChange() {
-		// console.log('ROOT PATH:', event.detail);
 	}
 
 	handleOnSidebarToggle(event) {

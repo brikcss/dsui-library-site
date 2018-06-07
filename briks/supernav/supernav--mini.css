@@ -17,7 +17,7 @@
 .brik-supernav__link {
 	color: var(--color__light2);
 	fill: var(--color__supernav--icon);
-	font-weight: normal;
+	font-weight: 400;
 	font-size: 0.85em;
 	display: flex;
 	flex-direction: column;
@@ -95,6 +95,17 @@
 .brik-supernav__item:focus .brik-supernav__menu {
 	box-shadow: 0 3rem 8rem hsla(0, 0%, 0%, 0.6);
 	transform: translate3d(30rem, 0, 0);
+}
+
+:host-context(.brik--menu-is-inactive) .brik-supernav__menu,
+:host-context(.brik--menu-is-inactive) .brik-supernav__menu:hover,
+:host-context(.brik--menu-is-inactive) .brik-supernav__menu:focus,
+:host-context(.brik--menu-is-inactive) .brik-supernav__link:hover + .brik-supernav__menu,
+:host-context(.brik--menu-is-inactive) .brik-supernav__link:focus + .brik-supernav__menu,
+:host-context(.brik--menu-is-inactive) .brik-supernav__item:hover .brik-supernav__menu,
+:host-context(.brik--menu-is-inactive) .brik-supernav__item:focus .brik-supernav__menu {
+	box-shadow: none;
+	transform: translate3d(0, 0, 0);
 }
 
 .brik-supernav__logo-link:hover,

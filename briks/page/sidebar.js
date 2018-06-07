@@ -30,6 +30,7 @@ export default class Sidebar extends BrikElement {
 			background-color: var(--sidebar-${this.props.side}-bg);
 			height: 100vh;
 			width: var(--sidebar-${this.props.side}-width);
+			min-width: var(--sidebar-${this.props.side}-width);
 			margin-${this.props.side}: calc(-1 * var(--sidebar-${this.props.side}-width));
 			position: relative;
 			will-change: transform, box-shadow;
@@ -71,6 +72,7 @@ export default class Sidebar extends BrikElement {
 			css += `@media (min-width: ${this.props.miniAt}) {
 				:host {
 					width: var(--sidebar-mini-width);
+					min-width: var(--sidebar-mini-width);
 					box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.18), 0 6px 9px 0 rgba(0, 0, 0, 0.13), 0 3px 11px 1px rgba(0, 0, 0, 0.11);
 					margin-${this.props.side}: 0;
 					z-index: 1;
@@ -88,6 +90,7 @@ export default class Sidebar extends BrikElement {
 				:host {
 					box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.12);
 					width: var(--sidebar-${this.props.side}-width);
+					min-width: var(--sidebar-${this.props.side}-width);
 					margin-${this.props.side}: 0;
 					z-index: 1;
 				}

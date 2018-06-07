@@ -1,4 +1,4 @@
-<div class="${`brik-supernav__scroller ${this.props.showMenus && 'brik-supernav--show-menus'}`}">
+<div class="${`brik-supernav__scroller ${this.props.showMenus && 'brik-supernav--show-menus'}`}" onmouseenter="${() => {this.classList.remove('brik--menu-is-inactive')}}">
 	<!-- Profile header. -->
 	<div class="brik-supernav__header" style="${{backgroundImage: `url(${this.props.headerBackground})`}}">
 		<div class="brik-supernav__toolbar">
@@ -15,12 +15,8 @@
 
 	<!-- Links and menus. -->
 	<nav class="${`brik-supernav__nav ${this.props.active ? 'brik-supernav--active' : ''}`}">
-		${this.props.links.map((link, i) => hyperhtml.wire(link, ':links')`<div class="${`brik-supernav__item ${link.active ? 'brik--menu-is-active' : ''}`}" style="${`height: ${link.menu && link.active && !this.props.isMini ? `${(link.menu.links.length + 1) * 6}rem;` : ''}`}">
-			${link.href ? hyperhtml.wire(link, ':href')`<a class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" href="${link.href}" tabindex="${this.props.active ? 0 : -1}">
-				<brik-icon class="brik-supernav__link-icon" name="${link.icon}" size="3rem"></brik-icon>
-				<span class="brik-supernav__link-label">${link.label}</span>
-				${link.menu ? hyperhtml.wire(link.menu, ':menuchevronlink')`<brik-icon class="brik-supernav__menu-icon" name="chevron-down"></brik-icon>` : ''}
-			</a>` : hyperhtml.wire(link, ':menu')`<button type="button" class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" onclick="${() => {
+		${this.props.links.map((link, i) => hyperhtml.wire(link, ':link')`<div class="${`brik-supernav__item ${link.active ? 'brik--menu-is-active' : ''}`}" style="${`height: ${link.children && link.active && !this.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
+			${link.children ? hyperhtml.wire(link, ':link-without-path')`<button type="button" class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" onclick="${() => {
 				if ((this.props.showMenus && this.props.isPinned) || this.props.isMini) return;
 				const lastActiveLink = this.props.links.find((link, n) => n !== i && link.active);
 				if (lastActiveLink) lastActiveLink.active = false;
@@ -29,11 +25,27 @@
 			}}" onfocus="${() => {link.focused = true;}}" onblur="${() => {link.focused = false;}}" tabindex="${(this.props.state === 'default' && this.props.active) || (this.props.isPinned && !this.props.showMenus) ? 0 : -1}">
 				<brik-icon class="brik-supernav__link-icon" name="${link.icon}" size="3rem"></brik-icon>
 				<span class="brik-supernav__link-label">${link.label}</span>
-				${link.menu ? hyperhtml.wire(link.menu, ':menuchevronbutton')`<brik-icon class="brik-supernav__menu-icon" name="chevron-down"></brik-icon>` : ''}
-			</button>`}
-			${link.menu ? this.test = hyperhtml.wire(link.menu, ':menu')`<div class="brik-supernav__menu">
-				<div class="brik-supernav__menu-title">${link.menu.title}</div>
-				${link.menu.links.map((sublink, i) => hyperhtml.wire(sublink)`<a class="brik-supernav__menu-link" href="${sublink.href}" onfocus="${() => {link.focused = true; if (!this.props.isMini) {return;} link.active = true; this.render();}}" onblur="${() => {link.focused = false; if (!this.props.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.props.active && (this.props.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
+				${link.children ? hyperhtml.wire(link, ':link-no-path-button')`<brik-icon class="brik-supernav__menu-icon" name="chevron-down"></brik-icon>` : ''}
+			</button>` : hyperhtml.wire(link, ':link-with-path')`<a class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" href="${'#!' + link.path}" tabindex="${this.props.active ? 0 : -1}">
+				<brik-icon class="brik-supernav__link-icon" name="${link.icon}" size="3rem"></brik-icon>
+				<span class="brik-supernav__link-label">${link.label}</span>
+				${link.children ? hyperhtml.wire(link, ':link-path-button')`<brik-icon class="brik-supernav__menu-icon" name="chevron-down"></brik-icon>` : ''}
+			</a>`}
+			${link.children ? this.test = hyperhtml.wire(link, ':menu')`<div class="brik-supernav__menu">
+				<div class="brik-supernav__menu-title">${link.label}</div>
+				${link.children.map((sublink, i) => hyperhtml.wire(sublink)`<a class="brik-supernav__menu-link" href="${'#!' + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.props.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
+					if (this.props.isMini) {
+						this.classList.add('brik--menu-is-inactive');
+						link.focused = false;
+						// this.blur();
+						event.target.blur();
+						this.$.page.click();
+						// event.target.mousemove();
+						// setTimeout(() => {
+						// 	this.classList.remove('brik--menu-is-inactive');
+						// }, 400);
+					}
+				}}" onblur="${() => {link.focused = false; if (!this.props.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.props.active && (this.props.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
 			</div>` : ''}
 		</div>`)}
 	</nav>

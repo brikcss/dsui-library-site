@@ -18,3 +18,8 @@ ds-icon:not(:defined) {
 	height: 2rem;
 	width: 2rem;
 }
+
+/* stylelint-disable-next-line selector-max-type */
+brik-page-content {
+	padding: 4rem;
+}
