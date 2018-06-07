@@ -60,6 +60,10 @@
 	z-index: 1;
 	transition: color 200ms;
 }
+.brik-tabs__button:focus {
+	outline-width: 2px;
+	outline-style: solid;
+}
 .brik-tabs__button--active .brik-tabs__button {
 	color: var(--color__light, hsla(0, 0%, 100%, 1));
 }

@@ -1,8 +1,18 @@
 import BrikElement from '../brik-element/brik.js';
 
 export default class PageViewport extends BrikElement {
+	static get defaults() {
+		return {
+			width: '100%'
+		};
+	}
+
 	created() {
 		this.attachShadow({ mode: 'open' });
+		this.render();
+	}
+
+	attributeChangedCallback() {
 		this.render();
 	}
 
@@ -11,11 +21,12 @@ export default class PageViewport extends BrikElement {
 	// See https://viperhtml.js.org/hyperhtml/documentation/
 	render() {
 		let css = `:host {
+			box-sizing: border-box;
 			display: flex;
 			flex-direction: column;
 			flex: 1;
 			min-height: 100vh;
-			width: 100%;
+			width: ${this.props.width};
 			transform: translate3d(0, 0, 0);
 			transition: transform 350ms cubic-bezier(0.6, 0, 0.2, 1.2);
 		}

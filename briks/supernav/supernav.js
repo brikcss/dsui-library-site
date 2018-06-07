@@ -45,6 +45,7 @@ export default class SuperNav extends BrikElement {
 		this.$ = {
 			sidebar: this.parentNode,
 			page: this.parentNode.parentNode,
+			viewport: document.querySelector('brik-page-viewport'),
 			nav: this.shadowRoot.querySelector('.brik-supernav__item')
 		};
 		const sidebar = this.$.sidebar;
@@ -129,8 +130,12 @@ export default class SuperNav extends BrikElement {
 		}
 		// active?
 		if (this.props.isMini || this.props.isPinned) {
+			this.$.viewport.width = `calc(100% - var(--sidebar-${
+				this.props.isMini ? 'mini' : 'pinned'
+			}-width))`;
 			this.props.active = true;
 		} else if ((wasMini && !this.props.isMini) || (wasPinned && !this.props.isPinned)) {
+			this.$.viewport.width = '100%';
 			this.props.active = false;
 		}
 		// state?

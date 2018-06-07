@@ -10,8 +10,8 @@ brik-tabs {
 	display: none;
 	position: relative;
 	width: 100%;
-	min-width: 100%;
 	padding: 4rem;
+	overflow-x: hidden;
 }
 .brik-tabs__content:first-child {
 	margin-left: 0;
