@@ -1,8 +1,8 @@
-<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'About', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}">
+<brik-tabs class="page-tabs" tabs="about:About, install:Install &amp; Setup, usage:Usage, examples:Examples">
 	<div>
 		<%- include ../partials/_intro.html.ejs %>
 
-		<h2 class="font__headline">Guidelines</h2>
+		<h2 class="font__title2">Guidelines</h2>
 
 		<p class="font__subheading">We are working on this page.</p>
 	</div>
@@ -12,7 +12,7 @@
 	</div>
 
 	<div>
-		<h2 class="font__headline">JS Usage</h2>
+		<h2 class="font__title2">JS Usage</h2>
 
 		<h3 class="font__title heading__separator">Supported JS environments</h3>
 		<ul class="bullets">
@@ -51,7 +51,7 @@
 			<li><strong><code>[spinner-toggle="{{id}}"]</code></strong>: Toggle the spinner that matches <code>id</code>.</li>
 		</ul>
 
-		<h2 class="font__headline">CSS Usage</h2>
+		<h2 class="font__title2">CSS Usage</h2>
 
 		<h3 class="font__title heading__separator">Supported CSS Environments</h3>
 		<ul class="bullets">
@@ -72,7 +72,7 @@
 	</div>
 
 	<div>
-		<h2 class="font__headline">Examples</h2>
+		<h2 class="font__title2">Examples</h2>
 		<h3 class="font__title heading__separator">Active Spinner</h3>
 		<editor lang="html" live-preview="true" editable="true">
 			<pre>&lt;spinner options="{mods: ['active']}">&lt;/spinner></pre>
@@ -87,7 +87,7 @@
 &lt;/div></pre>
 		</editor>
 
-		<h3 class="font__title heading__separator">Inline Spinner</h3>
+		<h3 class="font__title3 heading__separator">Inline Spinner</h3>
 		<editor lang="html,css" live-preview="true" editable="true">
 			<pre>&lt;button class="font__button my-inline-spinner" type="button" data-ng-click="inlineActive = !inlineActive" data-ng-init="inlineActive = true">
 	Inline Spinner
@@ -106,4 +106,4 @@
 }</pre>
 		</editor>
 	</div>
-</tabs>
+</brik-tabs>

@@ -3,14 +3,25 @@
  ** ----------- */
 
 @import '@brikcss/core';
+@import 'tabs/tabs-content.css';
 
 :root {
 	--base-font__size: 14px;
+}
+/* stylelint-disable-next-line selector-max-type */
+body {
+	box-sizing: border-box;
 }
 
 /** ================================================================================================
  *  App layer.
  ** ---------- */
+
+/* stylelint-disable-next-line selector-max-universal */
+*:focus {
+	outline-width: 2px;
+	outline-style: solid;
+}
 
 /* stylelint-disable-next-line selector-max-type, selector-pseudo-class-no-unknown */
 ds-icon:not(:defined) {
@@ -19,7 +30,27 @@ ds-icon:not(:defined) {
 	width: 2rem;
 }
 
-/* stylelint-disable-next-line selector-max-type */
-brik-page-content {
-	padding: 4rem;
+.markdown h1 {
+	@apply --font__title1;
+}
+.markdown h2 {
+	@apply --font__title2;
+}
+.markdown h3 {
+	@apply --font__title3;
+}
+.markdown h4 {
+	@apply --font__subtitle;
+}
+.markdown h5 {
+	@apply --font__subtitle2;
+}
+.markdown h6 {
+	@apply --font__body2;
+}
+
+.heading__separator {
+	border-bottom: 2px solid hsla(0, 0%, 0%, 0.1);
+	/* stylelint-disable-next-line declaration-property-unit-blacklist */
+	padding-bottom: calc(1rem - 2px);
 }

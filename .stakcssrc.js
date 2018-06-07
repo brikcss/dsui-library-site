@@ -4,7 +4,12 @@
 
 const env = process.env.NODE_ENV;
 const isProd = ['production', 'prod', 'test'].includes(env);
-const loadPostcssPlugins = require('./.postcssrc.js');
+const postcssConfig = require('./.postcssrc.js');
+const loadPostcssPlugins = (...plugins) => {
+	return plugins.map((plugin) => {
+		return require(plugin)(postcssConfig[plugin]);
+	});
+};
 const basePostcssPlugins = [
 	'postcss-import',
 	'postcss-mixins',

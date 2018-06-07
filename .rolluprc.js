@@ -19,6 +19,12 @@ import mdContainer from 'markdown-it-container';
 import mdTasks from 'markdown-it-task-lists';
 import mdInclude from 'markdown-it-include';
 import templateLiteral from './lib/rollup-plugin-template-literal';
+import postcss from 'rollup-plugin-postcss';
+import autoprefixer from 'autoprefixer';
+import postcssImport from 'postcss-import';
+import postcssApply from 'postcss-apply';
+import postcssPx2Rem from 'postcss-pxtorem';
+const postcssConfig = require('./.postcssrc.js');
 // import prettier from 'rollup-plugin-prettier';
 // const prettierConfig = require('./.prettierrc.js');
 import uglify from 'rollup-plugin-uglify';
@@ -62,38 +68,38 @@ let configs = [
 				plugins: ['external-helpers']
 			}
 		}
-	),
-	createConfig(
-		{
-			input: 'src/angularjs/app.js',
-			output: {
-				file: 'dist/angularjs/js/app.js',
-				format: 'iife'
-			}
-		},
-		{
-			babel: {
-				presets: [
-					[
-						'env',
-						{
-							targets: {
-								browsers: [
-									'Chrome >= 60',
-									'Safari >= 10.1',
-									'iOS >= 10.3',
-									'Firefox >= 54',
-									'Edge >= 15'
-								]
-							},
-							modules: false
-						}
-					]
-				],
-				plugins: ['external-helpers']
-			}
-		}
 	)
+	// createConfig(
+	// 	{
+	// 		input: 'src/angularjs/app.js',
+	// 		output: {
+	// 			file: 'dist/angularjs/js/app.js',
+	// 			format: 'iife'
+	// 		}
+	// 	},
+	// 	{
+	// 		babel: {
+	// 			presets: [
+	// 				[
+	// 					'env',
+	// 					{
+	// 						targets: {
+	// 							browsers: [
+	// 								'Chrome >= 60',
+	// 								'Safari >= 10.1',
+	// 								'iOS >= 10.3',
+	// 								'Firefox >= 54',
+	// 								'Edge >= 15'
+	// 							]
+	// 						},
+	// 						modules: false
+	// 					}
+	// 				]
+	// 			],
+	// 			plugins: ['external-helpers']
+	// 		}
+	// 	}
+	// )
 ];
 
 // Add production configs when isProd.
@@ -105,14 +111,14 @@ if (isProd) {
 				file: 'dist/vanillajs/js/app-legacy.js',
 				format: 'iife'
 			}
-		}),
-		createConfig({
-			input: 'src/angularjs/app.js',
-			output: {
-				file: 'dist/angularjs/js/app-legacy.js',
-				format: 'iife'
-			}
 		})
+		// createConfig({
+		// 	input: 'src/angularjs/app.js',
+		// 	output: {
+		// 		file: 'dist/angularjs/js/app-legacy.js',
+		// 		format: 'iife'
+		// 	}
+		// })
 	);
 	configs.forEach((config) => {
 		configs.push(createConfig(merge({}, config), { env: 'production' }));
@@ -173,7 +179,18 @@ function createConfig(config = {}, options = {}) {
 					}
 				},
 				string: {
-					include: ['**/*.tpl.html', '**/*.css']
+					include: ['**/*.tpl.html']
+				},
+				postcss: {
+					extensions: ['.css'],
+					inject: false,
+					config: false,
+					plugins: [
+						postcssImport(postcssConfig['postcss-import']),
+						postcssApply(postcssConfig['postcss-apply']),
+						postcssPx2Rem(postcssConfig['postcss-pxtorem']),
+						autoprefixer(postcssConfig['autoprefixer'])
+					]
 				},
 				templateLiteral: {
 					include: '**/*.tplit.html'
@@ -225,8 +242,9 @@ function createConfig(config = {}, options = {}) {
 	// Build plugins.
 	config.plugins = [
 		resolve(),
-		commonjs(),
+		commonjs(options.commonjs),
 		md(options.md),
+		postcss(options.postcss),
 		templateLiteral(options.templateLiteral),
 		string(options.string),
 		ejs(options.ejs),

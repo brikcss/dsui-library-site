@@ -1,4 +1,4 @@
-<h3 class="font__title">Install</h3>
+<h3 class="font__title3">Install</h3>
 
 <% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>
 <editor lang="bash">
@@ -10,7 +10,7 @@
 	<pre>npm install <%= data.brik.npmPath %> --save-dev</pre>
 </editor>
 
-<% if (typeof data.brik.setup === 'object') { %><h3 class="font__title">Setup</h3>
+<% if (typeof data.brik.setup === 'object') { %><h3 class="font__title3">Setup</h3>
 <% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>
 <% if (data.brik.setup.list) { %><ol class="numbers">
 	<% data.brik.setup.list.forEach(item => { %>

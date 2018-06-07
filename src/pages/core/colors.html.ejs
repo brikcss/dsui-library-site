@@ -1,14 +1,14 @@
-<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'About', install: 'Install &amp; Setup', usage: 'Usage'}">
+<brik-tabs class="page-tabs" tabs="about:About, install:Install &amp; Setup, usage:Usage">
 	<!-- About. -->
 	<div class="tabs__content">
 		<%- include ../partials/_intro.html.ejs %>
 
-		<h2 class="font__headline">Guidelines</h2>
-		<h3 class="font__title">Approved Colors</h3>
+		<h2 class="font__title2">Guidelines</h2>
+		<h3 class="font__title3">Approved Colors</h3>
 		<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are provided since we should be using client-specific colors.</em></p>
 
 		<% data.colors.forEach(category => { %>
-			<% if (category.heading) { %><h4 class="font__title heading__separator"><%= category.heading %></h4><% } %>
+			<% if (category.heading) { %><h4 class="font__subheading heading__separator"><%= category.heading %></h4><% } %>
 			<% if (category.description) { %><p><%- category.description %></p><% } %>
 			<ul class="pg-colors__colors-list">
 				<% category.colors.forEach(color => { %>
@@ -32,14 +32,14 @@
 
 	<!-- Usage. -->
 	<div class="tabs__content">
-		<h2 class="font__headline">Usage</h2>
-		<h3 class="font__title heading__separator">Need to know</h3>
+		<h2 class="font__title2">Usage</h2>
+		<h3 class="font__title3 heading__separator">Need to know</h3>
 		<ul class="bullets">
 			<li><em>Never</em> use the <code>background-color</code> property.</li>
 			<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>
 		</ul>
 
-		<h3 class="font__title heading__separator">Classes and Helpers</h3>
+		<h3 class="font__title3 heading__separator">Classes and Helpers</h3>
 		<h4 class="font__subheading"><code>c($name)</code></h4>
 		<p><em>Type</em>: SASS function</p>
 		<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>

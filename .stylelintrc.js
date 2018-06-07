@@ -5,13 +5,5 @@
  ** --------------------------------------------------------------------------------------------- */
 
 module.exports = {
-	extends: '@brikcss/stylelint-config-css',
-	rules: {
-		'selector-pseudo-class-no-unknown': [
-			true,
-			{
-				ignorePseudoClasses: ['host']
-			}
-		]
-	}
+	extends: '@brikcss/stylelint-config-css'
 };

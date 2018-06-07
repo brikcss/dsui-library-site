@@ -1,12 +1,16 @@
+/** ================================================================================================
+ *  Dependencies
+ ** ------------ */
+
 // Root level pages.
 import homePage from '../../pages/home.page.md';
-import getStartedPage from '../../pages/getting-started.tpl.html';
+import getStartedPage from '../../pages/getting-started.page.md';
 // About pages.
 import includingAssetsPage from '../../pages/about/including-assets.page.md';
 import workingWithNpmPage from '../../pages/about/working-with-npm.page.md';
 import packageStructurePage from '../../pages/about/package-structure.page.md';
 // Core component pages.
-import browserResetPage from '../../pages/core/browser-reset.tpl.ejs';
+import browserResetPage from '../../pages/core/browser-reset.html.ejs';
 import typographyPage from '../../pages/core/typography.html.ejs';
 import colorsPage from '../../pages/core/colors.html.ejs';
 import spacingPage from '../../pages/core/rhythm.html.ejs';
@@ -14,7 +18,10 @@ import spacingPage from '../../pages/core/rhythm.html.ejs';
 import spinnerPage from '../../pages/components/spinner.html.ejs';
 import iconsPage from '../../pages/components/icons.html.ejs';
 
-// Export routes.
+/** ================================================================================================
+ *  Routes
+ ** ------ */
+
 export default [
 	{
 		name: 'home',
@@ -85,7 +92,8 @@ export default [
 										'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p> Make sure <code>_reset.init.scss</code> is the first CSS-producing file (after abstract code) included in your SASS build. No other steps are necessary.</p>'
 								}
 							}
-						})
+						}),
+						'0'
 					)
 			},
 			{
@@ -118,7 +126,8 @@ export default [
 									]
 								}
 							}
-						})
+						}),
+						'0'
 					)
 			},
 			{
@@ -265,7 +274,8 @@ export default [
 									]
 								}
 							]
-						})
+						}),
+						'0'
 					)
 			},
 			{
@@ -287,7 +297,8 @@ export default [
 										'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
 								}
 							}
-						})
+						}),
+						'0'
 					)
 			}
 		]
@@ -316,7 +327,8 @@ export default [
 										'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
 								}
 							}
-						})
+						}),
+						'0'
 					)
 			},
 			{
@@ -336,7 +348,8 @@ export default [
 										'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
 								}
 							}
-						})
+						}),
+						'0'
 					)
 			}
 		]

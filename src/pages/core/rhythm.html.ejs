@@ -1,10 +1,10 @@
-<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}">
+<brik-tabs class="page-tabs" tabs="about:about, install:Install &amp; Setup, usage:Usage, examples:Examples">
 	<div>
 		<%- include ../partials/_intro.html.ejs %>
 
-		<h2 class="font__headline">Guidelines</h2>
+		<h2 class="font__title2">Guidelines</h2>
 
-		<h3 class="font__title heading__separator">Definitions</h3>
+		<h3 class="font__title3 heading__separator">Definitions</h3>
 		<dl>
 			<dt>Dimensional properties</dt>
 			<dd>Any CSS property which affects an element's dimensions and/or spacing, including but not limited to: <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>.</dd>
@@ -12,10 +12,10 @@
 			<dd>Height/width of one (1) square in the rhythm grid.</dd>
 		</dl>
 
-		<h3 class="font__title heading__separator">Use <code>rems</code> for all dimensional properties</h3>
+		<h3 class="font__title3 heading__separator">Use <code>rems</code> for all dimensional properties</h3>
 		<p>DS UI uses <a href="https://www.sitepoint.com/understanding-and-using-rem-units-in-css/" title="Understanding rem units in CSS">CSS <code>rem</code> units</a> to apply rhythm and spacing. <em>Follow the "rules of Rhythm" below when applying <code>rems</code>.</em></p>
 
-		<h3 class="font__title heading__separator">Strictly follow the "Rules of Rhythm"</h3>
+		<h3 class="font__title3 heading__separator">Strictly follow the "Rules of Rhythm"</h3>
 		<p>In DS UI, <code>1rem</code> unit is equivalent to <code>8px</code>, which follows <a href="https://material.io/guidelines/layout/metrics-keylines.html" title="Material Design spacing grid">MD specifications for grid layout and spacing</a>. In order to keep the grid "in rhythm", strictly follow the "Rules of Rhythm" in the Usage section.</p>
 	</div>
 
@@ -24,14 +24,14 @@
 	</div>
 
 	<div>
-		<h2 class="font__headline">Usage</h2>
+		<h2 class="font__title2">Usage</h2>
 		<p>You can apply rhythm in two ways:</p>
 		<ol class="numbers">
 			<li>manually, with CSS <code>rems</code> and the <em>Rules of Rhythm</em>.</li>
 			<li>using provided Rhythm classes.</li>
 		</ol>
 
-		<h3 class="font__title heading__separator">Rules of Rhythm</h3>
+		<h3 class="font__title3 heading__separator">Rules of Rhythm</h3>
 		<p>To ensure the layout and spacing grid always stays "in rhythm", follow these rules:</p>
 		<ul class="bullets">
 			<li>
@@ -50,7 +50,7 @@
 			</li>
 		</ul>
 
-		<h3 class="font__title heading__separator">How to use Rhythm / Spacing classes</h3>
+		<h3 class="font__title3 heading__separator">How to use Rhythm / Spacing classes</h3>
 		<p>DS UI Rhythm provides a series of utility classes to allow you to easily apply <code>padding</code> and <code>margin</code> to any element.</p>
 		<h4 class="font__subheading">Format of Rhythm utility classes</h4>
 		<p>Each Rhythm class name is created following a template like this:</p>
@@ -90,7 +90,7 @@
 	</div>
 
 	<div>
-		<h2 class="font__headline">Examples</h2>
+		<h2 class="font__title2">Examples</h2>
 		<editor lang="html" live-preview="true" editable="true">
 			<pre>&lt;div class=&quot;px-1&quot;&gt;Padding left and right&lt;/div&gt;</pre>
 		</editor>
@@ -101,4 +101,4 @@
 			<pre>&lt;div class=&quot;m-4 mb-0 pl-2 pt-1&quot;&gt;Margin on all sides except bottom with a left and top padding&lt;/div&gt;</pre>
 		</editor>
 	</div>
-</tabs>
+</brik-tabs>

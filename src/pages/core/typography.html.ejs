@@ -1,34 +1,39 @@
-<tabs class="page-tabs" active-tab="pageCtrl.activePageTab" tabs="{about: 'about', install: 'Install &amp; Setup', usage: 'Usage', examples: 'Examples'}">
+<brik-tabs class="page-tabs" tabs="about:about, install:Install &amp; Setup, usage:Usage, examples:Examples">
 	<div>
 		<%- include ../partials/_intro.html.ejs %>
 
-		<h2 class="font__headline">Guidelines</h2>
+		<h2 class="font__title2">Guidelines</h2>
 
-		<h3 class="font__title heading__separator">Roboto font face</h3>
+		<h3 class="font__title3 heading__separator">Roboto font face</h3>
 		<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>
 
-		<h3 class="font__title heading__separator">Only use approved font styles</h3>
+		<h3 class="font__title3 heading__separator">Only use approved font styles</h3>
 		<p><em>Only use approved font styles.</em> Any exceptions require UX approval and should be added to this list. <a href="https://material.io/guidelines/style/typography.html">Refer to Material Design</a> for specific scenarios and use cases to apply each style; otherwise use them at your own discretion.</p>
 		<p>UX approved font styles (see Usage section for how to apply them):</p>
-		<p class="font__caption">Caption (12sp/inherited)</p>
-		<p class="font__button">Button (14sp/inherited)</p>
-		<p class="font__body">Body (14sp/24dp) (default)</p>
-		<p class="font__subheading">Subheading (16sp/24dp)</p>
-		<p class="font__title">Title (20sp/28dp)</p>
-		<p class="font__headline">Headline (24sp/32dp)</p>
-		<p class="font__display1">Display 1 (34sp/40dp)</p>
-		<p class="font__display2">Display 2 (45sp/48dp)</p>
-		<p class="font__display3">Display 3 (56sp/64dp)</p>
-		<p class="font__display4">Display 4 (112sp/112dp)</p>
-		<p class="font__caption"><em>Note: First number represents font-size, second number represents leading / line-height.</em></p>
+		<p class="font__overline">Overline test test test test test test test test test</p>
+		<p class="font__caption">Caption test test test test test test test test test</p>
+		<p class="font__button">Button test test test test test test test test test</p>
+		<p class="font__body2">Body 2 test test test test test test test test test</p>
+		<p class="font__body">Body (default) test test test test test test test test test</p>
+		<p class="font__subtitle2">Subitle 2 test test test test test test test test test</p>
+		<p class="font__subtitle">Subtitle test test test test test test test test test</p>
+		<p class="font__title3">Subtitle test test test test test test test test test</p>
+		<p class="font__title2">Subtitle test test test test test test test test test</p>
+		<p class="font__title1">Subtitle test test test test test test test test test</p>
+		<p class="font__h6">Heading 6 test test test test test test test test test</p>
+		<p class="font__h5">Heading 5 test test test test test test test test test</p>
+		<p class="font__h4">Heading 4 test test test test test test test test test</p>
+		<p class="font__h3">Heading 3 test test test test test test test test test</p>
+		<p class="font__h2">Heading 2 test test test test test test test test test</p>
+		<p class="font__h1">Heading 1 test test test test test test test test test</p>
 
-		<h3 class="font__title heading__separator">Limit line length for readability</h3>
+		<h3 class="font__title3 heading__separator">Limit line length for readability</h3>
 		<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>
 
-		<h3 class="font__title heading__separator">Approved text colors</h3>
+		<h3 class="font__title3 heading__separator">Approved text colors</h3>
 		<p><a ui-sref="colors">Refer to the Colors component</a> for applying text colors.</p>
 
-		<h3 class="font__title heading__separator">Additional guidelines</h3>
+		<h3 class="font__title3 heading__separator">Additional guidelines</h3>
 		<p><a href="https://material.io/guidelines/style/typography.html" title="Typography specs for Material Design"><abbr title="Material Design">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>
 	</div>
 
@@ -37,7 +42,7 @@
 	</div>
 
 	<div>
-		<h2 class="font__headline">Usage</h2>
+		<h2 class="font__title2">Usage</h2>
 		<ul class="bullets">
 			<li>
 				<p><em>Do:</em> use the predefined classes and helpers to apply font styles.</p>
@@ -49,7 +54,7 @@
 			</li>
 		</ul>
 
-		<h3 class="font__title heading__separator">How to apply a font style</h3>
+		<h3 class="font__title3 heading__separator">How to apply a font style</h3>
 		<p>(HTML) Add a font class:</p>
 		<editor lang="html">
 			<pre>&lt;h2 class="font__title"&gt;My awesome font in "title" style.&lt;/h2&gt;</pre>
@@ -66,7 +71,7 @@
 }</pre>
 		</editor>
 
-		<h3 class="font__title heading__separator">How to apply a font style to nested elements</h3>
+		<h3 class="font__title3 heading__separator">How to apply a font style to nested elements</h3>
 		<p>When an element's parent already has a font style applied, applying a font style to the element will likely make its <code>font-size</code> incorrect. To "reset" the element's font size, do one of the following:</p>
 		<ol class="numbers">
 			<li>
@@ -104,8 +109,8 @@
 	</div>
 
 	<div>
-		<h2 class="font__headline">HTML Classes</h2>
-		<h3 class="font__title heading__separator">Font Style Classes</h3>
+		<h2 class="font__title2">HTML Classes</h2>
+		<h3 class="font__title3 heading__separator">Font Style Classes</h3>
 
 		<h4 class="font__subheading"><code>.font__caption</code> Caption font style</h4>
 		<p class="sp__0"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>
@@ -143,10 +148,10 @@
 			<pre>&lt;p class="font__title">Title: Medium 20sp&lt;/p></pre>
 		</editor>
 
-		<h4 class="font__subheading"><code>.font__headline</code> Headline font style</h4>
+		<h4 class="font__subheading"><code>.font__title2</code> Headline font style</h4>
 		<p class="sp__0"><em>When to use?</em> Widget header title.</p>
 		<editor lang="html" editable="true" live-preview="true">
-			<pre>&lt;p class="font__headline">Headline: Regular 24sp&lt;/p></pre>
+			<pre>&lt;p class="font__title2">Headline: Regular 24sp&lt;/p></pre>
 		</editor>
 
 		<h4 class="font__subheading"><code>.font__display1</code> Display 1 font style</h4>
@@ -173,7 +178,7 @@
 			<pre>&lt;p class="font__display4">Display 4: Light 112sp&lt;/p></pre>
 		</editor>
 
-		<h3 class="font__title heading__separator">Text body length classes</h3>
+		<h3 class="font__title3 heading__separator">Text body length classes</h3>
 
 		<p class="font__bold"><code>.font__short-line</code></p>
 		<p class="sp__0 font__short-line"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>
@@ -181,7 +186,7 @@
 			<pre>&lt;p class="font__short-line">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></pre>
 		</editor>
 
-		<h2 class="font__headline">SASS Helpers</h2>
+		<h2 class="font__title2">SASS Helpers</h2>
 		<p class="text__short">In addition to the HTML classes above, SASS helpers are available for more control.</p>
 
 		<h3 class="font__title"><code>sp($name)</code> function</h3>
@@ -210,4 +215,4 @@
 		}</pre>
 		</editor>
 	</div>
-</tabs>
+</brik-tabs>
