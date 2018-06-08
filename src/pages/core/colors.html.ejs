@@ -44,43 +44,43 @@
 		<p><em>Type</em>: SASS function</p>
 		<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>
 		<p><em>Example</em>:</p>
-		<editor lang="scss,css:result">
-			<pre>.my-selector {
+		<brik-editor>
+			<brik-code lang="scss">.my-selector {
 	border: 1px solid c(dark4);
-}</pre>
-			<pre>.my-selector {
+}</brik-code>
+			<brik-code lang="css" label="Compiled">.my-selector {
 	border: 1px solid hsl(0, 0%, 0%, 0.12);
-}</pre>
-		</editor>
+}</brik-code>
+		</brik-editor>
 
 		<h4 class="font__subheading"><code>color($name, $level: 1)</code></h4>
 		<p><em>Type</em>: SASS function</p>
 		<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>
 		<p><em>Example</em>:</p>
-		<editor lang="scss,css:result">
-			<pre>.my-selector {
+		<brik-editor>
+			<brik-code lang="scss">.my-selector {
 	background-color: c(dark);
 	border: 1px solid c(dark, 4);
-}</pre>
-			<pre>.my-selector {
+}</brik-code>
+			<brik-code lang="css" label="Compiled">.my-selector {
 	background-color: hsl(0, 0%, 0%, 0.87);
 	border: 1px solid hsl(0, 0%, 0%, 0.12);
-}</pre>
-		</editor>
+}</brik-code>
+		</brik-editor>
 
 		<h4 class="font__subheading"><code>@include bg($name, $level: 1);</code></h4>
 		<p><em>Type</em>: SASS mixin</p>
 		<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>
 		<p><em>Example</em>:</p>
-		<editor lang="scss,css:result">
-			<pre>.my-selector {
+		<brik-editor>
+			<brik-code lang="scss">.my-selector {
 	@include bg(dark, 2);
-}</pre>
-			<pre>.my-selector {
+}</brik-code>
+			<brik-code lang="css" label="Compiled">.my-selector {
 	background-color: hsl(0, 0%, 0%, 0.87);
 	color: hsl(0, 0%, 0%, 0.54);
-}</pre>
-		</editor>
+}</brik-code>
+		</brik-editor>
 	</div>
 
 	<!-- Examples. -->

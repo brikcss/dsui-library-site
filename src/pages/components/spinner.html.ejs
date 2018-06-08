@@ -74,27 +74,27 @@
 	<div>
 		<h2 class="font__title2">Examples</h2>
 		<h3 class="font__title heading__separator">Active Spinner</h3>
-		<editor lang="html" live-preview="true" editable="true">
-			<pre>&lt;spinner options="{mods: ['active']}">&lt;/spinner></pre>
-		</editor>
+		<brik-editor live-preview="true" editable="true">
+			<brik-code lang="html">&lt;spinner options="{mods: ['active']}">&lt;/spinner></brik-code lang="html">
+		</brik-editor>
 
 		<h3 class="font__title heading__separator">Toggling a Spinner</h3>
 		<p>Use the <code>ng-class</code> directive to activate and deactivate a spinner.</p>
-		<editor lang="html" live-preview="true" editable="true">
-			<pre>&lt;div data-ng-init="toggleableActive = true;">
+		<brik-editor live-preview="true" editable="true">
+			<brik-code lang="html">&lt;div data-ng-init="toggleableActive = true;">
 	&lt;spinner options="{mods: ['active']}" data-ng-class="{'spinner--is-spinning': toggleableActive}">&lt;/spinner>
 	&lt;button class="font__button" type="button" data-ng-click="toggleableActive = !toggleableActive">Toggle&lt;/button>
-&lt;/div></pre>
-		</editor>
+&lt;/div></brik-code lang="html">
+		</brik-editor>
 
 		<h3 class="font__title3 heading__separator">Inline Spinner</h3>
-		<editor lang="html,css" live-preview="true" editable="true">
-			<pre>&lt;button class="font__button my-inline-spinner" type="button" data-ng-click="inlineActive = !inlineActive" data-ng-init="inlineActive = true">
+		<brik-editor live-preview="true" editable="true">
+			<brik-code lang="html">&lt;button class="font__button my-inline-spinner" type="button" data-ng-click="inlineActive = !inlineActive" data-ng-init="inlineActive = true">
 	Inline Spinner
 	&lt;spinner options="{mods: ['active', 'inline']}" style="margin-left: 1rem;" data-ng-class="{'spinner--is-spinning':  inlineActive}">&lt;/spinner>
 &lt;/button>
-&lt;p>(Click to toggle spinner)&lt;/p></pre>
-			<pre>.my-inline-spinner {
+&lt;p>(Click to toggle spinner)&lt;/p></brik-code lang="html">
+			<brik-code lang="css">.my-inline-spinner {
 	background-color: hsla(0, 0%, 0%, 0.1);
 	display: inline-flex;
 	align-items: center;
@@ -103,7 +103,7 @@
 
 .my-inline-spinner .spinner {
 	margin-left: 1rem;
-}</pre>
-		</editor>
+}</brik-code lang="html">
+		</brik-editor>
 	</div>
 </brik-tabs>

@@ -1,0 +1,11 @@
+${
+	this.props.label && this.props.showHeader
+		? hyperhtml.wire()`<div class="brik-code__header">${this.props.label}</div>`
+		: ''
+}
+
+<pre class="${`brik-code__pre language-${
+	this.props.lang
+}`}"><code class="brik-code__code" contenteditable="${this.props.editable}">${[this.props.text]}</code></pre>
+
+<style>${this.props.css}</style>

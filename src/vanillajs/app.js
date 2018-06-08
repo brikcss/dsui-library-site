@@ -58,6 +58,8 @@ import Header from '../../briks/header/header.js';
 import BurgerButton from '../../briks/burger-button/burger-button.js';
 import Scroller from '../../briks/scroller/scroller.js';
 import Tabs from '../../briks/tabs';
+import Editor from '../../briks/editor/editor.js';
+import Code from '../../briks/editor/code.js';
 import BrikElement from '../../briks/brik-element/brik.js';
 
 // ------
@@ -144,6 +146,8 @@ Sidebar.define();
 SuperNav.define();
 Scroller.define();
 Tabs.define();
+Editor.define();
+Code.define();
 // Icon.define({ size: '4rem' });
 BrikElement.define(
 	class extends Icon {

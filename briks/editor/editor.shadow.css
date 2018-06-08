@@ -1,0 +1,121 @@
+/*! editor.shadow.css | MIT License | brikcss  <https://github.com/brikcss> */
+
+@import 'highlight.js/styles/atom-one-dark.css';
+@import '@brikcss/typography';
+
+.hljs {
+	line-height: 2rem;
+	margin: 0;
+	padding: 1rem 2rem;
+	tab-size: 4;
+}
+
+.brik-editor {
+	display: block;
+}
+
+.brik-editor__tabs {
+	background-color: var(--color__brand4, hsl(0, 0%, 40%));
+	color: var(--color__light, hsl(0, 0%, 100%));
+	border-color: var(--color__dark4);
+	border-width: 1px 1px 0;
+	border-style: solid;
+	display: flex;
+	align-items: center;
+	height: 3rem;
+	padding: 0 1rem;
+}
+
+.brik-editor__tab-buttons {
+	flex-grow: 1;
+}
+.brik-editor__tab-button {
+	cursor: pointer;
+	height: 3rem;
+	appearance: none;
+	background-color: transparent;
+	border: none;
+	color: var(--color__light2);
+	font-weight: 400;
+}
+.brik-editor__tab-button + .brik-editor__tab-button {
+	margin-left: 0.25rem;
+}
+.brik-editor__tab-button:focus {
+	outline-width: 2px;
+	outline-style: solid;
+}
+.brik-editor__tab-button:active {
+	outline: none;
+}
+.brik-editor__tab-button.brik--is-active {
+	color: var(--color__light1);
+}
+
+.brik-editor__window {
+	display: flex;
+	background-color: hsl(220, 13%, 18%);
+	color: var(--color__light);
+}
+
+.brik-code--has-tabs {
+	box-sizing: border-box;
+	position: relative;
+	width: 100%;
+	min-width: 100%;
+	margin-left: -100%;
+	opacity: 0;
+	transition: opacity 0.3s, transform 0.25s;
+}
+.brik-code--has-tabs:first-of-type {
+	margin-left: 0;
+}
+.brik-code--has-tabs.brik--is-active {
+	opacity: 1;
+	z-index: 1;
+}
+
+.brik-editor__highlighted-code {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
+.brik-editor--read-only .brik-editor__highlighted-code {
+	position: static;
+}
+
+.brik-editor__dirty-note {
+	@apply --font__caption;
+	color: var(--color__light2);
+}
+
+/** ================================================================================================
+ *  OLD
+ ** --- */
+
+.brik-editor__raw-code {
+	width: 100%;
+	position: relative;
+	z-index: 1;
+	-webkit-text-fill-color: transparent;
+}
+.brik-editor__raw-code:focus {
+	-webkit-text-fill-color: inherit;
+}
+.brik-editor__raw-code.hljs {
+	background: transparent;
+}
+/* stylelint-disable-next-line selector-max-type */
+.brik-editor__raw-code code {
+	outline: none;
+}
+
+.brik-editor__preview {
+	border-color: var(--color__dark4);
+	border-width: 1px 1px 0;
+	border-style: solid;
+	/* stylelint-disable-next-line declaration-property-unit-blacklist */
+	padding: calc(2rem - 1px) 2rem 2rem;
+	position: relative;
+}

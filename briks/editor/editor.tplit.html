@@ -1,0 +1,19 @@
+${this.props.livePreview ? hyperhtml.wire(this.props, ':previewer')`<div class="brik-editor__preview">
+	${[this.props.liveMarkup]}
+</div>` : ''}
+
+<div class="brik-editor__tabs">
+	<div class="brik-editor__tab-buttons">
+		${this.props.tabs.map((tab) => hyperhtml.wire(tab)`
+			<button onclick="${() => {
+				if (this.props.tabs.length > 1) this.activateTab(tab);
+			}}" class="${`brik-editor__tab-button font__button ${this.props.activeTab.id === tab.id ? 'brik--is-active' : ''}`}" type="button">${tab.label}</button>
+		`)}
+	</div>
+
+	${this.props.dirty ? hyperhtml.wire(this.props, ':dirty-note')`<div class="brik-editor__dirty-note"><button class="brik-editor__refresh-button" type="button" onclick="${this.refreshPreview}">Refresh</button> <kbd>ctrl</kbd> | <kbd>cmd</kbd>+<kbd>enter</kbd> to refresh preview</div>` : ''}
+</div>
+
+<div class="brik-editor__window"><slot></slot></div>
+
+<style type="text/css">${this.props.css}</style>

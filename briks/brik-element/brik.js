@@ -80,7 +80,10 @@ class BrikElement extends HTMLElement {
 						const propCapitalized = prop.replace(/(?:^|\s)\S/g, function(a) {
 							return a.toUpperCase();
 						});
-						this.props[prop] = value;
+						if (value === 'true') this.props[prop] = true;
+						else if (['false', 'null', 'undefined'].includes(value)) {
+							this.props[prop] = false;
+						} else this.props[prop] = value;
 						if (hasChange) onChanged.call(this, prop, oldValue, value, attr);
 						if (typeof this['on' + propCapitalized] === 'function') {
 							this['on' + propCapitalized].call(this, value, oldValue, prop, attr);

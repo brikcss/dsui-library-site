@@ -1,0 +1,42 @@
+@import 'prismjs/themes/prism-tomorrow.css';
+
+.brik-code__header {
+	background-color: var(--color__brand4, hsl(0, 0%, 40%));
+	color: var(--color__light, hsl(0, 0%, 100%));
+	border-color: var(--color__dark4);
+	border-width: 1px 1px 0;
+	border-style: solid;
+	display: flex;
+	align-items: center;
+	height: 3rem;
+	padding: 0 2rem;
+}
+
+/* stylelint-disable selector-no-qualifying-type, selector-max-type */
+.brik-code__pre,
+pre[class*='language-'] {
+	line-height: 2rem;
+	margin: 0;
+}
+/* stylelint-enable selector-no-qualifying-type, selector-max-type */
+
+.brik-code__code:focus {
+	outline: none;
+}
+
+:host-context(.brik-code--has-tabs) {
+	box-sizing: border-box;
+	position: relative;
+	width: 100%;
+	min-width: 100%;
+	margin-left: -100%;
+	opacity: 0;
+	transition: opacity 0.3s, transform 0.25s;
+}
+:host-context(.brik-code--has-tabs:first-of-type) {
+	margin-left: 0;
+}
+:host-context(.brik-code--has-tabs.brik--is-active) {
+	opacity: 1;
+	z-index: 1;
+}
