@@ -1,6 +1,5 @@
 /*! editor.shadow.css | MIT License | brikcss  <https://github.com/brikcss> */
 
-@import 'highlight.js/styles/atom-one-dark.css';
 @import '@brikcss/typography';
 
 .hljs {

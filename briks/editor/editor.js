@@ -62,19 +62,6 @@ export default class Editor extends BrikElement {
 		this.render();
 	}
 
-	disconnectedCallback() {
-		this.props.tabs.forEach((tab, i) => {
-			if (this.props.editable) {
-				this.dom.window.children[i].removeEventListener('input', this.refreshPreview);
-				this.dom.window.children[i]
-					.querySelector('.brik-editor__raw-code')
-					.removeEventListener('scroll', this.handleScroll);
-			} else {
-				this.dom.window.children[i].removeEventListener('click', this.selectAllText);
-			}
-		});
-	}
-
 	/**
 	 *  Activate a tab.
 	 *  @param   {String}  tab  Name of tab to activate.
