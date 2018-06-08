@@ -150,7 +150,9 @@ export default class SuperNav extends BrikElement {
 	handleOnSidebarToggle(event) {
 		this.props.active = event.detail === 'left';
 		if (this.props.active) {
-			this.shadowRoot.querySelector('.brik-supernav__close-button').focus();
+			(
+				this.$.activeLink || this.shadowRoot.querySelector('.brik-supernav__close-button')
+			).focus();
 		}
 		this.render();
 	}

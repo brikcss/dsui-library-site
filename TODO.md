@@ -3,7 +3,7 @@
 - Update pinned supernav to UX specs.
 - Update typography font styles.
 - Split core components up into smaller pieces with abstracts and css producing code so they can be imported to shadow doms as well as consumed by the app layer.
-- Update reset of docs.
+- Update rest of docs/pages for accuracy.
 - Evaluate skatejs to see how to improve brikElement.js.
 
 - Minify code in production (when publishing).

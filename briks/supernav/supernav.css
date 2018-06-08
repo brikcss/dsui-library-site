@@ -1,3 +1,5 @@
+@import '@brikcss/typography';
+
 :host {
 	display: flex;
 	flex-direction: column;
@@ -49,8 +51,7 @@
 }
 
 .brik-supernav__user-name {
-	font-weight: normal;
-	font-size: 1.3em;
+	@apply --font__h6;
 	margin: 0.5rem 0 0;
 }
 
@@ -88,14 +89,14 @@
 
 .brik-supernav__link,
 .brik-supernav__menu-link {
+	@apply --font__body2;
+	font-weight: 400;
 	background-color: transparent;
 	border: 0;
 	color: var(--color__dark, hsla(0, 0%, 0%, 0.87));
-	font-weight: 500;
 	text-decoration: none;
 	cursor: pointer;
 	display: flex;
-	font-size: inherit;
 	padding: 0;
 	align-items: center;
 	height: 6rem;
@@ -124,7 +125,6 @@
 
 .brik-supernav__menu-link {
 	background-color: var(--color__dark4);
-	font-weight: normal;
 	padding-left: 7.5rem;
 	transition: color 250ms, background-color 250ms;
 }
@@ -159,7 +159,7 @@
 }
 
 .brik--menu-link-is-active {
-	font-weight: bold;
+	font-weight: 500;
 }
 
 .brik-supernav__menu-icon {
@@ -182,4 +182,99 @@
 
 .brik-supernav__menu-title {
 	display: none;
+}
+
+/** ================================================================================================
+ *  Dark theme.
+ ** ----------- */
+
+/* stylelint-disable no-duplicate-selectors */
+:host {
+	background-color: var(--color__supernav);
+	color: var(--color__light);
+}
+
+.brik-supernav__link {
+	color: var(--color__light2);
+	fill: var(--color__supernav--icon);
+}
+.brik-supernav__menu-link,
+.brik-supernav__menu-title {
+	color: var(--color__light);
+}
+
+.brik-supernav__link-icon,
+.brik-supernav__menu-icon {
+	fill: var(--supernav__icon);
+}
+
+/** ================================================================================================
+ *  Hover, focus, active states
+ ** --------------------------- */
+
+.brik-supernav__link,
+.brik--menu-is-active .brik-supernav__link,
+.brik-supernav__menu-link,
+.brik--menu-is-active .brik-supernav__menu-link {
+	transition: background-color 250ms, color 250ms, fill 250ms;
+}
+
+.brik-supernav__link:hover,
+.brik-supernav__menu-link:hover,
+.brik--menu-is-active .brik-supernav__link,
+.brik--menu-is-active .brik-supernav__menu-link {
+	background-color: hsla(0, 0%, 0%, 0.16);
+}
+
+.brik-supernav__link:focus,
+.brik-supernav__menu-link:focus,
+.brik--menu-is-active .brik-supernav__link:focus,
+.brik--menu-is-active .brik-supernav__menu-link:hover,
+.brik--menu-is-active .brik-supernav__menu-link:focus {
+	background-color: hsla(0, 0%, 0%, 0.24);
+}
+
+.brik-supernav__link:hover,
+.brik-supernav__link:focus,
+.brik--menu-is-active .brik-supernav__link,
+.brik--menu-is-active .brik-supernav__link:focus,
+.brik-supernav__item:hover .brik-supernav__link,
+.brik-supernav__item:focus .brik-supernav__link {
+	background-color: var(--color__supernav--dark);
+	color: var(--color__light);
+	fill: var(--color__light);
+}
+
+.brik-supernav__menu-link:hover,
+.brik-supernav__menu-link:focus,
+.brik--menu-is-active .brik-supernav__menu-link:hover,
+.brik--menu-is-active .brik-supernav__menu-link:focus {
+	background-color: var(--color__supernav--dark);
+	color: var(--color__light);
+}
+/* stylelint-enable no-descending-specificity */
+
+.brik-supernav__link:before {
+	content: '';
+	display: block;
+	background-color: var(--color__brand3);
+	position: absolute;
+	left: -0.5rem;
+	top: calc(50% - 0.25rem);
+	width: 0.5rem;
+	height: 0;
+	transition-property: left, top, height;
+	transition-duration: 300ms;
+	transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);
+}
+
+.brik--menu-is-active .brik-supernav__link:before,
+.brik-supernav__link:hover:before,
+.brik-supernav__link:focus:before,
+.brik-supernav__item:hover .brik-supernav__link:before,
+.brik-supernav__item:focus .brik-supernav__link:before {
+	left: 0;
+	top: calc(50% - 3rem);
+	height: 6rem;
+	transition-duration: 400ms, 300ms, 300ms;
 }

@@ -33,18 +33,17 @@
 			</a>`}
 			${link.children ? this.test = hyperhtml.wire(link, ':menu')`<div class="brik-supernav__menu">
 				<div class="brik-supernav__menu-title">${link.label}</div>
-				${link.children.map((sublink, i) => hyperhtml.wire(sublink)`<a class="brik-supernav__menu-link" href="${'#!' + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.props.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
+				${link.children.map((sublink, i) => hyperhtml.wire(sublink)`<a class="${`brik-supernav__menu-link ${sublink.active ? 'brik--menu-link-is-active' : ''}`}" href="${'#!' + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.props.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
+					if (this.props.activeMenuLink) this.props.activeMenuLink.active = false;
+					sublink.active = true;
+					this.props.activeMenuLink = sublink;
 					if (this.props.isMini) {
 						this.classList.add('brik--menu-is-inactive');
 						link.focused = false;
-						// this.blur();
 						event.target.blur();
 						this.$.page.click();
-						// event.target.mousemove();
-						// setTimeout(() => {
-						// 	this.classList.remove('brik--menu-is-inactive');
-						// }, 400);
 					}
+					this.render();
 				}}" onblur="${() => {link.focused = false; if (!this.props.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.props.active && (this.props.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
 			</div>` : ''}
 		</div>`)}
