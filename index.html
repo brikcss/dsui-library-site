@@ -1,143 +1,67 @@
 <!DOCTYPE html>
-<html data-ng-app="dsui">
+<html>
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>DirectScale UI Library - Front End Components with BrikCSS</title>
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
-<link rel="stylesheet" type="text/css" href="./css/dsui-angularjs.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="./css/app.css">
 </head>
-<body data-ng-controller="appCtrl as appCtrl">
+<body>
 
-	<div sidebars="app">
-		
-<aside class="supernav sidebars__left" data-ng-class="{'rhythm__grid': appCtrl.showRhythmGrid}">
-	<div class="supernav__header">
-		<img class="supernav__logo" src="./assets/images/logo__directscale.png" alt="DirectScale, a full-stack direct &amp; social selling software.">
-	</div>
+	<brik-page>
+		<brik-sidebar side="left" mini-at="768px" pin-at="1280px">
+			<brik-super-nav>
+				<!-- <div slot="header">Header...</div> -->
+				<!-- <div slot="logo">Logo...</div> -->
+			</brik-super-nav>
+		</brik-sidebar>
 
-	<nav class="supernav__body">
-								<div class="supernav__section">
-									<a class="supernav__link" ui-sref="home">
-						<span class="supernav__menu-icon zmdi zmdi-home"></span>
-						<span class="supernav__menu-label">Home</span>
-					</a>
+		<brik-page-viewport>
+			<brik-header>
+				<button class="toggle__right" type="button">Toggle right</button>
+			</brik-header>
 
-			</div>
-						<div class="supernav__section">
-									<a class="supernav__link" ui-sref="getting-started">
-						<span class="supernav__menu-icon zmdi zmdi-collection-item-1"></span>
-						<span class="supernav__menu-label">Getting Started</span>
-					</a>
+			<brik-page-content></brik-page-content>
 
-			</div>
-						<div class="supernav__section" show-hide="{id: 'About DS UI', hasToggle: true, addIcon: true, active: false}">
-									<div class="supernav__link" show-hide-toggle="About DS UI">
-						<span class="supernav__menu-icon zmdi zmdi-assignment"></span>
-						<span class="supernav__menu-label">About DS UI</span>
-					</div>
-					<ul class="supernav__menu">
-													<li>
-								<a class="supernav__link" ui-sref="working-with-npm">Working with NPM</a>
-							</li>
-							<li>
-								<a class="supernav__link" ui-sref="package-structure">Package Structure</a>
-							</li>
-							<li>
-								<a class="supernav__link" ui-sref="including-assets">Including Assets</a>
-							</li>
+			<!-- <brik-footer class="footer"><brik-icon name="twitter"></brik-icon> Footer</brik-footer> -->
+		</brik-page-viewport>
 
-					</ul>
+		<brik-sidebar side="right">
+			<h2>Right Sidebar</h2>
+		</brik-sidebar>
+	</brik-page>
 
-			</div>
-						<div class="supernav__section" show-hide="{id: 'DS UI Core', hasToggle: true, addIcon: true, active: true}">
-									<div class="supernav__link" show-hide-toggle="DS UI Core">
-						<span class="supernav__menu-icon zmdi zmdi-balance"></span>
-						<span class="supernav__menu-label">DS UI Core</span>
-					</div>
-					<ul class="supernav__menu">
-													<li>
-								<a class="supernav__link" ui-sref="browser-reset">Browser Reset</a>
-							</li>
-							<li>
-								<a class="supernav__link" ui-sref="colors">Colors</a>
-							</li>
-							<li>
-								<a class="supernav__link" ui-sref="typography">Typography</a>
-							</li>
-							<li>
-								<a class="supernav__link" ui-sref="rhythm">Rhythm / Spacing</a>
-							</li>
+	<!-- ES MODULE SCRIPT LOADING TECHNIQUE -->
+	<!-- The script loading technique below loads different scripts for modern browsers and older browsers that don't support ES modules. Browsers with ES module support will not load `nomodule` scripts, but will load scripts with `type="module"`; the opposite is true for browsers without ES module support. See https://philipwalton.com/articles/deploying-es2015-code-in-production-today/ for details. -->
+	<script>
+		// SAFARI 10.1 fix: Safari 10 has a bug which loads `nomodule` scripts, even though Safari 10 supports ES modules. The first script below fixes that bug. See https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc.
+		(function() {
+			var check = document.createElement('script');
+			if (!('noModule' in check) && 'onbeforeload' in check) {
+				var support = false;
+				document.addEventListener(
+					'beforeload',
+					function(e) {
+						if (e.target === check) {
+							support = true;
+						} else if (!e.target.hasAttribute('nomodule') || !support) {
+							return;
+						}
+						e.preventDefault();
+					},
+					true
+				);
 
-					</ul>
-
-			</div>
-						<div class="supernav__section" show-hide="{id: 'Components', hasToggle: true, addIcon: true, active: true}">
-									<div class="supernav__link" show-hide-toggle="Components">
-						<span class="supernav__menu-icon zmdi zmdi-widgets"></span>
-						<span class="supernav__menu-label">Components</span>
-					</div>
-					<ul class="supernav__menu">
-													<li>
-								<a class="supernav__link" ui-sref="spinner">Spinner</a>
-							</li>
-
-					</ul>
-
-			</div>
-						<div class="supernav__section" show-hide="{id: 'Patterns', hasToggle: true, addIcon: true, active: false}">
-									<div class="supernav__link" show-hide-toggle="Patterns">
-						<span class="supernav__menu-icon zmdi zmdi-view-web"></span>
-						<span class="supernav__menu-label">Patterns</span>
-					</div>
-					<ul class="supernav__menu">
-													<li>
-								<a class="supernav__link">Coming Soon</a>
-							</li>
-
-					</ul>
-
-			</div>
-
-	</nav>
-</aside>
-
-
-		<div class="sidebars__content page">
-			<header class="header" data-ng-class="{'rhythm__grid': appCtrl.showRhythmGrid}">
-	<button type="button" class="burger" data-ng-click="appCtrl.sidebars.toggle('left')" data-ng-class="{'--is-active': appCtrl.sidebars.left.active}"><span class="burger__toppings"></span></button>
-	<h1 class="header__title font__title">
-		{{$state.current.data.pageTitle}}
-		<span class="header__version" data-ng-if="$state.current.data.version" data-ng-bind="'v' + $state.current.data.version"></span>
-	</h1>
-	<div class="header__toolbar"><button class="header__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Rhythm</button></div>
-</header>
-
-
-			<main class="page__scroller">
-				<div>{{appCtrl.pageTitle}}</div>
-				<!-- @todo: Support content level sidebars? -->
-				<!-- <aside class="sidebar--left"></aside> -->
-
-				<div class="page__content" data-ng-class="{'rhythm__grid': appCtrl.showRhythmGrid}" ui-view="content"></div>
-
-				<!-- @todo: Support content level sidebars? -->
-				<!-- <aside class="sidebar--right"></aside> -->
-				<footer class="footer" data-ng-class="{'rhythm__grid': appCtrl.showRhythmGrid}">Copyright &copy; 2018 DirectScale</footer>
-
-			</main>
-
-		</div>
-
-		<aside class="rightbar sidebars__right">
-	Right sidebar.
-</aside>
-
-
-		<div class="sidebar__overlay"></div>
-	</div>
-
-	<script src="js/app.js"></script>
+				check.type = 'module';
+				check.src = '.';
+				document.head.appendChild(check);
+				check.remove();
+			}
+		})();
+	</script>
+	<script type="module" src="js/app.js"></script>
+	<script nomodule src="js/app-legacy.js"></script>
 </body>
 </html>
