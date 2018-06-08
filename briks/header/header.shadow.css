@@ -1,0 +1,30 @@
+@import '@brikcss/typography';
+
+:host {
+	display: flex;
+	align-items: center;
+	position: relative;
+	height: var(--header-height, 8rem);
+	min-height: var(--header-height, 8rem);
+	padding: var(--header-padding, 0 4rem);
+	background-color: var(--header-fill, hsl(194, 76%, 65%));
+	color: var(--header-color, hsl(0, 0%, 100%));
+	box-shadow: 0 1px 4px hsla(0, 0%, 0%, 0.3);
+}
+
+.brik-header__left {
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+}
+
+.brik-burger {
+	margin-right: 2rem;
+	/* stylelint-disable-next-line declaration-property-unit-blacklist */
+	padding-top: 4px;
+}
+
+.brik-header__title {
+	@apply --font__h6;
+	font-weight: 400;
+}

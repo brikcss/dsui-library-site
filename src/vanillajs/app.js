@@ -79,6 +79,7 @@ window.brikcss = window.brikcss || {};
 
 const app = {
 	page: document.querySelector('brik-page'),
+	header: document.querySelector('brik-header'),
 	supernav: document.querySelector('brik-super-nav'),
 	rightSidebarToggle: document.querySelector('.toggle__right'),
 	content: document.querySelector('brik-page-content')
