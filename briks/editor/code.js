@@ -48,7 +48,7 @@ export default class Code extends BrikElement {
 		};
 		this.classList.add('brik-code');
 		this.dataset.tab = this.props.lang;
-		this.props.raw = this.textContent;
+		this.props.raw = this.textContent.trim();
 		this.textContent = '';
 
 		// Set default props.

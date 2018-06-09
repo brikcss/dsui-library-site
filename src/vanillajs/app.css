@@ -4,6 +4,7 @@
 
 @import '@brikcss/core';
 @import 'tabs/tabs-content.css';
+@import 'prismjs/themes/prism-tomorrow.css';
 
 :root {
 	--base-font__size: 14px;

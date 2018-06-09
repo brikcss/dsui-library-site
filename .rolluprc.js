@@ -13,11 +13,16 @@ import commonjs from 'rollup-plugin-commonjs';
 import string from 'rollup-plugin-string';
 import babel from 'rollup-plugin-babel';
 import ejs from './lib/rollup-plugin-ejs';
+// import markdownit from 'markdown-it';
 import md from './lib/rollup-plugin-md';
 import mdAttrs from 'markdown-it-attrs';
 import mdContainer from 'markdown-it-container';
 import mdTasks from 'markdown-it-task-lists';
 import mdInclude from 'markdown-it-include';
+// import mdMark from 'markdown-it-mark';
+// import mdSpan from 'markdown-it-span';
+// import mdHighlightLines from 'markdown-it-highlight-lines';
+// import mdElement from 'markdown-it-custom-block';
 import templateLiteral from './lib/rollup-plugin-template-literal';
 import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
@@ -142,12 +147,26 @@ function createConfig(config = {}, options = {}) {
 				md: {
 					include: '**/*.md',
 					markdownit: {
+						langPrefix: '',
+						rules: [
+							{
+								name: 'fence',
+								fn(tokens, idx, options, env, self) {
+									var token = tokens[idx];
+
+									return `<brik-code lang="${
+										token.info.trim().split(/\s+/g)[0]
+									}" ${self.renderAttrs(token)}>${tokens[idx].content.replace(
+										/</g,
+										'&lt;'
+									)}</brik-code>`;
+								}
+							}
+						],
 						init(md) {
 							return md
 								.use(mdInclude, 'src')
-								.use(mdTasks)
-								.use(mdAttrs)
-								.use(mdContainer, 'tag', {
+								.use(mdContainer, 'any', {
 									validate(name) {
 										return name.trim().match(/([a-z]+)?\(.*\)/);
 									},
@@ -174,7 +193,9 @@ function createConfig(config = {}, options = {}) {
 											return html;
 										}
 									}
-								});
+								})
+								.use(mdTasks)
+								.use(mdAttrs);
 						}
 					}
 				},
