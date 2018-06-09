@@ -41,10 +41,11 @@ export default [
 		render: (app) => app.content.render(getStartedPage)
 	},
 	{
-		name: 'about',
-		label: 'About DSUI',
-		path: '/about-dsui',
-		icon: 'information-outline',
+		name: 'learn',
+		label: 'Learn',
+		title: 'Knowledge Base',
+		path: '/learn',
+		icon: 'school',
 		children: [
 			{
 				name: 'npm',

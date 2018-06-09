@@ -121,19 +121,25 @@ routes.forEach((route) => {
 	let listenerType = 'addRouteListener';
 	if (route.children) listenerType = 'addNodeListener';
 	app.router[listenerType](route.name, (toState, fromState) => {
-		// Close sidebars.
-		app.page.toggleSidebar('');
-		if (typeof route.render === 'function') route.render(app, toState, fromState);
+		renderRoute(route, toState, fromState);
 	});
 	// Add route listener for each child route.
 	(route.children || []).forEach((child) => {
 		app.router.addRouteListener([route.name, child.name].join('.'), (toState, fromState) => {
-			// Close sidebars.
-			app.page.toggleSidebar('');
-			if (typeof child.render === 'function') child.render(app, toState, fromState);
+			child.parent = route;
+			renderRoute(child, toState, fromState);
 		});
 	});
 });
+
+function renderRoute(route, toState, fromState) {
+	// Close sidebars.
+	app.page.toggleSidebar('');
+	// Update header.
+	app.header.title = (route.parent || route).title || (route.parent || route).label;
+	// Render route.
+	if (typeof route.render === 'function') route.render(app, toState, fromState);
+}
 
 /** ================================================================================================
  *  Define custom elements
@@ -224,7 +230,7 @@ app.rightSidebarToggle.addEventListener('click', () => {
 
 // Render initial state.
 const initialRoute = findRoute(routes, app.router.getState().name);
-if (initialRoute.render) initialRoute.render(app);
+if (initialRoute.render) renderRoute(initialRoute);
 
 function findRoute(routesArray, name) {
 	let result;
@@ -236,6 +242,7 @@ function findRoute(routesArray, name) {
 		if (name.includes('.') && name.split('.')[0] === route.name && route.children) {
 			return route.children.find((child) => {
 				result = child;
+				result.parent = route;
 				return child.name === name.split('.')[1];
 			});
 		}
