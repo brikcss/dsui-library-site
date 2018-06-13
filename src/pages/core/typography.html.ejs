@@ -1,40 +1,156 @@
-<brik-tabs class="page-tabs" tabs="about:about, install:Install &amp; Setup, usage:Usage, examples:Examples">
+---js
+{
+	name: 'Typography',
+	npmPath: '@brikcss/typography',
+	isCore: true,
+	intro: `<p>DSUI Typography closely follows <a href="https://material.io/design/typography/the-type-system.html" title="Material Design type system">Material Design's type system</a>, which defines a range of type sizes that may be used. DSUI Typography provides the mechanism for applying and managing typography based on MD specs.</p>`,
+	related: [
+		{ name: 'Colors', path: 'core/colors' },
+		{ name: 'Spacing', path: 'core/spacing' },
+		{ name: 'Lists', path: 'components/lists' },
+		{ name: 'Links', path: 'components/links' }
+	],
+	browsers: true,
+	setup: `<p>Include desired file(s) in your app:</p>
+			<ul>
+				<li><em>PostCSS</em>: <code>@import '@brikcss/typography';</code> with <a href="https://github.com/postcss/postcss-import" title="postcss-import">postcss-import</a>.</li>
+				<li><em>Precompiled</em>: <code>./dist/typography.min.css</code> for vanilla CSS.</li>
+				<li><em>Custom build</em>: Follow <code>./src/typography.css</code> to create a custom build.</li>
+			</ul>`
+}
+---
+
+<brik-tabs class="page-tabs" tabs="About, Setup, Usage, playground">
 	<div>
 		<%- include ../partials/_intro.html.ejs %>
 
 		<h2 class="font__title2">Guidelines</h2>
 
 		<h3 class="font__title3 heading__separator">Roboto font face</h3>
-		<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>
+		<p><strong>Roboto</strong> is the <em>only</em> UX approved font family. <brik-icon name="alert" size="1.2em"></brik-icon> Any exceptions require UX approval.</p>
 
-		<h3 class="font__title3 heading__separator">Only use approved font styles</h3>
-		<p><em>Only use approved font styles.</em> Any exceptions require UX approval and should be added to this list. <a href="https://material.io/guidelines/style/typography.html">Refer to Material Design</a> for specific scenarios and use cases to apply each style; otherwise use them at your own discretion.</p>
-		<p>UX approved font styles (see Usage section for how to apply them):</p>
-		<p class="font__overline">Overline test test test test test test test test test</p>
-		<p class="font__caption">Caption test test test test test test test test test</p>
-		<p class="font__button">Button test test test test test test test test test</p>
-		<p class="font__body2">Body 2 test test test test test test test test test</p>
-		<p class="font__body">Body (default) test test test test test test test test test</p>
-		<p class="font__subtitle2">Subitle 2 test test test test test test test test test</p>
-		<p class="font__subtitle">Subtitle test test test test test test test test test</p>
-		<p class="font__title3">Subtitle test test test test test test test test test</p>
-		<p class="font__title2">Subtitle test test test test test test test test test</p>
-		<p class="font__title1">Subtitle test test test test test test test test test</p>
-		<p class="font__h6">Heading 6 test test test test test test test test test</p>
-		<p class="font__h5">Heading 5 test test test test test test test test test</p>
-		<p class="font__h4">Heading 4 test test test test test test test test test</p>
-		<p class="font__h3">Heading 3 test test test test test test test test test</p>
-		<p class="font__h2">Heading 2 test test test test test test test test test</p>
-		<p class="font__h1">Heading 1 test test test test test test test test test</p>
+		<h3 class="font__title3 heading__separator">Use only approved font styles</h3>
+		<p><em>Only use approved font styles.</em> <brik-icon name="alert" size="1.25em"></brik-icon> Any exceptions require UX approval and should be added to this list.</p>
+
+		<h4 class="font__subtitle">Font style categories</h4>
+		<dl class="list__indented">
+			<dt>Headlines and Titles</dt>
+			<dd>Headlines and titles are the largest text on the screen, reserved for short, important text or numerals.</dd>
+
+			<dt>Subtitles</dt>
+			<dd>Subtitles are smaller than headlines but larger than body text, reserved for medium-emphasis text that is shorter in length.</dd>
+
+			<dt>Body text</dt>
+			<dd>Body text is used for long-form writing.</dd>
+
+			<dt>Caption and Overline text</dt>
+			<dd>Caption and overline text are the smallest font sizes, used sparingly to annotate imagery or introduce a headline.</dd>
+
+			<dt>Button text</dt>
+			<dd>Button text is a call to action, used in buttons, tabs, dialogs, and cards. Button text is all caps, but can be modified to sentence case.</dd>
+		</dl>
+
+		<h4 class="font__subtitle">UX approved font styles:</h4>
+		<table class="type__table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Size / Weight</th>
+					<th>Sample</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Overline</td>
+					<td>10 / 400</td>
+					<td class="font__overline">Overline: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>Caption</td>
+					<td>12 / 400</td>
+					<td class="font__caption">Caption: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>Button</td>
+					<td>14 / 500</td>
+					<td class="font__button">Button: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>Body2</td>
+					<td>14 / 400</td>
+					<td class="font__body2">Body 2: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>Body</td>
+					<td>16 / 400</td>
+					<td class="font__body">Body (default): test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>Subtitle2</td>
+					<td>14 / 500</td>
+					<td class="font__subtitle2">Subitle 2: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>Subtitle</td>
+					<td>16 / 400</td>
+					<td class="font__subtitle">Subtitle: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>Title3</td>
+					<td>20 / 500</td>
+					<td class="font__title3">Title 3: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>Title2</td>
+					<td>24 / 400</td>
+					<td class="font__title2">Title 2: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>Title1</td>
+					<td>34 / 300</td>
+					<td class="font__title1">Title 1: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>H6</td>
+					<td>20 / 500</td>
+					<td class="font__h6">Heading 6: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>H5</td>
+					<td>24 / 400</td>
+					<td class="font__h5">Heading 5: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>H4</td>
+					<td>34 / 400</td>
+					<td class="font__h4">Heading 4: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>H3</td>
+					<td>48 / 400</td>
+					<td class="font__h3">Heading 3: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>H2</td>
+					<td>60 / 300</td>
+					<td class="font__h2">Heading 2: test test test test test test test test test</td>
+				</tr>
+				<tr>
+					<td>H1</td>
+					<td>96 / 300</td>
+					<td class="font__h1">Heading 1: test test test test test test test test test</td>
+				</tr>
+			</tbody>
+		</table>
 
 		<h3 class="font__title3 heading__separator">Limit line length for readability</h3>
 		<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>
 
 		<h3 class="font__title3 heading__separator">Approved text colors</h3>
-		<p><a ui-sref="colors">Refer to the Colors component</a> for applying text colors.</p>
+		<p>Refer to the <a href="#!/core/colors">Colors component</a> for applying text colors.</p>
 
 		<h3 class="font__title3 heading__separator">Additional guidelines</h3>
-		<p><a href="https://material.io/guidelines/style/typography.html" title="Typography specs for Material Design"><abbr title="Material Design">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>
+		<p><a href="https://material.io/design/typography/" title="Material Design type specs"><abbr title="Material Design">MD</abbr> type specs</a> are an extension of DSUI, and should be referred to for further guidance.</p>
 	</div>
 
 	<div>
@@ -42,177 +158,47 @@
 	</div>
 
 	<div>
-		<h2 class="font__title2">Usage</h2>
+		<h2 class="font__title2 mt-0">Usage</h2>
+		<p>A class and a "style set" is provided for each named typography style (see "About" tab for list of named styles). Each class and style set follows a naming convention:</p>
+		<pre><code>font__&lt;name></code></pre>
+		<p><em>Note: See the "About" tab for a full list of available font styles and their names.</em></p>
+
+		<h3 class="font__title3 heading__separator">Rules of engagement</h3>
 		<ul class="bullets">
-			<li>
-				<p><em>Do:</em> use the predefined classes and helpers to apply font styles.</p>
-				<p><em>Don't:</em> apply any CSS font properties on your own.</p>
-			</li>
-			<li>
-				<p><em>Avoid:</em> appyling nested font styles. However, when it is necessary to apply a font style to a child element whose parent has a different style applied, you must apply one of the "font reset" methods below.</p>
-				<p><em>Why?</em> DS UI Typography uses <code>em</code>s <a href="https://css-tricks.com/why-ems/" title="Why ems?">to handle responsive typography</a>. <code>1em</code> is <a href="https://www.impressivewebs.com/understanding-em-units-css/" title="Definition of one em unit.">equal to the <strong>computed value</strong> of the <code>font-size</code> property of the element on which its used</a>. This means children elements inherit the computed font size value of its first parent which already has font size defined. If we don't reset the font size in these cases using one of the methods below, the computed <code>font-size</code> will not be correct.</p>
-			</li>
+			<li><em>Always</em> use font classes to apply a font style in markup.</li>
+			<li><em>Always</em> use a font style set to apply a font style in CSS.</li>
+			<li><em>Never</em> modify CSS <code>font-*</code> properties without UX approval.</li>
 		</ul>
 
-		<h3 class="font__title3 heading__separator">How to apply a font style</h3>
-		<p>(HTML) Add a font class:</p>
+		<h3 class="font__title3 heading__separator">Font classes</h3>
+		<p>Use font classes to apply font styles in markup. For example:</p>
 		<brik-editor>
-			<brik-code lang="html">&lt;h2 class="font__title"&gt;My awesome font in "title" style.&lt;/h2&gt;</brik-code>
-		</brik-editor>
-		<p>(SASS) Use the <code>font</code> mixin:</p>
-		<brik-editor>
-			<brik-code lang="scss">.my-headline {
-	@include font(headline);
-}</brik-code>
-			<brik-code lang="css" label="Compiled">.my-headline {
-	/* This is the computed font-size value; will be applied in ems. */
-	font-size: 24px;
-	line-height: 1.5rem;
-}</brik-code>
+			<brik-code lang="html">&lt;h2 class="font__title1"&gt;My awesome font in "title" style.&lt;/h2&gt;</brik-code>
 		</brik-editor>
 
-		<h3 class="font__title3 heading__separator">How to apply a font style to nested elements</h3>
-		<p>When an element's parent already has a font style applied, applying a font style to the element will likely make its <code>font-size</code> incorrect. To "reset" the element's font size, do one of the following:</p>
-		<ol class="numbers">
-			<li>
-				<p>HTML: Add the <code>.font__reset</code> or <code>.font__reset-size</code> class:</p>
-				<brik-editor>
-					<brik-code lang="html">&lt;div class="font__subheading"&gt;
-	&lt;p&gt;My subheading paragraph text...&lt;/p&gt;
-	&lt;div class="font__reset"&gt;
-		&lt;p&gt;More paragraph text, but I am "reset" to normal body text...&lt;/p&gt;
-		&lt;h2 class="font__title"&gt;I am title text... just the right size&lt;/h2&gt;
-	&lt;/div&gt;
-&lt;div&gt;</brik-code>
-				</brik-editor>
-			</li>
-			<li>
-				<p>SASS: Add a flag in the <code>font</code> mixin:</p>
-				<brik-editor>
-					<brik-code lang="scss">.parent {
-	@include font(subheading);
-}
-
-.child {
-	@include font(body, true);
+		<h3 class="font__title3 heading__separator">Font style sets</h3>
+		<p>Use font style sets to apply font styles in CSS. For example:</p>
+		<brik-editor>
+			<brik-code lang="css" label="PostCSS">.my-heading {
+	@apply --font__title1;
 }</brik-code>
-					<brik-code lang="html">&lt;div class="parent"&gt;
-	&lt;p&gt;My subheading paragraph text...&lt;/p&gt;
-	&lt;div class="child"&gt;
-		&lt;p&gt;More paragraph text, but I am "reset" to normal body text...&lt;/p&gt;
-		&lt;h2 class="font__title"&gt;I am title text... just the right size&lt;/h2&gt;
-	&lt;/div&gt;
-&lt;div&gt;</brik-code>
-				</brik-editor>
-			</li>
-		</ol>
+			<brik-code lang="css" label="Compiled">/* Note: PostCSS converts all `px` values to `rem`s. */
+.my-heading {
+	font-size: 4.25rem;
+	font-weight: 400;
+	line-height: 5rem;
+	letter-spacing: 0.01471rem;
+	font-weight: 300;
+}</brik-code>
+		</brik-editor>
 	</div>
 
 	<div>
-		<h2 class="font__title2">HTML Classes</h2>
-		<h3 class="font__title3 heading__separator">Font Style Classes</h3>
+		<h2 class="font__title2 mt-0">Font classes</h2>
+		<p>Edit the class in the editor below with one of the following: <code>overline</code>, <code>caption</code>, <code>body</code>, <code>body2</code>, <code>subtitle2</code>, <code>subtitle</code>, <code>title3</code>, <code>title2</code>, <code>title1</code></p>
 
-		<h4 class="font__subheading"><code>.font__caption</code> Caption font style</h4>
-		<p class="sp__0"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>
 		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__caption">Caption: Regular 12sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__button</code> Button font style</h4>
-		<p class="sp__0"><em>When to use?</em> Buttons. Tabs.</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__button">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__body</code> Body font style</h4>
-		<p class="sp__0"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__body">Body: Regular 14sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__bold</code> Bold font style</h4>
-		<p class="sp__0"><em>When to use?</em> Bold text. Text with emphasis. Ask UX for specific use cases.</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__bold">Bold: Medium 14sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__subheading</code> Subheading font style</h4>
-		<p class="sp__0"><em>When to use?</em> Subheadings, such as widget section subheadings (see Marketing Sites widget, Community widget).</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__subheading">Subheading: Regular 16sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__title</code> Title font style</h4>
-		<p class="sp__0"><em>When to use?</em> App bar (header) title. Widget title when not in a header (see Social Networking widget). Rank titles (see rank titles in Rank Information widget).</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__title">Title: Medium 20sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__title2</code> Headline font style</h4>
-		<p class="sp__0"><em>When to use?</em> Widget header title.</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__title2">Headline: Regular 24sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__display1</code> Display 1 font style</h4>
-		<p class="sp__0"><em>When to use?</em> Use sparingly, with caution, when needing to call out large text.</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__display1">Display 1: Regular 34sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__display2</code> Display 2 font style</h4>
-		<p class="sp__0"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__display2">Display 2: Regular 45sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__display3</code> Display 3 font style</h4>
-		<p class="sp__0"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__display3">Display 3: Regular 56sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>.font__display4</code> Display 4 font style</h4>
-		<p class="sp__0"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__display4">Display 4: Light 112sp&lt;/p></brik-code>
-		</brik-editor>
-
-		<h3 class="font__title3 heading__separator">Text body length classes</h3>
-
-		<p class="font__bold"><code>.font__short-line</code></p>
-		<p class="sp__0 font__short-line"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>
-		<brik-editor editable="true" live-preview="true">
-			<brik-code lang="html">&lt;p class="font__short-line">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></brik-code>
-		</brik-editor>
-
-		<h2 class="font__title2">SASS Helpers</h2>
-		<p class="text__short">In addition to the HTML classes above, SASS helpers are available for more control.</p>
-
-		<h3 class="font__title"><code>sp($name)</code> function</h3>
-		<p class="text__short">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>
-		<brik-editor>
-			<brik-code lang="scss">.my-custom-selector {
-			font-size: sp('subheading');
-		}</brik-code>
-			<brik-code lang="css">.my-custom-selector {
-			/* Assuming a base font size of 14px, the compiled result will be: */
-			font-size: 1.14286em;
-		}</brik-code>
-		</brik-editor>
-
-		<h3 class="font__title"><code>@include font($style)</code> mixin</h3>
-		<p>This mixin applies a predefined font style to a selector.</p>
-		<brik-editor>
-			<brik-code lang="scss">.my-custom-selector {
-			@include font('display');
-		}</brik-code>
-			<brik-code lang="css">.my-custom-selector {
-			/* Assuming a base font size of 14px, the compiled result will be: */
-			font-size: 2.42857em;
-			line-height: 1.5rem;
-			color: hsla(0, 0%, 0%, 0.54));
-		}</brik-code>
+			<brik-code lang="html">&lt;p class="font__subtitle">Subtitle: I am subtitle text. Wow.&lt;/p></brik-code>
 		</brik-editor>
 	</div>
 </brik-tabs>

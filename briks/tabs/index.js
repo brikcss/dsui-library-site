@@ -56,11 +56,11 @@ export default class Tabs extends BrikElement {
 		this.props.tabNames = [];
 		tabs.forEach((tab, i) => {
 			tab = tab.split(':');
-			this.props.tabNames.push(tab[0]);
 			tabs[i] = {
-				id: tab[0],
+				id: tab[0].toLowerCase(),
 				label: tab[1] || tab[0]
 			};
+			this.props.tabNames.push(tabs[i].id);
 		});
 		return (this.props.tabs = tabs);
 	}

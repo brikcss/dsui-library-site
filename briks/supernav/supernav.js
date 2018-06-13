@@ -22,6 +22,7 @@ export default class SuperNav extends BrikElement {
 				name: 'Sam Space',
 				id: '16D21'
 			},
+			linkPrefix: '#!',
 			links: [
 				{
 					name: 'Home',

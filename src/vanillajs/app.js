@@ -92,7 +92,7 @@ const app = {
 app.router = createRouter(routes, {
 	allowNotFound: false,
 	autoCleanUp: true,
-	defaultRoute: 'home',
+	defaultRoute: '404',
 	defaultParams: {},
 	queryParams: {
 		arrayFormat: 'default',
@@ -136,7 +136,12 @@ function renderRoute(route, toState, fromState) {
 	// Close sidebars.
 	app.page.toggleSidebar('');
 	// Update header.
-	app.header.title = (route.parent || route).title || (route.parent || route).label;
+	app.header.title = `${
+		route.parent
+			? (route.parent.title || route.parent.label) +
+			  ' <brik-icon name="chevron-right" size="1.2em"></brik-icon> '
+			: ''
+	}${route.title || route.label || 'Unknown'}`;
 	// Render route.
 	if (typeof route.render === 'function') route.render(app, toState, fromState);
 }

@@ -121,9 +121,13 @@ export default class Code extends BrikElement {
 	// nodes, data or attributes that change. See
 	// https://viperhtml.js.org/hyperhtml/documentation/.
 	render() {
-		this.props.text = this.props.raw
-			? prism.highlight(this.props.raw, prism.languages[this.props.lang])
-			: '';
+		if (this.props.lang) {
+			this.props.text = this.props.raw
+				? prism.highlight(this.props.raw, prism.languages[this.props.lang])
+				: '';
+		} else {
+			this.props.text = (this.props.raw || '').replace(/</g, '&lt;');
+		}
 		return tpl(this.html, this, BrikElement);
 	}
 }

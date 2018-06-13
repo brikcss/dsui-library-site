@@ -15,7 +15,7 @@
 
 	<!-- Links and menus. -->
 	<nav class="${`brik-supernav__nav ${this.props.active ? 'brik-supernav--active' : ''}`}">
-		${this.props.links.map((link, i) => hyperhtml.wire(link, ':link')`<div class="${`brik-supernav__item ${link.active ? 'brik--menu-is-active' : ''}`}" style="${`height: ${link.children && link.active && !this.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
+		${this.props.links.filter(link => !link.hide).map((link, i) => hyperhtml.wire(link, ':link')`<div class="${`brik-supernav__item ${link.active ? 'brik--menu-is-active' : ''}`}" style="${`height: ${link.children && link.active && !this.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
 			${link.children ? hyperhtml.wire(link, ':link-without-path')`<button type="button" class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" onclick="${() => {
 				if ((this.props.showMenus && this.props.isPinned) || this.props.isMini) return;
 				const lastActiveLink = this.props.links.find((link, n) => n !== i && link.active);
@@ -26,14 +26,14 @@
 				<brik-icon class="brik-supernav__link-icon" name="${link.icon}" size="3rem"></brik-icon>
 				<span class="brik-supernav__link-label">${link.label}</span>
 				${link.children ? hyperhtml.wire(link, ':link-no-path-button')`<brik-icon class="brik-supernav__menu-icon" name="chevron-down"></brik-icon>` : ''}
-			</button>` : hyperhtml.wire(link, ':link-with-path')`<a class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" href="${'#!' + link.path}" tabindex="${this.props.active ? 0 : -1}">
+			</button>` : hyperhtml.wire(link, ':link-with-path')`<a class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" href="${this.props.linkPrefix + link.path}" tabindex="${this.props.active ? 0 : -1}">
 				<brik-icon class="brik-supernav__link-icon" name="${link.icon}" size="3rem"></brik-icon>
 				<span class="brik-supernav__link-label">${link.label}</span>
 				${link.children ? hyperhtml.wire(link, ':link-path-button')`<brik-icon class="brik-supernav__menu-icon" name="chevron-down"></brik-icon>` : ''}
 			</a>`}
 			${link.children ? this.test = hyperhtml.wire(link, ':menu')`<div class="brik-supernav__menu">
 				<div class="brik-supernav__menu-title">${link.label}</div>
-				${link.children.map((sublink, i) => hyperhtml.wire(sublink)`<a class="${`brik-supernav__menu-link ${sublink.active ? 'brik--menu-link-is-active' : ''}`}" href="${'#!' + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.props.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
+				${link.children.map((sublink, i) => hyperhtml.wire(sublink)`<a class="${`brik-supernav__menu-link ${sublink.active ? 'brik--menu-link-is-active' : ''}`}" href="${this.props.linkPrefix + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.props.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
 					if (this.props.activeMenuLink) this.props.activeMenuLink.active = false;
 					sublink.active = true;
 					this.props.activeMenuLink = sublink;

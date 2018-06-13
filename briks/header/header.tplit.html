@@ -1,6 +1,6 @@
 <div class="brik-header__left">
 	<brik-burger-button class="brik-burger" sidebar="left"></brik-burger-button>
-	<div class="brik-header__title">${this.props.title}</div>
+	<div class="brik-header__title">${hyperhtml.wire()`${[this.props.title]}`}</div>
 </div>
 
 <div class="brik-header__center">

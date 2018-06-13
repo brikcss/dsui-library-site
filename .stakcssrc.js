@@ -15,6 +15,7 @@ const basePostcssPlugins = [
 	'postcss-mixins',
 	'postcss-font-magician',
 	'postcss-apply',
+	'postcss-preset-env',
 	'postcss-pxtorem',
 	'autoprefixer',
 	isProd ? 'postcss-csso' : 'postcss-reporter'

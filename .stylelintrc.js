@@ -5,5 +5,8 @@
  ** --------------------------------------------------------------------------------------------- */
 
 module.exports = {
-	extends: '@brikcss/stylelint-config-css'
+	extends: '@brikcss/stylelint-config-css',
+	rules: {
+		'max-nesting-depth': 3
+	}
 };

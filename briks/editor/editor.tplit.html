@@ -7,7 +7,7 @@ ${this.props.livePreview ? hyperhtml.wire(this.props, ':previewer')`<div class="
 		${this.props.tabs.map((tab) => hyperhtml.wire(tab)`
 			<button onclick="${() => {
 				if (this.props.tabs.length > 1) this.activateTab(tab);
-			}}" class="${`brik-editor__tab-button font__button ${this.props.activeTab.id === tab.id ? 'brik--is-active' : ''}`}" type="button">${tab.label}</button>
+			}}" class="${`brik-editor__tab-button font__button ${this.props.activeTab[this.props.activeTab.label ? 'label' : 'id'] === tab[this.props.activeTab.label ? 'label' : 'id'] ? 'brik--is-active' : ''}`}" type="button">${tab.label}</button>
 		`)}
 	</div>
 

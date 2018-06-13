@@ -13,17 +13,43 @@
  *  App layer.
  ** ---------- */
 
+/* stylelint-disable selector-max-type */
 /* stylelint-disable-next-line selector-max-universal */
 *:focus {
 	outline-width: 2px;
 	outline-style: solid;
 }
 
-/* stylelint-disable-next-line selector-max-type, selector-pseudo-class-no-unknown */
-ds-icon:not(:defined) {
+code {
+	background-color: color-mod(var(--color__dark4) lightness(25%));
+}
+pre,
+brik-code,
+brik-editor {
+	display: block;
+	margin-top: 1rem;
+}
+pre > code {
+	background-color: hsl(0, 0%, 18%);
+	color: var(--color__light2);
+	display: block;
+	padding: 1rem 2rem;
+}
+
+brik-icon {
+	display: inline-flex;
+	vertical-align: text-bottom;
+}
+/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+brik-icon:not(:defined) {
 	display: inline-flex;
 	height: 2rem;
 	width: 2rem;
+}
+
+.list__indented dt {
+	padding-left: var(--base-indent);
+	margin-top: 1rem;
 }
 
 .markdown h1 {
@@ -47,6 +73,147 @@ ds-icon:not(:defined) {
 
 .heading__separator {
 	border-bottom: 2px solid hsla(0, 0%, 0%, 0.1);
+	margin-bottom: 1rem;
 	/* stylelint-disable-next-line declaration-property-unit-blacklist */
 	padding-bottom: calc(1rem - 2px);
+}
+
+.dsui-page__related {
+	margin-top: 4rem;
+}
+.dsui-page__related li {
+	margin-top: 0;
+}
+.dsui-page__related li:first-child {
+	margin-top: 2rem;
+}
+
+.dsui-page__about {
+	@apply --font__subtitle;
+}
+
+@media (--phone) {
+	.dsui-page__intro {
+		display: flex;
+		width: 100%;
+	}
+
+	.dsui-page__related {
+		width: 35rem;
+		margin-top: 0;
+		margin-left: 16rem;
+	}
+}
+
+/** ================================================================================================
+ *  Browser support table.
+ ** ---------------------- */
+
+.browsers-table {
+	table-layout: fixed;
+}
+.browsers-table th,
+.browsers-table td {
+	text-align: center;
+	width: 8rem;
+	position: relative;
+}
+.browsers-table__icon--disabled {
+	opacity: 0.3;
+}
+.browsers-table__icon-label {
+	@apply --font__caption;
+	font-size: 0.6em;
+	border-radius: 2px;
+	border: 1px solid var(--color__dark3);
+	background-color: hsl(0, 0%, 100%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	right: 1rem;
+	top: 0.5rem;
+	height: 2rem;
+	width: 2rem;
+}
+
+/** ================================================================================================
+ *  Typography page.
+ ** ---------------- */
+
+.type__table td:not(:last-child) {
+	white-space: nowrap;
+}
+
+/** ================================================================================================
+ *  Colors page.
+ ** ------------ */
+
+.pg-colors__colors-list {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+	margin-left: -1.5rem;
+	margin-right: -1.5rem;
+}
+.pg-colors__colors-list--dark {
+	background-color: var(--color__supernav);
+	padding-bottom: 2rem;
+	margin-left: 0;
+	margin-right: 0;
+}
+.pg-colors__color {
+	box-shadow: 0.5rem 1rem 2rem hsla(0, 0%, 0%, 0.3);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 22rem;
+	line-height: 2rem;
+	margin-bottom: 3rem;
+	margin-left: 1.5rem;
+	margin-right: 1.5rem;
+}
+.pg-colors__color--dark {
+	background-color: hsl(0, 0%, 20%);
+	color: var(--color__light);
+}
+
+.pg-colors__color-value {
+	font-size: 0.9em;
+	display: flex;
+	flex-direction: column;
+	min-height: 12rem;
+	width: 100%;
+	padding: 2rem;
+}
+
+.pg-colors__color-meta {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	width: 20rem;
+	padding: 1rem;
+	@apply --font__caption;
+	color: var(--color__dark);
+}
+.pg-colors__color-meta:empty {
+	padding: 0;
+}
+
+.pg-colors__color--dark .pg-colors__color-meta {
+	color: var(--color__light);
+}
+
+.pg-colors__color-name {
+	font-size: 1.2em;
+	margin-bottom: 1rem;
+}
+
+.pg-colors__color-hsl,
+.pg-colors__color-hex {
+	margin-bottom: 1rem;
+}
+.pg-colors__color-hex {
+	margin-top: 1rem;
 }

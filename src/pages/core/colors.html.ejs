@@ -1,22 +1,167 @@
-<brik-tabs class="page-tabs" tabs="about:About, install:Install &amp; Setup, usage:Usage">
+---js
+{
+	name: 'Colors',
+	isCore: true,
+	intro:
+		'<p>DSUI Colors make it easy to apply and manage all of your app\'s colors. Define colors once and reuse them everywhere. Colors use native CSS variables, which offer many potential features such as live theming.</p>',
+	related: [{
+		name: 'Typography',
+		path: 'core/typography'
+	}],
+	npmPath: '@brikcss/colors',
+	browsers: true,
+	setup: `<p>Include desired file(s) in your app:</p>
+			<ul>
+				<li><em>PostCSS</em>: <code>@import '@brikcss/colors';</code> with <a href="https://github.com/postcss/postcss-import" title="postcss-import">postcss-import</a>.</li>
+				<li><em>Precompiled</em>: <code>./dist/colors.min.css</code> for vanilla CSS.</li>
+				<li><em>Custom build</em>: Follow <code>./src/colors.css</code> to create a custom build..</li>
+			</ul>`,
+	colors: [
+		{
+			heading: 'Neutral colors (text, icons, borders)',
+			description:
+				'Neutral colors are shades of black and white, each with an applied level of opacity. These colors can be used in text, icons, and borders on light backgrounds. Dark colors should only be used on light backgrounds, while light colors should only be used on dark backgrounds.',
+			colors: [
+				{
+					name: 'dark1',
+					alias: '(or light)',
+					hsl: 'hsla(0, 0%, 0%, 0.87)',
+					hex: '#000000, 87% opacity',
+					usage: 'Primary dark text'
+				},
+				{
+					name: 'dark2',
+					hsl: 'hsla(0, 0%, 0%, 0.54)',
+					hex: '#000000, 54% opacity',
+					usage: 'Active dark icons, Secondary dark text'
+				},
+				{
+					name: 'dark3',
+					hsl: 'hsla(0, 0%, 0%, 0.38)',
+					hex: '#000000, 38% opacity',
+					usage: 'Inactive dark icons, Disabled / hint dark text'
+				},
+				{
+					name: 'dark4',
+					color: 'dark',
+					hsl: 'hsla(0, 0%, 0%, 0.12)',
+					hex: '#000000, 12% opacity',
+					usage: 'Dark borders / dividers'
+				},
+				{
+					name: 'light1',
+					alias: '(or light)',
+					color: 'dark',
+					darkBg: true,
+					hsl: 'hsla(0, 0%, 100%, 1)',
+					hex: '#ffffff, 100% opacity',
+					usage: 'Primary light text'
+				},
+				{
+					name: 'light2',
+					darkBg: true,
+					hsl: 'hsla(0, 0%, 100%, 0.7)',
+					hex: '#ffffff, 70% opacity',
+					usage: 'Active light icons, Secondary light text'
+				},
+				{
+					name: 'light3',
+					darkBg: true,
+					hsl: 'hsla(0, 0%, 100%, 0.5)',
+					hex: '#ffffff, 50% opacity',
+					usage:
+						'Inactive light icons, Disabled / hint light text'
+				},
+				{
+					name: 'light4',
+					darkBg: true,
+					hsl: 'hsla(0, 0%, 100%, 0.12)',
+					hex: '#ffffff, 12% opacity',
+					usage: 'Light borders / dividers'
+				}
+			]
+		},
+		{
+			heading: 'App colors',
+			description: 'Background colors with specific use cases.',
+			colors: [
+				{
+					name: 'gray',
+					color: 'dark',
+					hsl: 'hsl(0, 0%, 90%)',
+					hex: '#000000',
+					usage: 'Neutral background'
+				},
+				{
+					name: 'supernav',
+					hsl: 'hsl(209, 24%, 30%)',
+					hex: '#3a4d5f',
+					usage: 'Sidebar header'
+				},
+				{
+					name: 'supernav--icon',
+					hsl: 'hsl(208, 11%, 65%)',
+					hex: '#9ca6b0',
+					usage: 'Sidebar icons'
+				}
+			]
+		},
+		{
+			heading: 'Theme colors',
+			description:
+				'Theme colors are specific to a client and chosen by the client, with DirectScale theme colors provided as fallbacks. <em>Color values are not provided because they should not be used directly.</em> Only the color variables should be used.',
+			colors: [
+				{
+					name: 'brand1',
+					<!-- hsl: 'hsl(194, 76%, 65%)', -->
+					<!-- hex: '#62caea', -->
+					usage: 'Primary app bar, text links, visual tree'
+				},
+				{
+					name: 'brand2',
+					<!-- hsl: 'hsl(69, 67%, 51%)', -->
+					<!-- hex: '#bdd62e', -->
+					usage: 'Buttons, profile avatars'
+				},
+				{
+					name: 'brand3',
+					<!-- hsl: 'hsl(36, 96%, 54%)', -->
+					<!-- hex: '#faa019', -->
+					usage:
+						'Selections, checkboxes, selected state for dropdowns, active tab underlines'
+				},
+				{
+					name: 'brand4',
+					<!-- hsl: 'hsl(205, 7%, 45%)', -->
+					<!-- hex: '#6b747b', -->
+					usage:
+						'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree'
+				}
+			]
+		}
+	]
+}
+---
+
+<brik-tabs class="page-tabs" tabs="About, Setup, Usage, Playground">
 	<!-- About. -->
 	<div class="tabs__content">
 		<%- include ../partials/_intro.html.ejs %>
 
 		<h2 class="font__title2">Guidelines</h2>
-		<h3 class="font__title3">Approved Colors</h3>
-		<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are provided since we should be using client-specific colors.</em></p>
+		<p>Only approved colors should be used. <brik-icon name="alert" size="1.2em"></brik-icon> Any exception requires UX approval.</p>
 
-		<% data.colors.forEach(category => { %>
-			<% if (category.heading) { %><h4 class="font__subheading heading__separator"><%= category.heading %></h4><% } %>
+		<% page.colors.forEach(category => { %>
+			<% if (category.heading) { %><h3 class="font__title3 heading__separator"><%= category.heading %></h3><% } %>
 			<% if (category.description) { %><p><%- category.description %></p><% } %>
 			<ul class="pg-colors__colors-list">
 				<% category.colors.forEach(color => { %>
-					<li class="pg-colors__color<% if (category.darkBg) { %> pg-colors__color--dark<% } %>">
-						<div class="pg-colors__color-value bg__<%= color.name %>">
+					<li class="pg-colors__color<% if (category.darkBg || color.darkBg) { %> pg-colors__color--dark<% } %>">
+						<div class="pg-colors__color-value" style="background-color: var(--color__<%= color.name; %>); color: var(--color__<%= color.color || 'light' %>);">
 							<span class="pg-colors__color-name"><%= color.name %></span>
-							<span class="pg-colors__color-hex"><%= color.hex %></span>
-							<span class="pg-colors__color-hsl"><%= color.hsl %></span>
+							<% if (color.hex) { %><span class="pg-colors__color-hex"><%= color.hex %></span><% } %>
+							<% if (color.hsl) { %><span class="pg-colors__color-hsl"><%= color.hsl %></span><% } %>
+							<span class="pg-colors__color-var">var(--color__<%= color.name %>)</span>
 						</div>
 						<div class="pg-colors__color-meta"><%= color.usage %></div>
 					</li>
@@ -32,56 +177,63 @@
 
 	<!-- Usage. -->
 	<div class="tabs__content">
-		<h2 class="font__title2">Usage</h2>
-		<h3 class="font__title3 heading__separator">Need to know</h3>
+		<h2 class="font__title2 mt-0">Usage</h2>
+		<p>A variable and class is created for each text and background color.</p>
+
+		<h3 class="font__title3 heading__separator">Rules of engagement</h3>
 		<ul class="bullets">
-			<li><em>Never</em> use the <code>background-color</code> property.</li>
-			<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>
+			<li><em>Always</em> use color variables to apply colors in CSS.</li>
+			<li><em>Always</em> use color classes to apply colors in markup.</li>
+			<li><em>Never</em> manually apply <code>color</code> or <code>background-color</code> properties without UX approval.</li>
 		</ul>
 
-		<h3 class="font__title3 heading__separator">Classes and Helpers</h3>
-		<h4 class="font__subheading"><code>c($name)</code></h4>
-		<p><em>Type</em>: SASS function</p>
-		<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>
-		<p><em>Example</em>:</p>
+		<h3 class="font__title3 heading__separator">Color variables</h3>
+		<p>Use color variables to apply colors in CSS. Each color variable follows this naming convention:</p>
+		<brik-code lang="css">var(--color__&lt;name>)</brik-code>
+		<p>For example, to apply a background theme color with light text:</p>
 		<brik-editor>
-			<brik-code lang="scss">.my-selector {
-	border: 1px solid c(dark4);
-}</brik-code>
-			<brik-code lang="css" label="Compiled">.my-selector {
-	border: 1px solid hsl(0, 0%, 0%, 0.12);
+			<brik-code lang="css">.my-component {
+	background-color: var(--color__theme3);
+	color: var(--color__light);
 }</brik-code>
 		</brik-editor>
 
-		<h4 class="font__subheading"><code>color($name, $level: 1)</code></h4>
-		<p><em>Type</em>: SASS function</p>
-		<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>
-		<p><em>Example</em>:</p>
+		<h3 class="font__title3 heading__separator">Color classes</h3>
+		<p>Use color classes to apply colors in markup. Each color class follows a naming convention.</p>
+		<p>Text color classes:</p>
+		<pre><code>c__&lt;name></code></pre>
+		<p>Background color classes:</p>
+		<pre><code>bg__&lt;name></code></pre>
+		<p>For example, to apply a background theme color with light text:</p>
 		<brik-editor>
-			<brik-code lang="scss">.my-selector {
-	background-color: c(dark);
-	border: 1px solid c(dark, 4);
-}</brik-code>
-			<brik-code lang="css" label="Compiled">.my-selector {
-	background-color: hsl(0, 0%, 0%, 0.87);
-	border: 1px solid hsl(0, 0%, 0%, 0.12);
-}</brik-code>
-		</brik-editor>
-
-		<h4 class="font__subheading"><code>@include bg($name, $level: 1);</code></h4>
-		<p><em>Type</em>: SASS mixin</p>
-		<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>
-		<p><em>Example</em>:</p>
-		<brik-editor>
-			<brik-code lang="scss">.my-selector {
-	@include bg(dark, 2);
-}</brik-code>
-			<brik-code lang="css" label="Compiled">.my-selector {
-	background-color: hsl(0, 0%, 0%, 0.87);
-	color: hsl(0, 0%, 0%, 0.54);
-}</brik-code>
+			<brik-code lang="html">&lt;div class="c__light bg__theme3">...&lt;/div></brik-code>
 		</brik-editor>
 	</div>
 
 	<!-- Examples. -->
-	<!-- <div class="tabs__content" data-ng-class="{'tabs__content--active': pageCtrl.activePageTab === 'examples'}"></div> -->
+	<div>
+		<h2 class="font__title2 mt-0">Color variables</h2>
+		<brik-editor editable="true" live-preview="true">
+			<brik-code lang="html">&lt;div class="my-awesome-component">My awesome component.&lt;/div></brik-code>
+			<brik-code lang="css">.my-awesome-component {
+	background-color: var(--color__brand2);
+	color: var(--color__light);
+
+	/* Helper styles (unimportant). */
+	display: flex;
+	align-items: center;
+	text-align: center;
+	height: 20rem;
+	width: 20rem;
+}</brik-code>
+		</brik-editor>
+
+		<h2 class="font__title2">Color classes</h2>
+		<brik-editor editable="true" live-preview="true">
+			<brik-code lang="html">&lt;div class="color-light bg-brand2 my-awesome-component">My awesome component.&lt;/div></brik-code>
+			<brik-code lang="css">.my-awesome-component {
+	height: 20rem;
+	width: 20rem;
+}</brik-code>
+		</brik-editor>
+	</div>

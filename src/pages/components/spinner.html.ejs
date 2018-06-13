@@ -1,4 +1,18 @@
-<brik-tabs class="page-tabs" tabs="about:About, install:Install &amp; Setup, usage:Usage, examples:Examples">
+---js
+{
+	name: 'Spinner',
+	npmPath: '@brikcss/spinner',
+	intro:
+		'<p>Spinner is a visual indicator that content on the page is loading. Spinner can optionally display the progress of an operation.</p>',
+	<!-- related: [], -->
+	setup: {
+		summary:
+			'<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
+	}
+}
+---
+
+<brik-tabs class="page-tabs" tabs="About, Setup, Usage, Playground">
 	<div>
 		<%- include ../partials/_intro.html.ejs %>
 
@@ -12,19 +26,9 @@
 	</div>
 
 	<div>
-		<h2 class="font__title2">JS Usage</h2>
+		<h2 class="font__title2 mt-0">JS Usage</h2>
 
-		<h3 class="font__title heading__separator">Supported JS environments</h3>
-		<ul class="bullets">
-			<li>AngularJS (prebundled)</li>
-			<li>AngularJS (ES Modules)</li>
-			<li>ES Module</li>
-			<li>Vanilla JS</li>
-			<li>CommonJS</li>
-			<li>Universal Module (UMD)</li>
-		</ul>
-
-		<h3 class="font__title heading__separator">Spinner API</h3>
+		<h3 class="font__title3 heading__separator">Spinner API</h3>
 		<ul class="bullets">
 			<li><strong><code>all</code></strong>: Access all spinner instances, grouped by ID.</li>
 			<li><strong><code>Spinner.create(element, options)</code></strong>: Create a spinner instance.</li>
@@ -35,7 +39,7 @@
 		</ul>
 		<p><em>Note: Each method returns the spinner instance, except the <code>destroy</code> method, which returns a Boolean.</em></p>
 
-		<h3 class="font__title heading__separator">Spinner instance</h3>
+		<h3 class="font__title3 heading__separator">Spinner instance</h3>
 		<p>Most of the same methods can be called on a spinner instance without knowing its ID.</p>
 		<ul class="bullets">
 			<li><strong><code>instance.toggle()</code></strong>: Toggle a spinner instance.</li>
@@ -44,7 +48,7 @@
 			<li><strong><code>instance.destroy()</code></strong>: Destroy a spinner instance.</li>
 		</ul>
 
-		<h3 class="font__title heading__separator">AngularJS</h3>
+		<h3 class="font__title3 heading__separator">AngularJS</h3>
 		<p>The AngularJS <code>SpinnerService</code> is a thin AngularJS wrapper around the vanilla core Spinner service, with the following directives added for convenience in interacting with Spinner:</p>
 		<ul class="bullets">
 			<li><strong><code>&lt;spinner options="{...}"&gt;</code></strong>: Create a spinner element in the DOM.</li>
@@ -53,14 +57,7 @@
 
 		<h2 class="font__title2">CSS Usage</h2>
 
-		<h3 class="font__title heading__separator">Supported CSS Environments</h3>
-		<ul class="bullets">
-			<li>SASS</li>
-			<li>Vanilla CSS</li>
-			<li>PostCSS</li>
-		</ul>
-
-		<h3 class="font__title heading__separator">Classes and selectors</h3>
+		<h3 class="font__title3 heading__separator">Classes and selectors</h3>
 		<ul class="bullets">
 			<li><code>.spinner</code>: Spinner base class. <em>Nothing will be displayed in the UI until the active modifier class is added.</em></li>
 			<li><code>.spinner--is-spinning</code>: Active / spinning spinner.</li>
@@ -73,12 +70,12 @@
 
 	<div>
 		<h2 class="font__title2">Examples</h2>
-		<h3 class="font__title heading__separator">Active Spinner</h3>
+		<h3 class="font__title3 heading__separator">Active Spinner</h3>
 		<brik-editor live-preview="true" editable="true">
 			<brik-code lang="html">&lt;spinner options="{mods: ['active']}">&lt;/spinner></brik-code lang="html">
 		</brik-editor>
 
-		<h3 class="font__title heading__separator">Toggling a Spinner</h3>
+		<h3 class="font__title3 heading__separator">Toggling a Spinner</h3>
 		<p>Use the <code>ng-class</code> directive to activate and deactivate a spinner.</p>
 		<brik-editor live-preview="true" editable="true">
 			<brik-code lang="html">&lt;div data-ng-init="toggleableActive = true;">

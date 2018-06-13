@@ -73,44 +73,45 @@ module.exports = {
 		features: {
 			'custom-properties': false,
 			'custom-property-sets': false,
-			'image-set-function': {},
+			'image-set-function': false,
 			'logical-properties-and-values': false,
-			'nesting-rules': {},
+			'nesting-rules': true,
 			'custom-media-queries': {
 				extensions: {
-					'--phone': '(min-width: 480px)',
-					'--tablet': '(min-width: 768px)',
-					'--desktop': '(min-width: 990px)',
-					'--wide': '(min-width: 1400px)'
+					'--phone': '(min-width: 600px)',
+					'--tablet': '(min-width: 900px)',
+					'--desktop': '(min-width: 1200px)',
+					'--wide': '(min-width: 1440px)'
 				},
 				preserve: true,
 				appendExtensions: false
 			},
-			'media-query-ranges': {},
-			'custom-selectors': { extensions: {}, transformMatches: false },
-			'case-insensitive-attributes': {},
+			'media-query-ranges': false,
+			// 'custom-selectors': { extensions: {}, transformMatches: false },
+			'custom-selectors': false,
+			'case-insensitive-attributes': false,
 			'rebeccapurple-color': false,
 			'hexadecimal-alpha-notation': false,
 			'lab-function': false,
-			'color-mod-function': {},
-			'color-functional-notation': {},
-			'system-ui-font-family': {},
-			'font-variant-property': {},
-			'all-property': {},
-			'matches-pseudo-class': {},
-			'not-pseudo-class': {},
-			'any-link-pseudo-class': {},
+			'color-mod-function': true,
+			'color-functional-notation': true,
+			'system-ui-font-family': false,
+			'font-variant-property': false,
+			'all-property': false,
+			'matches-pseudo-class': false,
+			'not-pseudo-class': false,
+			'any-link-pseudo-class': true,
 			'dir-pseudo-class': false,
-			'break-properties': {},
-			'gap-properties': {},
-			'overflow-property': {},
-			'overflow-wrap-property': {},
-			'place-properties': {},
-			'focus-visible-pseudo-class': {},
-			'focus-within-pseudo-class': {}
+			'break-properties': false,
+			'gap-properties': false,
+			'overflow-property': false,
+			'overflow-wrap-property': false,
+			'place-properties': false,
+			'focus-visible-pseudo-class': false,
+			'focus-within-pseudo-class': false
 		},
 		// Determine which features to polyfill based on browserslist.
-		browsers: 'last 2 versions',
+		browsers: ['last 2 versions', 'IE 11']
 		// Insert plugins into the chain.
 		// insertBefore: {
 		// 	'nesting-rules': [
@@ -120,7 +121,7 @@ module.exports = {
 		// 		})
 		// 	]
 		// },
-		insertAfter: {}
+		// insertAfter: {}
 	},
 
 	// Packs multiple media queries into one.

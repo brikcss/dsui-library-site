@@ -1,15 +1,42 @@
-<h3 class="font__title3">Install</h3>
+<% if (page.browsers) { %><h3 class="font__title2 mt-0 heading__separator">Browser support</h3>
+<table class="browsers-table">
+	<thead>
+		<tr>
+			<th>Chrome</th>
+			<th>Firefox</th>
+			<th>Safari</th>
+			<th>Edge</th>
+			<th>iOS</th>
+			<th>Android</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.chrome ? '' : ' browsers-table__icon--disabled' %>" name="google-chrome"></brik-icon> <% if (typeof page.browsers.chrome === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.chrome %></div><% } %></td>
+			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.firefox ? '' : ' browsers-table__icon--disabled' %>" name="firefox"></brik-icon> <% if (typeof page.browsers.firefox === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.firefox %></div><% } %></td>
+			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.safari ? '' : ' browsers-table__icon--disabled' %>" name="apple-safari"></brik-icon> <% if (typeof page.browsers.safari === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.safari %></div><% } %></td>
+			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.edge ? '' : ' browsers-table__icon--disabled' %>" name="edge"></brik-icon> <% if (typeof page.browsers.edge === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.edge %></div><% } %></td>
+			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.ios ? '' : ' browsers-table__icon--disabled' %>" name="apple-ios"></brik-icon> <% if (typeof page.browsers.ios === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.ios %></div><% } %></td>
+			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.android ? '' : ' browsers-table__icon--disabled' %>" name="android"></brik-icon> <% if (typeof page.browsers.android === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.android %></div><% } %></td>
+		</tr>
+	</tbody>
+</table><% } %>
 
-<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>
+<h3 class="font__title2 heading__separator">Install</h3>
+
+<% if (page.isCore) { %><p>It is encouraged to install <%= page.name %> with DSUI Core:</p>
 <brik-code lang="bash">npm install @brikcss/core --save-dev</brik-code>
 
-<p>You may also install <%= data.brik.name %> on its own:</p><% } %>
-<brik-code lang="bash">npm install <%= data.brik.npmPath %> --save-dev</brik-code>
+<p>You may install <%= page.name %> as a standalone package:</p><% } %>
+<brik-code lang="bash">npm install <%= page.npmPath %> --save-dev</brik-code>
 
-<% if (typeof data.brik.setup === 'object') { %><h3 class="font__title3">Setup</h3>
-<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>
-<% if (data.brik.setup.list) { %><ol class="numbers">
-	<% data.brik.setup.list.forEach(item => { %>
+<% if (typeof page.setup === 'string') { %>
+	<h3 class="font__title2 heading__separator">Setup</h3>
+	<%- page.setup _%>
+<% } else if (typeof page.setup === 'object') { %><h3 class="font__title2 heading__separator">Setup</h3>
+<% if (page.setup.summary) { %><%- page.setup.summary %><% } %>
+<% if (page.setup.list) { %><ol class="numbers">
+	<% page.setup.list.forEach(item => { %>
 		<% if (typeof item === 'object') { %>
 			<li><%- item.intro %>
 				<% if (item.class === 'numbers') { %><ol class="numbers"><% } else { %><ul class="bullets"><% } %>

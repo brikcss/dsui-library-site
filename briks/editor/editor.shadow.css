@@ -9,7 +9,7 @@
 	tab-size: 4;
 }
 
-.brik-editor {
+:host {
 	display: block;
 }
 
@@ -36,6 +36,7 @@
 	border: none;
 	color: var(--color__light2);
 	font-weight: 400;
+	text-transform: none;
 }
 .brik-editor__tab-button + .brik-editor__tab-button {
 	margin-left: 0.25rem;

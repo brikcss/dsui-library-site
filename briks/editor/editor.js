@@ -47,7 +47,7 @@ export default class Editor extends BrikElement {
 		this.dom.panes.forEach((pane, i) => {
 			this.props.tabs.push({
 				id: pane.lang,
-				label: pane.label || pane.lang.toUpperCase(),
+				label: pane.label || pane.getAttribute('label') || pane.lang.toUpperCase(),
 				index: i
 			});
 		});

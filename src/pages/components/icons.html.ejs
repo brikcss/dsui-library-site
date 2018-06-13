@@ -1,4 +1,13 @@
-<brik-tabs class="page-tabs" tabs="about:About, install:Install &amp; Setup, usage:Usage, examples:Examples">
+---js
+{
+	name: 'Icons',
+	npmPath: '@brikcss/icons',
+	intro: '<p>Icons communicate something without text.</p>',
+	<!-- related: [], -->
+}
+---
+
+<brik-tabs class="page-tabs" tabs="About, Setup, Usage, Playground">
 	<div>
 		<%- include ../partials/_intro.html.ejs %>
 
@@ -12,7 +21,7 @@
 	</div>
 
 	<div>
-		<h2 class="font__title2">Usage</h2>
+		<h2 class="font__title2 mt-0">Usage</h2>
 		<p><code>&lt;icon/&gt;</code> is a <a ui-sref="web-components">Custom Element</a> with the following API:</p>
 		<ul class="bullets">
 			<li><code>name</code>: Gets or sets the icon name, which should be the path of the icon SVG file, relative to <code>../svg/</code>, which is where the SVG icon files should reside.</li>
@@ -21,7 +30,7 @@
 	</div>
 
 	<div>
-		<h2 class="font__title2">Examples</h2>
+		<h2 class="font__title2 mt-0">Examples</h2>
 		<brik-editor live-preview="true" editable="true">
 			<brik-code lang="html">&lt;brik-icon name="twitter">&lt;/brik-icon>
 &lt;brik-icon name="facebook" size="8rem">&lt;/brik-icon>

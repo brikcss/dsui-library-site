@@ -1,22 +1,59 @@
-<brik-tabs class="page-tabs" tabs="about:about, install:Install &amp; Setup, usage:Usage, examples:Examples">
+---js
+{
+	name: 'Rhythm',
+	npmPath: '@brikcss/rhythm',
+	isCore: true,
+	intro:
+		`<p>Rhythm offers an easy way to apply and manage vertical and horizontal spacing. Rhythm is foundational for mastering <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">typography</a> and <a href="https://webdesign.tutsplus.com/articles/improving-layout-with-vertical-rhythm--webdesign-14070">layout</a>, as it fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetition and familiarity</a> throughout the UI, making any layout more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>.</p>`,
+		<!-- <p>For a demonstration of Rhythm in action: <br><button class="<%= page.baseClass %>__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Toggle Rhythm grid</button></p> -->
+		<!-- <p>Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That\'s Rhythm.</p>`, -->
+	related: [{name: 'Typography', path: 'core/typography'}],
+	browsers: true,
+	setup: `<p>Include desired file(s) in your app:</p>
+			<ul>
+				<li><em>PostCSS</em>: <code>@import '@brikcss/spacing';</code> with <a href="https://github.com/postcss/postcss-import" title="postcss-import">postcss-import</a>.</li>
+				<li><em>Precompiled</em>: <code>./dist/spacing.min.css</code> for vanilla CSS.</li>
+				<li><em>Custom build</em>: Follow <code>./src/spacing.css</code> to create a custom build..</li>
+			</ul>`,
+}
+---
+
+<brik-tabs class="page-tabs" tabs="About, Setup, Usage, Playground">
 	<div>
 		<%- include ../partials/_intro.html.ejs %>
 
 		<h2 class="font__title2">Guidelines</h2>
 
 		<h3 class="font__title3 heading__separator">Definitions</h3>
-		<dl>
+		<dl class="list__indented">
 			<dt>Dimensional properties</dt>
 			<dd>Any CSS property which affects an element's dimensions and/or spacing, including but not limited to: <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>.</dd>
 			<dt>1rem</dt>
-			<dd>Height/width of one (1) square in the rhythm grid.</dd>
+			<dd>A <code>rem</code> is a CSS unit of measurement -- an alternative to <code>pixels</code> -- which can make any layout scaleable and responsive. In DSUI, equal to 8 pixels.</dd>
 		</dl>
 
 		<h3 class="font__title3 heading__separator">Use <code>rems</code> for all dimensional properties</h3>
-		<p>DS UI uses <a href="https://www.sitepoint.com/understanding-and-using-rem-units-in-css/" title="Understanding rem units in CSS">CSS <code>rem</code> units</a> to apply rhythm and spacing. <em>Follow the "rules of Rhythm" below when applying <code>rems</code>.</em></p>
+		<p>DSUI uses <a href="https://www.sitepoint.com/understanding-and-using-rem-units-in-css/" title="Understanding rem units in CSS">CSS <code>rem</code> units</a> to apply rhythm and spacing. <em>Follow the "rules of Rhythm" below when applying <code>rems</code>.</em></p>
 
 		<h3 class="font__title3 heading__separator">Strictly follow the "Rules of Rhythm"</h3>
-		<p>In DS UI, <code>1rem</code> unit is equivalent to <code>8px</code>, which follows <a href="https://material.io/guidelines/layout/metrics-keylines.html" title="Material Design spacing grid">MD specifications for grid layout and spacing</a>. In order to keep the grid "in rhythm", strictly follow the "Rules of Rhythm" in the Usage section.</p>
+		<p>To ensure the layout and spacing grid always stays "in rhythm", follow these rules:</p>
+		<ol>
+			<li>
+				<p><em>Always</em> use <code>rem</code> units for <em>dimensional properties</em>:</p>
+				<ul>
+					<li>Use a <strong>1rem grid</strong> (8 pixels) for components.</li>
+					<li>A <strong>0.5rem grid</strong> (4 pixels) may be used for typography and iconography.</li>
+				</ul></li>
+			<li><p><em>Avoid</em> applying <code>rems</code> in fractions (except as noted above). This will break the Rhythm.</p></li>
+			<li>
+				<p><em>Always</em> "fix" the Rhythm if and when it's necessary to break it.</p>
+				<p>Applying <code>rems</code> in fractions will break the Rhythm. There may be rare cases where this necessary, such as when an element needs a <code>1px</code> border, or an image needs a specific height in pixels.</p>
+				<p>In such cases, you must manually put things back "in rhythm" by following this rule:</p>
+				<blockquote>
+					<p><em>The sum of vertical and horizontal dimensional property values for a given element, converted to <code>rems</code>, must each be an integer.</em></p>
+				</blockquote>
+			</li>
+		</ol>
 	</div>
 
 	<div>
@@ -24,39 +61,29 @@
 	</div>
 
 	<div>
-		<h2 class="font__title2">Usage</h2>
-		<p>You can apply rhythm in two ways:</p>
-		<ol class="numbers">
-			<li>manually, with CSS <code>rems</code> and the <em>Rules of Rhythm</em>.</li>
-			<li>using provided Rhythm classes.</li>
-		</ol>
+		<h2 class="font__title2 mt-0">Usage</h2>
 
-		<h3 class="font__title3 heading__separator">Rules of Rhythm</h3>
-		<p>To ensure the layout and spacing grid always stays "in rhythm", follow these rules:</p>
-		<ul class="bullets">
-			<li>
-				<p>Always use <code>rem</code> units for all <em>dimensional properties</em>:</p>
-				<ul class="bullets">
-					<li>Use a <strong>1rem grid</strong> (8 pixels) for components.</li>
-					<li>A <strong>0.5rem grid</strong> (4 pixels) may be used for typography and iconography.</li>
-				</ul></li>
-			<li>
-				<p>Avoid applying <code>rems</code> in fractions.</p>
-				<p>Applying fractional <code>rem</code> values (except as described above) will break the rhythm grid. However, there may be rare cases where it's necessary to break the rhythm. For example, perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. These cases will break the grid.</p>
-				<p>In such cases, follow this rule to place the grid back "in rhythm":</p>
-				<blockquote>
-					<p><em>The sum of vertical and horizontal dimensional property values for a given element, converted to <code>rems</code>, must each be an integer.</em></p>
-				</blockquote>
-			</li>
+		<h3 class="font__title3 heading__separator">Rules of engagement</h3>
+		<ul>
+			<li><em>Always</em> use CSS <code>rems</code> to apply dimensional properties (height, width, margins, padding, etc.) in CSS.</li>
+			<li><em>Always</em> use Rhythm classes to apply Rhythm in markup.</li>
 		</ul>
 
-		<h3 class="font__title3 heading__separator">How to use Rhythm / Spacing classes</h3>
-		<p>DS UI Rhythm provides a series of utility classes to allow you to easily apply <code>padding</code> and <code>margin</code> to any element.</p>
-		<h4 class="font__subheading">Format of Rhythm utility classes</h4>
-		<p>Each Rhythm class name is created following a template like this:</p>
-		<blockquote>
-			<pre><code>.{p|m}{l|r|t|b|x|y}-{value}</code></pre>
-		</blockquote>
+		<h3 class="font__title3 heading__separator">Applying Rhythm with <code>rems</code></h3>
+		<p>Applying Rhythm with <code>rems</code> is fairly self-explanatory. The important thing to remember is to <em>always follow the Rules of Rhythm</em> (see the "About" tab).</p>
+		<p>Simple example:</p>
+		<brik-code lang="css">.my-component {
+	border: 1px solid var(--color__dark4);
+	margin-top: 2rem;
+
+	/* Apply Rhythm fix to height/width dimensions since 1px top and bottom border throws it off */
+	height: calc(10rem - 2px);
+	width: 14rem;
+}</brik-code>
+
+		<h3 class="font__title3 heading__separator">Applying Rhythm with classes</h3>
+		<p>DSUI Rhythm provides a series of utility classes to allow you to easily apply <code>padding</code> and <code>margin</code> to any element. Each Rhythm class follows these format:</p>
+		<pre><code>.{p|m}{l|r|t|b|x|y}-{value}</code></pre>
 		<p>where:</p>
 		<ul class="bullets">
 			<li><code>value</code> is the rem value being applied</li>
@@ -69,13 +96,12 @@
 			<li><code>x</code> applies <code>value</code> to left and right sides</li>
 			<li><code>y</code> applies <code>value</code> to top and bottom sides</li>
 		</ul>
-		<h4 class="font__subheading">List of Rhythm values</h4>
-		<p>By default, Rhythm classes exist for the following values:</p>
+		<h4 class="font__subtitle">Examples of Rhythm utility classes</h4>
+		<p>By default, Rhythm classes are created for the following <code>rem</code> values:</p>
 		<blockquote>
 			<code>0</code>, <code>0.5rem</code>, <code>1rem</code>, <code>1.5rem</code>, <code>2rem</code>, <code>3rem</code>, <code>4rem</code>
 		</blockquote>
-		<p><em>Note: Additional Rhythm classes can be created by modifying the <code>$rhythm__spacing-values</code> SASS variable, which is a SASS list of rem values.</em></p>
-		<h4 class="font__subheading">Examples of Rhythm utility classes</h4>
+		<p>Some examples of valid Rhythm classes:</p>
 		<ul class="bullets">
 			<li><code>.pl-1</code> applies 1rem of padding-left</li>
 			<li><code>.mr-2</code> applies 2rem of margin-right</li>
@@ -86,7 +112,6 @@
 			<li><code>.p-4</code> applies 4rem of padding</li>
 			<li><code>.m-3</code> applies 3rem of margin</li>
 		</ul>
-		<p>See Examples for more.</p>
 	</div>
 
 	<div>

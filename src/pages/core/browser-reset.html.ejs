@@ -1,9 +1,38 @@
-<brik-tabs class="page-tabs" tabs="about:About, install:Install &amp; Setup">
+---js
+{
+	name: 'Browser Reset',
+	npmPath: '@brikcss/browser-reset',
+	isCore: true,
+	intro: `<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include Browser Reset as the first stylesheet in their app.</em></p>`,
+	related: [
+		{ name: 'Typography', path: 'core/typography' },
+		{ name: 'Links', path: '' },
+		{ name: 'Spacing', path: 'core/spacing' }
+	],
+	browsers: {
+		chrome: true,
+		firefox: true,
+		safari: true,
+		edge: true,
+		ie: '11',
+		ios: true,
+		android: true
+	},
+	setup: `<p>Include one of the following as the first stylesheet in your app:</p>
+			<ol>
+				<li><em>PostCSS</em>: <code>@import '@brikcss/browser-reset';</code> with <a href="https://github.com/postcss/postcss-import" title="postcss-import">postcss-import</a>.</li>
+				<li><em>Precompiled</em>: <code>./dist/browser-reset.min.css</code> for precompiled vanilla CSS.</li>
+				<li><em>(optional) Customize</em> CSS variables in your app, as desired (see <a href="https://github.com/brikcss/browser-reset/blob/master/src/browser-reset.css" title="browser-reset.css">browser-reset.css</a> for available variables).</li>
+			</ol>`
+}
+---
+
+<brik-tabs class="page-tabs" tabs="About, Setup">
 	<div>
-		<%- include ../partials/_intro.html.ejs %>
+		<%- include('../partials/_intro.html.ejs') %>
 	</div>
 
 	<div>
-		<%- include ../partials/_install.html.ejs %>
+		<%- include('../partials/_install.html.ejs') %>
 	</div>
 </brik-tabs>

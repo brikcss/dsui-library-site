@@ -15,6 +15,7 @@ import babel from 'rollup-plugin-babel';
 import ejs from './lib/rollup-plugin-ejs';
 // import markdownit from 'markdown-it';
 import md from './lib/rollup-plugin-md';
+// import mdplus from './lib/rollup-plugin-mdplus';
 import mdAttrs from 'markdown-it-attrs';
 import mdContainer from 'markdown-it-container';
 import mdTasks from 'markdown-it-task-lists';
@@ -199,6 +200,82 @@ function createConfig(config = {}, options = {}) {
 						}
 					}
 				},
+				// mdplus: {
+				// 	include: ['**/*.mdp'],
+				// 	markdownit: {
+				// 		langPrefix: '',
+				// 		rules: [
+				// 			{
+				// 				name: 'fence',
+				// 				fn(tokens, idx, options, env, self) {
+				// 					var token = tokens[idx];
+
+				// 					return `<brik-code lang="${
+				// 						token.info.trim().split(/\s+/g)[0]
+				// 					}" ${self.renderAttrs(token)}>${tokens[idx].content.replace(
+				// 						/</g,
+				// 						'&lt;'
+				// 					)}</brik-code>`;
+				// 				}
+				// 			}
+				// 		],
+				// 		init(md) {
+				// 			return (
+				// 				md
+				// 					.use(mdInclude, 'src')
+				// 					// .use(mdContainer, 'tabs', {
+				// 					// 	validate(name) {
+				// 					// 		return name.trim().match(/^tabs\s(.*)$/);
+				// 					// 	},
+				// 					// 	render(tokens, idx) {
+				// 					// 		const tags = [];
+				// 					// 		if (tokens[idx].nesting === 1) {
+				// 					// 			const info = tokens[idx].info.trim();
+				// 					// 			const attrs = info.match(/\(.*\)/)
+				// 					// 				? info.match(/\(.*\)/)[0]
+				// 					// 				: null;
+				// 					// 			const tag = info.split('(')[0];
+				// 					// 			tags.push(tag);
+				// 					// 			return (
+				// 					// 				'<' +
+				// 					// 				tag +
+				// 					// 				(attrs
+				// 					// 					? ' ' + attrs.slice(1, attrs.length - 1)
+				// 					// 					: '') +
+				// 					// 				'>\n'
+				// 					// 			);
+				// 					// 		} else {
+				// 					// 			const html = '</' + tags[tags.length - 1] + '>\n';
+				// 					// 			tags.pop();
+				// 					// 			return html;
+				// 					// 		}
+				// 					// 	}
+				// 					// })
+				// 					.use(mdTasks)
+				// 					.use(mdAttrs)
+				// 					.use(mdContainer, 'any', {
+				// 						validate(name) {
+				// 							return name.trim().match(/([a-z|-])+(\s+)?(.*)$/);
+				// 						},
+				// 						render(tokens, idx) {
+				// 							const token = tokens[idx];
+				// 							const tag = token.info.trim();
+				// 							if (token.nesting === 1) {
+				// 								const attrs = (tokens[idx].attrs || []).map(
+				// 									(attr) => attr[0] + '="' + attr[1] + '"'
+				// 								);
+				// 								return `<${tag}${
+				// 									attrs.length ? ' ' + attrs.join(' ') : ''
+				// 								}>\n`;
+				// 							} else {
+				// 								return `</${tag}>`;
+				// 							}
+				// 						}
+				// 					})
+				// 			);
+				// 		}
+				// 	}
+				// },
 				string: {
 					include: ['**/*.tpl.html']
 				},
@@ -218,7 +295,7 @@ function createConfig(config = {}, options = {}) {
 				},
 				ejs: {
 					include: ['**/*.ejs*'],
-					compilerOptions: { client: true, _with: false, localsName: 'data' }
+					options: { cache: false, client: false, _with: false, localsName: 'data' }
 				},
 				babel: {
 					include: '**/*.js',
@@ -265,6 +342,7 @@ function createConfig(config = {}, options = {}) {
 		resolve(),
 		commonjs(options.commonjs),
 		md(options.md),
+		// mdplus(options.mdplus),
 		postcss(options.postcss),
 		templateLiteral(options.templateLiteral),
 		string(options.string),
