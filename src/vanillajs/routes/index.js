@@ -26,7 +26,7 @@ export default [
 	{
 		name: 'home',
 		label: 'Home',
-		path: '/home',
+		path: '/',
 		icon: 'home',
 		render: (app) => app.content.render(homePage),
 		data: {

@@ -90,10 +90,10 @@ const app = {
  ** ------ */
 
 app.router = createRouter(routes, {
-	allowNotFound: false,
-	autoCleanUp: true,
+	// allowNotFound: true,
+	// autoCleanUp: true,
 	defaultRoute: '404',
-	defaultParams: {},
+	// defaultParams: {},
 	queryParams: {
 		arrayFormat: 'default',
 		nullFormat: 'default',
@@ -103,7 +103,8 @@ app.router = createRouter(routes, {
 	trailingSlashMode: 'default',
 	strictTrailingSlash: false,
 	caseSensitive: true
-})
+});
+app.router
 	.usePlugin(
 		browserPlugin({
 			useHash: true,
