@@ -4894,7 +4894,7 @@
 
 	<!-- Links and menus. -->
 	<nav class="${`brik-supernav__nav ${context.props.active ? 'brik-supernav--active' : ''}`}">
-		${context.props.links.map((link, i) => hyperhtml.wire(link, ':link')`<div class="${`brik-supernav__item ${link.active ? 'brik--menu-is-active' : ''}`}" style="${`height: ${link.children && link.active && !context.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
+		${context.props.links.filter(link => !link.hide).map((link, i) => hyperhtml.wire(link, ':link')`<div class="${`brik-supernav__item ${link.active ? 'brik--menu-is-active' : ''}`}" style="${`height: ${link.children && link.active && !context.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
 			${link.children ? hyperhtml.wire(link, ':link-without-path')`<button type="button" class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" onclick="${() => {
 				if ((context.props.showMenus && context.props.isPinned) || context.props.isMini) return;
 				const lastActiveLink = context.props.links.find((link, n) => n !== i && link.active);
@@ -4905,14 +4905,14 @@
 				<brik-icon class="brik-supernav__link-icon" name="${link.icon}" size="3rem"></brik-icon>
 				<span class="brik-supernav__link-label">${link.label}</span>
 				${link.children ? hyperhtml.wire(link, ':link-no-path-button')`<brik-icon class="brik-supernav__menu-icon" name="chevron-down"></brik-icon>` : ''}
-			</button>` : hyperhtml.wire(link, ':link-with-path')`<a class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" href="${'#!' + link.path}" tabindex="${context.props.active ? 0 : -1}">
+			</button>` : hyperhtml.wire(link, ':link-with-path')`<a class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" href="${context.props.linkPrefix + link.path}" tabindex="${context.props.active ? 0 : -1}">
 				<brik-icon class="brik-supernav__link-icon" name="${link.icon}" size="3rem"></brik-icon>
 				<span class="brik-supernav__link-label">${link.label}</span>
 				${link.children ? hyperhtml.wire(link, ':link-path-button')`<brik-icon class="brik-supernav__menu-icon" name="chevron-down"></brik-icon>` : ''}
 			</a>`}
 			${link.children ? context.test = hyperhtml.wire(link, ':menu')`<div class="brik-supernav__menu">
 				<div class="brik-supernav__menu-title">${link.label}</div>
-				${link.children.map((sublink, i) => hyperhtml.wire(sublink)`<a class="${`brik-supernav__menu-link ${sublink.active ? 'brik--menu-link-is-active' : ''}`}" href="${'#!' + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!context.props.isMini) {return;} link.active = true; context.render();}}" onclick="${(event) => {
+				${link.children.map((sublink, i) => hyperhtml.wire(sublink)`<a class="${`brik-supernav__menu-link ${sublink.active ? 'brik--menu-link-is-active' : ''}`}" href="${context.props.linkPrefix + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!context.props.isMini) {return;} link.active = true; context.render();}}" onclick="${(event) => {
 					if (context.props.activeMenuLink) context.props.activeMenuLink.active = false;
 					sublink.active = true;
 					context.props.activeMenuLink = sublink;
@@ -4938,7 +4938,7 @@
 
 	var css = "/*! typography.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/** Define font styles.\n    ============================================================================================= */\n\n/* stylelint-disable max-nesting-depth */\n\n/** Font defaults.\n    ============================================================================================= */\n\n/* stylelint-disable-next-line selector-max-type */\n\nhtml {\n\tfont-size: var(--base-rhythm, 8px);\n}\n\nbody {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n\tfont-family: 'Roboto', sans-serif;\n\tfont-size: var(--base-font__size, 16px);\n}\n\n/** Font helper classes.\n    ============================================================================================= */\n\n.font__overline {\n  font-size: 1.25rem;\n  letter-spacing: 0.3rem;\n  line-height: 2rem;\n  text-transform: uppercase;\n}\n\n.font__caption {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n}\n\n.font__button {\n  font-size: 1.75rem;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 2rem;\n  letter-spacing: 0.10714rem;\n}\n\n.font__body2 {\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.28571px;\n}\n\n.font__body {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n}\n\n.font__subtitle2 {\n  font-size: 1.75rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.01429rem;\n}\n\n.font__subtitle {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.01875rem;\n}\n\n.font__h6 {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n}\n\n.font__h5 {\n  font-size: 3rem;\n  font-weight: 400;\n  line-height: 4rem;\n}\n\n.font__h4 {\n  font-size: 4.25rem;\n  font-weight: 400;\n  line-height: 5rem;\n  letter-spacing: 0.01471rem;\n}\n\n.font__h3 {\n  font-size: 6rem;\n  font-weight: 400;\n  line-height: 6rem;\n}\n\n.font__h2 {\n  font-size: 7.5rem;\n  font-weight: 300;\n  line-height: 8rem;\n  letter-spacing: -0.01667rem;\n}\n\n.font__h1 {\n  font-size: 12rem;\n  font-weight: 300;\n  line-height: 12rem;\n  letter-spacing: -0.03125rem;\n}\n\n:host {\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t    -ms-flex-direction: column;\n\t        flex-direction: column;\n\theight: 100%;\n\twidth: 100%;\n}\n\n.brik-supernav__scroller {\n\t-webkit-box-flex: 1;\n\t    -ms-flex: 1;\n\t        flex: 1;\n\toverflow-y: auto;\n}\n\n.brik-supernav__header {\n\tbackground-color: var(--color__brand4);\n\tbackground-repeat: no-repeat;\n\tbackground-position: left top;\n\tcolor: var(--color__light);\n\tmin-height: 14rem;\n\tpadding: 2rem 2rem 1rem;\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t    -ms-flex-direction: column;\n\t        flex-direction: column;\n\t-webkit-box-pack: end;\n\t    -ms-flex-pack: end;\n\t        justify-content: flex-end;\n}\n\n.brik-supernav__toolbar {\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\t-webkit-box-pack: end;\n\t    -ms-flex-pack: end;\n\t        justify-content: flex-end;\n}\n\n.brik-supernav__close-button {\n\tbackground-color: transparent;\n\tborder: 0;\n\tdisplay: block;\n\tfill: var(--color__light);\n\tpadding: 0;\n}\n\n/* stylelint-disable-next-line selector-max-type */\n\n.brik-supernav__close-button brik-icon {\n\tfill: inherit;\n}\n\n.brik-supernav__avatar {\n\tborder-radius: 50%;\n\theight: 8rem;\n\twidth: 8rem;\n\tmargin-top: -2rem;\n}\n\n.brik-supernav__user-name {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n\tmargin: 0.5rem 0 0;\n}\n\n.brik-supernav__logo-link {\n\tbackground-color: var(--color__supernav);\n\tcolor: hsl(0, 0%, 100%);\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\t-webkit-box-pack: center;\n\t    -ms-flex-pack: center;\n\t        justify-content: center;\n\theight: 6rem;\n\toutline: 0;\n}\n\n/* stylelint-disable-next-line selector-max-type */\n\n.brik-supernav__logo-link img {\n\tmax-height: 5rem;\n\tmax-width: 90%;\n}\n\n.brik-supernav__nav {\n\t-webkit-box-flex: 1;\n\t    -ms-flex: 1;\n\t        flex: 1;\n}\n\n.brik-supernav__item {\n\theight: 6rem;\n\twill-change: height;\n\t-webkit-transition: height 300ms cubic-bezier(0.6, 0, 0.2, 1.1);\n\ttransition: height 300ms cubic-bezier(0.6, 0, 0.2, 1.1);\n\toverflow: hidden;\n\tposition: relative;\n}\n\n.brik-supernav--show-menus .brik-supernav__item {\n\theight: auto;\n}\n\n.brik-supernav__link,\n.brik-supernav__menu-link {\n  font-size: 1.75rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.03571rem;\n\tfont-weight: 400;\n\tbackground-color: transparent;\n\tborder: 0;\n\tcolor: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n\ttext-decoration: none;\n\tcursor: pointer;\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\tpadding: 0;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\theight: 6rem;\n\toutline: 0;\n}\n\n.brik-supernav__link {\n\tposition: relative;\n\twidth: 100%;\n\t-webkit-transition: background-color 250ms;\n\ttransition: background-color 250ms;\n}\n\n.brik-supernav__link-separator {\n\t/* stylelint-disable-next-line declaration-property-unit-blacklist */\n\theight: calc(6rem - 0.125rem);\n\tborder-top: 0.125rem solid var(--color__dark4);\n}\n\n.brik-supernav__link-icon {\n\tfill: var(--color__brand1);\n\theight: 3rem;\n\twidth: 3rem;\n\tmargin-left: 2rem;\n\tmargin-right: 2.5rem;\n}\n\n.brik-supernav__menu-link {\n\tbackground-color: var(--color__dark4);\n\tpadding-left: 7.5rem;\n\t-webkit-transition: color 250ms, background-color 250ms;\n\ttransition: color 250ms, background-color 250ms;\n}\n\n.brik-supernav--show-menus .brik-supernav__menu-link {\n\tbackground-color: transparent;\n}\n\n/* stylelint-disable no-descending-specificity */\n\n.brik-supernav__link:hover,\n.brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__link,\n.brik--menu-is-active .brik-supernav__menu-link {\n\tbackground-color: hsla(0, 0%, 0%, 0.08);\n}\n\n.brik--menu-is-active .brik-supernav__link:hover {\n\tbackground-color: var(--color__dark4);\n}\n\n.brik-supernav__link:focus,\n.brik-supernav__menu-link:focus,\n.brik--menu-is-active .brik-supernav__link:focus,\n.brik--menu-is-active .brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__menu-link:focus {\n\tbackground-color: hsla(0, 0%, 0%, 0.16);\n}\n\n.brik-supernav__menu-link:hover,\n.brik-supernav__menu-link:focus {\n\tcolor: hsl(0, 0%, 0%);\n}\n\n.brik--menu-link-is-active {\n\tfont-weight: 500;\n}\n\n.brik-supernav__menu-icon {\n\theight: 2.5rem;\n\twidth: 2.5rem;\n\tposition: absolute;\n\tright: 2rem;\n\ttop: calc(50% - 1.25rem);\n\twill-change: transform;\n\t-webkit-transition: -webkit-transform 250ms cubic-bezier(0.6, 0, 0.2, 1.3);\n\ttransition: -webkit-transform 250ms cubic-bezier(0.6, 0, 0.2, 1.3);\n\ttransition: transform 250ms cubic-bezier(0.6, 0, 0.2, 1.3);\n\ttransition: transform 250ms cubic-bezier(0.6, 0, 0.2, 1.3), -webkit-transform 250ms cubic-bezier(0.6, 0, 0.2, 1.3);\n}\n\n.brik--menu-is-active .brik-supernav__menu-icon {\n\t-webkit-transform: rotate(180deg);\n\t        transform: rotate(180deg);\n}\n\n.brik-supernav--show-menus .brik-supernav__menu-icon {\n\tdisplay: none;\n}\n\n.brik-supernav__menu-title {\n\tdisplay: none;\n}\n\n/** ================================================================================================\n *  Dark theme.\n ** ----------- */\n\n/* stylelint-disable no-duplicate-selectors */\n\n:host {\n\tbackground-color: var(--color__supernav);\n\tcolor: var(--color__light);\n}\n\n.brik-supernav__link {\n\tcolor: var(--color__light2);\n\tfill: var(--color__supernav--icon);\n}\n\n.brik-supernav__menu-link,\n.brik-supernav__menu-title {\n\tcolor: var(--color__light);\n}\n\n.brik-supernav__link-icon,\n.brik-supernav__menu-icon {\n\tfill: var(--supernav__icon);\n}\n\n/** ================================================================================================\n *  Hover, focus, active states\n ** --------------------------- */\n\n.brik-supernav__link,\n.brik--menu-is-active .brik-supernav__link,\n.brik-supernav__menu-link,\n.brik--menu-is-active .brik-supernav__menu-link {\n\t-webkit-transition: background-color 250ms, color 250ms, fill 250ms;\n\ttransition: background-color 250ms, color 250ms, fill 250ms;\n}\n\n.brik-supernav__link:hover,\n.brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__link,\n.brik--menu-is-active .brik-supernav__menu-link {\n\tbackground-color: hsla(0, 0%, 0%, 0.16);\n}\n\n.brik-supernav__link:focus,\n.brik-supernav__menu-link:focus,\n.brik--menu-is-active .brik-supernav__link:focus,\n.brik--menu-is-active .brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__menu-link:focus {\n\tbackground-color: hsla(0, 0%, 0%, 0.24);\n}\n\n.brik-supernav__link:hover,\n.brik-supernav__link:focus,\n.brik--menu-is-active .brik-supernav__link,\n.brik--menu-is-active .brik-supernav__link:focus,\n.brik-supernav__item:hover .brik-supernav__link,\n.brik-supernav__item:focus .brik-supernav__link {\n\tbackground-color: var(--color__supernav--dark);\n\tcolor: var(--color__light);\n\tfill: var(--color__light);\n}\n\n.brik-supernav__menu-link:hover,\n.brik-supernav__menu-link:focus,\n.brik--menu-is-active .brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__menu-link:focus {\n\tbackground-color: var(--color__supernav--dark);\n\tcolor: var(--color__light);\n}\n\n/* stylelint-enable no-descending-specificity */\n\n.brik-supernav__link:before {\n\tcontent: '';\n\tdisplay: block;\n\tbackground-color: var(--color__brand3);\n\tposition: absolute;\n\tleft: -0.5rem;\n\ttop: calc(50% - 0.25rem);\n\twidth: 0.5rem;\n\theight: 0;\n\t-webkit-transition-property: left, top, height;\n\ttransition-property: left, top, height;\n\t-webkit-transition-duration: 300ms;\n\t        transition-duration: 300ms;\n\t-webkit-transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n\t        transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n}\n\n.brik--menu-is-active .brik-supernav__link:before,\n.brik-supernav__link:hover:before,\n.brik-supernav__link:focus:before,\n.brik-supernav__item:hover .brik-supernav__link:before,\n.brik-supernav__item:focus .brik-supernav__link:before {\n\tleft: 0;\n\ttop: calc(50% - 3rem);\n\theight: 6rem;\n\t-webkit-transition-duration: 400ms, 300ms, 300ms;\n\t        transition-duration: 400ms, 300ms, 300ms;\n}\n";
 
-	var css$1 = ":host {\n\tbackground-color: var(--color__supernav);\n\tcolor: var(--color__light);\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: reverse;\n\t    -ms-flex-direction: column-reverse;\n\t        flex-direction: column-reverse;\n}\n\n.brik-supernav__header {\n\tdisplay: none;\n}\n\n.brik-supernav__item {\n\t/* stylelint-disable-next-line declaration-no-important */\n\theight: 9rem !important;\n\tposition: static;\n}\n\n.brik-supernav__link {\n\tcolor: var(--color__light2);\n\tfill: var(--color__supernav--icon);\n\tfont-weight: 400;\n\tfont-size: 0.85em;\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t    -ms-flex-direction: column;\n\t        flex-direction: column;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\t-webkit-box-pack: center;\n\t    -ms-flex-pack: center;\n\t        justify-content: center;\n\theight: 100%;\n\tposition: relative;\n\t-webkit-transition: color 350ms, background-color 350ms;\n\ttransition: color 350ms, background-color 350ms;\n}\n\n.brik-supernav__link-icon {\n\tfill: inherit;\n\theight: 4rem;\n\twidth: 4rem;\n\t-webkit-transition: fill 350ms;\n\ttransition: fill 350ms;\n}\n\n.brik-supernav__link-label {\n\tmargin-top: 0.5rem;\n}\n\n.brik-supernav__logo-link {\n\theight: 8rem;\n\t-webkit-transition: background-color 250ms;\n\ttransition: background-color 250ms;\n}\n\n.brik-supernav__menu-icon {\n\tdisplay: none;\n}\n\n.brik-supernav__menu {\n\tbackground-color: var(--color__supernav--dark);\n\tcolor: var(--color__light);\n\tfill: var(--color__light);\n\theight: 100vh;\n\twidth: 30rem;\n\tpadding-left: 4rem;\n\tposition: absolute;\n\ttop: 0;\n\tright: 0;\n\tz-index: -1;\n\twill-change: transform;\n\t-webkit-transform: translate3d(0, 0, 0);\n\t        transform: translate3d(0, 0, 0);\n\t-webkit-transition-property: color, -webkit-transform, -webkit-box-shadow;\n\ttransition-property: color, -webkit-transform, -webkit-box-shadow;\n\ttransition-property: transform, box-shadow, color;\n\ttransition-property: transform, box-shadow, color, -webkit-transform, -webkit-box-shadow;\n\t-webkit-transition-duration: 350ms;\n\t        transition-duration: 350ms;\n\t-webkit-transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n\t        transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n}\n\n.brik-supernav__menu-link,\n.brik-supernav__menu-title {\n\tcolor: var(--color__light);\n\tpadding-left: 2rem;\n}\n\n.brik-supernav__menu-title {\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\tfont-size: 1.2em;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\theight: 8rem;\n}\n\n.brik-supernav__menu-link,\n.brik--menu-is-active .brik-supernav__menu-link {\n\tbackground-color: transparent;\n\t-webkit-box-pack: start;\n\t    -ms-flex-pack: start;\n\t        justify-content: flex-start;\n\t-webkit-transition: background-color 250ms;\n\ttransition: background-color 250ms;\n}\n\n.brik--menu-is-active .brik-supernav__menu,\n.brik-supernav__menu:hover,\n.brik-supernav__menu:focus,\n.brik-supernav__link:hover + .brik-supernav__menu,\n.brik-supernav__link:focus + .brik-supernav__menu,\n.brik-supernav__item:hover .brik-supernav__menu,\n.brik-supernav__item:focus .brik-supernav__menu {\n\t-webkit-box-shadow: 0 3rem 8rem hsla(0, 0%, 0%, 0.6);\n\t        box-shadow: 0 3rem 8rem hsla(0, 0%, 0%, 0.6);\n\t-webkit-transform: translate3d(30rem, 0, 0);\n\t        transform: translate3d(30rem, 0, 0);\n}\n\n:host-context(.brik--menu-is-inactive) .brik-supernav__menu,\n:host-context(.brik--menu-is-inactive) .brik-supernav__menu:hover,\n:host-context(.brik--menu-is-inactive) .brik-supernav__menu:focus,\n:host-context(.brik--menu-is-inactive) .brik-supernav__link:hover + .brik-supernav__menu,\n:host-context(.brik--menu-is-inactive) .brik-supernav__link:focus + .brik-supernav__menu,\n:host-context(.brik--menu-is-inactive) .brik-supernav__item:hover .brik-supernav__menu,\n:host-context(.brik--menu-is-inactive) .brik-supernav__item:focus .brik-supernav__menu {\n\t-webkit-box-shadow: none;\n\t        box-shadow: none;\n\t-webkit-transform: translate3d(0, 0, 0);\n\t        transform: translate3d(0, 0, 0);\n}\n\n.brik-supernav__logo-link:hover,\n.brik-supernav__logo-link:focus {\n\tbackground-color: var(--color__supernav--dark);\n}\n\n.brik--menu-is-active .brik-supernav__link,\n.brik-supernav__link:hover,\n.brik-supernav__link:focus,\n.brik-supernav__item:hover .brik-supernav__link,\n.brik-supernav__item:focus .brik-supernav__link {\n\tbackground-color: var(--color__supernav--dark);\n\tcolor: var(--color__light);\n\tfill: var(--color__light);\n}\n\n/* stylelint-disable no-descending-specificity */\n\n.brik--menu-is-active .brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__menu-link:focus,\n.brik-supernav__menu-link:hover,\n.brik-supernav__menu-link:focus {\n\tbackground-color: var(--color__brand3);\n\tcolor: var(--color__light);\n}\n\n.brik-supernav__link:before {\n\tcontent: '';\n\tdisplay: block;\n\tbackground-color: var(--color__brand3);\n\tposition: absolute;\n\tleft: -0.5rem;\n\ttop: calc(50% - 0.25rem);\n\twidth: 0.5rem;\n\theight: 0;\n\t-webkit-transition-property: left, top, height;\n\ttransition-property: left, top, height;\n\t-webkit-transition-duration: 300ms;\n\t        transition-duration: 300ms;\n\t-webkit-transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n\t        transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n}\n\n.brik--menu-is-active .brik-supernav__link:before,\n.brik-supernav__link:hover:before,\n.brik-supernav__link:focus:before,\n.brik-supernav__item:hover .brik-supernav__link:before,\n.brik-supernav__item:focus .brik-supernav__link:before {\n\tleft: 0;\n\ttop: calc(50% - 4.5rem);\n\theight: 9rem;\n\t-webkit-transition-duration: 400ms, 300ms, 300ms;\n\t        transition-duration: 400ms, 300ms, 300ms;\n}\n";
+	var css$1 = "/*! typography.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/** Define font styles.\n    ============================================================================================= */\n\n/* stylelint-disable max-nesting-depth */\n\n/** Font defaults.\n    ============================================================================================= */\n\n/* stylelint-disable-next-line selector-max-type */\n\nhtml {\n\tfont-size: var(--base-rhythm, 8px);\n}\n\nbody {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n\tfont-family: 'Roboto', sans-serif;\n\tfont-size: var(--base-font__size, 16px);\n}\n\n/** Font helper classes.\n    ============================================================================================= */\n\n.font__overline {\n  font-size: 1.25rem;\n  letter-spacing: 0.3rem;\n  line-height: 2rem;\n  text-transform: uppercase;\n}\n\n.font__caption {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n}\n\n.font__button {\n  font-size: 1.75rem;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 2rem;\n  letter-spacing: 0.10714rem;\n}\n\n.font__body2 {\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.28571px;\n}\n\n.font__body {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n}\n\n.font__subtitle2 {\n  font-size: 1.75rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.01429rem;\n}\n\n.font__subtitle {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.01875rem;\n}\n\n.font__h6 {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n}\n\n.font__h5 {\n  font-size: 3rem;\n  font-weight: 400;\n  line-height: 4rem;\n}\n\n.font__h4 {\n  font-size: 4.25rem;\n  font-weight: 400;\n  line-height: 5rem;\n  letter-spacing: 0.01471rem;\n}\n\n.font__h3 {\n  font-size: 6rem;\n  font-weight: 400;\n  line-height: 6rem;\n}\n\n.font__h2 {\n  font-size: 7.5rem;\n  font-weight: 300;\n  line-height: 8rem;\n  letter-spacing: -0.01667rem;\n}\n\n.font__h1 {\n  font-size: 12rem;\n  font-weight: 300;\n  line-height: 12rem;\n  letter-spacing: -0.03125rem;\n}\n\n:host {\n\tbackground-color: var(--color__supernav);\n\tcolor: var(--color__light);\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: reverse;\n\t    -ms-flex-direction: column-reverse;\n\t        flex-direction: column-reverse;\n}\n\n.brik-supernav__header {\n\tdisplay: none;\n}\n\n.brik-supernav__item {\n\t/* stylelint-disable-next-line declaration-no-important */\n\theight: 9rem !important;\n\tposition: static;\n}\n\n.brik-supernav__link {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n\tcolor: var(--color__light2);\n\tfill: var(--color__supernav--icon);\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t    -ms-flex-direction: column;\n\t        flex-direction: column;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\t-webkit-box-pack: center;\n\t    -ms-flex-pack: center;\n\t        justify-content: center;\n\theight: 100%;\n\tposition: relative;\n\t-webkit-transition: color 350ms, background-color 350ms;\n\ttransition: color 350ms, background-color 350ms;\n}\n\n.brik-supernav__link-icon {\n\tfill: inherit;\n\theight: 4rem;\n\twidth: 4rem;\n\t-webkit-transition: fill 350ms;\n\ttransition: fill 350ms;\n}\n\n.brik-supernav__link-label {\n\tmargin-top: 0.5rem;\n}\n\n.brik-supernav__logo-link {\n\theight: 8rem;\n\t-webkit-transition: background-color 250ms;\n\ttransition: background-color 250ms;\n}\n\n.brik-supernav__menu-icon {\n\tdisplay: none;\n}\n\n.brik-supernav__menu {\n\tbackground-color: var(--color__supernav--dark);\n\tcolor: var(--color__light);\n\tfill: var(--color__light);\n\theight: 100vh;\n\twidth: 30rem;\n\tpadding-left: 4rem;\n\tposition: absolute;\n\ttop: 0;\n\tright: 0;\n\tz-index: -1;\n\twill-change: transform;\n\t-webkit-transform: translate3d(0, 0, 0);\n\t        transform: translate3d(0, 0, 0);\n\t-webkit-transition-property: color, -webkit-transform, -webkit-box-shadow;\n\ttransition-property: color, -webkit-transform, -webkit-box-shadow;\n\ttransition-property: transform, box-shadow, color;\n\ttransition-property: transform, box-shadow, color, -webkit-transform, -webkit-box-shadow;\n\t-webkit-transition-duration: 350ms;\n\t        transition-duration: 350ms;\n\t-webkit-transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n\t        transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n}\n\n.brik-supernav__menu-link,\n.brik-supernav__menu-title {\n\tcolor: var(--color__light);\n\tpadding-left: 2rem;\n}\n\n.brik-supernav__menu-title {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n\tfont-weight: 300;\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\theight: 8rem;\n}\n\n.brik-supernav__menu-link,\n.brik--menu-is-active .brik-supernav__menu-link {\n\tbackground-color: transparent;\n\t-webkit-box-pack: start;\n\t    -ms-flex-pack: start;\n\t        justify-content: flex-start;\n\t-webkit-transition: background-color 250ms;\n\ttransition: background-color 250ms;\n}\n\n.brik--menu-is-active .brik-supernav__menu,\n.brik-supernav__menu:hover,\n.brik-supernav__menu:focus,\n.brik-supernav__link:hover + .brik-supernav__menu,\n.brik-supernav__link:focus + .brik-supernav__menu,\n.brik-supernav__item:hover .brik-supernav__menu,\n.brik-supernav__item:focus .brik-supernav__menu {\n\t-webkit-box-shadow: 0 3rem 8rem hsla(0, 0%, 0%, 0.6);\n\t        box-shadow: 0 3rem 8rem hsla(0, 0%, 0%, 0.6);\n\t-webkit-transform: translate3d(30rem, 0, 0);\n\t        transform: translate3d(30rem, 0, 0);\n}\n\n:host-context(.brik--menu-is-inactive) .brik-supernav__menu,\n:host-context(.brik--menu-is-inactive) .brik-supernav__menu:hover,\n:host-context(.brik--menu-is-inactive) .brik-supernav__menu:focus,\n:host-context(.brik--menu-is-inactive) .brik-supernav__link:hover + .brik-supernav__menu,\n:host-context(.brik--menu-is-inactive) .brik-supernav__link:focus + .brik-supernav__menu,\n:host-context(.brik--menu-is-inactive) .brik-supernav__item:hover .brik-supernav__menu,\n:host-context(.brik--menu-is-inactive) .brik-supernav__item:focus .brik-supernav__menu {\n\t-webkit-box-shadow: none;\n\t        box-shadow: none;\n\t-webkit-transform: translate3d(0, 0, 0);\n\t        transform: translate3d(0, 0, 0);\n}\n\n.brik-supernav__logo-link:hover,\n.brik-supernav__logo-link:focus {\n\tbackground-color: var(--color__supernav--dark);\n}\n\n.brik--menu-is-active .brik-supernav__link,\n.brik-supernav__link:hover,\n.brik-supernav__link:focus,\n.brik-supernav__item:hover .brik-supernav__link,\n.brik-supernav__item:focus .brik-supernav__link {\n\tbackground-color: var(--color__supernav--dark);\n\tcolor: var(--color__light);\n\tfill: var(--color__light);\n}\n\n/* stylelint-disable no-descending-specificity */\n\n.brik--menu-is-active .brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__menu-link:focus,\n.brik-supernav__menu-link:hover,\n.brik-supernav__menu-link:focus {\n\tbackground-color: var(--color__brand3);\n\tcolor: var(--color__light);\n}\n\n.brik-supernav__link:before {\n\tcontent: '';\n\tdisplay: block;\n\tbackground-color: var(--color__brand3);\n\tposition: absolute;\n\tleft: -0.5rem;\n\ttop: calc(50% - 0.25rem);\n\twidth: 0.5rem;\n\theight: 0;\n\t-webkit-transition-property: left, top, height;\n\ttransition-property: left, top, height;\n\t-webkit-transition-duration: 300ms;\n\t        transition-duration: 300ms;\n\t-webkit-transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n\t        transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n}\n\n.brik--menu-is-active .brik-supernav__link:before,\n.brik-supernav__link:hover:before,\n.brik-supernav__link:focus:before,\n.brik-supernav__item:hover .brik-supernav__link:before,\n.brik-supernav__item:focus .brik-supernav__link:before {\n\tleft: 0;\n\ttop: calc(50% - 4.5rem);\n\theight: 9rem;\n\t-webkit-transition-duration: 400ms, 300ms, 300ms;\n\t        transition-duration: 400ms, 300ms, 300ms;\n}\n";
 
 	var css$2 = ":host {\n\tbackground-color: var(--color__supernav);\n\tcolor: var(--color__light);\n}\n\n.brik-supernav__close-button {\n\tdisplay: none;\n}\n\n.brik-supernav__link {\n\tcolor: var(--color__light2);\n\tfill: var(--color__supernav--icon);\n}\n\n.brik-supernav__menu-link,\n.brik-supernav__menu-title {\n\tcolor: var(--color__light);\n}\n\n.brik-supernav__link-icon,\n.brik-supernav__menu-icon {\n\tfill: var(--supernav__icon);\n}\n\n/** ================================================================================================\n *  Hover, focus, active states\n ** --------------------------- */\n\n.brik-supernav__link,\n.brik--menu-is-active .brik-supernav__link,\n.brik-supernav__menu-link,\n.brik--menu-is-active .brik-supernav__menu-link {\n\t-webkit-transition: background-color 250ms, color 250ms, fill 250ms;\n\ttransition: background-color 250ms, color 250ms, fill 250ms;\n}\n\n.brik-supernav__link:hover,\n.brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__link,\n.brik--menu-is-active .brik-supernav__menu-link {\n\tbackground-color: hsla(0, 0%, 0%, 0.16);\n}\n\n.brik-supernav__link:focus,\n.brik-supernav__menu-link:focus,\n.brik--menu-is-active .brik-supernav__link:focus,\n.brik--menu-is-active .brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__menu-link:focus {\n\tbackground-color: hsla(0, 0%, 0%, 0.24);\n}\n\n/* stylelint-disable no-descending-specificity */\n\n.brik-supernav__link:hover,\n.brik-supernav__link:focus,\n.brik--menu-is-active .brik-supernav__link,\n.brik--menu-is-active .brik-supernav__link:focus,\n.brik-supernav__item:hover .brik-supernav__link,\n.brik-supernav__item:focus .brik-supernav__link {\n\tbackground-color: var(--color__supernav--dark);\n\tcolor: var(--color__light);\n\tfill: var(--color__light);\n}\n\n.brik-supernav__menu-link:hover,\n.brik-supernav__menu-link:focus,\n.brik--menu-is-active .brik-supernav__menu-link:hover,\n.brik--menu-is-active .brik-supernav__menu-link:focus {\n\tbackground-color: var(--color__supernav--dark);\n\tcolor: var(--color__light);\n}\n\n/* stylelint-enable no-descending-specificity */\n\n.brik-supernav__link:before {\n\tcontent: '';\n\tdisplay: block;\n\tbackground-color: var(--color__brand3);\n\tposition: absolute;\n\tleft: -0.5rem;\n\ttop: calc(50% - 0.25rem);\n\twidth: 0.5rem;\n\theight: 0;\n\t-webkit-transition-property: left, top, height;\n\ttransition-property: left, top, height;\n\t-webkit-transition-duration: 300ms;\n\t        transition-duration: 300ms;\n\t-webkit-transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n\t        transition-timing-function: cubic-bezier(0.6, 0, 0.2, 1.2);\n}\n\n.brik--menu-is-active .brik-supernav__link:before,\n.brik-supernav__link:hover:before,\n.brik-supernav__link:focus:before,\n.brik-supernav__item:hover .brik-supernav__link:before,\n.brik-supernav__item:focus .brik-supernav__link:before {\n\tleft: 0;\n\ttop: calc(50% - 3rem);\n\theight: 6rem;\n\t-webkit-transition-duration: 400ms, 300ms, 300ms;\n\t        transition-duration: 400ms, 300ms, 300ms;\n}\n";
 
@@ -4959,6 +4959,7 @@
 					name: 'Sam Space',
 					id: '16D21'
 				},
+				linkPrefix: '#!',
 				links: [{
 					name: 'Home',
 					path: '#!/home',
@@ -5181,7 +5182,7 @@
 
 	var tpl$3 = (render, context = {}, hyperhtml = {}, _ = {}) => render`<div class="brik-header__left">
 	<brik-burger-button class="brik-burger" sidebar="left"></brik-burger-button>
-	<div class="brik-header__title">${context.props.title}</div>
+	<div class="brik-header__title">${hyperhtml.wire()`${[context.props.title]}`}</div>
 </div>
 
 <div class="brik-header__center">
@@ -5195,7 +5196,7 @@
 <style type="text/css">${context.props.css}</style>
 `;
 
-	var css$3 = "/*! typography.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/** Define font styles.\n    ============================================================================================= */\n\n/* stylelint-disable max-nesting-depth */\n\n/** Font defaults.\n    ============================================================================================= */\n\n/* stylelint-disable-next-line selector-max-type */\n\nhtml {\n\tfont-size: var(--base-rhythm, 8px);\n}\n\nbody {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n\tfont-family: 'Roboto', sans-serif;\n\tfont-size: var(--base-font__size, 16px);\n}\n\n/** Font helper classes.\n    ============================================================================================= */\n\n.font__overline {\n  font-size: 1.25rem;\n  letter-spacing: 0.3rem;\n  line-height: 2rem;\n  text-transform: uppercase;\n}\n\n.font__caption {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n}\n\n.font__button {\n  font-size: 1.75rem;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 2rem;\n  letter-spacing: 0.10714rem;\n}\n\n.font__body2 {\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.28571px;\n}\n\n.font__body {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n}\n\n.font__subtitle2 {\n  font-size: 1.75rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.01429rem;\n}\n\n.font__subtitle {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.01875rem;\n}\n\n.font__h6 {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n}\n\n.font__h5 {\n  font-size: 3rem;\n  font-weight: 400;\n  line-height: 4rem;\n}\n\n.font__h4 {\n  font-size: 4.25rem;\n  font-weight: 400;\n  line-height: 5rem;\n  letter-spacing: 0.01471rem;\n}\n\n.font__h3 {\n  font-size: 6rem;\n  font-weight: 400;\n  line-height: 6rem;\n}\n\n.font__h2 {\n  font-size: 7.5rem;\n  font-weight: 300;\n  line-height: 8rem;\n  letter-spacing: -0.01667rem;\n}\n\n.font__h1 {\n  font-size: 12rem;\n  font-weight: 300;\n  line-height: 12rem;\n  letter-spacing: -0.03125rem;\n}\n\n:host {\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\tposition: relative;\n\theight: var(--header-height, 8rem);\n\tmin-height: var(--header-height, 8rem);\n\tpadding: var(--header-padding, 0 4rem);\n\tbackground-color: var(--header-fill, hsl(194, 76%, 65%));\n\tcolor: var(--header-color, hsl(0, 0%, 100%));\n\t-webkit-box-shadow: 0 0.125rem 0.5rem hsla(0, 0%, 0%, 0.3);\n\t        box-shadow: 0 0.125rem 0.5rem hsla(0, 0%, 0%, 0.3);\n}\n\n.brik-header__left {\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\t-webkit-box-flex: 1;\n\t    -ms-flex-positive: 1;\n\t        flex-grow: 1;\n}\n\n.brik-burger {\n\tmargin-right: 2rem;\n\t/* stylelint-disable-next-line declaration-property-unit-blacklist */\n\tpadding-top: 0.5rem;\n}\n\n.brik-header__title {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n\tfont-weight: 400;\n}\n";
+	var css$3 = "/*! typography.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/** Define font styles.\n    ============================================================================================= */\n\n/* stylelint-disable max-nesting-depth */\n\n/** Font defaults.\n    ============================================================================================= */\n\n/* stylelint-disable-next-line selector-max-type */\n\nhtml {\n\tfont-size: var(--base-rhythm, 8px);\n}\n\nbody {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n\tfont-family: 'Roboto', sans-serif;\n\tfont-size: var(--base-font__size, 16px);\n}\n\n/** Font helper classes.\n    ============================================================================================= */\n\n.font__overline {\n  font-size: 1.25rem;\n  letter-spacing: 0.3rem;\n  line-height: 2rem;\n  text-transform: uppercase;\n}\n\n.font__caption {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n}\n\n.font__button {\n  font-size: 1.75rem;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 2rem;\n  letter-spacing: 0.10714rem;\n}\n\n.font__body2 {\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.28571px;\n}\n\n.font__body {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n}\n\n.font__subtitle2 {\n  font-size: 1.75rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.01429rem;\n}\n\n.font__subtitle {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.01875rem;\n}\n\n.font__h6 {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n}\n\n.font__h5 {\n  font-size: 3rem;\n  font-weight: 400;\n  line-height: 4rem;\n}\n\n.font__h4 {\n  font-size: 4.25rem;\n  font-weight: 400;\n  line-height: 5rem;\n  letter-spacing: 0.01471rem;\n}\n\n.font__h3 {\n  font-size: 6rem;\n  font-weight: 400;\n  line-height: 6rem;\n}\n\n.font__h2 {\n  font-size: 7.5rem;\n  font-weight: 300;\n  line-height: 8rem;\n  letter-spacing: -0.01667rem;\n}\n\n.font__h1 {\n  font-size: 12rem;\n  font-weight: 300;\n  line-height: 12rem;\n  letter-spacing: -0.03125rem;\n}\n\n:host {\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\tposition: relative;\n\theight: var(--header-height, 8rem);\n\tmin-height: var(--header-height, 8rem);\n\tpadding: var(--header-padding, 0 4rem);\n\tbackground-color: var(--header-fill, hsl(194, 76%, 65%));\n\tcolor: var(--header-color, hsl(0, 0%, 100%));\n\t-webkit-box-shadow: 0 0.125rem 0.5rem hsla(0, 0%, 0%, 0.3);\n\t        box-shadow: 0 0.125rem 0.5rem hsla(0, 0%, 0%, 0.3);\n}\n\n.brik-header__left {\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\t-webkit-box-flex: 1;\n\t    -ms-flex-positive: 1;\n\t        flex-grow: 1;\n}\n\n.brik-burger {\n\tmargin-right: 2rem;\n\t/* stylelint-disable-next-line declaration-property-unit-blacklist */\n\tpadding-top: 0.5rem;\n}\n\n.brik-header__title {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n\tfont-weight: 400;\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\tcolor: var(--color__light);\n}\n\n/* stylelint-disable-next-line selector-max-type */\n\n.brik-header__title brik-icon {\n\tfill: var(--color__light);\n}\n";
 
 	class Header extends BrikElement {
 		// Sets default props and observedAttributes.
@@ -5375,11 +5376,11 @@
 			this.props.tabNames = [];
 			tabs.forEach((tab, i) => {
 				tab = tab.split(':');
-				this.props.tabNames.push(tab[0]);
 				tabs[i] = {
-					id: tab[0],
+					id: tab[0].toLowerCase(),
 					label: tab[1] || tab[0]
 				};
+				this.props.tabNames.push(tabs[i].id);
 			});
 			return this.props.tabs = tabs;
 		}
@@ -5423,7 +5424,7 @@
 		${context.props.tabs.map((tab) => hyperhtml.wire(tab)`
 			<button onclick="${() => {
 				if (context.props.tabs.length > 1) context.activateTab(tab);
-			}}" class="${`brik-editor__tab-button font__button ${context.props.activeTab.id === tab.id ? 'brik--is-active' : ''}`}" type="button">${tab.label}</button>
+			}}" class="${`brik-editor__tab-button font__button ${context.props.activeTab[context.props.activeTab.label ? 'label' : 'id'] === tab[context.props.activeTab.label ? 'label' : 'id'] ? 'brik--is-active' : ''}`}" type="button">${tab.label}</button>
 		`)}
 	</div>
 
@@ -5435,7 +5436,7 @@
 <style type="text/css">${context.props.css}</style>
 `;
 
-	var css$6 = "/*! editor.shadow.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/*! typography.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/** Define font styles.\n    ============================================================================================= */\n\n/* stylelint-disable max-nesting-depth */\n\n/** Font defaults.\n    ============================================================================================= */\n\n/* stylelint-disable-next-line selector-max-type */\n\nhtml {\n\tfont-size: var(--base-rhythm, 8px);\n}\n\nbody {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n\tfont-family: 'Roboto', sans-serif;\n\tfont-size: var(--base-font__size, 16px);\n}\n\n/** Font helper classes.\n    ============================================================================================= */\n\n.font__overline {\n  font-size: 1.25rem;\n  letter-spacing: 0.3rem;\n  line-height: 2rem;\n  text-transform: uppercase;\n}\n\n.font__caption {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n}\n\n.font__button {\n  font-size: 1.75rem;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 2rem;\n  letter-spacing: 0.10714rem;\n}\n\n.font__body2 {\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.28571px;\n}\n\n.font__body {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n}\n\n.font__subtitle2 {\n  font-size: 1.75rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.01429rem;\n}\n\n.font__subtitle {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.01875rem;\n}\n\n.font__h6 {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n}\n\n.font__h5 {\n  font-size: 3rem;\n  font-weight: 400;\n  line-height: 4rem;\n}\n\n.font__h4 {\n  font-size: 4.25rem;\n  font-weight: 400;\n  line-height: 5rem;\n  letter-spacing: 0.01471rem;\n}\n\n.font__h3 {\n  font-size: 6rem;\n  font-weight: 400;\n  line-height: 6rem;\n}\n\n.font__h2 {\n  font-size: 7.5rem;\n  font-weight: 300;\n  line-height: 8rem;\n  letter-spacing: -0.01667rem;\n}\n\n.font__h1 {\n  font-size: 12rem;\n  font-weight: 300;\n  line-height: 12rem;\n  letter-spacing: -0.03125rem;\n}\n\n.hljs {\n\tline-height: 2rem;\n\tmargin: 0;\n\tpadding: 1rem 2rem;\n\t-moz-tab-size: 4;\n\t  -o-tab-size: 4;\n\t     tab-size: 4;\n}\n\n.brik-editor {\n\tdisplay: block;\n}\n\n.brik-editor__tabs {\n\tbackground-color: var(--color__brand4, hsl(0, 0%, 40%));\n\tcolor: var(--color__light, hsl(0, 0%, 100%));\n\tborder-color: var(--color__dark4);\n\tborder-width: 0.125rem 0.125rem 0;\n\tborder-style: solid;\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\theight: 3rem;\n\tpadding: 0 1rem;\n}\n\n.brik-editor__tab-buttons {\n\t-webkit-box-flex: 1;\n\t    -ms-flex-positive: 1;\n\t        flex-grow: 1;\n}\n\n.brik-editor__tab-button {\n\tcursor: pointer;\n\theight: 3rem;\n\t-webkit-appearance: none;\n\t   -moz-appearance: none;\n\t        appearance: none;\n\tbackground-color: transparent;\n\tborder: none;\n\tcolor: var(--color__light2);\n\tfont-weight: 400;\n}\n\n.brik-editor__tab-button + .brik-editor__tab-button {\n\tmargin-left: 0.25rem;\n}\n\n.brik-editor__tab-button:focus {\n\toutline-width: 0.25rem;\n\toutline-style: solid;\n}\n\n.brik-editor__tab-button:active {\n\toutline: none;\n}\n\n.brik-editor__tab-button.brik--is-active {\n\tcolor: var(--color__light1);\n}\n\n.brik-editor__window {\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\tbackground-color: hsl(220, 13%, 18%);\n\tcolor: var(--color__light);\n}\n\n.brik-code--has-tabs {\n\t-webkit-box-sizing: border-box;\n\t        box-sizing: border-box;\n\tposition: relative;\n\twidth: 100%;\n\tmin-width: 100%;\n\tmargin-left: -100%;\n\topacity: 0;\n\t-webkit-transition: opacity 0.3s, -webkit-transform 0.25s;\n\ttransition: opacity 0.3s, -webkit-transform 0.25s;\n\ttransition: opacity 0.3s, transform 0.25s;\n\ttransition: opacity 0.3s, transform 0.25s, -webkit-transform 0.25s;\n}\n\n.brik-code--has-tabs:first-of-type {\n\tmargin-left: 0;\n}\n\n.brik-code--has-tabs.brik--is-active {\n\topacity: 1;\n\tz-index: 1;\n}\n\n.brik-editor__highlighted-code {\n\tposition: absolute;\n\tleft: 0;\n\ttop: 0;\n\twidth: 100%;\n}\n\n.brik-editor--read-only .brik-editor__highlighted-code {\n\tposition: static;\n}\n\n.brik-editor__dirty-note {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n\tcolor: var(--color__light2);\n}\n\n/** ================================================================================================\n *  OLD\n ** --- */\n\n.brik-editor__raw-code {\n\twidth: 100%;\n\tposition: relative;\n\tz-index: 1;\n\t-webkit-text-fill-color: transparent;\n}\n\n.brik-editor__raw-code:focus {\n\t-webkit-text-fill-color: inherit;\n}\n\n.brik-editor__raw-code.hljs {\n\tbackground: transparent;\n}\n\n/* stylelint-disable-next-line selector-max-type */\n\n.brik-editor__raw-code code {\n\toutline: none;\n}\n\n.brik-editor__preview {\n\tborder-color: var(--color__dark4);\n\tborder-width: 0.125rem 0.125rem 0;\n\tborder-style: solid;\n\t/* stylelint-disable-next-line declaration-property-unit-blacklist */\n\tpadding: calc(2rem - 0.125rem) 2rem 2rem;\n\tposition: relative;\n}\n";
+	var css$6 = "/*! editor.shadow.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/*! typography.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/** Define font styles.\n    ============================================================================================= */\n\n/* stylelint-disable max-nesting-depth */\n\n/** Font defaults.\n    ============================================================================================= */\n\n/* stylelint-disable-next-line selector-max-type */\n\nhtml {\n\tfont-size: var(--base-rhythm, 8px);\n}\n\nbody {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n\tfont-family: 'Roboto', sans-serif;\n\tfont-size: var(--base-font__size, 16px);\n}\n\n/** Font helper classes.\n    ============================================================================================= */\n\n.font__overline {\n  font-size: 1.25rem;\n  letter-spacing: 0.3rem;\n  line-height: 2rem;\n  text-transform: uppercase;\n}\n\n.font__caption {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n}\n\n.font__button {\n  font-size: 1.75rem;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 2rem;\n  letter-spacing: 0.10714rem;\n}\n\n.font__body2 {\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.28571px;\n}\n\n.font__body {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n}\n\n.font__subtitle2 {\n  font-size: 1.75rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.01429rem;\n}\n\n.font__subtitle {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.01875rem;\n}\n\n.font__h6 {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n}\n\n.font__h5 {\n  font-size: 3rem;\n  font-weight: 400;\n  line-height: 4rem;\n}\n\n.font__h4 {\n  font-size: 4.25rem;\n  font-weight: 400;\n  line-height: 5rem;\n  letter-spacing: 0.01471rem;\n}\n\n.font__h3 {\n  font-size: 6rem;\n  font-weight: 400;\n  line-height: 6rem;\n}\n\n.font__h2 {\n  font-size: 7.5rem;\n  font-weight: 300;\n  line-height: 8rem;\n  letter-spacing: -0.01667rem;\n}\n\n.font__h1 {\n  font-size: 12rem;\n  font-weight: 300;\n  line-height: 12rem;\n  letter-spacing: -0.03125rem;\n}\n\n.hljs {\n\tline-height: 2rem;\n\tmargin: 0;\n\tpadding: 1rem 2rem;\n\t-moz-tab-size: 4;\n\t  -o-tab-size: 4;\n\t     tab-size: 4;\n}\n\n:host {\n\tdisplay: block;\n}\n\n.brik-editor__tabs {\n\tbackground-color: var(--color__brand4, hsl(0, 0%, 40%));\n\tcolor: var(--color__light, hsl(0, 0%, 100%));\n\tborder-color: var(--color__dark4);\n\tborder-width: 0.125rem 0.125rem 0;\n\tborder-style: solid;\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n\theight: 3rem;\n\tpadding: 0 1rem;\n}\n\n.brik-editor__tab-buttons {\n\t-webkit-box-flex: 1;\n\t    -ms-flex-positive: 1;\n\t        flex-grow: 1;\n}\n\n.brik-editor__tab-button {\n\tcursor: pointer;\n\theight: 3rem;\n\t-webkit-appearance: none;\n\t   -moz-appearance: none;\n\t        appearance: none;\n\tbackground-color: transparent;\n\tborder: none;\n\tcolor: var(--color__light2);\n\tfont-weight: 400;\n\ttext-transform: none;\n}\n\n.brik-editor__tab-button + .brik-editor__tab-button {\n\tmargin-left: 0.25rem;\n}\n\n.brik-editor__tab-button:focus {\n\toutline-width: 0.25rem;\n\toutline-style: solid;\n}\n\n.brik-editor__tab-button:active {\n\toutline: none;\n}\n\n.brik-editor__tab-button.brik--is-active {\n\tcolor: var(--color__light1);\n}\n\n.brik-editor__window {\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\tbackground-color: hsl(220, 13%, 18%);\n\tcolor: var(--color__light);\n}\n\n.brik-code--has-tabs {\n\t-webkit-box-sizing: border-box;\n\t        box-sizing: border-box;\n\tposition: relative;\n\twidth: 100%;\n\tmin-width: 100%;\n\tmargin-left: -100%;\n\topacity: 0;\n\t-webkit-transition: opacity 0.3s, -webkit-transform 0.25s;\n\ttransition: opacity 0.3s, -webkit-transform 0.25s;\n\ttransition: opacity 0.3s, transform 0.25s;\n\ttransition: opacity 0.3s, transform 0.25s, -webkit-transform 0.25s;\n}\n\n.brik-code--has-tabs:first-of-type {\n\tmargin-left: 0;\n}\n\n.brik-code--has-tabs.brik--is-active {\n\topacity: 1;\n\tz-index: 1;\n}\n\n.brik-editor__highlighted-code {\n\tposition: absolute;\n\tleft: 0;\n\ttop: 0;\n\twidth: 100%;\n}\n\n.brik-editor--read-only .brik-editor__highlighted-code {\n\tposition: static;\n}\n\n.brik-editor__dirty-note {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n\tcolor: var(--color__light2);\n}\n\n/** ================================================================================================\n *  OLD\n ** --- */\n\n.brik-editor__raw-code {\n\twidth: 100%;\n\tposition: relative;\n\tz-index: 1;\n\t-webkit-text-fill-color: transparent;\n}\n\n.brik-editor__raw-code:focus {\n\t-webkit-text-fill-color: inherit;\n}\n\n.brik-editor__raw-code.hljs {\n\tbackground: transparent;\n}\n\n/* stylelint-disable-next-line selector-max-type */\n\n.brik-editor__raw-code code {\n\toutline: none;\n}\n\n.brik-editor__preview {\n\tborder-color: var(--color__dark4);\n\tborder-width: 0.125rem 0.125rem 0;\n\tborder-style: solid;\n\t/* stylelint-disable-next-line declaration-property-unit-blacklist */\n\tpadding: calc(2rem - 0.125rem) 2rem 2rem;\n\tposition: relative;\n}\n";
 
 	class Editor extends BrikElement {
 		static get defaults() {
@@ -5482,7 +5483,7 @@
 			this.dom.panes.forEach((pane, i) => {
 				this.props.tabs.push({
 					id: pane.lang,
-					label: pane.label || pane.lang.toUpperCase(),
+					label: pane.label || pane.getAttribute('label') || pane.lang.toUpperCase(),
 					index: i
 				});
 			});
@@ -6721,7 +6722,7 @@
 			};
 			this.classList.add('brik-code');
 			this.dataset.tab = this.props.lang;
-			this.props.raw = this.textContent;
+			this.props.raw = this.textContent.trim();
 			this.textContent = '';
 
 			// Set default props.
@@ -6793,7 +6794,11 @@
 		// nodes, data or attributes that change. See
 		// https://viperhtml.js.org/hyperhtml/documentation/.
 		render() {
-			this.props.text = this.props.raw ? prism.highlight(this.props.raw, prism.languages[this.props.lang]) : '';
+			if (this.props.lang) {
+				this.props.text = this.props.raw ? prism.highlight(this.props.raw, prism.languages[this.props.lang]) : '';
+			} else {
+				this.props.text = (this.props.raw || '').replace(/</g, '&lt;');
+			}
 			return tpl$6(this.html, this, BrikElement);
 		}
 	}
@@ -6802,1119 +6807,19 @@
 
 	var getStartedPage = "<div class=\"markdown\"><h1>Getting Started</h1>\n<p class=\"font__subtitle\">We’re working on documentation. Try back soon!</p>\n</div>";
 
-	var includingAssetsPage = "<div class=\"markdown\"><h1>Including Assets</h1>\n<p>How you include assets depends on the “distro” you choose to include. See <a href=\"#!/package-structure\">component / package structure</a> for more context on each distro, and to decide which one you should use.</p>\n<h3>ES Modules</h3>\n<p>In <code>app.js</code> or <code>my-file.js</code>:</p>\n<pre class=\"hljs\"><code class=\"language-js\"><span class=\"token keyword\">import</span> myModule <span class=\"token keyword\">from</span> <span class=\"token string\">'node_modules/&lt;package-name>/src/esmodule/&lt;my-bundle>.js'</span><span class=\"token punctuation\">;</span>\n</code></pre>\n<h3>VanillaJS / Browser</h3>\n<p>In <code>index.html</code> or <code>my-page.html</code>:</p>\n<pre class=\"hljs\"><code class=\"language-html\"><span class=\"token tag\"><span class=\"token tag\"><span class=\"token punctuation\">&lt;</span>script</span> <span class=\"token attr-name\">src</span><span class=\"token attr-value\"><span class=\"token punctuation\">=</span><span class=\"token punctuation\">\"</span>node_modules/&lt;package-name>/dist/vanillajs/&lt;my-bundle>.min.js<span class=\"token punctuation\">\"</span></span><span class=\"token punctuation\">></span></span><span class=\"token tag\"><span class=\"token tag\"><span class=\"token punctuation\">&lt;/</span>script</span><span class=\"token punctuation\">></span></span>\n</code></pre>\n<h3>CommonJS</h3>\n<p>In <code>app.js</code> or <code>my-file.js</code>:</p>\n<pre class=\"hljs\"><code class=\"language-js\"><span class=\"token keyword\">const</span> myModule <span class=\"token operator\">=</span> <span class=\"token function\">require</span><span class=\"token punctuation\">(</span><span class=\"token string\">'&lt;package-name>'</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n</code></pre>\n<h3>UMD</h3>\n<p>The Universal Module (UMD) is just that… universal. It supports ES Modules, VanillaJS (global browser variable), and CommonJS, and can be included the same way as any of those.</p>\n<h3>SASS</h3>\n<p>In <code>app.scss</code> or <code>my-styles.scss</code>:</p>\n<pre><code class=\"language-scss\">@import 'node_modules/&lt;package-name&gt;/src/sass/&lt;my-bundle&gt;.scss';\n</code></pre>\n<h3>CSS</h3>\n<p>In <code>index.html</code> or <code>my-page.html</code>:</p>\n<pre class=\"hljs\"><code class=\"language-html\"><span class=\"token tag\"><span class=\"token tag\"><span class=\"token punctuation\">&lt;</span>style</span> <span class=\"token attr-name\">rel</span><span class=\"token attr-value\"><span class=\"token punctuation\">=</span><span class=\"token punctuation\">\"</span>stylesheet<span class=\"token punctuation\">\"</span></span> <span class=\"token attr-name\">type</span><span class=\"token attr-value\"><span class=\"token punctuation\">=</span><span class=\"token punctuation\">\"</span>text/css<span class=\"token punctuation\">\"</span></span> <span class=\"token attr-name\">href</span><span class=\"token attr-value\"><span class=\"token punctuation\">=</span><span class=\"token punctuation\">\"</span>node_modules/&lt;package-name>/dist/css/&lt;my-bundle>.min.css<span class=\"token punctuation\">\"</span></span><span class=\"token punctuation\">></span></span><span class=\"token tag\"><span class=\"token tag\"><span class=\"token punctuation\">&lt;/</span>style</span><span class=\"token punctuation\">></span></span>\n</code></pre>\n</div>";
+	var workingWithNpmPage = "<div class=\"markdown\"><h1>Working with NPM</h1>\n<h2>What is NPM?</h2>\n<p><a href=\"https://docs.npmjs.com/\">Node Package Manager (<abbr title=\"Node Package Manager\">NPM</abbr>)</a> is the world’s largest software registry. NPM was originally created for <a href=\"https://nodejs.org/\">NodeJS</a>, but has since expanded to include the entire JavaScript ecosystem, as well as nearly any front end package known to mankind. It is considered the de facto standard for front end packages, as well for all types of Node packages.</p>\n<p>NPM consists of the software registry itself, but also a valuable set of tools. With NPM you can:</p>\n<ul>\n<li>Adapt packages of code to your apps, or incorporate packages as they are.</li>\n<li>Download standalone tools you can use right away.</li>\n<li>Run packages without downloading using <a href=\"https://www.npmjs.com/package/npx\">npx</a>.</li>\n<li>Easily manage multiple versions of code and code dependencies.</li>\n<li>Update applications easily when underlying code is updated.</li>\n<li>Discover multiple ways to solve the same puzzle.</li>\n<li>Create and manage organizations and virtual teams to coordinate package maintenance, coding, and developers.</li>\n<li>Run packages from the command line with “<a href=\"https://docs.npmjs.com/misc/scripts\">NPM scripts</a>” (see below).</li>\n<li>Run custom scripts with <a href=\"https://docs.npmjs.com/misc/scripts\">NPM scripts</a> (see below).</li>\n</ul>\n<p><strong>If you are not yet familiar with NPM, <a href=\"https://docs.npmjs.com/\">get familiar</a></strong>. <em>You won’t regret it!</em></p>\n<iframe width=\"560\" height=\"315\" src=\"https://www.youtube-nocookie.com/embed/pa4dc480Apo?rel=0\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe>\n<h2>Getting Started with NPM</h2>\n<p><em>It is very easy to get started with NPM:</em></p>\n<ul>\n<li><a href=\"https://docs.npmjs.com/getting-started/installing-node\">Get set up</a>.</li>\n<li>Learn how to <a href=\"https://docs.npmjs.com/getting-started/installing-npm-packages-locally\">install NPM packages</a>.</li>\n<li>Learn how to work with <a href=\"https://docs.npmjs.com/getting-started/using-a-package.json\">package.json</a>.</li>\n<li>Learn how to use <a href=\"https://docs.npmjs.com/misc/scripts\">NPM scripts</a> (see below).</li>\n</ul>\n<p>The rest will come naturally over time. They have <a href=\"https://docs.npmjs.com/\">great documentation</a> to help you become a pro.</p>\n<h3>NPM Scripts</h3>\n<p>NPM Scripts is a very powerful (and underrated) feature of NPM. In the words of one user:</p>\n<blockquote>\n<p>“NPM scripts are among my favorite features of NPM. They are simple. They reduce the need for tools. Hence they reduce the number of configuration files and other things you need to keep track of. And they are very versatile.”</p>\n<p>“NPM scripts are, well, scripts [which we] use… to automate repetitive tasks. For example, building your project, minifying Cascading Style Sheets (CSS) and JavaScript (JS) files. Scripts are also used in deleting temporary files and folders, etc,. There are many ways to pull this off — you could write bash/batch scripts, or use a task runner like Gulp or Grunt. However, a lot of people are moving over to NPM scripts for their simplicity and versatility.”</p>\n<p>- Ajmal Siddiqui (<a href=\"https://medium.freecodecamp.org/introduction-to-npm-scripts-1dbb2ae01633\">Introduction to NPM Scripts</a>)</p>\n</blockquote>\n<p><em>The possibilities of things you can do with NPM Scripts is endless.</em> However, one big downfall is that NPM itself does not provide great documentation about its wide variety of uses or how powerful it can be. Thankfully, due to its popularity, there is no shortage of information and tutorials from its users.</p>\n<h4>Getting Started with NPM Scripts</h4>\n<ul>\n<li><a href=\"https://css-tricks.com/why-npm-scripts/#article-header-id-0\">Why NPM Scripts?</a></li>\n<li><a href=\"https://medium.freecodecamp.org/introduction-to-npm-scripts-1dbb2ae01633\">Introduction to NPM Scripts</a></li>\n<li><a href=\"https://medium.freecodecamp.org/why-i-left-gulp-and-grunt-for-npm-scripts-3d6853dd22b8\">Why I Left Gulp and Grunt for NPM Scripts</a></li>\n<li><a href=\"https://gist.github.com/elijahmanor/179e47828bf760c218bb3820d929836d\">Comparison of NPM Scripts vs something like Gulp</a></li>\n<li><a href=\"https://michael-kuehnel.de/tooling/2018/03/22/helpers-and-tips-for-npm-run-scripts.html\">Advice for working with NPM Scripts</a></li>\n<li><a href=\"https://deliciousbrains.com/npm-build-script/\">Using NPM Scripts as a Build Tool</a></li>\n<li><a href=\"https://docs.npmjs.com/misc/scripts\">NPM Scripts official docs</a></li>\n</ul>\n</div>";
 
-	var workingWithNpmPage = "<div class=\"markdown\"><h1>Working with NPM</h1>\n<p><a href=\"https://docs.npmjs.com/\">NPM (Node Package Manager)</a> is the world’s largest software registry, consisting of the registry itself and the tools to interact with NPM and to use nearly any JS or front end package known to mankind. NPM was built for use with <a href=\"nodejs.org/\">NodeJS</a> but has expanded to include the entire JavaScript ecosystem. <strong>If you are not yet familiar with NPM, <a href=\"https://docs.npmjs.com/\">get familiar</a></strong>; _you won’t regret it!</p>\n<p><em>It is super easy to get started with NPM.</em> After <a href=\"https://docs.npmjs.com/getting-started/installing-node\">getting set up</a>, all you need to know is:</p>\n<ul>\n<li>How to <a href=\"https://docs.npmjs.com/getting-started/installing-node\">install NPM</a>.</li>\n<li>How to <a href=\"https://docs.npmjs.com/getting-started/installing-npm-packages-locally\">install NPM packages</a>.</li>\n<li>How to work with <a href=\"https://docs.npmjs.com/getting-started/using-a-package.json\">package.json</a>.</li>\n</ul>\n<p>The rest will come naturally over time. They have <a href=\"https://docs.npmjs.com/\">great documentation</a> to help you be a pro.</p>\n</div>";
+	var browserResetPage = "\n<brik-tabs class=\"page-tabs\" tabs=\"About, Setup\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t<div class=\"dsui-page__about\">\n\t\t<h2 class=\"font__title2 mt-0\">Browser Reset</h2>\n\t\t<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include Browser Reset as the first stylesheet in their app.</em></p>\n\t</div>\n\n\t<div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2 mt-0\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t\n\t\t\t\t<li><a href=\"#!/core/typography\">Typography</a></li>\n\t\t\t\n\t\t\t\t<li><a href=\"#!/\">Links</a></li>\n\t\t\t\n\t\t\t\t<li><a href=\"#!/core/spacing\">Spacing</a></li>\n\t\t\t\n\t\t</ul>\n\t</div>\n</div>\n\n\t</div>\n\n\t<div>\n\t\t<h3 class=\"font__title2 mt-0 heading__separator\">Browser support</h3>\n<table class=\"browsers-table\">\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Chrome</th>\n\t\t\t<th>Firefox</th>\n\t\t\t<th>Safari</th>\n\t\t\t<th>Edge</th>\n\t\t\t<th>iOS</th>\n\t\t\t<th>Android</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n\t\t<tr>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"google-chrome\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"firefox\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"apple-safari\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"edge\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"apple-ios\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"android\"></brik-icon> </td>\n\t\t</tr>\n\t</tbody>\n</table>\n\n<h3 class=\"font__title2 heading__separator\">Install</h3>\n\n<p>It is encouraged to install Browser Reset with DSUI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may install Browser Reset as a standalone package:</p>\n<brik-code lang=\"bash\">npm install @brikcss/browser-reset --save-dev</brik-code>\n\n\n\t<h3 class=\"font__title2 heading__separator\">Setup</h3>\n\t<p>Include one of the following as the first stylesheet in your app:</p>\n\t\t\t<ol>\n\t\t\t\t<li><em>PostCSS</em>: <code>@import '@brikcss/browser-reset';</code> with <a href=\"https://github.com/postcss/postcss-import\" title=\"postcss-import\">postcss-import</a>.</li>\n\t\t\t\t<li><em>Precompiled</em>: <code>./dist/browser-reset.min.css</code> for precompiled vanilla CSS.</li>\n\t\t\t\t<li><em>(optional) Customize</em> CSS variables in your app, as desired (see <a href=\"https://github.com/brikcss/browser-reset/blob/master/src/browser-reset.css\" title=\"browser-reset.css\">browser-reset.css</a> for available variables).</li>\n\t\t\t</ol>\n\n\t</div>\n</brik-tabs>\n";
 
-	var packageStructurePage = "<div class=\"markdown\"><h1>Component / package structure</h1>\n<!-- @todo\tProvide references here for clarity. -->\n<p>Source JS files are written as ES modules and compiled with <a href=\"https://rollupjs.org/\">rollupjs</a> to different bundles which you can include in your app. This process allows us to write the source code once and yet provide multiple “bundles” for different environments which you can use. In other words, whether you are using AngularJS, Vanilla JS (or jQuery), your own custom build system, or whatever else, this component will work for you. Each component will work in any “environment”, no matter what framework or environment it is consumed in.</p>\n<h2>Directory structure</h2>\n<p>Each component is distributed as an <a href=\"#!/working-with-npm\">NPM package</a> and is installed to <code>node_modules/&lt;package name&gt;</code>. Each package will have a source (<code>src</code>) and distribution (<code>dist</code>) folder, each which contain a “distro”, or distributed bundle of assets. For example, a package may have the following structure:</p>\n<ul>\n<li><strong>dist</strong>: Distributed / compiled bundles.\n<ul>\n<li><strong>angularjs</strong>: Prebundled AngularJS file.</li>\n<li><strong>commonjs</strong>: CommonJS support (node/requirejs).</li>\n<li><strong>css</strong>: Vanilla CSS (compiled with default SASS/PostCSS configuration).</li>\n<li><strong>umd</strong>: Universal Module (commonjs/esmodule/vanillajs).</li>\n<li><strong>vanillajs</strong>: Vanilla JS for use in browser.</li>\n</ul>\n</li>\n<li><strong>src</strong>: Original source files.\n<ul>\n<li><strong>angularjs</strong>: Source AngularJS files (ES modules).</li>\n<li><strong>esmodule</strong>: Source JS files (ES modules).</li>\n<li><strong>sass</strong>: Source CSS files (SASS).</li>\n</ul>\n</li>\n</ul>\n<h2>Which “distro” should I use?</h2>\n<p>The distro you include in your app totally depends on you and how your app is set up. Here are some guidelines to follow:</p>\n<h3>JS distros</h3>\n<ul>\n<li>Use a compiled distro (<code>dist/*</code>) for less/no configuration and easier setup:\n<ul>\n<li>Use <code>dist/angularjs</code> if your app uses AngularJS v1.</li>\n<li>Use <code>dist/vanillajs</code> for vanilla JavaScript / browser globals.</li>\n<li>(<em>Less common</em>) Use <code>dist/commonjs</code> if your app uses the CommonJS module system.</li>\n<li>(<em>Less common</em>) Use <code>dist/umd</code> for the flexibility of a <a href=\"https://github.com/umdjs/umd\">Universal Module Definition (UMD)</a>.</li>\n</ul>\n</li>\n<li>Use a source distro (<code>src/*</code>) for full configuration options and the power of ES modules. Because these are ES modules, you will need to compile these with a build / bundler system such as <a href=\"http://webpack.js.org/\">webpack</a>, <a href=\"https://rollupjs.org/\">rollup</a>, or <a href=\"https://parceljs.org\">parcel</a>.\n<ul>\n<li>Use <code>src/angularjs</code> if your app uses AngularJS v1.</li>\n<li>Use <code>src/esmodule</code> for ES modules.</li>\n</ul>\n</li>\n</ul>\n<h3>CSS distros</h3>\n<ul>\n<li>Use <code>dist/css</code> if you do not or do not wish to use SASS. Less flexibility.</li>\n<li>Use <code>dist/sass</code> if your app uses SASS and for configuration options.</li>\n</ul>\n</div>";
+	var typographyPage = "\n<brik-tabs class=\"page-tabs\" tabs=\"About, Setup, Usage, playground\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t<div class=\"dsui-page__about\">\n\t\t<h2 class=\"font__title2 mt-0\">Typography</h2>\n\t\t<p>DSUI Typography closely follows <a href=\"https://material.io/design/typography/the-type-system.html\" title=\"Material Design type system\">Material Design's type system</a>, which defines a range of type sizes that may be used. DSUI Typography provides the mechanism for applying and managing typography based on MD specs.</p>\n\t</div>\n\n\t<div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2 mt-0\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t\n\t\t\t\t<li><a href=\"#!/core/colors\">Colors</a></li>\n\t\t\t\n\t\t\t\t<li><a href=\"#!/core/spacing\">Spacing</a></li>\n\t\t\t\n\t\t\t\t<li><a href=\"#!/components/lists\">Lists</a></li>\n\t\t\t\n\t\t\t\t<li><a href=\"#!/components/links\">Links</a></li>\n\t\t\t\n\t\t</ul>\n\t</div>\n</div>\n\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Roboto font face</h3>\n\t\t<p><strong>Roboto</strong> is the <em>only</em> UX approved font family. <brik-icon name=\"alert\" size=\"1.2em\"></brik-icon> Any exceptions require UX approval.</p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Use only approved font styles</h3>\n\t\t<p><em>Only use approved font styles.</em> <brik-icon name=\"alert\" size=\"1.25em\"></brik-icon> Any exceptions require UX approval and should be added to this list.</p>\n\n\t\t<h4 class=\"font__subtitle\">Font style categories</h4>\n\t\t<dl class=\"list__indented\">\n\t\t\t<dt>Headlines and Titles</dt>\n\t\t\t<dd>Headlines and titles are the largest text on the screen, reserved for short, important text or numerals.</dd>\n\n\t\t\t<dt>Subtitles</dt>\n\t\t\t<dd>Subtitles are smaller than headlines but larger than body text, reserved for medium-emphasis text that is shorter in length.</dd>\n\n\t\t\t<dt>Body text</dt>\n\t\t\t<dd>Body text is used for long-form writing.</dd>\n\n\t\t\t<dt>Caption and Overline text</dt>\n\t\t\t<dd>Caption and overline text are the smallest font sizes, used sparingly to annotate imagery or introduce a headline.</dd>\n\n\t\t\t<dt>Button text</dt>\n\t\t\t<dd>Button text is a call to action, used in buttons, tabs, dialogs, and cards. Button text is all caps, but can be modified to sentence case.</dd>\n\t\t</dl>\n\n\t\t<h4 class=\"font__subtitle\">UX approved font styles:</h4>\n\t\t<table class=\"type__table\">\n\t\t\t<thead>\n\t\t\t\t<tr>\n\t\t\t\t\t<th>Name</th>\n\t\t\t\t\t<th>Size / Weight</th>\n\t\t\t\t\t<th>Sample</th>\n\t\t\t\t</tr>\n\t\t\t</thead>\n\t\t\t<tbody>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Overline</td>\n\t\t\t\t\t<td>10 / 400</td>\n\t\t\t\t\t<td class=\"font__overline\">Overline: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Caption</td>\n\t\t\t\t\t<td>12 / 400</td>\n\t\t\t\t\t<td class=\"font__caption\">Caption: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Button</td>\n\t\t\t\t\t<td>14 / 500</td>\n\t\t\t\t\t<td class=\"font__button\">Button: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Body2</td>\n\t\t\t\t\t<td>14 / 400</td>\n\t\t\t\t\t<td class=\"font__body2\">Body 2: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Body</td>\n\t\t\t\t\t<td>16 / 400</td>\n\t\t\t\t\t<td class=\"font__body\">Body (default): test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Subtitle2</td>\n\t\t\t\t\t<td>14 / 500</td>\n\t\t\t\t\t<td class=\"font__subtitle2\">Subitle 2: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Subtitle</td>\n\t\t\t\t\t<td>16 / 400</td>\n\t\t\t\t\t<td class=\"font__subtitle\">Subtitle: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Title3</td>\n\t\t\t\t\t<td>20 / 500</td>\n\t\t\t\t\t<td class=\"font__title3\">Title 3: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Title2</td>\n\t\t\t\t\t<td>24 / 400</td>\n\t\t\t\t\t<td class=\"font__title2\">Title 2: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Title1</td>\n\t\t\t\t\t<td>34 / 300</td>\n\t\t\t\t\t<td class=\"font__title1\">Title 1: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>H6</td>\n\t\t\t\t\t<td>20 / 500</td>\n\t\t\t\t\t<td class=\"font__h6\">Heading 6: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>H5</td>\n\t\t\t\t\t<td>24 / 400</td>\n\t\t\t\t\t<td class=\"font__h5\">Heading 5: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>H4</td>\n\t\t\t\t\t<td>34 / 400</td>\n\t\t\t\t\t<td class=\"font__h4\">Heading 4: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>H3</td>\n\t\t\t\t\t<td>48 / 400</td>\n\t\t\t\t\t<td class=\"font__h3\">Heading 3: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>H2</td>\n\t\t\t\t\t<td>60 / 300</td>\n\t\t\t\t\t<td class=\"font__h2\">Heading 2: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>H1</td>\n\t\t\t\t\t<td>96 / 300</td>\n\t\t\t\t\t<td class=\"font__h1\">Heading 1: test test test test test test test test test</td>\n\t\t\t\t</tr>\n\t\t\t</tbody>\n\t\t</table>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Limit line length for readability</h3>\n\t\t<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Approved text colors</h3>\n\t\t<p>Refer to the <a href=\"#!/core/colors\">Colors component</a> for applying text colors.</p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Additional guidelines</h3>\n\t\t<p><a href=\"https://material.io/design/typography/\" title=\"Material Design type specs\"><abbr title=\"Material Design\">MD</abbr> type specs</a> are an extension of DSUI, and should be referred to for further guidance.</p>\n\t</div>\n\n\t<div>\n\t\t<h3 class=\"font__title2 mt-0 heading__separator\">Browser support</h3>\n<table class=\"browsers-table\">\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Chrome</th>\n\t\t\t<th>Firefox</th>\n\t\t\t<th>Safari</th>\n\t\t\t<th>Edge</th>\n\t\t\t<th>iOS</th>\n\t\t\t<th>Android</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n\t\t<tr>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"google-chrome\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"firefox\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"apple-safari\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"edge\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"apple-ios\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"android\"></brik-icon> </td>\n\t\t</tr>\n\t</tbody>\n</table>\n\n<h3 class=\"font__title2 heading__separator\">Install</h3>\n\n<p>It is encouraged to install Typography with DSUI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may install Typography as a standalone package:</p>\n<brik-code lang=\"bash\">npm install @brikcss/typography --save-dev</brik-code>\n\n\n\t<h3 class=\"font__title2 heading__separator\">Setup</h3>\n\t<p>Include desired file(s) in your app:</p>\n\t\t\t<ul>\n\t\t\t\t<li><em>PostCSS</em>: <code>@import '@brikcss/typography';</code> with <a href=\"https://github.com/postcss/postcss-import\" title=\"postcss-import\">postcss-import</a>.</li>\n\t\t\t\t<li><em>Precompiled</em>: <code>./dist/typography.min.css</code> for vanilla CSS.</li>\n\t\t\t\t<li><em>Custom build</em>: Follow <code>./src/typography.css</code> to create a custom build.</li>\n\t\t\t</ul>\n\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2 mt-0\">Usage</h2>\n\t\t<p>A class and a \"style set\" is provided for each named typography style (see \"About\" tab for list of named styles). Each class and style set follows a naming convention:</p>\n\t\t<pre><code>font__&lt;name></code></pre>\n\t\t<p><em>Note: See the \"About\" tab for a full list of available font styles and their names.</em></p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Rules of engagement</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><em>Always</em> use font classes to apply a font style in markup.</li>\n\t\t\t<li><em>Always</em> use a font style set to apply a font style in CSS.</li>\n\t\t\t<li><em>Never</em> modify CSS <code>font-*</code> properties without UX approval.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Font classes</h3>\n\t\t<p>Use font classes to apply font styles in markup. For example:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"html\">&lt;h2 class=\"font__title1\"&gt;My awesome font in \"title\" style.&lt;/h2&gt;</brik-code>\n\t\t</brik-editor>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Font style sets</h3>\n\t\t<p>Use font style sets to apply font styles in CSS. For example:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"css\" label=\"PostCSS\">.my-heading {\n\t@apply --font__title1;\n}</brik-code>\n\t\t\t<brik-code lang=\"css\" label=\"Compiled\">/* Note: PostCSS converts all `px` values to `rem`s. */\n.my-heading {\n\tfont-size: 4.25rem;\n\tfont-weight: 400;\n\tline-height: 5rem;\n\tletter-spacing: 0.01471rem;\n\tfont-weight: 300;\n}</brik-code>\n\t\t</brik-editor>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2 mt-0\">Font classes</h2>\n\t\t<p>Edit the class in the editor below with one of the following: <code>overline</code>, <code>caption</code>, <code>body</code>, <code>body2</code>, <code>subtitle2</code>, <code>subtitle</code>, <code>title3</code>, <code>title2</code>, <code>title1</code></p>\n\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__subtitle\">Subtitle: I am subtitle text. Wow.&lt;/p></brik-code>\n\t\t</brik-editor>\n\t</div>\n</brik-tabs>\n";
 
-	function anonymous(data, escapeFn, include, rethrow
-	) {
-	rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
-	  var lines = str.split('\n');
-	  var start = Math.max(lineno - 3, 0);
-	  var end = Math.min(lines.length, lineno + 3);
-	  var filename = esc(flnm); // eslint-disable-line
-	  // Error context
-	  var context = lines.slice(start, end).map(function (line, i){
-	    var curr = i + start + 1;
-	    return (curr == lineno ? ' >> ' : '    ')
-	      + curr
-	      + '| '
-	      + line;
-	  }).join('\n');
+	var colorsPage = "\n<brik-tabs class=\"page-tabs\" tabs=\"About, Setup, Usage, Playground\">\n\t<!-- About. -->\n\t<div class=\"tabs__content\">\n\t\t<div class=\"dsui-page__intro\">\n\t<div class=\"dsui-page__about\">\n\t\t<h2 class=\"font__title2 mt-0\">Colors</h2>\n\t\t<p>DSUI Colors make it easy to apply and manage all of your app's colors. Define colors once and reuse them everywhere. Colors use native CSS variables, which offer many potential features such as live theming.</p>\n\t</div>\n\n\t<div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2 mt-0\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t\n\t\t\t\t<li><a href=\"#!/core/typography\">Typography</a></li>\n\t\t\t\n\t\t</ul>\n\t</div>\n</div>\n\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\t\t<p>Only approved colors should be used. <brik-icon name=\"alert\" size=\"1.2em\"></brik-icon> Any exception requires UX approval.</p>\n\n\t\t\n\t\t\t<h3 class=\"font__title3 heading__separator\">Neutral colors (text, icons, borders)</h3>\n\t\t\t<p>Neutral colors are shades of black and white, each with an applied level of opacity. These colors can be used in text, icons, and borders on light backgrounds. Dark colors should only be used on light backgrounds, while light colors should only be used on dark backgrounds.</p>\n\t\t\t<ul class=\"pg-colors__colors-list\">\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__dark1); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">dark1</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#000000, 87% opacity</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsla(0, 0%, 0%, 0.87)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__dark1)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Primary dark text</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__dark2); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">dark2</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#000000, 54% opacity</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsla(0, 0%, 0%, 0.54)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__dark2)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Active dark icons, Secondary dark text</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__dark3); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">dark3</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#000000, 38% opacity</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsla(0, 0%, 0%, 0.38)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__dark3)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Inactive dark icons, Disabled / hint dark text</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__dark4); color: var(--color__dark);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">dark4</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#000000, 12% opacity</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsla(0, 0%, 0%, 0.12)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__dark4)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Dark borders / dividers</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color pg-colors__color--dark\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__light1); color: var(--color__dark);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">light1</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#ffffff, 100% opacity</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsla(0, 0%, 100%, 1)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__light1)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Primary light text</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color pg-colors__color--dark\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__light2); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">light2</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#ffffff, 70% opacity</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsla(0, 0%, 100%, 0.7)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__light2)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Active light icons, Secondary light text</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color pg-colors__color--dark\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__light3); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">light3</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#ffffff, 50% opacity</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsla(0, 0%, 100%, 0.5)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__light3)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Inactive light icons, Disabled / hint light text</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color pg-colors__color--dark\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__light4); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">light4</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#ffffff, 12% opacity</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsla(0, 0%, 100%, 0.12)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__light4)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Light borders / dividers</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t</ul>\n\t\t\n\t\t\t<h3 class=\"font__title3 heading__separator\">App colors</h3>\n\t\t\t<p>Background colors with specific use cases.</p>\n\t\t\t<ul class=\"pg-colors__colors-list\">\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__gray); color: var(--color__dark);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">gray</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#000000</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsl(0, 0%, 90%)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__gray)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Neutral background</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__supernav); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">supernav</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#3a4d5f</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsl(209, 24%, 30%)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__supernav)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Sidebar header</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__supernav--icon); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">supernav--icon</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\">#9ca6b0</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\">hsl(208, 11%, 65%)</span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__supernav--icon)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Sidebar icons</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t</ul>\n\t\t\n\t\t\t<h3 class=\"font__title3 heading__separator\">Theme colors</h3>\n\t\t\t<p>Theme colors are specific to a client and chosen by the client, with DirectScale theme colors provided as fallbacks. <em>Color values are not provided because they should not be used directly.</em> Only the color variables should be used.</p>\n\t\t\t<ul class=\"pg-colors__colors-list\">\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__brand1); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">brand1</span>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__brand1)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Primary app bar, text links, visual tree</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__brand2); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">brand2</span>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__brand2)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Buttons, profile avatars</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__brand3); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">brand3</span>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__brand3)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Selections, checkboxes, selected state for dropdowns, active tab underlines</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t\t\t<li class=\"pg-colors__color\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value\" style=\"background-color: var(--color__brand4); color: var(--color__light);\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\">brand4</span>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-var\">var(--color__brand4)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\">Distributor profile avatars, selected item in sidebar list, secondary color for visual tree</div>\n\t\t\t\t\t</li>\n\t\t\t\t\n\t\t\t</ul>\n\t\t\n\t</div>\n\n\t<!-- Install & Setup. -->\n\t<div class=\"tabs__content\">\n\t\t<h3 class=\"font__title2 mt-0 heading__separator\">Browser support</h3>\n<table class=\"browsers-table\">\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Chrome</th>\n\t\t\t<th>Firefox</th>\n\t\t\t<th>Safari</th>\n\t\t\t<th>Edge</th>\n\t\t\t<th>iOS</th>\n\t\t\t<th>Android</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n\t\t<tr>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"google-chrome\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"firefox\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"apple-safari\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"edge\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"apple-ios\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"android\"></brik-icon> </td>\n\t\t</tr>\n\t</tbody>\n</table>\n\n<h3 class=\"font__title2 heading__separator\">Install</h3>\n\n<p>It is encouraged to install Colors with DSUI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may install Colors as a standalone package:</p>\n<brik-code lang=\"bash\">npm install @brikcss/colors --save-dev</brik-code>\n\n\n\t<h3 class=\"font__title2 heading__separator\">Setup</h3>\n\t<p>Include desired file(s) in your app:</p>\n\t\t\t<ul>\n\t\t\t\t<li><em>PostCSS</em>: <code>@import '@brikcss/colors';</code> with <a href=\"https://github.com/postcss/postcss-import\" title=\"postcss-import\">postcss-import</a>.</li>\n\t\t\t\t<li><em>Precompiled</em>: <code>./dist/colors.min.css</code> for vanilla CSS.</li>\n\t\t\t\t<li><em>Custom build</em>: Follow <code>./src/colors.css</code> to create a custom build..</li>\n\t\t\t</ul>\n\n\t</div>\n\n\t<!-- Usage. -->\n\t<div class=\"tabs__content\">\n\t\t<h2 class=\"font__title2 mt-0\">Usage</h2>\n\t\t<p>A variable and class is created for each text and background color.</p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Rules of engagement</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><em>Always</em> use color variables to apply colors in CSS.</li>\n\t\t\t<li><em>Always</em> use color classes to apply colors in markup.</li>\n\t\t\t<li><em>Never</em> manually apply <code>color</code> or <code>background-color</code> properties without UX approval.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Color variables</h3>\n\t\t<p>Use color variables to apply colors in CSS. Each color variable follows this naming convention:</p>\n\t\t<brik-code lang=\"css\">var(--color__&lt;name>)</brik-code>\n\t\t<p>For example, to apply a background theme color with light text:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"css\">.my-component {\n\tbackground-color: var(--color__theme3);\n\tcolor: var(--color__light);\n}</brik-code>\n\t\t</brik-editor>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Color classes</h3>\n\t\t<p>Use color classes to apply colors in markup. Each color class follows a naming convention.</p>\n\t\t<p>Text color classes:</p>\n\t\t<pre><code>c__&lt;name></code></pre>\n\t\t<p>Background color classes:</p>\n\t\t<pre><code>bg__&lt;name></code></pre>\n\t\t<p>For example, to apply a background theme color with light text:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"html\">&lt;div class=\"c__light bg__theme3\">...&lt;/div></brik-code>\n\t\t</brik-editor>\n\t</div>\n\n\t<!-- Examples. -->\n\t<div>\n\t\t<h2 class=\"font__title2 mt-0\">Color variables</h2>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div class=\"my-awesome-component\">My awesome component.&lt;/div></brik-code>\n\t\t\t<brik-code lang=\"css\">.my-awesome-component {\n\tbackground-color: var(--color__brand2);\n\tcolor: var(--color__light);\n\n\t/* Helper styles (unimportant). */\n\tdisplay: flex;\n\talign-items: center;\n\ttext-align: center;\n\theight: 20rem;\n\twidth: 20rem;\n}</brik-code>\n\t\t</brik-editor>\n\n\t\t<h2 class=\"font__title2\">Color classes</h2>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div class=\"color-light bg-brand2 my-awesome-component\">My awesome component.&lt;/div></brik-code>\n\t\t\t<brik-code lang=\"css\">.my-awesome-component {\n\theight: 20rem;\n\twidth: 20rem;\n}</brik-code>\n\t\t</brik-editor>\n\t</div>\n";
 
-	  // Alter exception message
-	  err.path = filename;
-	  err.message = (filename || 'ejs') + ':'
-	    + lineno + '\n'
-	    + context + '\n\n'
-	    + err.message;
+	var rhythmPage = "\n<brik-tabs class=\"page-tabs\" tabs=\"About, Setup, Usage, Playground\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t<div class=\"dsui-page__about\">\n\t\t<h2 class=\"font__title2 mt-0\">Rhythm</h2>\n\t\t<p>Rhythm offers an easy way to apply and manage vertical and horizontal spacing. Rhythm is foundational for mastering <a href=\"https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography\">typography</a> and <a href=\"https://webdesign.tutsplus.com/articles/improving-layout-with-vertical-rhythm--webdesign-14070\">layout</a>, as it fosters <a href=\"https://zellwk.com/blog/why-vertical-rhythms/\">repetition and familiarity</a> throughout the UI, making any layout more <a href=\"https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm\">balanced, beautiful, and readable</a>.</p>\n\t</div>\n\n\t<div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2 mt-0\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t\n\t\t\t\t<li><a href=\"#!/core/typography\">Typography</a></li>\n\t\t\t\n\t\t</ul>\n\t</div>\n</div>\n\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Definitions</h3>\n\t\t<dl class=\"list__indented\">\n\t\t\t<dt>Dimensional properties</dt>\n\t\t\t<dd>Any CSS property which affects an element's dimensions and/or spacing, including but not limited to: <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>.</dd>\n\t\t\t<dt>1rem</dt>\n\t\t\t<dd>A <code>rem</code> is a CSS unit of measurement -- an alternative to <code>pixels</code> -- which can make any layout scaleable and responsive. In DSUI, equal to 8 pixels.</dd>\n\t\t</dl>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Use <code>rems</code> for all dimensional properties</h3>\n\t\t<p>DSUI uses <a href=\"https://www.sitepoint.com/understanding-and-using-rem-units-in-css/\" title=\"Understanding rem units in CSS\">CSS <code>rem</code> units</a> to apply rhythm and spacing. <em>Follow the \"rules of Rhythm\" below when applying <code>rems</code>.</em></p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Strictly follow the \"Rules of Rhythm\"</h3>\n\t\t<p>To ensure the layout and spacing grid always stays \"in rhythm\", follow these rules:</p>\n\t\t<ol>\n\t\t\t<li>\n\t\t\t\t<p><em>Always</em> use <code>rem</code> units for <em>dimensional properties</em>:</p>\n\t\t\t\t<ul>\n\t\t\t\t\t<li>Use a <strong>1rem grid</strong> (8 pixels) for components.</li>\n\t\t\t\t\t<li>A <strong>0.5rem grid</strong> (4 pixels) may be used for typography and iconography.</li>\n\t\t\t\t</ul></li>\n\t\t\t<li><p><em>Avoid</em> applying <code>rems</code> in fractions (except as noted above). This will break the Rhythm.</p></li>\n\t\t\t<li>\n\t\t\t\t<p><em>Always</em> \"fix\" the Rhythm if and when it's necessary to break it.</p>\n\t\t\t\t<p>Applying <code>rems</code> in fractions will break the Rhythm. There may be rare cases where this necessary, such as when an element needs a <code>1px</code> border, or an image needs a specific height in pixels.</p>\n\t\t\t\t<p>In such cases, you must manually put things back \"in rhythm\" by following this rule:</p>\n\t\t\t\t<blockquote>\n\t\t\t\t\t<p><em>The sum of vertical and horizontal dimensional property values for a given element, converted to <code>rems</code>, must each be an integer.</em></p>\n\t\t\t\t</blockquote>\n\t\t\t</li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h3 class=\"font__title2 mt-0 heading__separator\">Browser support</h3>\n<table class=\"browsers-table\">\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Chrome</th>\n\t\t\t<th>Firefox</th>\n\t\t\t<th>Safari</th>\n\t\t\t<th>Edge</th>\n\t\t\t<th>iOS</th>\n\t\t\t<th>Android</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n\t\t<tr>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"google-chrome\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"firefox\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"apple-safari\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"edge\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"apple-ios\"></brik-icon> </td>\n\t\t\t<td><brik-icon class=\"browsers-table__icon\" name=\"android\"></brik-icon> </td>\n\t\t</tr>\n\t</tbody>\n</table>\n\n<h3 class=\"font__title2 heading__separator\">Install</h3>\n\n<p>It is encouraged to install Rhythm with DSUI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may install Rhythm as a standalone package:</p>\n<brik-code lang=\"bash\">npm install @brikcss/rhythm --save-dev</brik-code>\n\n\n\t<h3 class=\"font__title2 heading__separator\">Setup</h3>\n\t<p>Include desired file(s) in your app:</p>\n\t\t\t<ul>\n\t\t\t\t<li><em>PostCSS</em>: <code>@import '@brikcss/spacing';</code> with <a href=\"https://github.com/postcss/postcss-import\" title=\"postcss-import\">postcss-import</a>.</li>\n\t\t\t\t<li><em>Precompiled</em>: <code>./dist/spacing.min.css</code> for vanilla CSS.</li>\n\t\t\t\t<li><em>Custom build</em>: Follow <code>./src/spacing.css</code> to create a custom build..</li>\n\t\t\t</ul>\n\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2 mt-0\">Usage</h2>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Rules of engagement</h3>\n\t\t<ul>\n\t\t\t<li><em>Always</em> use CSS <code>rems</code> to apply dimensional properties (height, width, margins, padding, etc.) in CSS.</li>\n\t\t\t<li><em>Always</em> use Rhythm classes to apply Rhythm in markup.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Applying Rhythm with <code>rems</code></h3>\n\t\t<p>Applying Rhythm with <code>rems</code> is fairly self-explanatory. The important thing to remember is to <em>always follow the Rules of Rhythm</em> (see the \"About\" tab).</p>\n\t\t<p>Simple example:</p>\n\t\t<brik-code lang=\"css\">.my-component {\n\tborder: 1px solid var(--color__dark4);\n\tmargin-top: 2rem;\n\n\t/* Apply Rhythm fix to height/width dimensions since 1px top and bottom border throws it off */\n\theight: calc(10rem - 2px);\n\twidth: 14rem;\n}</brik-code>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Applying Rhythm with classes</h3>\n\t\t<p>DSUI Rhythm provides a series of utility classes to allow you to easily apply <code>padding</code> and <code>margin</code> to any element. Each Rhythm class follows these format:</p>\n\t\t<pre><code>.{p|m}{l|r|t|b|x|y}-{value}</code></pre>\n\t\t<p>where:</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><code>value</code> is the rem value being applied</li>\n\t\t\t<li><code>p</code> applies <code>value</code> to padding</li>\n\t\t\t<li><code>m</code> applies <code>value</code> to margin</li>\n\t\t\t<li><code>l</code> applies <code>value</code> to left side</li>\n\t\t\t<li><code>r</code> applies <code>value</code> to right side</li>\n\t\t\t<li><code>t</code> applies <code>value</code> to top side</li>\n\t\t\t<li><code>b</code> applies <code>value</code> to bottom side</li>\n\t\t\t<li><code>x</code> applies <code>value</code> to left and right sides</li>\n\t\t\t<li><code>y</code> applies <code>value</code> to top and bottom sides</li>\n\t\t</ul>\n\t\t<h4 class=\"font__subtitle\">Examples of Rhythm utility classes</h4>\n\t\t<p>By default, Rhythm classes are created for the following <code>rem</code> values:</p>\n\t\t<blockquote>\n\t\t\t<code>0</code>, <code>0.5rem</code>, <code>1rem</code>, <code>1.5rem</code>, <code>2rem</code>, <code>3rem</code>, <code>4rem</code>\n\t\t</blockquote>\n\t\t<p>Some examples of valid Rhythm classes:</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><code>.pl-1</code> applies 1rem of padding-left</li>\n\t\t\t<li><code>.mr-2</code> applies 2rem of margin-right</li>\n\t\t\t<li><code>.pb-1-5</code> applies 1.5rem of padding-bottom</li>\n\t\t\t<li><code>.mt-4</code> applies 4rem of margin-top</li>\n\t\t\t<li><code>.px-0-5</code> applies 0.5rem of padding-left and padding-right</li>\n\t\t\t<li><code>.my-1</code> applies 1rem of margin-top and margin-bottom</li>\n\t\t\t<li><code>.p-4</code> applies 4rem of padding</li>\n\t\t\t<li><code>.m-3</code> applies 3rem of margin</li>\n\t\t</ul>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">Examples</h2>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div class=&quot;px-1&quot;&gt;Padding left and right&lt;/div&gt;</brik-code>\n\t\t</brik-editor>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div class=&quot;m-4&quot;&gt;Margin on all sides&lt;/div&gt;</brik-code>\n\t\t</brik-editor>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div class=&quot;m-4 mb-0 pl-2 pt-1&quot;&gt;Margin on all sides except bottom with a left and top padding&lt;/div&gt;</brik-code>\n\t\t</brik-editor>\n\t</div>\n</brik-tabs>\n";
 
-	  throw err;
-	};
-	escapeFn = escapeFn || function (markup) {
-	  return markup == undefined
-	    ? ''
-	    : String(markup)
-	        .replace(_MATCH_HTML, encode_char);
-	};
-	var _ENCODE_HTML_RULES = {
-	      "&": "&amp;"
-	    , "<": "&lt;"
-	    , ">": "&gt;"
-	    , '"': "&#34;"
-	    , "'": "&#39;"
-	    }
-	  , _MATCH_HTML = /[&<>'"]/g;
-	function encode_char(c) {
-	  return _ENCODE_HTML_RULES[c] || c;
-	}var __line = 1
-	  , __lines = "<brik-tabs class=\"page-tabs\" tabs=\"about:About, install:Install &amp; Setup\">\n\t<div>\n\t\t<%- include ../partials/_intro.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<%- include ../partials/_install.html.ejs %>\n\t</div>\n</brik-tabs>\n"
-	  , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/core/browser-reset.html.ejs";
-	try {
-	  var __output = [], __append = __output.push.bind(__output);
-	 __append("<brik-tabs class=\"page-tabs\" tabs=\"about:About, install:Install &amp; Setup\">\n	<div>\n		")
-	    ; __line = 3
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
-	      try {
-	 __append("<div class=\"dsui-page__intro\">\n	")
-	    ; __line = 2
-	    ;  if (data.brik.intro) { 
-	 __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n		")
-	    ; __line = 4
-	    ; __append( data.brik.intro )
-	    ; __append("\n	</div>")
-	    ; __line = 5
-	    ;  } 
-	 __append("\n\n	")
-	    ; __line = 7
-	    ;  if (data.brik.related) { 
-	 __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title2\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
-	    ; __line = 10
-	    ;  data.brik.related.forEach(link => { 
-	 __append("\n				<li><a ui-sref=\"")
-	    ; __line = 11
-	    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
-	    ; __append("\">")
-	    ; __append(escapeFn( link ))
-	    ; __append("</a></li>\n			")
-	    ; __line = 12
-	    ;  }); 
-	 __append("\n		</ul>\n	</div>")
-	    ; __line = 14
-	    ;  } 
-	 __append("\n</div>\n")
-	    ; __line = 16;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n	</div>\n\n	<div>\n		")
-	    ; __line = 7
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<h3 class=\"font__title3\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<brik-code lang=\"bash\">npm install <%= data.brik.npmPath %> --save-dev</brik-code>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title3\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
-	      try {
-	 __append("<h3 class=\"font__title3\">Install</h3>\n\n")
-	    ; __line = 3
-	    ;  if (data.brik.isCore) { 
-	 __append("<p>It is encouraged to install ")
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install ")
-	    ; __line = 6
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" on its own:</p>")
-	    ;  } 
-	 __append("\n<brik-code lang=\"bash\">npm install ")
-	    ; __line = 7
-	    ; __append(escapeFn( data.brik.npmPath ))
-	    ; __append(" --save-dev</brik-code>\n\n")
-	    ; __line = 9
-	    ;  if (typeof data.brik.setup === 'object') { 
-	 __append("<h3 class=\"font__title3\">Setup</h3>\n")
-	    ; __line = 10
-	    ;  if (data.brik.setup.summary) { 
-	 __append( data.brik.setup.summary )
-	    ;  } 
-	 __append("\n")
-	    ; __line = 11
-	    ;  if (data.brik.setup.list) { 
-	 __append("<ol class=\"numbers\">\n	")
-	    ; __line = 12
-	    ;  data.brik.setup.list.forEach(item => { 
-	 __append("\n		")
-	    ; __line = 13
-	    ;  if (typeof item === 'object') { 
-	 __append("\n			<li>")
-	    ; __line = 14
-	    ; __append( item.intro )
-	    ; __append("\n				")
-	    ; __line = 15
-	    ;  if (item.class === 'numbers') { 
-	 __append("<ol class=\"numbers\">")
-	    ;  } else { 
-	 __append("<ul class=\"bullets\">")
-	    ;  } 
-	 __append("\n					")
-	    ; __line = 16
-	    ;  item.list.forEach(subitem => { 
-	 __append("<li>")
-	    ; __append( subitem )
-	    ; __append("</li>")
-	    ;  }); 
-	 __append("\n				")
-	    ; __line = 17
-	    ;  if (item.class === 'numbers') { 
-	 __append("</ol>")
-	    ;  } else { 
-	 __append("</ul>")
-	    ;  } 
-	 __append("\n			</li>\n		")
-	    ; __line = 19
-	    ;  } else { 
-	 __append("<li>")
-	    ; __append( item )
-	    ; __append("</li>")
-	    ;  } 
-	 __append("\n	")
-	    ; __line = 20
-	    ;  }); 
-	 __append("\n</ol>")
-	    ; __line = 21
-	    ;  } 
-	 __append("\n")
-	    ; __line = 22
-	    ;  } 
-	 __append("\n")
-	    ; __line = 23;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n	</div>\n</brik-tabs>\n")
-	    ; __line = 10;
-	  return __output.join("");
-	} catch (e) {
-	  rethrow(e, __lines, __filename, __line, escapeFn);
-	}
+	var spinnerPage = "\n<brik-tabs class=\"page-tabs\" tabs=\"About, Setup, Usage, Playground\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t<div class=\"dsui-page__about\">\n\t\t<h2 class=\"font__title2 mt-0\">Spinner</h2>\n\t\t<p>Spinner is a visual indicator that content on the page is loading. Spinner can optionally display the progress of an operation.</p>\n\t</div>\n\n\t\n</div>\n\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\n\t\t<p class=\"font__subheading\">We are working on this page.</p>\n\t</div>\n\n\t<div>\n\t\t\n\n<h3 class=\"font__title2 heading__separator\">Install</h3>\n\n\n<brik-code lang=\"bash\">npm install @brikcss/spinner --save-dev</brik-code>\n\n<h3 class=\"font__title2 heading__separator\">Setup</h3>\n<p>Make sure to <a ui-sref=\"including-assets\">include the appropriate assets in your app</a>.</p>\n\n\n\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2 mt-0\">JS Usage</h2>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Spinner API</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><strong><code>all</code></strong>: Access all spinner instances, grouped by ID.</li>\n\t\t\t<li><strong><code>Spinner.create(element, options)</code></strong>: Create a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.toggle(id)</code></strong>: Toggle a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.load(id)</code></strong>: Load / activate a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.unload(id)</code></strong>: Unload / deactivate a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.destroy(id)</code></strong>: Destroy a spinner instance.</li>\n\t\t</ul>\n\t\t<p><em>Note: Each method returns the spinner instance, except the <code>destroy</code> method, which returns a Boolean.</em></p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Spinner instance</h3>\n\t\t<p>Most of the same methods can be called on a spinner instance without knowing its ID.</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><strong><code>instance.toggle()</code></strong>: Toggle a spinner instance.</li>\n\t\t\t<li><strong><code>instance.load()</code></strong>: Load / activate a spinner instance.</li>\n\t\t\t<li><strong><code>instance.unload()</code></strong>: Unload / deactivate a spinner instance.</li>\n\t\t\t<li><strong><code>instance.destroy()</code></strong>: Destroy a spinner instance.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title3 heading__separator\">AngularJS</h3>\n\t\t<p>The AngularJS <code>SpinnerService</code> is a thin AngularJS wrapper around the vanilla core Spinner service, with the following directives added for convenience in interacting with Spinner:</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><strong><code>&lt;spinner options=\"{...}\"&gt;</code></strong>: Create a spinner element in the DOM.</li>\n\t\t\t<li><strong><code>[spinner-toggle=\"{{id}}\"]</code></strong>: Toggle the spinner that matches <code>id</code>.</li>\n\t\t</ul>\n\n\t\t<h2 class=\"font__title2\">CSS Usage</h2>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Classes and selectors</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><code>.spinner</code>: Spinner base class. <em>Nothing will be displayed in the UI until the active modifier class is added.</em></li>\n\t\t\t<li><code>.spinner--is-spinning</code>: Active / spinning spinner.</li>\n\t\t\t<li><code>.spinner--inline</code>: Inline spinner, for display with surrounding inline elements such as text or buttons.</li>\n\t\t\t<li><code>.spinner--clean</code>: Cleans / removes background and padding for a clean spinner UI.</li>\n\t\t\t<li><code>.spinner--absolute</code>: Absolutely positioned spinner.</li>\n\t\t\t<li><code>.spinner--slide</code> Spinner which slides from the top of an element.</li>\n\t\t</ul>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">Examples</h2>\n\t\t<h3 class=\"font__title3 heading__separator\">Active Spinner</h3>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;spinner options=\"{mods: ['active']}\">&lt;/spinner></brik-code lang=\"html\">\n\t\t</brik-editor>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Toggling a Spinner</h3>\n\t\t<p>Use the <code>ng-class</code> directive to activate and deactivate a spinner.</p>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div data-ng-init=\"toggleableActive = true;\">\n\t&lt;spinner options=\"{mods: ['active']}\" data-ng-class=\"{'spinner--is-spinning': toggleableActive}\">&lt;/spinner>\n\t&lt;button class=\"font__button\" type=\"button\" data-ng-click=\"toggleableActive = !toggleableActive\">Toggle&lt;/button>\n&lt;/div></brik-code lang=\"html\">\n\t\t</brik-editor>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Inline Spinner</h3>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;button class=\"font__button my-inline-spinner\" type=\"button\" data-ng-click=\"inlineActive = !inlineActive\" data-ng-init=\"inlineActive = true\">\n\tInline Spinner\n\t&lt;spinner options=\"{mods: ['active', 'inline']}\" style=\"margin-left: 1rem;\" data-ng-class=\"{'spinner--is-spinning':  inlineActive}\">&lt;/spinner>\n&lt;/button>\n&lt;p>(Click to toggle spinner)&lt;/p></brik-code lang=\"html\">\n\t\t\t<brik-code lang=\"css\">.my-inline-spinner {\n\tbackground-color: hsla(0, 0%, 0%, 0.1);\n\tdisplay: inline-flex;\n\talign-items: center;\n\tpadding: 1rem 2rem;\n}\n\n.my-inline-spinner .spinner {\n\tmargin-left: 1rem;\n}</brik-code lang=\"html\">\n\t\t</brik-editor>\n\t</div>\n</brik-tabs>\n";
 
-	}
-
-	function anonymous$1(data, escapeFn, include, rethrow
-	) {
-	rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
-	  var lines = str.split('\n');
-	  var start = Math.max(lineno - 3, 0);
-	  var end = Math.min(lines.length, lineno + 3);
-	  var filename = esc(flnm); // eslint-disable-line
-	  // Error context
-	  var context = lines.slice(start, end).map(function (line, i){
-	    var curr = i + start + 1;
-	    return (curr == lineno ? ' >> ' : '    ')
-	      + curr
-	      + '| '
-	      + line;
-	  }).join('\n');
-
-	  // Alter exception message
-	  err.path = filename;
-	  err.message = (filename || 'ejs') + ':'
-	    + lineno + '\n'
-	    + context + '\n\n'
-	    + err.message;
-
-	  throw err;
-	};
-	escapeFn = escapeFn || function (markup) {
-	  return markup == undefined
-	    ? ''
-	    : String(markup)
-	        .replace(_MATCH_HTML, encode_char);
-	};
-	var _ENCODE_HTML_RULES = {
-	      "&": "&amp;"
-	    , "<": "&lt;"
-	    , ">": "&gt;"
-	    , '"': "&#34;"
-	    , "'": "&#39;"
-	    }
-	  , _MATCH_HTML = /[&<>'"]/g;
-	function encode_char(c) {
-	  return _ENCODE_HTML_RULES[c] || c;
-	}var __line = 1
-	  , __lines = "<brik-tabs class=\"page-tabs\" tabs=\"about:about, install:Install &amp; Setup, usage:Usage, examples:Examples\">\n\t<div>\n\t\t<%- include ../partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Roboto font face</h3>\n\t\t<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Only use approved font styles</h3>\n\t\t<p><em>Only use approved font styles.</em> Any exceptions require UX approval and should be added to this list. <a href=\"https://material.io/guidelines/style/typography.html\">Refer to Material Design</a> for specific scenarios and use cases to apply each style; otherwise use them at your own discretion.</p>\n\t\t<p>UX approved font styles (see Usage section for how to apply them):</p>\n\t\t<p class=\"font__overline\">Overline test test test test test test test test test</p>\n\t\t<p class=\"font__caption\">Caption test test test test test test test test test</p>\n\t\t<p class=\"font__button\">Button test test test test test test test test test</p>\n\t\t<p class=\"font__body2\">Body 2 test test test test test test test test test</p>\n\t\t<p class=\"font__body\">Body (default) test test test test test test test test test</p>\n\t\t<p class=\"font__subtitle2\">Subitle 2 test test test test test test test test test</p>\n\t\t<p class=\"font__subtitle\">Subtitle test test test test test test test test test</p>\n\t\t<p class=\"font__title3\">Subtitle test test test test test test test test test</p>\n\t\t<p class=\"font__title2\">Subtitle test test test test test test test test test</p>\n\t\t<p class=\"font__title1\">Subtitle test test test test test test test test test</p>\n\t\t<p class=\"font__h6\">Heading 6 test test test test test test test test test</p>\n\t\t<p class=\"font__h5\">Heading 5 test test test test test test test test test</p>\n\t\t<p class=\"font__h4\">Heading 4 test test test test test test test test test</p>\n\t\t<p class=\"font__h3\">Heading 3 test test test test test test test test test</p>\n\t\t<p class=\"font__h2\">Heading 2 test test test test test test test test test</p>\n\t\t<p class=\"font__h1\">Heading 1 test test test test test test test test test</p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Limit line length for readability</h3>\n\t\t<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Approved text colors</h3>\n\t\t<p><a ui-sref=\"colors\">Refer to the Colors component</a> for applying text colors.</p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Additional guidelines</h3>\n\t\t<p><a href=\"https://material.io/guidelines/style/typography.html\" title=\"Typography specs for Material Design\"><abbr title=\"Material Design\">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>\n\t</div>\n\n\t<div>\n\t\t<%- include ../partials/_install.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">Usage</h2>\n\t\t<ul class=\"bullets\">\n\t\t\t<li>\n\t\t\t\t<p><em>Do:</em> use the predefined classes and helpers to apply font styles.</p>\n\t\t\t\t<p><em>Don't:</em> apply any CSS font properties on your own.</p>\n\t\t\t</li>\n\t\t\t<li>\n\t\t\t\t<p><em>Avoid:</em> appyling nested font styles. However, when it is necessary to apply a font style to a child element whose parent has a different style applied, you must apply one of the \"font reset\" methods below.</p>\n\t\t\t\t<p><em>Why?</em> DS UI Typography uses <code>em</code>s <a href=\"https://css-tricks.com/why-ems/\" title=\"Why ems?\">to handle responsive typography</a>. <code>1em</code> is <a href=\"https://www.impressivewebs.com/understanding-em-units-css/\" title=\"Definition of one em unit.\">equal to the <strong>computed value</strong> of the <code>font-size</code> property of the element on which its used</a>. This means children elements inherit the computed font size value of its first parent which already has font size defined. If we don't reset the font size in these cases using one of the methods below, the computed <code>font-size</code> will not be correct.</p>\n\t\t\t</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title3 heading__separator\">How to apply a font style</h3>\n\t\t<p>(HTML) Add a font class:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"html\">&lt;h2 class=\"font__title\"&gt;My awesome font in \"title\" style.&lt;/h2&gt;</brik-code>\n\t\t</brik-editor>\n\t\t<p>(SASS) Use the <code>font</code> mixin:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"scss\">.my-headline {\n\t@include font(headline);\n}</brik-code>\n\t\t\t<brik-code lang=\"css\" label=\"Compiled\">.my-headline {\n\t/* This is the computed font-size value; will be applied in ems. */\n\tfont-size: 24px;\n\tline-height: 1.5rem;\n}</brik-code>\n\t\t</brik-editor>\n\n\t\t<h3 class=\"font__title3 heading__separator\">How to apply a font style to nested elements</h3>\n\t\t<p>When an element's parent already has a font style applied, applying a font style to the element will likely make its <code>font-size</code> incorrect. To \"reset\" the element's font size, do one of the following:</p>\n\t\t<ol class=\"numbers\">\n\t\t\t<li>\n\t\t\t\t<p>HTML: Add the <code>.font__reset</code> or <code>.font__reset-size</code> class:</p>\n\t\t\t\t<brik-editor>\n\t\t\t\t\t<brik-code lang=\"html\">&lt;div class=\"font__subheading\"&gt;\n\t&lt;p&gt;My subheading paragraph text...&lt;/p&gt;\n\t&lt;div class=\"font__reset\"&gt;\n\t\t&lt;p&gt;More paragraph text, but I am \"reset\" to normal body text...&lt;/p&gt;\n\t\t&lt;h2 class=\"font__title\"&gt;I am title text... just the right size&lt;/h2&gt;\n\t&lt;/div&gt;\n&lt;div&gt;</brik-code>\n\t\t\t\t</brik-editor>\n\t\t\t</li>\n\t\t\t<li>\n\t\t\t\t<p>SASS: Add a flag in the <code>font</code> mixin:</p>\n\t\t\t\t<brik-editor>\n\t\t\t\t\t<brik-code lang=\"scss\">.parent {\n\t@include font(subheading);\n}\n\n.child {\n\t@include font(body, true);\n}</brik-code>\n\t\t\t\t\t<brik-code lang=\"html\">&lt;div class=\"parent\"&gt;\n\t&lt;p&gt;My subheading paragraph text...&lt;/p&gt;\n\t&lt;div class=\"child\"&gt;\n\t\t&lt;p&gt;More paragraph text, but I am \"reset\" to normal body text...&lt;/p&gt;\n\t\t&lt;h2 class=\"font__title\"&gt;I am title text... just the right size&lt;/h2&gt;\n\t&lt;/div&gt;\n&lt;div&gt;</brik-code>\n\t\t\t\t</brik-editor>\n\t\t\t</li>\n\t\t</ol>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">HTML Classes</h2>\n\t\t<h3 class=\"font__title3 heading__separator\">Font Style Classes</h3>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__caption</code> Caption font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__caption\">Caption: Regular 12sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__button</code> Button font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Buttons. Tabs.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__button\">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__body</code> Body font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__body\">Body: Regular 14sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__bold</code> Bold font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Bold text. Text with emphasis. Ask UX for specific use cases.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__bold\">Bold: Medium 14sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__subheading</code> Subheading font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Subheadings, such as widget section subheadings (see Marketing Sites widget, Community widget).</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__subheading\">Subheading: Regular 16sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__title</code> Title font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> App bar (header) title. Widget title when not in a header (see Social Networking widget). Rank titles (see rank titles in Rank Information widget).</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__title\">Title: Medium 20sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__title2</code> Headline font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Widget header title.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__title2\">Headline: Regular 24sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display1</code> Display 1 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Use sparingly, with caution, when needing to call out large text.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__display1\">Display 1: Regular 34sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display2</code> Display 2 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__display2\">Display 2: Regular 45sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display3</code> Display 3 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__display3\">Display 3: Regular 56sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>.font__display4</code> Display 4 font style</h4>\n\t\t<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__display4\">Display 4: Light 112sp&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Text body length classes</h3>\n\n\t\t<p class=\"font__bold\"><code>.font__short-line</code></p>\n\t\t<p class=\"sp__0 font__short-line\"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>\n\t\t<brik-editor editable=\"true\" live-preview=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;p class=\"font__short-line\">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></brik-code>\n\t\t</brik-editor>\n\n\t\t<h2 class=\"font__title2\">SASS Helpers</h2>\n\t\t<p class=\"text__short\">In addition to the HTML classes above, SASS helpers are available for more control.</p>\n\n\t\t<h3 class=\"font__title\"><code>sp($name)</code> function</h3>\n\t\t<p class=\"text__short\">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"scss\">.my-custom-selector {\n\t\t\tfont-size: sp('subheading');\n\t\t}</brik-code>\n\t\t\t<brik-code lang=\"css\">.my-custom-selector {\n\t\t\t/* Assuming a base font size of 14px, the compiled result will be: */\n\t\t\tfont-size: 1.14286em;\n\t\t}</brik-code>\n\t\t</brik-editor>\n\n\t\t<h3 class=\"font__title\"><code>@include font($style)</code> mixin</h3>\n\t\t<p>This mixin applies a predefined font style to a selector.</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"scss\">.my-custom-selector {\n\t\t\t@include font('display');\n\t\t}</brik-code>\n\t\t\t<brik-code lang=\"css\">.my-custom-selector {\n\t\t\t/* Assuming a base font size of 14px, the compiled result will be: */\n\t\t\tfont-size: 2.42857em;\n\t\t\tline-height: 1.5rem;\n\t\t\tcolor: hsla(0, 0%, 0%, 0.54));\n\t\t}</brik-code>\n\t\t</brik-editor>\n\t</div>\n</brik-tabs>\n"
-	  , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/core/typography.html.ejs";
-	try {
-	  var __output = [], __append = __output.push.bind(__output);
-	 __append("<brik-tabs class=\"page-tabs\" tabs=\"about:about, install:Install &amp; Setup, usage:Usage, examples:Examples\">\n	<div>\n		")
-	    ; __line = 3
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
-	      try {
-	 __append("<div class=\"dsui-page__intro\">\n	")
-	    ; __line = 2
-	    ;  if (data.brik.intro) { 
-	 __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n		")
-	    ; __line = 4
-	    ; __append( data.brik.intro )
-	    ; __append("\n	</div>")
-	    ; __line = 5
-	    ;  } 
-	 __append("\n\n	")
-	    ; __line = 7
-	    ;  if (data.brik.related) { 
-	 __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title2\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
-	    ; __line = 10
-	    ;  data.brik.related.forEach(link => { 
-	 __append("\n				<li><a ui-sref=\"")
-	    ; __line = 11
-	    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
-	    ; __append("\">")
-	    ; __append(escapeFn( link ))
-	    ; __append("</a></li>\n			")
-	    ; __line = 12
-	    ;  }); 
-	 __append("\n		</ul>\n	</div>")
-	    ; __line = 14
-	    ;  } 
-	 __append("\n</div>\n")
-	    ; __line = 16;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n\n		<h2 class=\"font__title2\">Guidelines</h2>\n\n		<h3 class=\"font__title3 heading__separator\">Roboto font face</h3>\n		<p><strong>Roboto</strong> is the <em>only</em> font family that should be used. Any exceptions require UX approval.</p>\n\n		<h3 class=\"font__title3 heading__separator\">Only use approved font styles</h3>\n		<p><em>Only use approved font styles.</em> Any exceptions require UX approval and should be added to this list. <a href=\"https://material.io/guidelines/style/typography.html\">Refer to Material Design</a> for specific scenarios and use cases to apply each style; otherwise use them at your own discretion.</p>\n		<p>UX approved font styles (see Usage section for how to apply them):</p>\n		<p class=\"font__overline\">Overline test test test test test test test test test</p>\n		<p class=\"font__caption\">Caption test test test test test test test test test</p>\n		<p class=\"font__button\">Button test test test test test test test test test</p>\n		<p class=\"font__body2\">Body 2 test test test test test test test test test</p>\n		<p class=\"font__body\">Body (default) test test test test test test test test test</p>\n		<p class=\"font__subtitle2\">Subitle 2 test test test test test test test test test</p>\n		<p class=\"font__subtitle\">Subtitle test test test test test test test test test</p>\n		<p class=\"font__title3\">Subtitle test test test test test test test test test</p>\n		<p class=\"font__title2\">Subtitle test test test test test test test test test</p>\n		<p class=\"font__title1\">Subtitle test test test test test test test test test</p>\n		<p class=\"font__h6\">Heading 6 test test test test test test test test test</p>\n		<p class=\"font__h5\">Heading 5 test test test test test test test test test</p>\n		<p class=\"font__h4\">Heading 4 test test test test test test test test test</p>\n		<p class=\"font__h3\">Heading 3 test test test test test test test test test</p>\n		<p class=\"font__h2\">Heading 2 test test test test test test test test test</p>\n		<p class=\"font__h1\">Heading 1 test test test test test test test test test</p>\n\n		<h3 class=\"font__title3 heading__separator\">Limit line length for readability</h3>\n		<p>For best readability, lines of text should be no longer than ~60 characters. Shorter lines of text should wrap at ~30 characters or less.</p>\n\n		<h3 class=\"font__title3 heading__separator\">Approved text colors</h3>\n		<p><a ui-sref=\"colors\">Refer to the Colors component</a> for applying text colors.</p>\n\n		<h3 class=\"font__title3 heading__separator\">Additional guidelines</h3>\n		<p><a href=\"https://material.io/guidelines/style/typography.html\" title=\"Typography specs for Material Design\"><abbr title=\"Material Design\">MD</abbr> typography specs</a> are an extension of DS UI, and should be referred to for further guidance.</p>\n	</div>\n\n	<div>\n		")
-	    ; __line = 41
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<h3 class=\"font__title3\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<brik-code lang=\"bash\">npm install <%= data.brik.npmPath %> --save-dev</brik-code>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title3\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
-	      try {
-	 __append("<h3 class=\"font__title3\">Install</h3>\n\n")
-	    ; __line = 3
-	    ;  if (data.brik.isCore) { 
-	 __append("<p>It is encouraged to install ")
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install ")
-	    ; __line = 6
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" on its own:</p>")
-	    ;  } 
-	 __append("\n<brik-code lang=\"bash\">npm install ")
-	    ; __line = 7
-	    ; __append(escapeFn( data.brik.npmPath ))
-	    ; __append(" --save-dev</brik-code>\n\n")
-	    ; __line = 9
-	    ;  if (typeof data.brik.setup === 'object') { 
-	 __append("<h3 class=\"font__title3\">Setup</h3>\n")
-	    ; __line = 10
-	    ;  if (data.brik.setup.summary) { 
-	 __append( data.brik.setup.summary )
-	    ;  } 
-	 __append("\n")
-	    ; __line = 11
-	    ;  if (data.brik.setup.list) { 
-	 __append("<ol class=\"numbers\">\n	")
-	    ; __line = 12
-	    ;  data.brik.setup.list.forEach(item => { 
-	 __append("\n		")
-	    ; __line = 13
-	    ;  if (typeof item === 'object') { 
-	 __append("\n			<li>")
-	    ; __line = 14
-	    ; __append( item.intro )
-	    ; __append("\n				")
-	    ; __line = 15
-	    ;  if (item.class === 'numbers') { 
-	 __append("<ol class=\"numbers\">")
-	    ;  } else { 
-	 __append("<ul class=\"bullets\">")
-	    ;  } 
-	 __append("\n					")
-	    ; __line = 16
-	    ;  item.list.forEach(subitem => { 
-	 __append("<li>")
-	    ; __append( subitem )
-	    ; __append("</li>")
-	    ;  }); 
-	 __append("\n				")
-	    ; __line = 17
-	    ;  if (item.class === 'numbers') { 
-	 __append("</ol>")
-	    ;  } else { 
-	 __append("</ul>")
-	    ;  } 
-	 __append("\n			</li>\n		")
-	    ; __line = 19
-	    ;  } else { 
-	 __append("<li>")
-	    ; __append( item )
-	    ; __append("</li>")
-	    ;  } 
-	 __append("\n	")
-	    ; __line = 20
-	    ;  }); 
-	 __append("\n</ol>")
-	    ; __line = 21
-	    ;  } 
-	 __append("\n")
-	    ; __line = 22
-	    ;  } 
-	 __append("\n")
-	    ; __line = 23;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n	</div>\n\n	<div>\n		<h2 class=\"font__title2\">Usage</h2>\n		<ul class=\"bullets\">\n			<li>\n				<p><em>Do:</em> use the predefined classes and helpers to apply font styles.</p>\n				<p><em>Don't:</em> apply any CSS font properties on your own.</p>\n			</li>\n			<li>\n				<p><em>Avoid:</em> appyling nested font styles. However, when it is necessary to apply a font style to a child element whose parent has a different style applied, you must apply one of the \"font reset\" methods below.</p>\n				<p><em>Why?</em> DS UI Typography uses <code>em</code>s <a href=\"https://css-tricks.com/why-ems/\" title=\"Why ems?\">to handle responsive typography</a>. <code>1em</code> is <a href=\"https://www.impressivewebs.com/understanding-em-units-css/\" title=\"Definition of one em unit.\">equal to the <strong>computed value</strong> of the <code>font-size</code> property of the element on which its used</a>. This means children elements inherit the computed font size value of its first parent which already has font size defined. If we don't reset the font size in these cases using one of the methods below, the computed <code>font-size</code> will not be correct.</p>\n			</li>\n		</ul>\n\n		<h3 class=\"font__title3 heading__separator\">How to apply a font style</h3>\n		<p>(HTML) Add a font class:</p>\n		<brik-editor>\n			<brik-code lang=\"html\">&lt;h2 class=\"font__title\"&gt;My awesome font in \"title\" style.&lt;/h2&gt;</brik-code>\n		</brik-editor>\n		<p>(SASS) Use the <code>font</code> mixin:</p>\n		<brik-editor>\n			<brik-code lang=\"scss\">.my-headline {\n	@include font(headline);\n}</brik-code>\n			<brik-code lang=\"css\" label=\"Compiled\">.my-headline {\n	/* This is the computed font-size value; will be applied in ems. */\n	font-size: 24px;\n	line-height: 1.5rem;\n}</brik-code>\n		</brik-editor>\n\n		<h3 class=\"font__title3 heading__separator\">How to apply a font style to nested elements</h3>\n		<p>When an element's parent already has a font style applied, applying a font style to the element will likely make its <code>font-size</code> incorrect. To \"reset\" the element's font size, do one of the following:</p>\n		<ol class=\"numbers\">\n			<li>\n				<p>HTML: Add the <code>.font__reset</code> or <code>.font__reset-size</code> class:</p>\n				<brik-editor>\n					<brik-code lang=\"html\">&lt;div class=\"font__subheading\"&gt;\n	&lt;p&gt;My subheading paragraph text...&lt;/p&gt;\n	&lt;div class=\"font__reset\"&gt;\n		&lt;p&gt;More paragraph text, but I am \"reset\" to normal body text...&lt;/p&gt;\n		&lt;h2 class=\"font__title\"&gt;I am title text... just the right size&lt;/h2&gt;\n	&lt;/div&gt;\n&lt;div&gt;</brik-code>\n				</brik-editor>\n			</li>\n			<li>\n				<p>SASS: Add a flag in the <code>font</code> mixin:</p>\n				<brik-editor>\n					<brik-code lang=\"scss\">.parent {\n	@include font(subheading);\n}\n\n.child {\n	@include font(body, true);\n}</brik-code>\n					<brik-code lang=\"html\">&lt;div class=\"parent\"&gt;\n	&lt;p&gt;My subheading paragraph text...&lt;/p&gt;\n	&lt;div class=\"child\"&gt;\n		&lt;p&gt;More paragraph text, but I am \"reset\" to normal body text...&lt;/p&gt;\n		&lt;h2 class=\"font__title\"&gt;I am title text... just the right size&lt;/h2&gt;\n	&lt;/div&gt;\n&lt;div&gt;</brik-code>\n				</brik-editor>\n			</li>\n		</ol>\n	</div>\n\n	<div>\n		<h2 class=\"font__title2\">HTML Classes</h2>\n		<h3 class=\"font__title3 heading__separator\">Font Style Classes</h3>\n\n		<h4 class=\"font__subheading\"><code>.font__caption</code> Caption font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Captions. Legal text. Use sparingly.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__caption\">Caption: Regular 12sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__button</code> Button font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Buttons. Tabs.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__button\">Button: MEDIUM (ALL CAPS) 14sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__body</code> Body font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> This is the font style applied to the <code>body</code> tag by default.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__body\">Body: Regular 14sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__bold</code> Bold font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Bold text. Text with emphasis. Ask UX for specific use cases.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__bold\">Bold: Medium 14sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__subheading</code> Subheading font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Subheadings, such as widget section subheadings (see Marketing Sites widget, Community widget).</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__subheading\">Subheading: Regular 16sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__title</code> Title font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> App bar (header) title. Widget title when not in a header (see Social Networking widget). Rank titles (see rank titles in Rank Information widget).</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__title\">Title: Medium 20sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__title2</code> Headline font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Widget header title.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__title2\">Headline: Regular 24sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__display1</code> Display 1 font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Use sparingly, with caution, when needing to call out large text.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__display1\">Display 1: Regular 34sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__display2</code> Display 2 font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__display2\">Display 2: Regular 45sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__display3</code> Display 3 font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__display3\">Display 3: Regular 56sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>.font__display4</code> Display 4 font style</h4>\n		<p class=\"sp__0\"><em>When to use?</em> Avoid use. Get UX approval for use cases.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__display4\">Display 4: Light 112sp&lt;/p></brik-code>\n		</brik-editor>\n\n		<h3 class=\"font__title3 heading__separator\">Text body length classes</h3>\n\n		<p class=\"font__bold\"><code>.font__short-line</code></p>\n		<p class=\"sp__0 font__short-line\"><em>When to use?</em> For short lines of text, to restrict its length to ~30 characters.</p>\n		<brik-editor editable=\"true\" live-preview=\"true\">\n			<brik-code lang=\"html\">&lt;p class=\"font__short-line\">&lt;em>When to use?&lt;/em> For short lines of text (like this line), to restrict its length to ~30 characters.&lt;/p></brik-code>\n		</brik-editor>\n\n		<h2 class=\"font__title2\">SASS Helpers</h2>\n		<p class=\"text__short\">In addition to the HTML classes above, SASS helpers are available for more control.</p>\n\n		<h3 class=\"font__title\"><code>sp($name)</code> function</h3>\n		<p class=\"text__short\">This function applies a <code>font-size</code> for a predefined font style to any element. <strong>This function should replace using font units (<code>px</code>, etc.) anywhere in your app code.</strong> For example:</p>\n		<brik-editor>\n			<brik-code lang=\"scss\">.my-custom-selector {\n			font-size: sp('subheading');\n		}</brik-code>\n			<brik-code lang=\"css\">.my-custom-selector {\n			/* Assuming a base font size of 14px, the compiled result will be: */\n			font-size: 1.14286em;\n		}</brik-code>\n		</brik-editor>\n\n		<h3 class=\"font__title\"><code>@include font($style)</code> mixin</h3>\n		<p>This mixin applies a predefined font style to a selector.</p>\n		<brik-editor>\n			<brik-code lang=\"scss\">.my-custom-selector {\n			@include font('display');\n		}</brik-code>\n			<brik-code lang=\"css\">.my-custom-selector {\n			/* Assuming a base font size of 14px, the compiled result will be: */\n			font-size: 2.42857em;\n			line-height: 1.5rem;\n			color: hsla(0, 0%, 0%, 0.54));\n		}</brik-code>\n		</brik-editor>\n	</div>\n</brik-tabs>\n")
-	    ; __line = 219;
-	  return __output.join("");
-	} catch (e) {
-	  rethrow(e, __lines, __filename, __line, escapeFn);
-	}
-
-	}
-
-	function anonymous$2(data, escapeFn, include, rethrow
-	) {
-	rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
-	  var lines = str.split('\n');
-	  var start = Math.max(lineno - 3, 0);
-	  var end = Math.min(lines.length, lineno + 3);
-	  var filename = esc(flnm); // eslint-disable-line
-	  // Error context
-	  var context = lines.slice(start, end).map(function (line, i){
-	    var curr = i + start + 1;
-	    return (curr == lineno ? ' >> ' : '    ')
-	      + curr
-	      + '| '
-	      + line;
-	  }).join('\n');
-
-	  // Alter exception message
-	  err.path = filename;
-	  err.message = (filename || 'ejs') + ':'
-	    + lineno + '\n'
-	    + context + '\n\n'
-	    + err.message;
-
-	  throw err;
-	};
-	escapeFn = escapeFn || function (markup) {
-	  return markup == undefined
-	    ? ''
-	    : String(markup)
-	        .replace(_MATCH_HTML, encode_char);
-	};
-	var _ENCODE_HTML_RULES = {
-	      "&": "&amp;"
-	    , "<": "&lt;"
-	    , ">": "&gt;"
-	    , '"': "&#34;"
-	    , "'": "&#39;"
-	    }
-	  , _MATCH_HTML = /[&<>'"]/g;
-	function encode_char(c) {
-	  return _ENCODE_HTML_RULES[c] || c;
-	}var __line = 1
-	  , __lines = "<brik-tabs class=\"page-tabs\" tabs=\"about:About, install:Install &amp; Setup, usage:Usage\">\n\t<!-- About. -->\n\t<div class=\"tabs__content\">\n\t\t<%- include ../partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\t\t<h3 class=\"font__title3\">Approved Colors</h3>\n\t\t<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are provided since we should be using client-specific colors.</em></p>\n\n\t\t<% data.colors.forEach(category => { %>\n\t\t\t<% if (category.heading) { %><h4 class=\"font__subheading heading__separator\"><%= category.heading %></h4><% } %>\n\t\t\t<% if (category.description) { %><p><%- category.description %></p><% } %>\n\t\t\t<ul class=\"pg-colors__colors-list\">\n\t\t\t\t<% category.colors.forEach(color => { %>\n\t\t\t\t\t<li class=\"pg-colors__color<% if (category.darkBg) { %> pg-colors__color--dark<% } %>\">\n\t\t\t\t\t\t<div class=\"pg-colors__color-value bg__<%= color.name %>\">\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-name\"><%= color.name %></span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hex\"><%= color.hex %></span>\n\t\t\t\t\t\t\t<span class=\"pg-colors__color-hsl\"><%= color.hsl %></span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"pg-colors__color-meta\"><%= color.usage %></div>\n\t\t\t\t\t</li>\n\t\t\t\t<% }); %>\n\t\t\t</ul>\n\t\t<% }); %>\n\t</div>\n\n\t<!-- Install & Setup. -->\n\t<div class=\"tabs__content\">\n\t\t<%- include ../partials/_install.html.ejs %>\n\t</div>\n\n\t<!-- Usage. -->\n\t<div class=\"tabs__content\">\n\t\t<h2 class=\"font__title2\">Usage</h2>\n\t\t<h3 class=\"font__title3 heading__separator\">Need to know</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><em>Never</em> use the <code>background-color</code> property.</li>\n\t\t\t<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Classes and Helpers</h3>\n\t\t<h4 class=\"font__subheading\"><code>c($name)</code></h4>\n\t\t<p><em>Type</em>: SASS function</p>\n\t\t<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"scss\">.my-selector {\n\tborder: 1px solid c(dark4);\n}</brik-code>\n\t\t\t<brik-code lang=\"css\" label=\"Compiled\">.my-selector {\n\tborder: 1px solid hsl(0, 0%, 0%, 0.12);\n}</brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>color($name, $level: 1)</code></h4>\n\t\t<p><em>Type</em>: SASS function</p>\n\t\t<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"scss\">.my-selector {\n\tbackground-color: c(dark);\n\tborder: 1px solid c(dark, 4);\n}</brik-code>\n\t\t\t<brik-code lang=\"css\" label=\"Compiled\">.my-selector {\n\tbackground-color: hsl(0, 0%, 0%, 0.87);\n\tborder: 1px solid hsl(0, 0%, 0%, 0.12);\n}</brik-code>\n\t\t</brik-editor>\n\n\t\t<h4 class=\"font__subheading\"><code>@include bg($name, $level: 1);</code></h4>\n\t\t<p><em>Type</em>: SASS mixin</p>\n\t\t<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n\t\t<p><em>Example</em>:</p>\n\t\t<brik-editor>\n\t\t\t<brik-code lang=\"scss\">.my-selector {\n\t@include bg(dark, 2);\n}</brik-code>\n\t\t\t<brik-code lang=\"css\" label=\"Compiled\">.my-selector {\n\tbackground-color: hsl(0, 0%, 0%, 0.87);\n\tcolor: hsl(0, 0%, 0%, 0.54);\n}</brik-code>\n\t\t</brik-editor>\n\t</div>\n\n\t<!-- Examples. -->\n\t<!-- <div class=\"tabs__content\" data-ng-class=\"{'tabs__content--active': pageCtrl.activePageTab === 'examples'}\"></div> -->\n"
-	  , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/core/colors.html.ejs";
-	try {
-	  var __output = [], __append = __output.push.bind(__output);
-	 __append("<brik-tabs class=\"page-tabs\" tabs=\"about:About, install:Install &amp; Setup, usage:Usage\">\n	<!-- About. -->\n	<div class=\"tabs__content\">\n		")
-	    ; __line = 4
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
-	      try {
-	 __append("<div class=\"dsui-page__intro\">\n	")
-	    ; __line = 2
-	    ;  if (data.brik.intro) { 
-	 __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n		")
-	    ; __line = 4
-	    ; __append( data.brik.intro )
-	    ; __append("\n	</div>")
-	    ; __line = 5
-	    ;  } 
-	 __append("\n\n	")
-	    ; __line = 7
-	    ;  if (data.brik.related) { 
-	 __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title2\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
-	    ; __line = 10
-	    ;  data.brik.related.forEach(link => { 
-	 __append("\n				<li><a ui-sref=\"")
-	    ; __line = 11
-	    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
-	    ; __append("\">")
-	    ; __append(escapeFn( link ))
-	    ; __append("</a></li>\n			")
-	    ; __line = 12
-	    ;  }); 
-	 __append("\n		</ul>\n	</div>")
-	    ; __line = 14
-	    ;  } 
-	 __append("\n</div>\n")
-	    ; __line = 16;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n\n		<h2 class=\"font__title2\">Guidelines</h2>\n		<h3 class=\"font__title3\">Approved Colors</h3>\n		<p>Only approved colors should be used. Any exception requires UX approval. <em>Note: Very few non-neutral colors are provided since we should be using client-specific colors.</em></p>\n\n		")
-	    ; __line = 10
-	    ;  data.colors.forEach(category => { 
-	 __append("\n			")
-	    ; __line = 11
-	    ;  if (category.heading) { 
-	 __append("<h4 class=\"font__subheading heading__separator\">")
-	    ; __append(escapeFn( category.heading ))
-	    ; __append("</h4>")
-	    ;  } 
-	 __append("\n			")
-	    ; __line = 12
-	    ;  if (category.description) { 
-	 __append("<p>")
-	    ; __append( category.description )
-	    ; __append("</p>")
-	    ;  } 
-	 __append("\n			<ul class=\"pg-colors__colors-list\">\n				")
-	    ; __line = 14
-	    ;  category.colors.forEach(color => { 
-	 __append("\n					<li class=\"pg-colors__color")
-	    ; __line = 15
-	    ;  if (category.darkBg) { 
-	 __append(" pg-colors__color--dark")
-	    ;  } 
-	 __append("\">\n						<div class=\"pg-colors__color-value bg__")
-	    ; __line = 16
-	    ; __append(escapeFn( color.name ))
-	    ; __append("\">\n							<span class=\"pg-colors__color-name\">")
-	    ; __line = 17
-	    ; __append(escapeFn( color.name ))
-	    ; __append("</span>\n							<span class=\"pg-colors__color-hex\">")
-	    ; __line = 18
-	    ; __append(escapeFn( color.hex ))
-	    ; __append("</span>\n							<span class=\"pg-colors__color-hsl\">")
-	    ; __line = 19
-	    ; __append(escapeFn( color.hsl ))
-	    ; __append("</span>\n						</div>\n						<div class=\"pg-colors__color-meta\">")
-	    ; __line = 21
-	    ; __append(escapeFn( color.usage ))
-	    ; __append("</div>\n					</li>\n				")
-	    ; __line = 23
-	    ;  }); 
-	 __append("\n			</ul>\n		")
-	    ; __line = 25
-	    ;  }); 
-	 __append("\n	</div>\n\n	<!-- Install & Setup. -->\n	<div class=\"tabs__content\">\n		")
-	    ; __line = 30
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<h3 class=\"font__title3\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<brik-code lang=\"bash\">npm install <%= data.brik.npmPath %> --save-dev</brik-code>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title3\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
-	      try {
-	 __append("<h3 class=\"font__title3\">Install</h3>\n\n")
-	    ; __line = 3
-	    ;  if (data.brik.isCore) { 
-	 __append("<p>It is encouraged to install ")
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install ")
-	    ; __line = 6
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" on its own:</p>")
-	    ;  } 
-	 __append("\n<brik-code lang=\"bash\">npm install ")
-	    ; __line = 7
-	    ; __append(escapeFn( data.brik.npmPath ))
-	    ; __append(" --save-dev</brik-code>\n\n")
-	    ; __line = 9
-	    ;  if (typeof data.brik.setup === 'object') { 
-	 __append("<h3 class=\"font__title3\">Setup</h3>\n")
-	    ; __line = 10
-	    ;  if (data.brik.setup.summary) { 
-	 __append( data.brik.setup.summary )
-	    ;  } 
-	 __append("\n")
-	    ; __line = 11
-	    ;  if (data.brik.setup.list) { 
-	 __append("<ol class=\"numbers\">\n	")
-	    ; __line = 12
-	    ;  data.brik.setup.list.forEach(item => { 
-	 __append("\n		")
-	    ; __line = 13
-	    ;  if (typeof item === 'object') { 
-	 __append("\n			<li>")
-	    ; __line = 14
-	    ; __append( item.intro )
-	    ; __append("\n				")
-	    ; __line = 15
-	    ;  if (item.class === 'numbers') { 
-	 __append("<ol class=\"numbers\">")
-	    ;  } else { 
-	 __append("<ul class=\"bullets\">")
-	    ;  } 
-	 __append("\n					")
-	    ; __line = 16
-	    ;  item.list.forEach(subitem => { 
-	 __append("<li>")
-	    ; __append( subitem )
-	    ; __append("</li>")
-	    ;  }); 
-	 __append("\n				")
-	    ; __line = 17
-	    ;  if (item.class === 'numbers') { 
-	 __append("</ol>")
-	    ;  } else { 
-	 __append("</ul>")
-	    ;  } 
-	 __append("\n			</li>\n		")
-	    ; __line = 19
-	    ;  } else { 
-	 __append("<li>")
-	    ; __append( item )
-	    ; __append("</li>")
-	    ;  } 
-	 __append("\n	")
-	    ; __line = 20
-	    ;  }); 
-	 __append("\n</ol>")
-	    ; __line = 21
-	    ;  } 
-	 __append("\n")
-	    ; __line = 22
-	    ;  } 
-	 __append("\n")
-	    ; __line = 23;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n	</div>\n\n	<!-- Usage. -->\n	<div class=\"tabs__content\">\n		<h2 class=\"font__title2\">Usage</h2>\n		<h3 class=\"font__title3 heading__separator\">Need to know</h3>\n		<ul class=\"bullets\">\n			<li><em>Never</em> use the <code>background-color</code> property.</li>\n			<li><em>Always</em> use the <code>@include bg($name)</code> mixin.</li>\n		</ul>\n\n		<h3 class=\"font__title3 heading__separator\">Classes and Helpers</h3>\n		<h4 class=\"font__subheading\"><code>c($name)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>: Get the color value for <code>$name</code>.</p>\n		<p><em>Example</em>:</p>\n		<brik-editor>\n			<brik-code lang=\"scss\">.my-selector {\n	border: 1px solid c(dark4);\n}</brik-code>\n			<brik-code lang=\"css\" label=\"Compiled\">.my-selector {\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>color($name, $level: 1)</code></h4>\n		<p><em>Type</em>: SASS function</p>\n		<p><em>Purpose</em>:<br>Apply a light or dark color to the <code>color</code> property based on the background color value of <code>$name</code>. In other words, calling <code>color(hsl(0, 0%, 0%), 2)</code> will return the color value for <code>light2</code>.</p>\n		<p><em>Example</em>:</p>\n		<brik-editor>\n			<brik-code lang=\"scss\">.my-selector {\n	background-color: c(dark);\n	border: 1px solid c(dark, 4);\n}</brik-code>\n			<brik-code lang=\"css\" label=\"Compiled\">.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	border: 1px solid hsl(0, 0%, 0%, 0.12);\n}</brik-code>\n		</brik-editor>\n\n		<h4 class=\"font__subheading\"><code>@include bg($name, $level: 1);</code></h4>\n		<p><em>Type</em>: SASS mixin</p>\n		<p><em>Purpose</em>: Apply <code>background-color</code> and <code>color</code> values to a selector.</p>\n		<p><em>Example</em>:</p>\n		<brik-editor>\n			<brik-code lang=\"scss\">.my-selector {\n	@include bg(dark, 2);\n}</brik-code>\n			<brik-code lang=\"css\" label=\"Compiled\">.my-selector {\n	background-color: hsl(0, 0%, 0%, 0.87);\n	color: hsl(0, 0%, 0%, 0.54);\n}</brik-code>\n		</brik-editor>\n	</div>\n\n	<!-- Examples. -->\n	<!-- <div class=\"tabs__content\" data-ng-class=\"{'tabs__content--active': pageCtrl.activePageTab === 'examples'}\"></div> -->\n")
-	    ; __line = 88;
-	  return __output.join("");
-	} catch (e) {
-	  rethrow(e, __lines, __filename, __line, escapeFn);
-	}
-
-	}
-
-	function anonymous$3(data, escapeFn, include, rethrow
-	) {
-	rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
-	  var lines = str.split('\n');
-	  var start = Math.max(lineno - 3, 0);
-	  var end = Math.min(lines.length, lineno + 3);
-	  var filename = esc(flnm); // eslint-disable-line
-	  // Error context
-	  var context = lines.slice(start, end).map(function (line, i){
-	    var curr = i + start + 1;
-	    return (curr == lineno ? ' >> ' : '    ')
-	      + curr
-	      + '| '
-	      + line;
-	  }).join('\n');
-
-	  // Alter exception message
-	  err.path = filename;
-	  err.message = (filename || 'ejs') + ':'
-	    + lineno + '\n'
-	    + context + '\n\n'
-	    + err.message;
-
-	  throw err;
-	};
-	escapeFn = escapeFn || function (markup) {
-	  return markup == undefined
-	    ? ''
-	    : String(markup)
-	        .replace(_MATCH_HTML, encode_char);
-	};
-	var _ENCODE_HTML_RULES = {
-	      "&": "&amp;"
-	    , "<": "&lt;"
-	    , ">": "&gt;"
-	    , '"': "&#34;"
-	    , "'": "&#39;"
-	    }
-	  , _MATCH_HTML = /[&<>'"]/g;
-	function encode_char(c) {
-	  return _ENCODE_HTML_RULES[c] || c;
-	}var __line = 1
-	  , __lines = "<brik-tabs class=\"page-tabs\" tabs=\"about:about, install:Install &amp; Setup, usage:Usage, examples:Examples\">\n\t<div>\n\t\t<%- include ../partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Definitions</h3>\n\t\t<dl>\n\t\t\t<dt>Dimensional properties</dt>\n\t\t\t<dd>Any CSS property which affects an element's dimensions and/or spacing, including but not limited to: <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>.</dd>\n\t\t\t<dt>1rem</dt>\n\t\t\t<dd>Height/width of one (1) square in the rhythm grid.</dd>\n\t\t</dl>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Use <code>rems</code> for all dimensional properties</h3>\n\t\t<p>DS UI uses <a href=\"https://www.sitepoint.com/understanding-and-using-rem-units-in-css/\" title=\"Understanding rem units in CSS\">CSS <code>rem</code> units</a> to apply rhythm and spacing. <em>Follow the \"rules of Rhythm\" below when applying <code>rems</code>.</em></p>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Strictly follow the \"Rules of Rhythm\"</h3>\n\t\t<p>In DS UI, <code>1rem</code> unit is equivalent to <code>8px</code>, which follows <a href=\"https://material.io/guidelines/layout/metrics-keylines.html\" title=\"Material Design spacing grid\">MD specifications for grid layout and spacing</a>. In order to keep the grid \"in rhythm\", strictly follow the \"Rules of Rhythm\" in the Usage section.</p>\n\t</div>\n\n\t<div>\n\t\t<%- include ../partials/_install.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">Usage</h2>\n\t\t<p>You can apply rhythm in two ways:</p>\n\t\t<ol class=\"numbers\">\n\t\t\t<li>manually, with CSS <code>rems</code> and the <em>Rules of Rhythm</em>.</li>\n\t\t\t<li>using provided Rhythm classes.</li>\n\t\t</ol>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Rules of Rhythm</h3>\n\t\t<p>To ensure the layout and spacing grid always stays \"in rhythm\", follow these rules:</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li>\n\t\t\t\t<p>Always use <code>rem</code> units for all <em>dimensional properties</em>:</p>\n\t\t\t\t<ul class=\"bullets\">\n\t\t\t\t\t<li>Use a <strong>1rem grid</strong> (8 pixels) for components.</li>\n\t\t\t\t\t<li>A <strong>0.5rem grid</strong> (4 pixels) may be used for typography and iconography.</li>\n\t\t\t\t</ul></li>\n\t\t\t<li>\n\t\t\t\t<p>Avoid applying <code>rems</code> in fractions.</p>\n\t\t\t\t<p>Applying fractional <code>rem</code> values (except as described above) will break the rhythm grid. However, there may be rare cases where it's necessary to break the rhythm. For example, perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. These cases will break the grid.</p>\n\t\t\t\t<p>In such cases, follow this rule to place the grid back \"in rhythm\":</p>\n\t\t\t\t<blockquote>\n\t\t\t\t\t<p><em>The sum of vertical and horizontal dimensional property values for a given element, converted to <code>rems</code>, must each be an integer.</em></p>\n\t\t\t\t</blockquote>\n\t\t\t</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title3 heading__separator\">How to use Rhythm / Spacing classes</h3>\n\t\t<p>DS UI Rhythm provides a series of utility classes to allow you to easily apply <code>padding</code> and <code>margin</code> to any element.</p>\n\t\t<h4 class=\"font__subheading\">Format of Rhythm utility classes</h4>\n\t\t<p>Each Rhythm class name is created following a template like this:</p>\n\t\t<blockquote>\n\t\t\t<pre><code>.{p|m}{l|r|t|b|x|y}-{value}</code></pre>\n\t\t</blockquote>\n\t\t<p>where:</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><code>value</code> is the rem value being applied</li>\n\t\t\t<li><code>p</code> applies <code>value</code> to padding</li>\n\t\t\t<li><code>m</code> applies <code>value</code> to margin</li>\n\t\t\t<li><code>l</code> applies <code>value</code> to left side</li>\n\t\t\t<li><code>r</code> applies <code>value</code> to right side</li>\n\t\t\t<li><code>t</code> applies <code>value</code> to top side</li>\n\t\t\t<li><code>b</code> applies <code>value</code> to bottom side</li>\n\t\t\t<li><code>x</code> applies <code>value</code> to left and right sides</li>\n\t\t\t<li><code>y</code> applies <code>value</code> to top and bottom sides</li>\n\t\t</ul>\n\t\t<h4 class=\"font__subheading\">List of Rhythm values</h4>\n\t\t<p>By default, Rhythm classes exist for the following values:</p>\n\t\t<blockquote>\n\t\t\t<code>0</code>, <code>0.5rem</code>, <code>1rem</code>, <code>1.5rem</code>, <code>2rem</code>, <code>3rem</code>, <code>4rem</code>\n\t\t</blockquote>\n\t\t<p><em>Note: Additional Rhythm classes can be created by modifying the <code>$rhythm__spacing-values</code> SASS variable, which is a SASS list of rem values.</em></p>\n\t\t<h4 class=\"font__subheading\">Examples of Rhythm utility classes</h4>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><code>.pl-1</code> applies 1rem of padding-left</li>\n\t\t\t<li><code>.mr-2</code> applies 2rem of margin-right</li>\n\t\t\t<li><code>.pb-1-5</code> applies 1.5rem of padding-bottom</li>\n\t\t\t<li><code>.mt-4</code> applies 4rem of margin-top</li>\n\t\t\t<li><code>.px-0-5</code> applies 0.5rem of padding-left and padding-right</li>\n\t\t\t<li><code>.my-1</code> applies 1rem of margin-top and margin-bottom</li>\n\t\t\t<li><code>.p-4</code> applies 4rem of padding</li>\n\t\t\t<li><code>.m-3</code> applies 3rem of margin</li>\n\t\t</ul>\n\t\t<p>See Examples for more.</p>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">Examples</h2>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div class=&quot;px-1&quot;&gt;Padding left and right&lt;/div&gt;</brik-code>\n\t\t</brik-editor>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div class=&quot;m-4&quot;&gt;Margin on all sides&lt;/div&gt;</brik-code>\n\t\t</brik-editor>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div class=&quot;m-4 mb-0 pl-2 pt-1&quot;&gt;Margin on all sides except bottom with a left and top padding&lt;/div&gt;</brik-code>\n\t\t</brik-editor>\n\t</div>\n</brik-tabs>\n"
-	  , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/core/rhythm.html.ejs";
-	try {
-	  var __output = [], __append = __output.push.bind(__output);
-	 __append("<brik-tabs class=\"page-tabs\" tabs=\"about:about, install:Install &amp; Setup, usage:Usage, examples:Examples\">\n	<div>\n		")
-	    ; __line = 3
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
-	      try {
-	 __append("<div class=\"dsui-page__intro\">\n	")
-	    ; __line = 2
-	    ;  if (data.brik.intro) { 
-	 __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n		")
-	    ; __line = 4
-	    ; __append( data.brik.intro )
-	    ; __append("\n	</div>")
-	    ; __line = 5
-	    ;  } 
-	 __append("\n\n	")
-	    ; __line = 7
-	    ;  if (data.brik.related) { 
-	 __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title2\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
-	    ; __line = 10
-	    ;  data.brik.related.forEach(link => { 
-	 __append("\n				<li><a ui-sref=\"")
-	    ; __line = 11
-	    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
-	    ; __append("\">")
-	    ; __append(escapeFn( link ))
-	    ; __append("</a></li>\n			")
-	    ; __line = 12
-	    ;  }); 
-	 __append("\n		</ul>\n	</div>")
-	    ; __line = 14
-	    ;  } 
-	 __append("\n</div>\n")
-	    ; __line = 16;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n\n		<h2 class=\"font__title2\">Guidelines</h2>\n\n		<h3 class=\"font__title3 heading__separator\">Definitions</h3>\n		<dl>\n			<dt>Dimensional properties</dt>\n			<dd>Any CSS property which affects an element's dimensions and/or spacing, including but not limited to: <code>height</code>, <code>width</code>, <code>margin</code>, <code>padding</code>, <code>line-height</code>, <code>border</code>.</dd>\n			<dt>1rem</dt>\n			<dd>Height/width of one (1) square in the rhythm grid.</dd>\n		</dl>\n\n		<h3 class=\"font__title3 heading__separator\">Use <code>rems</code> for all dimensional properties</h3>\n		<p>DS UI uses <a href=\"https://www.sitepoint.com/understanding-and-using-rem-units-in-css/\" title=\"Understanding rem units in CSS\">CSS <code>rem</code> units</a> to apply rhythm and spacing. <em>Follow the \"rules of Rhythm\" below when applying <code>rems</code>.</em></p>\n\n		<h3 class=\"font__title3 heading__separator\">Strictly follow the \"Rules of Rhythm\"</h3>\n		<p>In DS UI, <code>1rem</code> unit is equivalent to <code>8px</code>, which follows <a href=\"https://material.io/guidelines/layout/metrics-keylines.html\" title=\"Material Design spacing grid\">MD specifications for grid layout and spacing</a>. In order to keep the grid \"in rhythm\", strictly follow the \"Rules of Rhythm\" in the Usage section.</p>\n	</div>\n\n	<div>\n		")
-	    ; __line = 23
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<h3 class=\"font__title3\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<brik-code lang=\"bash\">npm install <%= data.brik.npmPath %> --save-dev</brik-code>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title3\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
-	      try {
-	 __append("<h3 class=\"font__title3\">Install</h3>\n\n")
-	    ; __line = 3
-	    ;  if (data.brik.isCore) { 
-	 __append("<p>It is encouraged to install ")
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install ")
-	    ; __line = 6
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" on its own:</p>")
-	    ;  } 
-	 __append("\n<brik-code lang=\"bash\">npm install ")
-	    ; __line = 7
-	    ; __append(escapeFn( data.brik.npmPath ))
-	    ; __append(" --save-dev</brik-code>\n\n")
-	    ; __line = 9
-	    ;  if (typeof data.brik.setup === 'object') { 
-	 __append("<h3 class=\"font__title3\">Setup</h3>\n")
-	    ; __line = 10
-	    ;  if (data.brik.setup.summary) { 
-	 __append( data.brik.setup.summary )
-	    ;  } 
-	 __append("\n")
-	    ; __line = 11
-	    ;  if (data.brik.setup.list) { 
-	 __append("<ol class=\"numbers\">\n	")
-	    ; __line = 12
-	    ;  data.brik.setup.list.forEach(item => { 
-	 __append("\n		")
-	    ; __line = 13
-	    ;  if (typeof item === 'object') { 
-	 __append("\n			<li>")
-	    ; __line = 14
-	    ; __append( item.intro )
-	    ; __append("\n				")
-	    ; __line = 15
-	    ;  if (item.class === 'numbers') { 
-	 __append("<ol class=\"numbers\">")
-	    ;  } else { 
-	 __append("<ul class=\"bullets\">")
-	    ;  } 
-	 __append("\n					")
-	    ; __line = 16
-	    ;  item.list.forEach(subitem => { 
-	 __append("<li>")
-	    ; __append( subitem )
-	    ; __append("</li>")
-	    ;  }); 
-	 __append("\n				")
-	    ; __line = 17
-	    ;  if (item.class === 'numbers') { 
-	 __append("</ol>")
-	    ;  } else { 
-	 __append("</ul>")
-	    ;  } 
-	 __append("\n			</li>\n		")
-	    ; __line = 19
-	    ;  } else { 
-	 __append("<li>")
-	    ; __append( item )
-	    ; __append("</li>")
-	    ;  } 
-	 __append("\n	")
-	    ; __line = 20
-	    ;  }); 
-	 __append("\n</ol>")
-	    ; __line = 21
-	    ;  } 
-	 __append("\n")
-	    ; __line = 22
-	    ;  } 
-	 __append("\n")
-	    ; __line = 23;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n	</div>\n\n	<div>\n		<h2 class=\"font__title2\">Usage</h2>\n		<p>You can apply rhythm in two ways:</p>\n		<ol class=\"numbers\">\n			<li>manually, with CSS <code>rems</code> and the <em>Rules of Rhythm</em>.</li>\n			<li>using provided Rhythm classes.</li>\n		</ol>\n\n		<h3 class=\"font__title3 heading__separator\">Rules of Rhythm</h3>\n		<p>To ensure the layout and spacing grid always stays \"in rhythm\", follow these rules:</p>\n		<ul class=\"bullets\">\n			<li>\n				<p>Always use <code>rem</code> units for all <em>dimensional properties</em>:</p>\n				<ul class=\"bullets\">\n					<li>Use a <strong>1rem grid</strong> (8 pixels) for components.</li>\n					<li>A <strong>0.5rem grid</strong> (4 pixels) may be used for typography and iconography.</li>\n				</ul></li>\n			<li>\n				<p>Avoid applying <code>rems</code> in fractions.</p>\n				<p>Applying fractional <code>rem</code> values (except as described above) will break the rhythm grid. However, there may be rare cases where it's necessary to break the rhythm. For example, perhaps an element needs a <code>1px</code> border, or an image needs a specific height in <code>pixels</code>. These cases will break the grid.</p>\n				<p>In such cases, follow this rule to place the grid back \"in rhythm\":</p>\n				<blockquote>\n					<p><em>The sum of vertical and horizontal dimensional property values for a given element, converted to <code>rems</code>, must each be an integer.</em></p>\n				</blockquote>\n			</li>\n		</ul>\n\n		<h3 class=\"font__title3 heading__separator\">How to use Rhythm / Spacing classes</h3>\n		<p>DS UI Rhythm provides a series of utility classes to allow you to easily apply <code>padding</code> and <code>margin</code> to any element.</p>\n		<h4 class=\"font__subheading\">Format of Rhythm utility classes</h4>\n		<p>Each Rhythm class name is created following a template like this:</p>\n		<blockquote>\n			<pre><code>.{p|m}{l|r|t|b|x|y}-{value}</code></pre>\n		</blockquote>\n		<p>where:</p>\n		<ul class=\"bullets\">\n			<li><code>value</code> is the rem value being applied</li>\n			<li><code>p</code> applies <code>value</code> to padding</li>\n			<li><code>m</code> applies <code>value</code> to margin</li>\n			<li><code>l</code> applies <code>value</code> to left side</li>\n			<li><code>r</code> applies <code>value</code> to right side</li>\n			<li><code>t</code> applies <code>value</code> to top side</li>\n			<li><code>b</code> applies <code>value</code> to bottom side</li>\n			<li><code>x</code> applies <code>value</code> to left and right sides</li>\n			<li><code>y</code> applies <code>value</code> to top and bottom sides</li>\n		</ul>\n		<h4 class=\"font__subheading\">List of Rhythm values</h4>\n		<p>By default, Rhythm classes exist for the following values:</p>\n		<blockquote>\n			<code>0</code>, <code>0.5rem</code>, <code>1rem</code>, <code>1.5rem</code>, <code>2rem</code>, <code>3rem</code>, <code>4rem</code>\n		</blockquote>\n		<p><em>Note: Additional Rhythm classes can be created by modifying the <code>$rhythm__spacing-values</code> SASS variable, which is a SASS list of rem values.</em></p>\n		<h4 class=\"font__subheading\">Examples of Rhythm utility classes</h4>\n		<ul class=\"bullets\">\n			<li><code>.pl-1</code> applies 1rem of padding-left</li>\n			<li><code>.mr-2</code> applies 2rem of margin-right</li>\n			<li><code>.pb-1-5</code> applies 1.5rem of padding-bottom</li>\n			<li><code>.mt-4</code> applies 4rem of margin-top</li>\n			<li><code>.px-0-5</code> applies 0.5rem of padding-left and padding-right</li>\n			<li><code>.my-1</code> applies 1rem of margin-top and margin-bottom</li>\n			<li><code>.p-4</code> applies 4rem of padding</li>\n			<li><code>.m-3</code> applies 3rem of margin</li>\n		</ul>\n		<p>See Examples for more.</p>\n	</div>\n\n	<div>\n		<h2 class=\"font__title2\">Examples</h2>\n		<brik-editor live-preview=\"true\" editable=\"true\">\n			<brik-code lang=\"html\">&lt;div class=&quot;px-1&quot;&gt;Padding left and right&lt;/div&gt;</brik-code>\n		</brik-editor>\n		<brik-editor live-preview=\"true\" editable=\"true\">\n			<brik-code lang=\"html\">&lt;div class=&quot;m-4&quot;&gt;Margin on all sides&lt;/div&gt;</brik-code>\n		</brik-editor>\n		<brik-editor live-preview=\"true\" editable=\"true\">\n			<brik-code lang=\"html\">&lt;div class=&quot;m-4 mb-0 pl-2 pt-1&quot;&gt;Margin on all sides except bottom with a left and top padding&lt;/div&gt;</brik-code>\n		</brik-editor>\n	</div>\n</brik-tabs>\n")
-	    ; __line = 105;
-	  return __output.join("");
-	} catch (e) {
-	  rethrow(e, __lines, __filename, __line, escapeFn);
-	}
-
-	}
-
-	function anonymous$4(data, escapeFn, include, rethrow
-	) {
-	rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
-	  var lines = str.split('\n');
-	  var start = Math.max(lineno - 3, 0);
-	  var end = Math.min(lines.length, lineno + 3);
-	  var filename = esc(flnm); // eslint-disable-line
-	  // Error context
-	  var context = lines.slice(start, end).map(function (line, i){
-	    var curr = i + start + 1;
-	    return (curr == lineno ? ' >> ' : '    ')
-	      + curr
-	      + '| '
-	      + line;
-	  }).join('\n');
-
-	  // Alter exception message
-	  err.path = filename;
-	  err.message = (filename || 'ejs') + ':'
-	    + lineno + '\n'
-	    + context + '\n\n'
-	    + err.message;
-
-	  throw err;
-	};
-	escapeFn = escapeFn || function (markup) {
-	  return markup == undefined
-	    ? ''
-	    : String(markup)
-	        .replace(_MATCH_HTML, encode_char);
-	};
-	var _ENCODE_HTML_RULES = {
-	      "&": "&amp;"
-	    , "<": "&lt;"
-	    , ">": "&gt;"
-	    , '"': "&#34;"
-	    , "'": "&#39;"
-	    }
-	  , _MATCH_HTML = /[&<>'"]/g;
-	function encode_char(c) {
-	  return _ENCODE_HTML_RULES[c] || c;
-	}var __line = 1
-	  , __lines = "<brik-tabs class=\"page-tabs\" tabs=\"about:About, install:Install &amp; Setup, usage:Usage, examples:Examples\">\n\t<div>\n\t\t<%- include ../partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\n\t\t<p class=\"font__subheading\">We are working on this page.</p>\n\t</div>\n\n\t<div>\n\t\t<%- include ../partials/_install.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">JS Usage</h2>\n\n\t\t<h3 class=\"font__title heading__separator\">Supported JS environments</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li>AngularJS (prebundled)</li>\n\t\t\t<li>AngularJS (ES Modules)</li>\n\t\t\t<li>ES Module</li>\n\t\t\t<li>Vanilla JS</li>\n\t\t\t<li>CommonJS</li>\n\t\t\t<li>Universal Module (UMD)</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title heading__separator\">Spinner API</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><strong><code>all</code></strong>: Access all spinner instances, grouped by ID.</li>\n\t\t\t<li><strong><code>Spinner.create(element, options)</code></strong>: Create a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.toggle(id)</code></strong>: Toggle a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.load(id)</code></strong>: Load / activate a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.unload(id)</code></strong>: Unload / deactivate a spinner instance.</li>\n\t\t\t<li><strong><code>Spinner.destroy(id)</code></strong>: Destroy a spinner instance.</li>\n\t\t</ul>\n\t\t<p><em>Note: Each method returns the spinner instance, except the <code>destroy</code> method, which returns a Boolean.</em></p>\n\n\t\t<h3 class=\"font__title heading__separator\">Spinner instance</h3>\n\t\t<p>Most of the same methods can be called on a spinner instance without knowing its ID.</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><strong><code>instance.toggle()</code></strong>: Toggle a spinner instance.</li>\n\t\t\t<li><strong><code>instance.load()</code></strong>: Load / activate a spinner instance.</li>\n\t\t\t<li><strong><code>instance.unload()</code></strong>: Unload / deactivate a spinner instance.</li>\n\t\t\t<li><strong><code>instance.destroy()</code></strong>: Destroy a spinner instance.</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title heading__separator\">AngularJS</h3>\n\t\t<p>The AngularJS <code>SpinnerService</code> is a thin AngularJS wrapper around the vanilla core Spinner service, with the following directives added for convenience in interacting with Spinner:</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><strong><code>&lt;spinner options=\"{...}\"&gt;</code></strong>: Create a spinner element in the DOM.</li>\n\t\t\t<li><strong><code>[spinner-toggle=\"{{id}}\"]</code></strong>: Toggle the spinner that matches <code>id</code>.</li>\n\t\t</ul>\n\n\t\t<h2 class=\"font__title2\">CSS Usage</h2>\n\n\t\t<h3 class=\"font__title heading__separator\">Supported CSS Environments</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li>SASS</li>\n\t\t\t<li>Vanilla CSS</li>\n\t\t\t<li>PostCSS</li>\n\t\t</ul>\n\n\t\t<h3 class=\"font__title heading__separator\">Classes and selectors</h3>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><code>.spinner</code>: Spinner base class. <em>Nothing will be displayed in the UI until the active modifier class is added.</em></li>\n\t\t\t<li><code>.spinner--is-spinning</code>: Active / spinning spinner.</li>\n\t\t\t<li><code>.spinner--inline</code>: Inline spinner, for display with surrounding inline elements such as text or buttons.</li>\n\t\t\t<li><code>.spinner--clean</code>: Cleans / removes background and padding for a clean spinner UI.</li>\n\t\t\t<li><code>.spinner--absolute</code>: Absolutely positioned spinner.</li>\n\t\t\t<li><code>.spinner--slide</code> Spinner which slides from the top of an element.</li>\n\t\t</ul>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">Examples</h2>\n\t\t<h3 class=\"font__title heading__separator\">Active Spinner</h3>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;spinner options=\"{mods: ['active']}\">&lt;/spinner></brik-code lang=\"html\">\n\t\t</brik-editor>\n\n\t\t<h3 class=\"font__title heading__separator\">Toggling a Spinner</h3>\n\t\t<p>Use the <code>ng-class</code> directive to activate and deactivate a spinner.</p>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;div data-ng-init=\"toggleableActive = true;\">\n\t&lt;spinner options=\"{mods: ['active']}\" data-ng-class=\"{'spinner--is-spinning': toggleableActive}\">&lt;/spinner>\n\t&lt;button class=\"font__button\" type=\"button\" data-ng-click=\"toggleableActive = !toggleableActive\">Toggle&lt;/button>\n&lt;/div></brik-code lang=\"html\">\n\t\t</brik-editor>\n\n\t\t<h3 class=\"font__title3 heading__separator\">Inline Spinner</h3>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;button class=\"font__button my-inline-spinner\" type=\"button\" data-ng-click=\"inlineActive = !inlineActive\" data-ng-init=\"inlineActive = true\">\n\tInline Spinner\n\t&lt;spinner options=\"{mods: ['active', 'inline']}\" style=\"margin-left: 1rem;\" data-ng-class=\"{'spinner--is-spinning':  inlineActive}\">&lt;/spinner>\n&lt;/button>\n&lt;p>(Click to toggle spinner)&lt;/p></brik-code lang=\"html\">\n\t\t\t<brik-code lang=\"css\">.my-inline-spinner {\n\tbackground-color: hsla(0, 0%, 0%, 0.1);\n\tdisplay: inline-flex;\n\talign-items: center;\n\tpadding: 1rem 2rem;\n}\n\n.my-inline-spinner .spinner {\n\tmargin-left: 1rem;\n}</brik-code lang=\"html\">\n\t\t</brik-editor>\n\t</div>\n</brik-tabs>\n"
-	  , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/components/spinner.html.ejs";
-	try {
-	  var __output = [], __append = __output.push.bind(__output);
-	 __append("<brik-tabs class=\"page-tabs\" tabs=\"about:About, install:Install &amp; Setup, usage:Usage, examples:Examples\">\n	<div>\n		")
-	    ; __line = 3
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
-	      try {
-	 __append("<div class=\"dsui-page__intro\">\n	")
-	    ; __line = 2
-	    ;  if (data.brik.intro) { 
-	 __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n		")
-	    ; __line = 4
-	    ; __append( data.brik.intro )
-	    ; __append("\n	</div>")
-	    ; __line = 5
-	    ;  } 
-	 __append("\n\n	")
-	    ; __line = 7
-	    ;  if (data.brik.related) { 
-	 __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title2\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
-	    ; __line = 10
-	    ;  data.brik.related.forEach(link => { 
-	 __append("\n				<li><a ui-sref=\"")
-	    ; __line = 11
-	    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
-	    ; __append("\">")
-	    ; __append(escapeFn( link ))
-	    ; __append("</a></li>\n			")
-	    ; __line = 12
-	    ;  }); 
-	 __append("\n		</ul>\n	</div>")
-	    ; __line = 14
-	    ;  } 
-	 __append("\n</div>\n")
-	    ; __line = 16;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n\n		<h2 class=\"font__title2\">Guidelines</h2>\n\n		<p class=\"font__subheading\">We are working on this page.</p>\n	</div>\n\n	<div>\n		")
-	    ; __line = 11
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<h3 class=\"font__title3\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<brik-code lang=\"bash\">npm install <%= data.brik.npmPath %> --save-dev</brik-code>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title3\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
-	      try {
-	 __append("<h3 class=\"font__title3\">Install</h3>\n\n")
-	    ; __line = 3
-	    ;  if (data.brik.isCore) { 
-	 __append("<p>It is encouraged to install ")
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install ")
-	    ; __line = 6
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" on its own:</p>")
-	    ;  } 
-	 __append("\n<brik-code lang=\"bash\">npm install ")
-	    ; __line = 7
-	    ; __append(escapeFn( data.brik.npmPath ))
-	    ; __append(" --save-dev</brik-code>\n\n")
-	    ; __line = 9
-	    ;  if (typeof data.brik.setup === 'object') { 
-	 __append("<h3 class=\"font__title3\">Setup</h3>\n")
-	    ; __line = 10
-	    ;  if (data.brik.setup.summary) { 
-	 __append( data.brik.setup.summary )
-	    ;  } 
-	 __append("\n")
-	    ; __line = 11
-	    ;  if (data.brik.setup.list) { 
-	 __append("<ol class=\"numbers\">\n	")
-	    ; __line = 12
-	    ;  data.brik.setup.list.forEach(item => { 
-	 __append("\n		")
-	    ; __line = 13
-	    ;  if (typeof item === 'object') { 
-	 __append("\n			<li>")
-	    ; __line = 14
-	    ; __append( item.intro )
-	    ; __append("\n				")
-	    ; __line = 15
-	    ;  if (item.class === 'numbers') { 
-	 __append("<ol class=\"numbers\">")
-	    ;  } else { 
-	 __append("<ul class=\"bullets\">")
-	    ;  } 
-	 __append("\n					")
-	    ; __line = 16
-	    ;  item.list.forEach(subitem => { 
-	 __append("<li>")
-	    ; __append( subitem )
-	    ; __append("</li>")
-	    ;  }); 
-	 __append("\n				")
-	    ; __line = 17
-	    ;  if (item.class === 'numbers') { 
-	 __append("</ol>")
-	    ;  } else { 
-	 __append("</ul>")
-	    ;  } 
-	 __append("\n			</li>\n		")
-	    ; __line = 19
-	    ;  } else { 
-	 __append("<li>")
-	    ; __append( item )
-	    ; __append("</li>")
-	    ;  } 
-	 __append("\n	")
-	    ; __line = 20
-	    ;  }); 
-	 __append("\n</ol>")
-	    ; __line = 21
-	    ;  } 
-	 __append("\n")
-	    ; __line = 22
-	    ;  } 
-	 __append("\n")
-	    ; __line = 23;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n	</div>\n\n	<div>\n		<h2 class=\"font__title2\">JS Usage</h2>\n\n		<h3 class=\"font__title heading__separator\">Supported JS environments</h3>\n		<ul class=\"bullets\">\n			<li>AngularJS (prebundled)</li>\n			<li>AngularJS (ES Modules)</li>\n			<li>ES Module</li>\n			<li>Vanilla JS</li>\n			<li>CommonJS</li>\n			<li>Universal Module (UMD)</li>\n		</ul>\n\n		<h3 class=\"font__title heading__separator\">Spinner API</h3>\n		<ul class=\"bullets\">\n			<li><strong><code>all</code></strong>: Access all spinner instances, grouped by ID.</li>\n			<li><strong><code>Spinner.create(element, options)</code></strong>: Create a spinner instance.</li>\n			<li><strong><code>Spinner.toggle(id)</code></strong>: Toggle a spinner instance.</li>\n			<li><strong><code>Spinner.load(id)</code></strong>: Load / activate a spinner instance.</li>\n			<li><strong><code>Spinner.unload(id)</code></strong>: Unload / deactivate a spinner instance.</li>\n			<li><strong><code>Spinner.destroy(id)</code></strong>: Destroy a spinner instance.</li>\n		</ul>\n		<p><em>Note: Each method returns the spinner instance, except the <code>destroy</code> method, which returns a Boolean.</em></p>\n\n		<h3 class=\"font__title heading__separator\">Spinner instance</h3>\n		<p>Most of the same methods can be called on a spinner instance without knowing its ID.</p>\n		<ul class=\"bullets\">\n			<li><strong><code>instance.toggle()</code></strong>: Toggle a spinner instance.</li>\n			<li><strong><code>instance.load()</code></strong>: Load / activate a spinner instance.</li>\n			<li><strong><code>instance.unload()</code></strong>: Unload / deactivate a spinner instance.</li>\n			<li><strong><code>instance.destroy()</code></strong>: Destroy a spinner instance.</li>\n		</ul>\n\n		<h3 class=\"font__title heading__separator\">AngularJS</h3>\n		<p>The AngularJS <code>SpinnerService</code> is a thin AngularJS wrapper around the vanilla core Spinner service, with the following directives added for convenience in interacting with Spinner:</p>\n		<ul class=\"bullets\">\n			<li><strong><code>&lt;spinner options=\"{...}\"&gt;</code></strong>: Create a spinner element in the DOM.</li>\n			<li><strong><code>[spinner-toggle=\"{{id}}\"]</code></strong>: Toggle the spinner that matches <code>id</code>.</li>\n		</ul>\n\n		<h2 class=\"font__title2\">CSS Usage</h2>\n\n		<h3 class=\"font__title heading__separator\">Supported CSS Environments</h3>\n		<ul class=\"bullets\">\n			<li>SASS</li>\n			<li>Vanilla CSS</li>\n			<li>PostCSS</li>\n		</ul>\n\n		<h3 class=\"font__title heading__separator\">Classes and selectors</h3>\n		<ul class=\"bullets\">\n			<li><code>.spinner</code>: Spinner base class. <em>Nothing will be displayed in the UI until the active modifier class is added.</em></li>\n			<li><code>.spinner--is-spinning</code>: Active / spinning spinner.</li>\n			<li><code>.spinner--inline</code>: Inline spinner, for display with surrounding inline elements such as text or buttons.</li>\n			<li><code>.spinner--clean</code>: Cleans / removes background and padding for a clean spinner UI.</li>\n			<li><code>.spinner--absolute</code>: Absolutely positioned spinner.</li>\n			<li><code>.spinner--slide</code> Spinner which slides from the top of an element.</li>\n		</ul>\n	</div>\n\n	<div>\n		<h2 class=\"font__title2\">Examples</h2>\n		<h3 class=\"font__title heading__separator\">Active Spinner</h3>\n		<brik-editor live-preview=\"true\" editable=\"true\">\n			<brik-code lang=\"html\">&lt;spinner options=\"{mods: ['active']}\">&lt;/spinner></brik-code lang=\"html\">\n		</brik-editor>\n\n		<h3 class=\"font__title heading__separator\">Toggling a Spinner</h3>\n		<p>Use the <code>ng-class</code> directive to activate and deactivate a spinner.</p>\n		<brik-editor live-preview=\"true\" editable=\"true\">\n			<brik-code lang=\"html\">&lt;div data-ng-init=\"toggleableActive = true;\">\n	&lt;spinner options=\"{mods: ['active']}\" data-ng-class=\"{'spinner--is-spinning': toggleableActive}\">&lt;/spinner>\n	&lt;button class=\"font__button\" type=\"button\" data-ng-click=\"toggleableActive = !toggleableActive\">Toggle&lt;/button>\n&lt;/div></brik-code lang=\"html\">\n		</brik-editor>\n\n		<h3 class=\"font__title3 heading__separator\">Inline Spinner</h3>\n		<brik-editor live-preview=\"true\" editable=\"true\">\n			<brik-code lang=\"html\">&lt;button class=\"font__button my-inline-spinner\" type=\"button\" data-ng-click=\"inlineActive = !inlineActive\" data-ng-init=\"inlineActive = true\">\n	Inline Spinner\n	&lt;spinner options=\"{mods: ['active', 'inline']}\" style=\"margin-left: 1rem;\" data-ng-class=\"{'spinner--is-spinning':  inlineActive}\">&lt;/spinner>\n&lt;/button>\n&lt;p>(Click to toggle spinner)&lt;/p></brik-code lang=\"html\">\n			<brik-code lang=\"css\">.my-inline-spinner {\n	background-color: hsla(0, 0%, 0%, 0.1);\n	display: inline-flex;\n	align-items: center;\n	padding: 1rem 2rem;\n}\n\n.my-inline-spinner .spinner {\n	margin-left: 1rem;\n}</brik-code lang=\"html\">\n		</brik-editor>\n	</div>\n</brik-tabs>\n")
-	    ; __line = 110;
-	  return __output.join("");
-	} catch (e) {
-	  rethrow(e, __lines, __filename, __line, escapeFn);
-	}
-
-	}
-
-	function anonymous$5(data, escapeFn, include, rethrow
-	) {
-	rethrow = rethrow || function rethrow(err, str, flnm, lineno, esc){
-	  var lines = str.split('\n');
-	  var start = Math.max(lineno - 3, 0);
-	  var end = Math.min(lines.length, lineno + 3);
-	  var filename = esc(flnm); // eslint-disable-line
-	  // Error context
-	  var context = lines.slice(start, end).map(function (line, i){
-	    var curr = i + start + 1;
-	    return (curr == lineno ? ' >> ' : '    ')
-	      + curr
-	      + '| '
-	      + line;
-	  }).join('\n');
-
-	  // Alter exception message
-	  err.path = filename;
-	  err.message = (filename || 'ejs') + ':'
-	    + lineno + '\n'
-	    + context + '\n\n'
-	    + err.message;
-
-	  throw err;
-	};
-	escapeFn = escapeFn || function (markup) {
-	  return markup == undefined
-	    ? ''
-	    : String(markup)
-	        .replace(_MATCH_HTML, encode_char);
-	};
-	var _ENCODE_HTML_RULES = {
-	      "&": "&amp;"
-	    , "<": "&lt;"
-	    , ">": "&gt;"
-	    , '"': "&#34;"
-	    , "'": "&#39;"
-	    }
-	  , _MATCH_HTML = /[&<>'"]/g;
-	function encode_char(c) {
-	  return _ENCODE_HTML_RULES[c] || c;
-	}var __line = 1
-	  , __lines = "<brik-tabs class=\"page-tabs\" tabs=\"about:About, install:Install &amp; Setup, usage:Usage, examples:Examples\">\n\t<div>\n\t\t<%- include ../partials/_intro.html.ejs %>\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\n\t\t<p class=\"font__subheading\">We are working on this page.</p>\n\t</div>\n\n\t<div>\n\t\t<%- include ../partials/_install.html.ejs %>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">Usage</h2>\n\t\t<p><code>&lt;icon/&gt;</code> is a <a ui-sref=\"web-components\">Custom Element</a> with the following API:</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><code>name</code>: Gets or sets the icon name, which should be the path of the icon SVG file, relative to <code>../svg/</code>, which is where the SVG icon files should reside.</li>\n\t\t\t<li><code>size</code>: Gets or sets the size of the icon.</li>\n\t\t</ul>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2\">Examples</h2>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;brik-icon name=\"twitter\">&lt;/brik-icon>\n&lt;brik-icon name=\"facebook\" size=\"8rem\">&lt;/brik-icon>\n&lt;brik-icon name=\"google\">&lt;/brik-icon>\n&lt;brik-icon name=\"instagram\">&lt;/brik-icon></brik-code>\n&lt;brik-icon name=\"linkedin\">&lt;/brik-icon></brik-code>\n\t\t</brik-editor>\n\t</div>\n</brik-tabs>\n"
-	  , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/components/icons.html.ejs";
-	try {
-	  var __output = [], __append = __output.push.bind(__output);
-	 __append("<brik-tabs class=\"page-tabs\" tabs=\"about:About, install:Install &amp; Setup, usage:Usage, examples:Examples\">\n	<div>\n		")
-	    ; __line = 3
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<div class=\"dsui-page__intro\">\n\t<% if (data.brik.intro) { %><div class=\"dsui-page__about\">\n\t\t<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n\t\t<%- data.brik.intro %>\n\t</div><% } %>\n\n\t<% if (data.brik.related) { %><div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t<% data.brik.related.forEach(link => { %>\n\t\t\t\t<li><a ui-sref=\"<%= link.replace(/\\s+/g, '-').toLowerCase() %>\"><%= link %></a></li>\n\t\t\t<% }); %>\n\t\t</ul>\n\t</div><% } %>\n</div>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_intro.html.ejs";
-	      try {
-	 __append("<div class=\"dsui-page__intro\">\n	")
-	    ; __line = 2
-	    ;  if (data.brik.intro) { 
-	 __append("<div class=\"dsui-page__about\">\n		<!-- <h2 class=\"font__title2\">Purpose</h2> -->\n		")
-	    ; __line = 4
-	    ; __append( data.brik.intro )
-	    ; __append("\n	</div>")
-	    ; __line = 5
-	    ;  } 
-	 __append("\n\n	")
-	    ; __line = 7
-	    ;  if (data.brik.related) { 
-	 __append("<div class=\"dsui-page__related\">\n		<h2 class=\"font__title2\">Related</h2>\n		<ul class=\"bullets dsui-page__related-links\">\n			")
-	    ; __line = 10
-	    ;  data.brik.related.forEach(link => { 
-	 __append("\n				<li><a ui-sref=\"")
-	    ; __line = 11
-	    ; __append(escapeFn( link.replace(/\s+/g, '-').toLowerCase() ))
-	    ; __append("\">")
-	    ; __append(escapeFn( link ))
-	    ; __append("</a></li>\n			")
-	    ; __line = 12
-	    ;  }); 
-	 __append("\n		</ul>\n	</div>")
-	    ; __line = 14
-	    ;  } 
-	 __append("\n</div>\n")
-	    ; __line = 16;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n\n		<h2 class=\"font__title2\">Guidelines</h2>\n\n		<p class=\"font__subheading\">We are working on this page.</p>\n	</div>\n\n	<div>\n		")
-	    ; __line = 11
-	    ; (function(){
-	      var __line = 1
-	      , __lines = "<h3 class=\"font__title3\">Install</h3>\n\n<% if (data.brik.isCore) { %><p>It is encouraged to install <%= data.brik.name %> along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install <%= data.brik.name %> on its own:</p><% } %>\n<brik-code lang=\"bash\">npm install <%= data.brik.npmPath %> --save-dev</brik-code>\n\n<% if (typeof data.brik.setup === 'object') { %><h3 class=\"font__title3\">Setup</h3>\n<% if (data.brik.setup.summary) { %><%- data.brik.setup.summary %><% } %>\n<% if (data.brik.setup.list) { %><ol class=\"numbers\">\n\t<% data.brik.setup.list.forEach(item => { %>\n\t\t<% if (typeof item === 'object') { %>\n\t\t\t<li><%- item.intro %>\n\t\t\t\t<% if (item.class === 'numbers') { %><ol class=\"numbers\"><% } else { %><ul class=\"bullets\"><% } %>\n\t\t\t\t\t<% item.list.forEach(subitem => { %><li><%- subitem %></li><% }); %>\n\t\t\t\t<% if (item.class === 'numbers') { %></ol><% } else { %></ul><% } %>\n\t\t\t</li>\n\t\t<% } else { %><li><%- item %></li><% } %>\n\t<% }); %>\n</ol><% } %>\n<% } %>\n"
-	      , __filename = "/Volumes/Home/Projects/brikcss/dsui-library-site/src/pages/partials/_install.html.ejs";
-	      try {
-	 __append("<h3 class=\"font__title3\">Install</h3>\n\n")
-	    ; __line = 3
-	    ;  if (data.brik.isCore) { 
-	 __append("<p>It is encouraged to install ")
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" along with DS UI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may also install ")
-	    ; __line = 6
-	    ; __append(escapeFn( data.brik.name ))
-	    ; __append(" on its own:</p>")
-	    ;  } 
-	 __append("\n<brik-code lang=\"bash\">npm install ")
-	    ; __line = 7
-	    ; __append(escapeFn( data.brik.npmPath ))
-	    ; __append(" --save-dev</brik-code>\n\n")
-	    ; __line = 9
-	    ;  if (typeof data.brik.setup === 'object') { 
-	 __append("<h3 class=\"font__title3\">Setup</h3>\n")
-	    ; __line = 10
-	    ;  if (data.brik.setup.summary) { 
-	 __append( data.brik.setup.summary )
-	    ;  } 
-	 __append("\n")
-	    ; __line = 11
-	    ;  if (data.brik.setup.list) { 
-	 __append("<ol class=\"numbers\">\n	")
-	    ; __line = 12
-	    ;  data.brik.setup.list.forEach(item => { 
-	 __append("\n		")
-	    ; __line = 13
-	    ;  if (typeof item === 'object') { 
-	 __append("\n			<li>")
-	    ; __line = 14
-	    ; __append( item.intro )
-	    ; __append("\n				")
-	    ; __line = 15
-	    ;  if (item.class === 'numbers') { 
-	 __append("<ol class=\"numbers\">")
-	    ;  } else { 
-	 __append("<ul class=\"bullets\">")
-	    ;  } 
-	 __append("\n					")
-	    ; __line = 16
-	    ;  item.list.forEach(subitem => { 
-	 __append("<li>")
-	    ; __append( subitem )
-	    ; __append("</li>")
-	    ;  }); 
-	 __append("\n				")
-	    ; __line = 17
-	    ;  if (item.class === 'numbers') { 
-	 __append("</ol>")
-	    ;  } else { 
-	 __append("</ul>")
-	    ;  } 
-	 __append("\n			</li>\n		")
-	    ; __line = 19
-	    ;  } else { 
-	 __append("<li>")
-	    ; __append( item )
-	    ; __append("</li>")
-	    ;  } 
-	 __append("\n	")
-	    ; __line = 20
-	    ;  }); 
-	 __append("\n</ol>")
-	    ; __line = 21
-	    ;  } 
-	 __append("\n")
-	    ; __line = 22
-	    ;  } 
-	 __append("\n")
-	    ; __line = 23;
-	      } catch (e) {
-	        rethrow(e, __lines, __filename, __line, escapeFn);
-	      }
-	 }).call(this)
-	    ; __append("\n	</div>\n\n	<div>\n		<h2 class=\"font__title2\">Usage</h2>\n		<p><code>&lt;icon/&gt;</code> is a <a ui-sref=\"web-components\">Custom Element</a> with the following API:</p>\n		<ul class=\"bullets\">\n			<li><code>name</code>: Gets or sets the icon name, which should be the path of the icon SVG file, relative to <code>../svg/</code>, which is where the SVG icon files should reside.</li>\n			<li><code>size</code>: Gets or sets the size of the icon.</li>\n		</ul>\n	</div>\n\n	<div>\n		<h2 class=\"font__title2\">Examples</h2>\n		<brik-editor live-preview=\"true\" editable=\"true\">\n			<brik-code lang=\"html\">&lt;brik-icon name=\"twitter\">&lt;/brik-icon>\n&lt;brik-icon name=\"facebook\" size=\"8rem\">&lt;/brik-icon>\n&lt;brik-icon name=\"google\">&lt;/brik-icon>\n&lt;brik-icon name=\"instagram\">&lt;/brik-icon></brik-code>\n&lt;brik-icon name=\"linkedin\">&lt;/brik-icon></brik-code>\n		</brik-editor>\n	</div>\n</brik-tabs>\n")
-	    ; __line = 34;
-	  return __output.join("");
-	} catch (e) {
-	  rethrow(e, __lines, __filename, __line, escapeFn);
-	}
-
-	}
+	var iconsPage = "\n<brik-tabs class=\"page-tabs\" tabs=\"About, Setup, Usage, Playground\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t<div class=\"dsui-page__about\">\n\t\t<h2 class=\"font__title2 mt-0\">Icons</h2>\n\t\t<p>Icons communicate something without text.</p>\n\t</div>\n\n\t\n</div>\n\n\n\t\t<h2 class=\"font__title2\">Guidelines</h2>\n\n\t\t<p class=\"font__subheading\">We are working on this page.</p>\n\t</div>\n\n\t<div>\n\t\t\n\n<h3 class=\"font__title2 heading__separator\">Install</h3>\n\n\n<brik-code lang=\"bash\">npm install @brikcss/icons --save-dev</brik-code>\n\n\n\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2 mt-0\">Usage</h2>\n\t\t<p><code>&lt;icon/&gt;</code> is a <a ui-sref=\"web-components\">Custom Element</a> with the following API:</p>\n\t\t<ul class=\"bullets\">\n\t\t\t<li><code>name</code>: Gets or sets the icon name, which should be the path of the icon SVG file, relative to <code>../svg/</code>, which is where the SVG icon files should reside.</li>\n\t\t\t<li><code>size</code>: Gets or sets the size of the icon.</li>\n\t\t</ul>\n\t</div>\n\n\t<div>\n\t\t<h2 class=\"font__title2 mt-0\">Examples</h2>\n\t\t<brik-editor live-preview=\"true\" editable=\"true\">\n\t\t\t<brik-code lang=\"html\">&lt;brik-icon name=\"twitter\">&lt;/brik-icon>\n&lt;brik-icon name=\"facebook\" size=\"8rem\">&lt;/brik-icon>\n&lt;brik-icon name=\"google\">&lt;/brik-icon>\n&lt;brik-icon name=\"instagram\">&lt;/brik-icon></brik-code>\n&lt;brik-icon name=\"linkedin\">&lt;/brik-icon></brik-code>\n\t\t</brik-editor>\n\t</div>\n</brik-tabs>\n";
 
 	/** ================================================================================================
 	 *  Dependencies
@@ -7934,31 +6839,39 @@
 			pageTitle: 'DS UI Library'
 		}
 	}, {
+		name: '404',
+		label: 'Error',
+		path: '/error',
+		hide: true,
+		render: app => app.content.render('<h2 class="font__title2 mt-0">Uh oh... we couldn\'t find that page!</h2><p class="font__subtitle">Wanna try again?</p>')
+	}, {
 		name: 'getting-started',
 		label: 'Get Started',
 		path: '/getting-started',
 		icon: 'clock-start',
 		render: app => app.content.render(getStartedPage)
 	}, {
-		name: 'about',
-		label: 'About DSUI',
-		path: '/about-dsui',
-		icon: 'information-outline',
+		name: 'learn',
+		label: 'Learn',
+		path: '/learn',
+		icon: 'school',
 		children: [{
 			name: 'npm',
 			label: 'Working with NPM',
 			path: '/working-with-npm',
 			render: app => app.content.render(workingWithNpmPage)
-		}, {
-			name: 'structure',
-			label: 'Package Structure',
-			path: '/package-structure',
-			render: app => app.content.render(packageStructurePage)
-		}, {
-			name: 'assets',
-			label: 'Including assets',
-			path: '/including-assets',
-			render: app => app.content.render(includingAssetsPage)
+			// {
+			// 	name: 'structure',
+			// 	label: 'Package Structure',
+			// 	path: '/package-structure',
+			// 	render: (app) => app.content.render(packageStructurePage)
+			// },
+			// {
+			// 	name: 'assets',
+			// 	label: 'Including assets',
+			// 	path: '/including-assets',
+			// 	render: (app) => app.content.render(includingAssetsPage)
+			// }
 		}]
 	}, {
 		name: 'core',
@@ -7969,166 +6882,22 @@
 			name: 'reset',
 			label: 'Browser Reset',
 			path: '/browser-reset',
-			render: app => app.content.render(anonymous({
-				brik: {
-					name: 'Browser Reset',
-					npmPath: '@brikcss/reset',
-					isCore: true,
-					intro: '<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include this in their codebase.</em></p>',
-					related: ['Typography', 'Links', 'Rhythm'],
-					setup: {
-						hideIntro: true,
-						summary: '<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p> Make sure <code>_reset.init.scss</code> is the first CSS-producing file (after abstract code) included in your SASS build. No other steps are necessary.</p>'
-					}
-				}
-			}), '0')
+			render: app => app.content.render(browserResetPage, '0')
 		}, {
 			name: 'typography',
 			label: 'Typography',
 			path: '/typography',
-			render: app => app.content.render(anonymous$1({
-				brik: {
-					name: 'Typography',
-					npmPath: '@brikcss/typography',
-					isCore: true,
-					intro: '<p>Instead of pixels, Material Design specs use <a href="https://material.io/guidelines/layout/units-measurements.html" title="Material Design sp and dp units">"sp" and "dp" units</a> to make pixels more responsive to various devices. DS UI Typography provides the mechanism for applying and managing responsive typography based on MD specs.</p>',
-					related: ['Colors', 'Lists', 'Links', 'Rhythm'],
-					setup: {
-						list: ['Copy <code>typography/*.{woff,woff2}</code> files to your <code>&lt;build&gt;/css/fonts</code> folder. This can be automated for you by putting it into your build.', '<a ui-sref="including-assets">Include <code>_typography.abstract.scss</code></a> in your SASS build.', {
-							class: 'bullets',
-							intro: 'Initialize typography styles by doing one of the following:',
-							list: ['<em>Basic</em>: Include <code>_typography.init.scss</code> into your SASS build.', '<em>Advanced</em>: Use <code>_typography.init.scss</code> as an example to initialize typography styles on your own.']
-						}]
-					}
-				}
-			}), '0')
+			render: app => app.content.render(typographyPage, '0')
 		}, {
 			name: 'colors',
 			label: 'Colors',
 			path: '/colors',
-			render: app => app.content.render(anonymous$2({
-				brik: {
-					name: 'Colors',
-					isCore: true,
-					intro: '<p>DS UI Colors provide an easy way to apply and manage all of your app\'s colors. Define colors once and reuse them everywhere. It also helps manage a "live theme" (i.e., client colors) using native CSS variables.</p>',
-					related: ['Typography'],
-					npmPath: '@brikcss/colors',
-					setup: {
-						summary: '<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
-					}
-				},
-				colors: [{
-					heading: 'Dark (text, icons, borders)',
-					description: 'Dark colors are black with various applied levels of opacity. Dark colors can be used in text, icons, and borders on light backgrounds.',
-					colors: [{
-						name: 'dark | dark1',
-						class: 'dark1',
-						hsl: 'hsla(0, 0%, 0%, 0.87)',
-						hex: '#000000, 87% opacity',
-						usage: 'Primary dark text'
-					}, {
-						name: 'dark2',
-						hsl: 'hsla(0, 0%, 0%, 0.54)',
-						hex: '#000000, 54% opacity',
-						usage: 'Active dark icons, Secondary dark text'
-					}, {
-						name: 'dark3',
-						hsl: 'hsla(0, 0%, 0%, 0.38)',
-						hex: '#000000, 38% opacity',
-						usage: 'Inactive dark icons, Disabled / hint dark text'
-					}, {
-						name: 'dark4',
-						hsl: 'hsla(0, 0%, 0%, 0.12)',
-						hex: '#000000, 12% opacity',
-						usage: 'Dark borders / dividers'
-					}]
-				}, {
-					heading: 'Light (text, icons, borders)',
-					description: 'Light colors are white with various applied levels of opacity. Light colors can be used in text, icons, and borders on dark backgrounds.',
-					darkBg: true,
-					colors: [{
-						name: 'light | light1',
-						class: 'light1',
-						hsl: 'hsla(0, 0%, 100%, 1)',
-						hex: '#ffffff, 100% opacity',
-						usage: 'Primary light text'
-					}, {
-						name: 'light2',
-						hsl: 'hsla(0, 0%, 100%, 0.7)',
-						hex: '#ffffff, 70% opacity',
-						usage: 'Active light icons, Secondary light text'
-					}, {
-						name: 'light3',
-						hsl: 'hsla(0, 0%, 100%, 0.5)',
-						hex: '#ffffff, 50% opacity',
-						usage: 'Inactive light icons, Disabled / hint light text'
-					}, {
-						name: 'light4',
-						hsl: 'hsla(0, 0%, 100%, 0.12)',
-						hex: '#ffffff, 12% opacity',
-						usage: 'Light borders / dividers'
-					}]
-				}, {
-					heading: 'App colors',
-					description: 'Background colors with specific use cases.',
-					colors: [{
-						name: 'gray',
-						hsl: 'hsl(0, 0%, 90%)',
-						hex: '#000000',
-						usage: 'Neutral background'
-					}, {
-						name: 'supernav',
-						hsl: 'hsl(209, 24%, 30%)',
-						hex: '#3a4d5f',
-						usage: 'Sidebar header'
-					}, {
-						name: 'supernav-icon',
-						hsl: 'hsl(208, 11%, 65%)',
-						hex: '#9ca6b0',
-						usage: 'Sidebar icons'
-					}]
-				}, {
-					heading: 'Dynamic client colors',
-					description: 'Dynamic client colors are four theme colors chosen by the client. <strong>These specific color values are NOT UX approved; they are provided to illustrate how dynamic client colors work, and how developers can use dynamic client colors in their code.</strong>',
-					colors: [{
-						name: 'color1',
-						hsl: 'hsl(194, 76%, 65%)',
-						hex: '#62caea',
-						usage: 'Primary app bar, text links, visual tree'
-					}, {
-						name: 'color2',
-						hsl: 'hsl(69, 67%, 51%)',
-						hex: '#bdd62e',
-						usage: 'Buttons, profile avatars'
-					}, {
-						name: 'color3',
-						hsl: 'hsl(36, 96%, 54%)',
-						hex: '#faa019',
-						usage: 'Selections, checkboxes, selected state for dropdowns, active tab underlines'
-					}, {
-						name: 'color4',
-						hsl: 'hsl(205, 7%, 45%)',
-						hex: '#6b747b',
-						usage: 'Distributor profile avatars, selected item in sidebar list, secondary color for visual tree'
-					}]
-				}]
-			}), '0')
+			render: app => app.content.render(colorsPage, '0')
 		}, {
-			name: 'spacing',
-			label: 'Spacing',
-			path: '/spacing',
-			render: app => app.content.render(anonymous$3({
-				brik: {
-					name: 'Rhythm',
-					npmPath: '@brikcss/rhythm',
-					isCore: true,
-					intro: '<p>DS UI Rhythm provides an easy way to apply and manage vertical and horizontal spacing anywhere. Rhythm is founded on <a href="https://www.creativebloq.com/how-to/the-rules-of-responsive-web-typography">good principles of typography</a>, fosters <a href="https://zellwk.com/blog/why-vertical-rhythms/">repetition and familiarity</a> throughout the UI, and makes any layout more <a href="https://blog.alexdevero.com/6-simple-secrets-perfect-web-typography/#no5-focus-on-vertical-rhythm">balanced, beautiful, and readable</a>.</p><p>For a demonstration of Rhythm in action: <br><button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Toggle Rhythm grid</button></p><p class="font__reset">Notice how <em>everything</em> has consistent dimensions and spacing: font, line height, element heights, margins, padding, and so forth. Even elements which are completely disconnected from each other are "in rhythm". That\'s Rhythm.</p>',
-					related: ['Typography'],
-					setup: {
-						summary: '<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
-					}
-				}
-			}), '0')
+			name: 'rhythm',
+			label: 'Rhythm & Spacing',
+			path: '/rhythm',
+			render: app => app.content.render(rhythmPage, '0')
 		}]
 	}, {
 		name: 'components',
@@ -8139,32 +6908,12 @@
 			name: 'spinner',
 			label: 'Spinner',
 			path: '/spinner',
-			render: app => app.content.render(anonymous$4({
-				brik: {
-					name: 'Spinner',
-					npmPath: '@brikcss/spinner',
-					intro: '<p>Spinner is a visual indicator that content on the page is loading. Spinner can optionally display the progress of an operation.</p>',
-					related: [],
-					setup: {
-						summary: '<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
-					}
-				}
-			}), '0')
+			render: app => app.content.render(spinnerPage, '0')
 		}, {
 			name: 'icons',
 			label: 'Icons',
 			path: '/icons',
-			render: app => app.content.render(anonymous$5({
-				brik: {
-					name: 'Icons',
-					npmPath: '@brikcss/icons',
-					intro: '<p>Icons communicate something without text.</p>',
-					related: [],
-					setup: {
-						summary: '<p>Make sure to <a ui-sref="including-assets">include the appropriate assets in your app</a>.</p>'
-					}
-				}
-			}), '0')
+			render: app => app.content.render(iconsPage, '0')
 		}]
 	}, {
 		name: 'patterns',
@@ -8234,7 +6983,7 @@
 	app.router = createRouter(routes, {
 		allowNotFound: false,
 		autoCleanUp: true,
-		defaultRoute: 'home',
+		defaultRoute: '404',
 		defaultParams: {},
 		queryParams: {
 			arrayFormat: 'default',
@@ -8258,19 +7007,25 @@
 		let listenerType = 'addRouteListener';
 		if (route.children) listenerType = 'addNodeListener';
 		app.router[listenerType](route.name, (toState, fromState) => {
-			// Close sidebars.
-			app.page.toggleSidebar('');
-			if (typeof route.render === 'function') route.render(app, toState, fromState);
+			renderRoute(route, toState, fromState);
 		});
 		// Add route listener for each child route.
 		(route.children || []).forEach(child => {
 			app.router.addRouteListener([route.name, child.name].join('.'), (toState, fromState) => {
-				// Close sidebars.
-				app.page.toggleSidebar('');
-				if (typeof child.render === 'function') child.render(app, toState, fromState);
+				child.parent = route;
+				renderRoute(child, toState, fromState);
 			});
 		});
 	});
+
+	function renderRoute(route, toState, fromState) {
+		// Close sidebars.
+		app.page.toggleSidebar('');
+		// Update header.
+		app.header.title = `${route.parent ? (route.parent.title || route.parent.label) + ' <brik-icon name="chevron-right" size="1.2em"></brik-icon> ' : ''}${route.title || route.label || 'Unknown'}`;
+		// Render route.
+		if (typeof route.render === 'function') route.render(app, toState, fromState);
+	}
 
 	/** ================================================================================================
 	 *  Define custom elements
@@ -8353,7 +7108,7 @@
 
 	// Render initial state.
 	const initialRoute = findRoute(routes, app.router.getState().name);
-	if (initialRoute.render) initialRoute.render(app);
+	if (initialRoute.render) renderRoute(initialRoute);
 
 	function findRoute(routesArray, name) {
 		let result;
@@ -8365,6 +7120,7 @@
 			if (name.includes('.') && name.split('.')[0] === route.name && route.children) {
 				return route.children.find(child => {
 					result = child;
+					result.parent = route;
 					return child.name === name.split('.')[1];
 				});
 			}
