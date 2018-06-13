@@ -6832,7 +6832,7 @@
 	var routes = [{
 		name: 'home',
 		label: 'Home',
-		path: '/home',
+		path: '/',
 		icon: 'home',
 		render: app => app.content.render(homePage),
 		data: {
@@ -6981,10 +6981,10 @@
 	 ** ------ */
 
 	app.router = createRouter(routes, {
-		allowNotFound: false,
-		autoCleanUp: true,
+		// allowNotFound: true,
+		// autoCleanUp: true,
 		defaultRoute: '404',
-		defaultParams: {},
+		// defaultParams: {},
 		queryParams: {
 			arrayFormat: 'default',
 			nullFormat: 'default',
@@ -6994,7 +6994,8 @@
 		trailingSlashMode: 'default',
 		strictTrailingSlash: false,
 		caseSensitive: true
-	}).usePlugin(browserPlugin({
+	});
+	app.router.usePlugin(browserPlugin({
 		useHash: true,
 		hashPrefix: '!',
 		// base:
