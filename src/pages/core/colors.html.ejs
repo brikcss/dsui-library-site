@@ -24,7 +24,7 @@
 			colors: [
 				{
 					name: 'dark1',
-					alias: '(or light)',
+					alias: '(or dark)',
 					hsl: 'hsla(0, 0%, 0%, 0.87)',
 					hex: '#000000, 87% opacity',
 					usage: 'Primary dark text'
@@ -158,10 +158,10 @@
 				<% category.colors.forEach(color => { %>
 					<li class="pg-colors__color<% if (category.darkBg || color.darkBg) { %> pg-colors__color--dark<% } %>">
 						<div class="pg-colors__color-value" style="background-color: var(--color__<%= color.name; %>); color: var(--color__<%= color.color || 'light' %>);">
-							<span class="pg-colors__color-name"><%= color.name %></span>
+							<span class="pg-colors__color-name"><%= [color.name, color.alias || ''].join(' ') %></span>
+							<span class="pg-colors__color-var">var(--color__<%= color.name %>)</span>
 							<% if (color.hex) { %><span class="pg-colors__color-hex"><%= color.hex %></span><% } %>
 							<% if (color.hsl) { %><span class="pg-colors__color-hsl"><%= color.hsl %></span><% } %>
-							<span class="pg-colors__color-var">var(--color__<%= color.name %>)</span>
 						</div>
 						<div class="pg-colors__color-meta"><%= color.usage %></div>
 					</li>

@@ -210,10 +210,10 @@ brik-icon:not(:defined) {
 	margin-bottom: 1rem;
 }
 
-.pg-colors__color-hsl,
+.pg-colors__color-var,
 .pg-colors__color-hex {
 	margin-bottom: 1rem;
 }
-.pg-colors__color-hex {
+.pg-colors__color-var {
 	margin-top: 1rem;
 }
