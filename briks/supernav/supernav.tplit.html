@@ -15,7 +15,7 @@
 
 	<!-- Links and menus. -->
 	<nav class="${`brik-supernav__nav ${this.props.active ? 'brik-supernav--active' : ''}`}">
-		${this.props.links.filter(link => !link.hide).map((link, i) => hyperhtml.wire(link, ':link')`<div class="${`brik-supernav__item ${link.active ? 'brik--menu-is-active' : ''}`}" style="${`height: ${link.children && link.active && !this.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
+		${this.props.links.map((link, i) => hyperhtml.wire(link, ':link')`<div class="${`brik-supernav__item ${link.active ? 'brik--menu-is-active' : ''}`}" style="${`height: ${link.children && link.active && !this.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
 			${link.children ? hyperhtml.wire(link, ':link-without-path')`<button type="button" class="${link.separator ? 'brik-supernav__link brik-supernav__link-separator' : 'brik-supernav__link'}" onclick="${() => {
 				if ((this.props.showMenus && this.props.isPinned) || this.props.isMini) return;
 				const lastActiveLink = this.props.links.find((link, n) => n !== i && link.active);

@@ -222,7 +222,7 @@ Header.define();
  *  Build supernav links
  ** -------------------- */
 
-app.supernav.props.links = routes;
+app.supernav.props.links = routes.filter((route) => !route.hide);
 app.supernav.render();
 
 /** ================================================================================================
