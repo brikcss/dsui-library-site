@@ -209,6 +209,7 @@ const miniNav = {
 		position: 'static'
 	},
 	link: {
+		backgroundColor: 'var(--color__supernav)',
 		color: 'var(--color__light2)',
 		fill: 'var(--color__supernav--icon)',
 		display: 'flex',

@@ -4,13 +4,14 @@
 
 - Cross browser test DSUI site.
 	- Add polyfills:
-		- Custom Elements (document-register).
-		- Shadow DOM
-		- Templates / slots.
-		- Fetch?
-		- Promise?
-		- Proxy object (https://github.com/tvcutsem/harmony-reflect)
-		- ES6 (Class?)
+		- [x] Custom Elements (document-register).
+		- [x] Shadow DOM
+		- [-] Templates / slots.
+		- IE11:
+			- [ ] Fetch?
+			- [ ] Promise?
+			- [ ] Proxy object (https://github.com/tvcutsem/harmony-reflect)
+			- [ ] ES6 (Class?)
 - Split core components up into smaller pieces with abstracts and css producing code so they can be imported to shadow doms as well as consumed by the app layer.
 	- Core components will need JSS files for CSS modules.
 - Update typography font styles.

@@ -23,7 +23,7 @@
 					type="button"
 					class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}"
 					onclick="${() => {
-						if ((this.props.showSubmenus && this.props.isPinned) || this.props.isMini) return;
+						if ((this.props.showSubmenus)) return;
 						const lastActiveLink = this.props.links.find((link, n) => n !== i && link.active);
 						if (lastActiveLink) lastActiveLink.active = false;
 						link.active = !link.active;
