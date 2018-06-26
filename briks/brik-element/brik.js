@@ -75,7 +75,7 @@ class BrikElement extends HTMLElement {
 					if (created && !this._initialized) {
 						checkReady.call(this, created);
 					}
-					if (oldValue !== value) {
+					if (this._initialized && oldValue !== value) {
 						const prop = kebabToCamelCase(attr);
 						const propCapitalized = prop.replace(/(?:^|\s)\S/g, function(a) {
 							return a.toUpperCase();
@@ -109,6 +109,7 @@ class BrikElement extends HTMLElement {
 			const hasConnect = !!onConnected;
 			Object.defineProperty(Class.prototype, 'connectedCallback', {
 				configurable: true,
+				writable: true,
 				value() {
 					if (!this._initialized) {
 						checkReady.call(this, created);

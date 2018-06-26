@@ -1,6 +1,7 @@
 import BrikElement from '../brik-element/brik.js';
 import tpl from './header.tplit.html';
-import css from './header.shadow.css';
+import css from './header.css.js';
+import { jss } from '../styles/styles.js';
 
 export default class Header extends BrikElement {
 	// Sets default props and observedAttributes.
@@ -18,7 +19,6 @@ export default class Header extends BrikElement {
 	// Element constructor.
 	created() {
 		this.attachShadow({ mode: 'open' });
-		this.props.css = css;
 		this.render();
 	}
 
@@ -26,11 +26,9 @@ export default class Header extends BrikElement {
 	// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
 	// See https://viperhtml.js.org/hyperhtml/documentation/
 	render() {
-		if (this.props.hideBurgerAt) {
-			this.props.css += `@media (min-width: ${this.props.hideBurgerAt}) {
-				.brik-burger { display: none; }
-			}`;
-		}
+		this.props.css = jss.createStyleSheet(css(this.props.hideBurgerAt), {
+			classNamePrefix: 'brik-'
+		});
 		return tpl(this.html, this, BrikElement);
 	}
 }

@@ -2,9 +2,23 @@
 
 ## In Progress
 
+- Fix supernav:
+	- After window resizes to mini nav, active link has active look.
+	- tabindex is broken.
+- Cross browser test DSUI site.
+	- Add polyfills:
+		- Custom Elements (document-register).
+		- Shadow DOM
+		- Templates / slots.
+		- Fetch?
+		- Promise?
+		- Proxy object (https://github.com/tvcutsem/harmony-reflect)
+		- ES6 (Class?)
 - Split core components up into smaller pieces with abstracts and css producing code so they can be imported to shadow doms as well as consumed by the app layer.
+	- Core components will need JSS files for CSS modules.
 - Update typography font styles.
 - Review: pages and documentation for accuracy.
+- Consider moving from JSS to a compile-time CSS-in-JS solution like [modular-css](https://github.com/tivac/modular-css) (which supports PostCSS, Rollup, Webpack, etc.), or [rollup-plugin-embed-css](https://www.npmjs.com/package/rollup-plugin-embed-css).
 
 ## Next
 
@@ -32,15 +46,6 @@
 		- sidebars
 		- tabs:
 			- Feature: Make URL friendly.
-- Add polyfills:
-	- Custom Elements (document-register).
-	- Shadow DOM
-	- Templates / slots.
-	- Fetch?
-	- Promise?
-	- Proxy object (https://github.com/tvcutsem/harmony-reflect)
-	- ES6 (Class?)
-- Cross browser test DSUI site.
 - Add MD ripple which can be added to any button / component.
 
 ## Committed
@@ -60,3 +65,9 @@
 
 - Publish `@brikcss/rollup-plugin-ejs` to NPM.
 - Look into [Styled Components](https://www.styled-components.com/)?
+
+## References
+
+- Great lists for CSS in JS:
+	- [CSS in JS](https://github.com/MicheleBertoli/css-in-js)
+	- [Awesome list](https://github.com/tuchk4/awesome-css-in-js)

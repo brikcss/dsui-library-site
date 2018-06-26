@@ -7,6 +7,20 @@
 
 :root {
 	--base-font__size: 14px;
+	--sidebar-bg: hsl(0, 0%, 100%);
+	--sidebar-width: 35rem;
+	--sidebar-mini-width: 12rem;
+	--sidebar-push-content: 0;
+	--sidebar-left-bg: var(--sidebar-bg);
+	--sidebar-left-width: var(--sidebar-width);
+	--sidebar-left-push: var(--sidebar-push-content);
+	--sidebar-right-bg: var(--sidebar-bg);
+	--sidebar-right-width: var(--sidebar-width);
+	--sidebar-right-push: var(--sidebar-push-content);
+	--burger-size: 3rem;
+	--burger-bg: hsla(0, 0%, 100%, 1);
+	--burger-line-spacing: 1.4;
+	--burger-line-size: 0.375rem;
 }
 
 /** ================================================================================================
@@ -36,10 +50,6 @@ pre > code {
 	padding: 1rem 2rem;
 }
 
-brik-icon {
-	display: inline-flex;
-	vertical-align: text-bottom;
-}
 /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
 brik-icon:not(:defined) {
 	display: inline-flex;

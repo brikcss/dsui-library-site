@@ -1,5 +1,6 @@
 import BrikElement from '../brik-element/brik.js';
-import stylesheet from './burger-button.css';
+import css from './burger-button.css.js';
+import { jss } from '../styles/styles.js';
 
 export default class BurgerButton extends BrikElement {
 	static get defaults() {
@@ -12,12 +13,25 @@ export default class BurgerButton extends BrikElement {
 	// Element constructor.
 	created() {
 		this.attachShadow({ mode: 'open' });
-		window.addEventListener('sidebars.toggled', this.handleToggle);
+		this.setAttribute(
+			'style',
+			'height: var(--burger-size, 3rem); width: var(--burger-size, 3rem); display: flex;'
+		);
+		this.props.sheet = jss.createStyleSheet(css, {
+			meta: 'burger-button',
+			classNamePrefix: 'brik-'
+		});
+		this.props.classes = this.props.sheet.classes;
+		this.props.css = this.props.sheet.toString();
+		window.addEventListener('on.toggle-' + this.props.sidebar + '-sidebar', this.handleToggle);
 		this.render();
 	}
 
 	disconnectedCallback() {
-		window.removeEventListener('sidebars.toggled', this.handleToggle);
+		window.removeEventListener(
+			'on.toggle-' + this.props.sidebar + '-sidebar',
+			this.handleToggle
+		);
 	}
 
 	// Called when an observedAttribute (which defaults to Object.keys(this.defaults)) changes.
@@ -25,15 +39,15 @@ export default class BurgerButton extends BrikElement {
 		this.render();
 	}
 
-	handleToggle(event) {
-		const isActive = event && event.detail ? event.detail === this.props.sidebar : false;
-		this.active = isActive;
+	handleToggle() {
+		this.active = !this.active;
+		this.render();
 	}
 
 	onclick() {
 		this.dispatchEvent(
-			new CustomEvent('sidebars.toggle', {
-				detail: this.props.sidebar,
+			new CustomEvent('sidebar.' + this.props.sidebar + '.toggle', {
+				detail: !this.active,
 				composed: true,
 				bubbles: true
 			})
@@ -45,11 +59,12 @@ export default class BurgerButton extends BrikElement {
 	// See https://viperhtml.js.org/hyperhtml/documentation/
 	render() {
 		this.props.sidebar = this.getAttribute('sidebar');
-		return this.html`<button class="button" type="button" onclick="${this}">
-				<span class=top />
-				<span class=toppings />
-				<span class=bottom />
+		return this.html`<button class="${this.props.classes.button +
+			(this.active ? ` ${this.props.classes.active}` : '')}" type="button" onclick="${this}">
+				<span class=${this.props.classes.top} />
+				<span class=${this.props.classes.toppings} />
+				<span class=${this.props.classes.bottom} />
 			</button>
-			<style>${stylesheet}</style>`;
+			<style>${this.props.css}</style>`;
 	}
 }

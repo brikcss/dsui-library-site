@@ -27,8 +27,8 @@ const basePostcssPlugins = [
 
 const config = {
 	html_vanillajs: {
-		source: 'src/vanillajs/index.html',
-		output: 'dist/vanillajs/index.html',
+		source: 'src/vanillajs/*.html',
+		output: 'dist/vanillajs/[name].html',
 		bundlers: ['@brikcss/stakcss-bundler-ejs'],
 		watchPaths: './src/briks/**/*.ejs.html'
 	},
@@ -38,7 +38,7 @@ const config = {
 		bundlers: [
 			{
 				run: '@brikcss/stakcss-bundler-postcss',
-				options: { skipConfig: true },
+				options: { skipConfig: true, map: false },
 				plugins: loadPostcssPlugins(...basePostcssPlugins)
 			}
 		]

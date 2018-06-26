@@ -38,19 +38,26 @@
  *  Dependencies
  ** ------------ */
 
-// -------------------
-// Modules and Classes.
+// ----------
+// Polyfills.
 //
+import 'document-register-element';
+import '@webcomponents/shadydom/src/shadydom.js';
 
+// -------
+// Router.
+//
 import { createRouter } from 'router5';
 import browserPlugin from 'router5/plugins/browser';
 import listenersPlugin from 'router5/plugins/listeners';
 
-// import 'document-register-element';
+// ----------------
+// Custom Elements.
+//
 import Page from '../../briks/page/page.js';
 import PageViewport from '../../briks/page/page-viewport.js';
 import PageContent from '../../briks/page/page-content.js';
-import PageOverlay from '../../briks/page/page-overlay.js';
+import Overlay from '../../briks/overlay/overlay.js';
 import Sidebar from '../../briks/page/sidebar.js';
 import SuperNav from '../../briks/supernav/supernav.js';
 import Icon from '../../briks/icons/icon.js';
@@ -60,7 +67,6 @@ import Scroller from '../../briks/scroller/scroller.js';
 import Tabs from '../../briks/tabs';
 import Editor from '../../briks/editor/editor.js';
 import Code from '../../briks/editor/code.js';
-import BrikElement from '../../briks/brik-element/brik.js';
 
 // ------
 // Routes.
@@ -81,6 +87,8 @@ const app = {
 	page: document.querySelector('brik-page'),
 	header: document.querySelector('brik-header'),
 	supernav: document.querySelector('brik-super-nav'),
+	leftbar: document.querySelector('brik-sidebar[side="left"]'),
+	rightbar: document.querySelector('brik-sidebar[side="right"]'),
 	rightSidebarToggle: document.querySelector('.toggle__right'),
 	content: document.querySelector('brik-page-content')
 };
@@ -135,12 +143,16 @@ routes.forEach((route) => {
 
 function renderRoute(route, toState, fromState) {
 	// Close sidebars.
-	app.page.toggleSidebar('');
+	Object.keys(window.brikcss.sidebars).forEach((group) => {
+		if (window.brikcss.sidebars[group].active) {
+			window.brikcss.sidebars[group].active.active = false;
+		}
+	});
 	// Update header.
 	app.header.title = `${
 		route.parent
 			? (route.parent.title || route.parent.label) +
-			  ' <brik-icon name="chevron-right" size="1.2em"></brik-icon> '
+			  ' <brik-icon name="chevron-right" size="1.2em" fill="hsl(0, 0%, 100%)"></brik-icon> '
 			: ''
 	}${route.title || route.label || 'Unknown'}`;
 	// Render route.
@@ -154,68 +166,15 @@ function renderRoute(route, toState, fromState) {
 Page.define();
 PageViewport.define();
 PageContent.define();
-PageOverlay.define();
+Overlay.define();
 Sidebar.define();
 SuperNav.define();
 Scroller.define();
 Tabs.define();
 Editor.define();
 Code.define();
-// Icon.define({ size: '4rem' });
-BrikElement.define(
-	class extends Icon {
-		get defaults() {
-			return Object.assign({}, Icon.defaults, {
-				size: '4rem'
-			});
-		}
-	}
-);
+Icon.define({ size: '4rem' });
 BurgerButton.define();
-
-BrikElement.define(
-	class Test extends BrikElement {
-		get defaults() {
-			return {
-				height: '40px',
-				width: '100%',
-				backgroundColor: 'yellow',
-				color: 'red'
-			};
-		}
-		// define(Class) {
-		// 	console.log('THIS:', Class.name);
-		// 	customElements.define('brik-test', Class);
-		// }
-		created() {
-			this.render();
-		}
-		connectedCallback() {
-			setTimeout(() => {
-				this.backgroundColor = 'pink';
-			}, 1000);
-			setTimeout(() => {
-				this.setAttribute('background-color', 'orange');
-			}, 2000);
-			setTimeout(() => {
-				this.backgroundColor = 'green';
-			}, 3000);
-			setTimeout(() => {
-				this.setAttribute('background-color', 'lightgray');
-			}, 4000);
-		}
-		attributeChangedCallback() {
-			this.render();
-		}
-		render() {
-			this.style = `display: inline-flex; align-items: center; justify-content: center; background-color: ${
-				this.props.backgroundColor
-			}; color: ${this.props.color}; height: ${this.props.height}; width: ${
-				this.props.width
-			};`;
-		}
-	}
-);
 Header.define();
 
 /** ================================================================================================
@@ -230,8 +189,10 @@ app.supernav.render();
  ** --------- */
 
 // Add temporary right sidebar toggle.
-app.rightSidebarToggle.addEventListener('click', () => {
-	app.page.toggleSidebar('right');
+document.querySelectorAll('.toggle__right').forEach((element) => {
+	element.addEventListener('click', () => {
+		app.rightbar.active = !app.rightbar.active;
+	});
 });
 
 // Render initial state.

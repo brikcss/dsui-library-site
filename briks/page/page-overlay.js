@@ -1,4 +1,5 @@
 import BrikElement from '../brik-element/brik.js';
+import { jss } from '../styles/styles.js';
 
 export default class PageOverlay extends BrikElement {
 	// Sets default props and observedAttributes.
@@ -8,9 +9,28 @@ export default class PageOverlay extends BrikElement {
 		};
 	}
 
+	attributeChangedCallback() {
+		this.render();
+	}
+
 	// Element constructor.
 	created() {
 		this.attachShadow({ mode: 'open' });
+		this.props.sheet = jss.createStyleSheet(
+			{
+				overlay: {
+					backgroundColor: 'transparent',
+					position: 'fixed',
+					top: 0,
+					bottom: 0,
+					left: 0,
+					right: 0,
+					zIndex: -1,
+					transition: 'background-color 350ms, z-index 0ms 350ms'
+				}
+			},
+			{ meta: 'overlay', classNamePrefix: 'brik-overlay-' }
+		);
 		this.render();
 	}
 
@@ -18,22 +38,10 @@ export default class PageOverlay extends BrikElement {
 	// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
 	// See https://viperhtml.js.org/hyperhtml/documentation/
 	render() {
-		this.props.css = `:host {
-			background-color: transparent;
-			position: fixed;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			z-index: -1;
-			transition: background-color 350ms, z-index 0ms 350ms;
-		}
-		:host-context([active-sidebar="left"]),
-		:host-context([active-sidebar="right"]) {
-			background-color: hsla(0, 0%, 0%, 0.5);
-			z-index: 9;
-			transition: background-color 350ms, z-index 0ms 0ms;
-		}`;
-		return this.html`<slot></slot><style>${this.props.css}</style>`;
+		return this.html`<div class="${this.props.sheet.classes.overlay}" style="${
+			this.active
+				? 'background-color: hsla(0, 0%, 0%, 0.5); z-index: 9; transition: background-color 350ms, z-index 0ms 0ms;'
+				: ''
+		}"></div><style>${this.props.sheet.toString()}</style>`;
 	}
 }

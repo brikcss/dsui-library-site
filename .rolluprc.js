@@ -15,6 +15,7 @@ import babel from 'rollup-plugin-babel';
 import ejs from './lib/rollup-plugin-ejs';
 // import markdownit from 'markdown-it';
 import md from './lib/rollup-plugin-md';
+import replace from 'rollup-plugin-replace';
 // import mdplus from './lib/rollup-plugin-mdplus';
 import mdAttrs from 'markdown-it-attrs';
 import mdContainer from 'markdown-it-container';
@@ -25,6 +26,7 @@ import mdInclude from 'markdown-it-include';
 // import mdHighlightLines from 'markdown-it-highlight-lines';
 // import mdElement from 'markdown-it-custom-block';
 import templateLiteral from './lib/rollup-plugin-template-literal';
+// import css from 'modular-css-rollup';
 import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
 import postcssImport from 'postcss-import';
@@ -145,6 +147,10 @@ function createConfig(config = {}, options = {}) {
 			{
 				env: 'development',
 				commonjs: true,
+				replace: {
+					// @NOTE: This is required to transpile jss from its source.
+					'process.env.NODE_ENV': process.env.NODE_ENV
+				},
 				md: {
 					include: '**/*.md',
 					markdownit: {
@@ -290,6 +296,7 @@ function createConfig(config = {}, options = {}) {
 						autoprefixer(postcssConfig['autoprefixer'])
 					]
 				},
+				css: {},
 				templateLiteral: {
 					include: '**/*.tplit.html'
 				},
@@ -341,9 +348,11 @@ function createConfig(config = {}, options = {}) {
 	config.plugins = [
 		resolve(),
 		commonjs(options.commonjs),
+		replace(options.replace),
 		md(options.md),
 		// mdplus(options.mdplus),
 		postcss(options.postcss),
+		// css(options.css),
 		templateLiteral(options.templateLiteral),
 		string(options.string),
 		ejs(options.ejs),
