@@ -4,7 +4,9 @@ import 'prismjs/components/prism-sass';
 import 'prismjs/components/prism-bash';
 import BrikElement from '../brik-element/brik.js';
 import tpl from './code.tplit.html';
-import css from './code.shadow.css';
+import css from './code.css.js';
+import prismCss from 'prismjs/themes/prism-tomorrow.css';
+import styles from '../styles/styles.js';
 
 export default class Code extends BrikElement {
 	static get defaults() {
@@ -32,35 +34,31 @@ export default class Code extends BrikElement {
 
 	// Create the Custom Element.
 	created() {
-		// Create shadow dom and pre-render a skeleton screen.
+		// Create styles and dom.
 		this.attachShadow({ mode: 'open' });
+		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-' });
 		if (typeof this.props.showHeader === 'string')
 			this.props.showHeader = this.props.showHeader === 'true';
 		this.render();
-	}
 
-	connectedCallback() {
 		// Build dom.
 		this.dom = {
 			pre: this.shadowRoot.querySelector('pre'),
 			code: this.shadowRoot.querySelector('code'),
 			editor: this.parentNode.tagName === 'BRIK-EDITOR' ? this.parentNode : null
 		};
-		this.classList.add('brik-code');
 		this.dataset.tab = this.props.lang;
 		this.props.raw = this.textContent.trim();
 		this.textContent = '';
 
 		// Set default props.
 		this.props.ticking = false;
-		this.props.css = css;
 		this.props.label = this.props.label || this.props.lang.toUpperCase();
 		this.props.inputTimeout;
 
 		// If this is part of an editor element, create a tab.
 		if (this.dom.editor) {
 			this.props.showHeader = false;
-			this.classList.add('brik-code--has-tabs');
 		}
 
 		// Update editability.
@@ -128,6 +126,7 @@ export default class Code extends BrikElement {
 		} else {
 			this.props.text = (this.props.raw || '').replace(/</g, '&lt;');
 		}
+		this.cssString = [prismCss, this.css.toString()].join('\n');
 		return tpl(this.html, this, BrikElement);
 	}
 }

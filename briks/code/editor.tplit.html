@@ -1,0 +1,19 @@
+${this.props.livePreview ? hyperhtml.wire(this.props, ':previewer')`<div class="${this.css.classes.preview}">
+	${[this.props.liveMarkup]}
+</div>` : ''}
+
+<div class="${this.css.classes.header}">
+	<div class="${this.css.classes.tabs}">
+		${this.props.tabs.map((tab) => hyperhtml.wire(tab)`
+			<button onclick="${() => {
+				if (this.props.tabs.length > 1) this.activateTab(tab);
+			}}" class="${`${this.css.classes.tab} ${this.props.activeTab[this.props.activeTab.label ? 'label' : 'id'] === tab[this.props.activeTab.label ? 'label' : 'id'] ? this.css.classes['tab--active'] : ''}`}" type="button">${tab.label}</button>
+		`)}
+	</div>
+
+	${this.props.dirty ? hyperhtml.wire(this.props, ':dirty-note')`<div class="${this.css.classes.toolbar}"><button class="${this.css.classes.refresh}" type="button" onclick="${this.refreshPreview}">Refresh</button> <kbd>ctrl</kbd> | <kbd>cmd</kbd>+<kbd>enter</kbd> to refresh preview</div>` : ''}
+</div>
+
+<div class="${this.css.classes.window}"><slot></slot></div>
+
+<style type="text/css">${this.css.toString()}</style>

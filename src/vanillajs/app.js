@@ -65,8 +65,8 @@ import Header from '../../briks/header/header.js';
 import BurgerButton from '../../briks/burger-button/burger-button.js';
 import Scroller from '../../briks/scroller/scroller.js';
 import Tabs from '../../briks/tabs';
-import Editor from '../../briks/editor/editor.js';
-import Code from '../../briks/editor/code.js';
+import Editor from '../../briks/code/editor.js';
+import Code from '../../briks/code/code.js';
 
 // ------
 // Routes.

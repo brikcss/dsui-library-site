@@ -1,6 +1,7 @@
 import BrikElement from '../brik-element/brik.js';
 import tpl from './editor.tplit.html';
-import css from './editor.shadow.css';
+import styles from '../styles/styles.js';
+import css, { paneCss } from './editor.css.js';
 
 export default class Editor extends BrikElement {
 	static get defaults() {
@@ -16,19 +17,18 @@ export default class Editor extends BrikElement {
 
 	// Create the Custom Element.
 	created() {
-		// Create shadow dom and pre-render a skeleton screen.
+		// Create dom, styles, and pre-render a skeleton screen.
 		this.attachShadow({ mode: 'open' });
 		this.props.tabs = [];
 		this.props.liveMarkup = '';
+		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-' });
 		this.render();
-	}
 
-	connectedCallback() {
 		// Cache dom.
-		this.classList.add('brik-editor');
+		this.classList.add(this.css.classes.editor);
 		this.dom = {
-			previewer: this.shadowRoot.querySelector('.brik-editor__preview'),
-			window: this.shadowRoot.querySelector('.brik-editor__window'),
+			previewer: this.shadowRoot.querySelector('.' + this.css.classes.preview),
+			window: this.shadowRoot.querySelector('.' + this.css.classes.window),
 			panes: Array.from(this.children)
 		};
 		if (this.props.editable) {
@@ -38,13 +38,15 @@ export default class Editor extends BrikElement {
 		// Set default props.
 		this.props.ticking = false;
 		this.props.throttled = false;
-		this.props.css = css;
 		this.props.live = {};
 		this.props.dirty = false;
 
 		// Create tabs.
 		this.props.tabs = [];
 		this.dom.panes.forEach((pane, i) => {
+			if (this.dom.panes.length > 1) {
+				styles.createRule(paneCss({ active: false, index: i })).applyTo(pane);
+			}
 			this.props.tabs.push({
 				id: pane.lang,
 				label: pane.label || pane.getAttribute('label') || pane.lang.toUpperCase(),
@@ -69,11 +71,15 @@ export default class Editor extends BrikElement {
 	activateTab(tab) {
 		// De-activate previously active tab.
 		if (this.props.activeTab) {
-			this.dom.panes[this.props.activeTab.index].classList.remove('brik--is-active');
+			styles
+				.createRule(paneCss({ active: false, index: this.props.activeTab.index }))
+				.applyTo(this.dom.panes[this.props.activeTab.index]);
 		}
 		// Activate new tab.
 		this.props.activeTab = tab;
-		this.dom.panes[this.props.activeTab.index].classList.add('brik--is-active');
+		styles
+			.createRule(paneCss({ active: true, index: this.props.activeTab.index }))
+			.applyTo(this.dom.panes[this.props.activeTab.index]);
 		// Re-render.
 		this.render();
 	}

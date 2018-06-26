@@ -1,0 +1,11 @@
+${
+	this.props.label && this.props.showHeader
+		? hyperhtml.wire()`<div class="${this.css.classes.header}">${this.props.label}</div>`
+		: ''
+}
+
+<pre class="${`${this.css.classes.pre} language-${
+	this.props.lang
+}`}"><code class="${this.css.classes.code}" contenteditable="${this.props.editable}">${[this.props.text]}</code></pre>
+
+<style>${this.cssString}</style>
