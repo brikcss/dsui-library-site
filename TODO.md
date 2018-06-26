@@ -2,9 +2,6 @@
 
 ## In Progress
 
-- Fix supernav:
-	- After window resizes to mini nav, active link has active look.
-	- tabindex is broken.
 - Cross browser test DSUI site.
 	- Add polyfills:
 		- Custom Elements (document-register).

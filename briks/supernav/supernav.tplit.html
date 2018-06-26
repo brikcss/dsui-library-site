@@ -16,14 +16,22 @@
 
 		<!-- Links and menus. -->
 		<nav class="${`${this.css.classes.nav} ${this.props.active ? this.css.classes.active : ''}`}">
-			${this.props.links.map((link, i) => hyperhtml.wire(link, ':link')`<div class="${`${this.css.classes.menu} ${link.active ? this.css.classes['active-menu'] : ''}`}" style="${`height: ${link.children && link.active && !this.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
-				${link.children ? hyperhtml.wire(link, ':link-without-path')`<button type="button" class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}" onclick="${() => {
-					if ((this.props.showSubmenus && this.props.isPinned) || this.props.isMini) return;
-					const lastActiveLink = this.props.links.find((link, n) => n !== i && link.active);
-					if (lastActiveLink) lastActiveLink.active = false;
-					link.active = !link.active;
-					this.render();
-				}}" onfocus="${() => {link.focused = true;}}" onblur="${() => {link.focused = false;}}" tabindex="${(this.props.state === 'default' && this.props.active) || (this.props.isPinned && !this.props.showSubmenus) ? 0 : -1}">
+			${this.props.links.map((link, i) => hyperhtml.wire(link, ':link')`<div
+				class="${`${this.css.classes.menu} ${link.active && !this.props.isMini ? this.css.classes['active-menu'] : ''}`}"
+				style="${`height: ${link.children && link.active && !this.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
+				${link.children ? hyperhtml.wire(link, ':link-without-path')`<button
+					type="button"
+					class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}"
+					onclick="${() => {
+						if ((this.props.showSubmenus && this.props.isPinned) || this.props.isMini) return;
+						const lastActiveLink = this.props.links.find((link, n) => n !== i && link.active);
+						if (lastActiveLink) lastActiveLink.active = false;
+						link.active = !link.active;
+						this.render();
+					}}"
+					onfocus="${() => {link.focused = true;}}"
+					onblur="${() => {link.focused = false;}}"
+					tabindex="${(this.props.state === 'off-canvas' && this.props.active) || (this.props.isPinned && !this.props.showSubmenus) ? 0 : -1}">
 					<brik-icon class="${this.css.classes.icon}" name="${link.icon}"></brik-icon>
 					<span class="${this.css.classes['link-label']}">${link.label}</span>
 					${link.children ? hyperhtml.wire(link, ':link-no-path-button')`<brik-icon class="${this.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}

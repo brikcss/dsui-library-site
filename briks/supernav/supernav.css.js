@@ -236,10 +236,10 @@ const miniNav = {
 			transitionDuration: '300ms',
 			transitionTimingFunction: 'cubic-bezier(0.6, 0, 0.2, 1.2)'
 		},
-		'$menu:hover &:before, $menu:focus &:before': {
+		'$menu:hover &:before, &:focus:before': {
 			left: 0,
-			top: 'calc(50% - 4.5rem)',
-			height: '9rem',
+			top: ['calc(50% - 4.5rem)', '!important'],
+			height: ['9rem', '!important'],
 			transitionDuration: '400ms, 300ms, 300ms'
 		}
 	},

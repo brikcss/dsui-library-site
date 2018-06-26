@@ -45,7 +45,7 @@ export default class SuperNav extends BrikElement {
 			nav: this.shadowRoot.querySelector('.brik-supernav__item')
 		};
 		// Add events.
-		this.$.page.addEventListener('on.sidebar-toggle', this.handleOnSidebarToggle);
+		this.$.sidebar.addEventListener('on.toggle-left-sidebar', this.handleToggle);
 		// Create stylesheet.
 		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-supernav-' });
 		// Render it.
@@ -54,7 +54,14 @@ export default class SuperNav extends BrikElement {
 
 	// Clean up.
 	disconnectedCallback() {
-		this.$.page.removeEventListener('on.sidebar-toggle', this.handleOnSidebarToggle);
+		this.$.sidebar.removeEventListener('on.toggle-left-sidebar', this.handleToggle);
+	}
+
+	handleToggle() {
+		this.render();
+		if (this.props.active && !this.props.isMini) {
+			this.shadowRoot.querySelector('.' + this.css.classes.close).focus();
+		}
 	}
 
 	// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
@@ -62,6 +69,8 @@ export default class SuperNav extends BrikElement {
 	// See https://viperhtml.js.org/hyperhtml/documentation/
 	render() {
 		const sidebar = this.$.sidebar;
+		this.props.active = sidebar.active;
+		this.props.state = sidebar.props.state;
 		this.props.isMini = sidebar.props.state === 'mini';
 		this.props.isPinned = sidebar.props.state === 'pinned';
 		// Add mini modifier.
