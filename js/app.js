@@ -14872,7 +14872,7 @@
 					type="button"
 					class="${`${context.css.classes.link} ${link.separator ? context.css.classes.divider : ''}`}"
 					onclick="${() => {
-						if ((context.props.showSubmenus && context.props.isPinned) || context.props.isMini) return;
+						if ((context.props.showSubmenus)) return;
 						const lastActiveLink = context.props.links.find((link, n) => n !== i && link.active);
 						if (lastActiveLink) lastActiveLink.active = false;
 						link.active = !link.active;
@@ -15126,6 +15126,7 @@
 			position: 'static'
 		},
 		link: {
+			backgroundColor: 'var(--color__supernav)',
 			color: 'var(--color__light2)',
 			fill: 'var(--color__supernav--icon)',
 			display: 'flex',
