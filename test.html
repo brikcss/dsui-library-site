@@ -1,40 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>DirectScale UI Library - Front End Components with BrikCSS</title>
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="./css/app.css">
+	<title>Cross browser test</title>
+	<!-- <style type="text/css">
+		brik-icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			height: 2rem;
+			width: 2rem;
+			fill: red;
+			stroke: transparent;
+		}
+		brik-icon svg {
+			height: 100%;
+			width: 100%;
+			}
+	</style> -->
 </head>
 <body>
 
-	<brik-page>
-		<brik-sidebar side="left" mini-at="768px" pin-at="1280px">
-			<brik-supernav>
-				<!-- <div slot="header">Header...</div> -->
-				<!-- <div slot="logo">Logo...</div> -->
-			</brik-supernav>
-		</brik-sidebar>
+	<brik-icon name="facebook"></brik-icon>
+	<brik-icon name="twitter"></brik-icon>
+	<brik-icon name="google"></brik-icon>
+	<brik-icon name="linkedin"></brik-icon>
 
-		<brik-viewport>
-			<brik-header>
-				<!-- <div slot="content" style="display: flex; align-items: center;">
-					<brik-icon name="home" size="4rem" fill="hsl(0, 0%, 100%)"></brik-icon>
-					<button class="toggle__right" type="button">Rightbar</button>
-				</div> -->
-			</brik-header>
-
-			<brik-content></brik-content>
-
-			<!-- <brik-footer class="footer"><brik-icon name="twitter"></brik-icon> Footer</brik-footer> -->
-		</brik-viewport>
-
-		<brik-sidebar side="right">
-			<h2>Right Sidebar</h2>
-		</brik-sidebar>
-	</brik-page>
 
 	<!-- ES MODULE SCRIPT LOADING TECHNIQUE -->
 	<!-- The script loading technique below loads different scripts for modern browsers and older browsers that don't support ES modules. Browsers with ES module support will not load `nomodule` scripts, but will load scripts with `type="module"`; the opposite is true for browsers without ES module support. See https://philipwalton.com/articles/deploying-es2015-code-in-production-today/ for details. -->
@@ -64,7 +54,7 @@
 			}
 		})();
 	</script>
-	<script type="module" src="js/app.js"></script>
+	<script type="module" src="js/test.js"></script>
 	<script nomodule src="js/app-legacy.js"></script>
 </body>
 </html>
