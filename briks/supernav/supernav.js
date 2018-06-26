@@ -6,7 +6,7 @@ import css, { miniNav, pinnedNav } from './supernav.css.js';
 // import miniStyles from './supernav--mini.css';
 // import pinnedStyles from './supernav--pinned.css';
 
-export default class SuperNav extends BrikElement {
+export default class Supernav extends BrikElement {
 	static get defaults() {
 		return {
 			showSubmenus: false,
@@ -41,7 +41,7 @@ export default class SuperNav extends BrikElement {
 		this.$ = {
 			sidebar: this.parentNode,
 			page: this.parentNode.parentNode,
-			viewport: document.querySelector('brik-page-viewport'),
+			viewport: document.querySelector('brik-viewport'),
 			nav: this.shadowRoot.querySelector('.brik-supernav__item')
 		};
 		// Add events.

@@ -52,7 +52,7 @@ export default class Sidebar extends BrikElement {
 		this.dom = {
 			parent: this.parentNode,
 			overlay: this.parentNode.querySelector('brik-overlay'),
-			viewport: document.querySelector('brik-page-viewport')
+			viewport: document.querySelector('brik-viewport')
 		};
 		if (!this.dom.overlay) {
 			this.dom.overlay = document.createElement('brik-overlay');

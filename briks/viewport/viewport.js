@@ -1,10 +1,10 @@
 import BrikElement from '../brik-element/brik.js';
-import { jss } from '../styles/styles.js';
+import styles from '../styles/styles.js';
 
-export default class PageViewport extends BrikElement {
+export default class Viewport extends BrikElement {
 	created() {
 		this.attachShadow({ mode: 'open' });
-		this.props.css = jss
+		this.css = styles
 			.createRule({
 				boxSizing: 'border-box',
 				display: 'flex',
@@ -23,7 +23,7 @@ export default class PageViewport extends BrikElement {
 	// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
 	// See https://viperhtml.js.org/hyperhtml/documentation/
 	render(activeSidebar = '') {
-		this.props.css.prop(
+		this.css.prop(
 			'transform',
 			activeSidebar === 'left'
 				? 'translate3d(var(--sidebar-left-push), 0, 0);'

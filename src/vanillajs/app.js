@@ -55,10 +55,10 @@ import listenersPlugin from 'router5/plugins/listeners';
 // Custom Elements.
 //
 import Page from '../../briks/page/page.js';
-import PageViewport from '../../briks/page/page-viewport.js';
-import PageContent from '../../briks/page/page-content.js';
+import Viewport from '../../briks/viewport/viewport.js';
+import Content from '../../briks/content/content.js';
 import Overlay from '../../briks/overlay/overlay.js';
-import Sidebar from '../../briks/page/sidebar.js';
+import Sidebar from '../../briks/sidebar/sidebar.js';
 import SuperNav from '../../briks/supernav/supernav.js';
 import Icon from '../../briks/icons/icon.js';
 import Header from '../../briks/header/header.js';
@@ -86,11 +86,11 @@ window.brikcss = window.brikcss || {};
 const app = {
 	page: document.querySelector('brik-page'),
 	header: document.querySelector('brik-header'),
-	supernav: document.querySelector('brik-super-nav'),
+	supernav: document.querySelector('brik-supernav'),
 	leftbar: document.querySelector('brik-sidebar[side="left"]'),
 	rightbar: document.querySelector('brik-sidebar[side="right"]'),
 	rightSidebarToggle: document.querySelector('.toggle__right'),
-	content: document.querySelector('brik-page-content')
+	content: document.querySelector('brik-content')
 };
 
 /** ================================================================================================
@@ -164,8 +164,8 @@ function renderRoute(route, toState, fromState) {
  ** ---------------------- */
 
 Page.define();
-PageViewport.define();
-PageContent.define();
+Viewport.define();
+Content.define();
 Overlay.define();
 Sidebar.define();
 SuperNav.define();
