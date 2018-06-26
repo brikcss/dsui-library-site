@@ -6,18 +6,20 @@
 			<th>Firefox</th>
 			<th>Safari</th>
 			<th>Edge</th>
+			<th>IE</th>
 			<th>iOS</th>
 			<th>Android</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.chrome ? '' : ' browsers-table__icon--disabled' %>" name="google-chrome"></brik-icon> <% if (typeof page.browsers.chrome === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.chrome %></div><% } %></td>
-			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.firefox ? '' : ' browsers-table__icon--disabled' %>" name="firefox"></brik-icon> <% if (typeof page.browsers.firefox === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.firefox %></div><% } %></td>
-			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.safari ? '' : ' browsers-table__icon--disabled' %>" name="apple-safari"></brik-icon> <% if (typeof page.browsers.safari === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.safari %></div><% } %></td>
-			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.edge ? '' : ' browsers-table__icon--disabled' %>" name="edge"></brik-icon> <% if (typeof page.browsers.edge === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.edge %></div><% } %></td>
-			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.ios ? '' : ' browsers-table__icon--disabled' %>" name="apple-ios"></brik-icon> <% if (typeof page.browsers.ios === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.ios %></div><% } %></td>
-			<td><brik-icon class="browsers-table__icon<%= page.browsers === true || page.browsers.android ? '' : ' browsers-table__icon--disabled' %>" name="android"></brik-icon> <% if (typeof page.browsers.android === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.android %></div><% } %></td>
+			<td><brik-icon name="google-chrome" size="4rem" fill="hsla(0, 0%, 0%, <%= page.browsers === true || page.browsers.chrome ? '0.5' : '0.2' %>"></brik-icon> <% if (typeof page.browsers.chrome === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.chrome %></div><% } %></td>
+			<td><brik-icon name="firefox" size="4rem" fill="hsla(0, 0%, 0%, <%= page.browsers === true || page.browsers.firefox ? '0.5' : '0.2' %>"></brik-icon> <% if (typeof page.browsers.firefox === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.firefox %></div><% } %></td>
+			<td><brik-icon name="apple-safari" size="4rem" fill="hsla(0, 0%, 0%, <%= page.browsers === true || page.browsers.safari ? '0.5' : '0.2' %>"></brik-icon> <% if (typeof page.browsers.safari === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.safari %></div><% } %></td>
+			<td><brik-icon name="edge" size="4rem" fill="hsla(0, 0%, 0%, <%= page.browsers === true || page.browsers.edge ? '0.5' : '0.2' %>"></brik-icon> <% if (typeof page.browsers.edge === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.edge %></div><% } %></td>
+			<td><brik-icon name="edge" size="4rem" fill="hsla(0, 0%, 0%, <%= page.browsers === true || page.browsers.ie ? '0.5' : '0.2' %>"></brik-icon> <% if (typeof page.browsers.ie === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.ie %></div><% } %></td>
+			<td><brik-icon name="apple-ios" size="4rem" fill="hsla(0, 0%, 0%, <%= page.browsers === true || page.browsers.ios ? '0.5' : '0.2' %>"></brik-icon> <% if (typeof page.browsers.ios === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.ios %></div><% } %></td>
+			<td><brik-icon name="android" size="4rem" fill="hsla(0, 0%, 0%, <%= page.browsers === true || page.browsers.android ? '0.5' : '0.2' %>"></brik-icon> <% if (typeof page.browsers.android === 'string') { %><div class="browsers-table__icon-label"><%= page.browsers.android %></div><% } %></td>
 		</tr>
 	</tbody>
 </table><% } %>

@@ -141,7 +141,7 @@ brik-icon:not(:defined) {
 	align-items: center;
 	justify-content: center;
 	position: absolute;
-	right: 1rem;
+	right: 1.25rem;
 	top: 0.5rem;
 	height: 2rem;
 	width: 2rem;
