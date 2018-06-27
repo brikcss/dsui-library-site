@@ -8,6 +8,8 @@ import getStartedPage from '../../pages/getting-started.page.md';
 // About pages.
 // import includingAssetsPage from '../../pages/about/including-assets.page.md';
 import workingWithNpmPage from '../../pages/about/working-with-npm.page.md';
+import monolithToMicroPage from '../../pages/learn/from-monolith-to-micro.page.md';
+import customElementPage from '../../pages/learn/creating-a-custom-element.page.md';
 // import packageStructurePage from '../../pages/about/package-structure.page.md';
 // Core component pages.
 import browserResetPage from '../../pages/core/browser-reset.html.ejs';
@@ -61,6 +63,18 @@ export default [
 				label: 'Working with NPM',
 				path: '/working-with-npm',
 				render: (app) => app.content.render(workingWithNpmPage)
+			},
+			{
+				name: 'monolith-to-micro',
+				label: 'From Monolith to Micro',
+				path: '/monolith-to-micro',
+				render: (app) => app.content.render(monolithToMicroPage)
+			},
+			{
+				name: 'custom-element',
+				label: 'Creating a custom element',
+				path: '/creating-a-custom-element',
+				render: (app) => app.content.render(customElementPage)
 			}
 			// {
 			// 	name: 'structure',
