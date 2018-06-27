@@ -15,7 +15,7 @@ Eventually I created my own wish list:
 	- Each piece deploys independently.
 	- If a library becomes obsolete, we only need to rewrite/replace the library, not the entire app or framework.
 - _Interoperable_. Parts that might be reusable by other teams should be built in a way that allows other teams to use it and fit it into their technology/environment.
-	- Works with any popular framework.
+	- Works with any popular framework or environment.
 	- Perhaps even works with multiple frameworks on the same page with no reload.
 - Embraces _ES6/ES2015_. Take advantage of cool new features such as modules, promises, template literals, etc. Most ES6 features meet our browser support policy, and others can be polyfilled as needed.
 - Favors _native_ JS/DOM APIs over custom APIs.
@@ -41,7 +41,7 @@ There are [many ways to adopt a Micro Front End architecture](https://medium.com
 - _Page Transitions / Routing:_ Enables and controls page transitions.
 - _The Build:_ Bundles an app together, prepares for production, and deploys.
 
-### Part 1: Page Composition
+### Layer 1: Page Composition
 
 _Page Composition_ is the biggest layer of an app. It consists of the various components that will reside on a page. These components must be:
 
@@ -75,7 +75,7 @@ Web Components are instantiated as custom HTML elements, and they may rely on ot
 
 _See "Dependency handling" in "Part 5: Other Considerations" for more details._
 
-### Part 2: App Shell
+### Layer 2: App Shell
 
 The _App Shell_ is a larger codebase which glues components together in an organized fashion to present to the user. The App Shell always includes:
 
@@ -93,13 +93,13 @@ The App Shell should be thin. As thin as possible. Serious thought should be giv
 
 Remember, almost anything can be a component.
 
-### Part 3: Page Transitions / Routing
+### Layer 3: Page Transitions / Routing
 
 The router is a big part of any app since it enables and controls transitioning from page to page. In Micro Front Ends, the router might be part of the App Shell or it might be part of Page Composition (its own component). It might be created in-house or imported as a third party library. It might even be part of a larger framework.
 
 The reason this is listed out separately is because the router is a big enough part of any app that it deserves its own special considerations. How you implement the router should depend on the needs of the app, but _any routing solution should favor the native history API and work with Custom Elements (part of the Web Components spec)._
 
-### Part 4: The Build System
+### Layer 4: The Build System
 
 The purpose of the build process is to glue everything together, prepare the app for production, and deploy. No specific build system is required, but, for our purposes, it must:
 
@@ -118,7 +118,7 @@ Potential build tooling options:
 - [ParcelJS](https://parceljs.org/)
 - [Babel](https://babeljs.io/) (Note: Babel is typically used in tandem with another build tool to transpile from ES6 source to your list of supported browsers)
 
-### Part 5: Other Considerations
+### Other Important Considerations
 
 #### Dependency handling
 
