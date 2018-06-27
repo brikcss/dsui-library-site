@@ -210,12 +210,20 @@ All teams should coordinate with and work together with the Platform team before
 
 - Go from monolith to micro front end one small step at a time (eat the elephant one bite at a time).
 - Speed up the work of creating the DS UI Library / Style Guide of components.
-- Solve challenges identified in discovery such as:
-	- Mobile bugs and functionality that doesn't work.
-	- Significantly reduce bugs. Code / patterns are tested in their own isolated environment. From Monolith to Micro Front End.
-	- Mobile and responsive optimization.
-	- Unification of the UI.
-	- Make life easier for developers.
+- Solve challenges which were identified in discovery such as:
+	- Unnecessary time spent on front end development.
+	- Too much time fixing bugs. This often is related to inconsistent, hacky, or redundant front-end code. I call this the "whack-a-mole" affect, where it is difficult or impossible to know what other bugs will pop up as a result of fixing another.
+	- Slow and sluggish performance.
+	- Broken functionality. Some features don't work as intended, especially on mobile.
+	- Inconsistent UI between apps.
+	- Mobile and responsive optimization. Many features are not optimized for mobile.
+	- Unmaintainable code. Code is frequently duplicated, not reusable. Code bloat.
+		- Back Office on 6/15/2016 (Wakaya):
+			- CSS = 827kb
+			- JS = 4.7mb
+		- Back Office on 3/1/2017 (Wakaya):
+			- CSS = 1.5mb
+			- JS = 7.4mb
 
 ### Step 2: Build the App Shell
 
