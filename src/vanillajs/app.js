@@ -64,7 +64,7 @@ import Icon from '../../briks/icons/icon.js';
 import Header from '../../briks/header/header.js';
 import BurgerButton from '../../briks/burger-button/burger-button.js';
 import Scroller from '../../briks/scroller/scroller.js';
-import Tabs from '../../briks/tabs';
+import Tabs from '../../briks/tabs/tabs.js';
 import Editor from '../../briks/code/editor.js';
 import Code from '../../briks/code/code.js';
 
@@ -143,7 +143,7 @@ routes.forEach((route) => {
 
 function renderRoute(route, toState, fromState) {
 	// Close sidebars.
-	Object.keys(window.brikcss.sidebars).forEach((group) => {
+	(Object.keys(window.brikcss.sidebars) || []).forEach((group) => {
 		if (window.brikcss.sidebars[group].active) {
 			window.brikcss.sidebars[group].active.active = false;
 		}
@@ -181,7 +181,7 @@ Header.define();
  *  Build supernav links
  ** -------------------- */
 
-app.supernav.props.links = routes.filter((route) => !route.hide);
+app.supernav.links = routes.filter((route) => !route.hide);
 app.supernav.render();
 
 /** ================================================================================================

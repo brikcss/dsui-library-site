@@ -2,16 +2,7 @@
 
 ## In Progress
 
-- Cross browser test DSUI site.
-	- Add polyfills:
-		- [x] Custom Elements (document-register).
-		- [x] Shadow DOM
-		- [-] Templates / slots.
-		- IE11:
-			- [ ] Fetch?
-			- [ ] Promise?
-			- [ ] Proxy object (https://github.com/tvcutsem/harmony-reflect)
-			- [ ] ES6 (Class?)
+- Create the "template" and document the process for creating Web Components.
 - Split core components up into smaller pieces with abstracts and css producing code so they can be imported to shadow doms as well as consumed by the app layer.
 	- Core components will need JSS files for CSS modules.
 - Update typography font styles.
@@ -61,6 +52,11 @@
 
 ## Maybe
 
+- Add IE11 polyfills:
+	- Fetch?
+	- Promise?
+	- Proxy object (https://github.com/tvcutsem/harmony-reflect)
+	- ES6 (Class?)
 - Publish `@brikcss/rollup-plugin-ejs` to NPM.
 - Look into [Styled Components](https://www.styled-components.com/)?
 

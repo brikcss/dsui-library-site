@@ -1,8 +1,8 @@
-import BrikElement from '../brik-element/brik.js';
+import { Brik, renderMixin } from '../brik-element';
 import styles from '../styles/styles.js';
 
-export default class Viewport extends BrikElement {
-	created() {
+export default class Viewport extends Brik().with(renderMixin) {
+	connectedCallback() {
 		this.attachShadow({ mode: 'open' });
 		this.css = styles
 			.createRule({
@@ -19,9 +19,6 @@ export default class Viewport extends BrikElement {
 		this.render();
 	}
 
-	// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-	// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-	// See https://viperhtml.js.org/hyperhtml/documentation/
 	render(activeSidebar = '') {
 		this.css.prop(
 			'transform',
@@ -31,6 +28,6 @@ export default class Viewport extends BrikElement {
 					? 'translate3d(calc(-1 * var(--sidebar-right-push)), 0, 0);'
 					: ''
 		);
-		return this.html`<slot></slot>`;
+		return this.bind(this.root)`<slot></slot>`;
 	}
 }

@@ -1,34 +1,39 @@
-import BrikElement from '../brik-element/brik.js';
+import { Brik, propsMixin, renderMixin, types, type } from '../brik-element';
 import styles from '../styles/styles.js';
 
-export default class Overlay extends BrikElement {
-	// Sets default props and observedAttributes.
-	static get defaults() {
+export default class Overlay extends Brik().with(propsMixin, renderMixin) {
+	static get props() {
 		return {
-			active: false,
-			styles: {
-				backgroundColor: 'transparent',
-				position: 'fixed',
-				left: 0,
-				right: 0,
-				bottom: 0,
-				top: 0,
-				zIndex: -1,
-				transition: 'background-color 350ms, z-index 0ms 350ms'
-			},
-			activeStyles: {
-				backgroundColor: 'hsla(0, 0%, 0%, 0.5)',
-				zIndex: 9,
-				transition: 'background-color 350ms, z-index 350ms 0ms'
-			}
+			active: types.boolean,
+			styles: type(
+				Object.assign({}, types.object, {
+					attribute: false,
+					default: {
+						backgroundColor: 'transparent',
+						position: 'fixed',
+						left: 0,
+						right: 0,
+						bottom: 0,
+						top: 0,
+						zIndex: -1,
+						transition: 'background-color 350ms, z-index 0ms 350ms'
+					}
+				})
+			),
+			activeStyles: type(
+				Object.assign({}, types.object, {
+					attribute: false,
+					default: {
+						backgroundColor: 'hsla(0, 0%, 0%, 0.5)',
+						zIndex: 9,
+						transition: 'background-color 350ms, z-index 350ms 0ms'
+					}
+				})
+			)
 		};
 	}
 
-	static get observedAttributes() {
-		return ['active'];
-	}
-
-	created() {
+	connectedCallback() {
 		this.css = styles.createStyleSheet(
 			{
 				overlay: this.props.styles,
@@ -40,16 +45,11 @@ export default class Overlay extends BrikElement {
 		this.render();
 	}
 
-	// Called when an observedAttribute (which defaults to Object.keys(this.defaults)) changes.
-	attributeChangedCallback() {
-		this.render();
+	rendering() {
+		this.classList[this.active ? 'add' : 'remove'](this.css.classes.active);
 	}
 
-	// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-	// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-	// See https://viperhtml.js.org/hyperhtml/documentation/
 	render() {
-		this.classList[this.active ? 'add' : 'remove'](this.css.classes.active);
-		this.html`<style>${this.css.toString()}</style>`;
+		return this.bind(this.root)`<style>${this.css.toString()}</style>`;
 	}
 }

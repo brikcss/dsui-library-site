@@ -1,13 +1,8 @@
-import BrikElement from '../brik-element/brik.js';
+import { Brik, renderMixin } from '../brik-element';
 import styles from '../styles/styles.js';
 
-export default class Page extends BrikElement {
-	static get defaults() {
-		return {};
-	}
-
-	// Create the Custom Element.
-	created() {
+export default class Page extends Brik().with(renderMixin) {
+	connectedCallback() {
 		if (!document.querySelector('brik-page')) {
 			throw new Error('Only one <brik-page/> element allowed on a page.');
 		}
@@ -22,10 +17,7 @@ export default class Page extends BrikElement {
 		this.render();
 	}
 
-	// Render the DOM with hyperhtml, a native approach to virtual DOM which efficiently renders
-	// nodes, data or attributes that change. See
-	// https://viperhtml.js.org/hyperhtml/documentation/.
 	render() {
-		return this.html`<slot></slot>`;
+		return this.bind(this.root)`<slot></slot>`;
 	}
 }

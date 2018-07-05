@@ -1,10 +1,10 @@
-<div class="${this.props.css.classes.header}">
-	<div class="${this.props.css.classes.left}">
-		<brik-burger-button class="${this.props.css.classes.burger}" sidebar="left"></brik-burger-button>
-		<div class="${this.props.css.classes.title}">${hyperhtml.wire()`${[this.props.title]}`}</div>
+<div class="${this.css.classes.header}">
+	<div class="${this.css.classes.left}">
+		<brik-burger-button class="${this.css.classes.burger}" sidebar="left"></brik-burger-button>
+		<div class="${this.css.classes.title}">${this.wire()`${[this.props.title]}`}</div>
 	</div>
 
-	<slot name="content" class="${this.props.css.classes.content}"></slot>
+	<slot name="content" class="${this.css.classes.content}"></slot>
 </div>
 
-${this.props.css ? [`<style type="text/css">${this.props.css.toString()}</style>`] : ''}
+${this.css ? [`<style type="text/css">${this.css.toString()}</style>`] : ''}

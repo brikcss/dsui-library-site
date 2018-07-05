@@ -1,10 +1,10 @@
 <div class="brik-tabs__buttons">
-	${this.props.tabs.map(
-		(tab) => hyperhtml.wire(tab)`<div class="${`brik-tabs__button-wrap ${
+	${this.tabs.map(
+		(tab) => this.wire(tab)`<div class="${`brik-tabs__button-wrap ${
 				tab.active ? 'brik-tabs__button--active' : ''
 			}`}">
 			<button class="brik-tabs__button" type="button" onclick="${() => {
-				this.activateTab(tab);
+				this.activeTab = tab.id;
 			}}"><span class="brik-tabs__button-label">${tab.label || tab.id}</span></button>
 		</div>
 	`
@@ -13,4 +13,4 @@
 
 <div class="brik-tabs__contents"><slot></slot></div>
 
-<style type="text/css">${this.props.css}</style>
+<style type="text/css">${this.css}</style>

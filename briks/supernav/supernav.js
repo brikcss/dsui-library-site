@@ -1,100 +1,110 @@
-import BrikElement from '../brik-element/brik.js';
+import { Brik, propsMixin, renderMixin, eventsMixin, types, type } from '../brik-element';
 import tpl from './supernav.tplit.html';
 import styles from '../styles/styles.js';
 import css, { miniNav, pinnedNav } from './supernav.css.js';
-// import baseStyles from './supernav.css';
-// import miniStyles from './supernav--mini.css';
-// import pinnedStyles from './supernav--pinned.css';
 
-export default class Supernav extends BrikElement {
-	static get defaults() {
+export default class Supernav extends Brik().with(propsMixin, renderMixin, eventsMixin) {
+	static get props() {
 		return {
-			showSubmenus: false,
-			homePath: '#!/home',
-			headerBackground:
-				'https://az706994.vo.msecnd.net/wakaya/images/3751a9f5-5ea2-4f60-8b9d-71ab358d59cd',
-			user: {
-				name: 'Sam Space',
-				id: '16D21'
-			},
-			linkPrefix: '#!',
-			links: [
-				{
-					name: 'Home',
-					path: '#!/home',
-					icon: 'home'
-				}
-			]
+			showSubmenus: types.boolean,
+			homePath: type(Object.assign({}, types.string, { default: '#!/home' })),
+			headerBackground: type(
+				Object.assign({}, types.string, {
+					default:
+						'https://az706994.vo.msecnd.net/wakaya/images/3751a9f5-5ea2-4f60-8b9d-71ab358d59cd'
+				})
+			),
+			user: type(
+				Object.assign({}, types.object, {
+					attribute: false,
+					default: {
+						name: 'Sam Space',
+						id: '16D21'
+					}
+				})
+			),
+			linkPrefix: type(Object.assign({}, types.string, { default: '#!' })),
+			links: type(
+				Object.assign({}, types.array, {
+					attribute: false,
+					default: [
+						{
+							name: 'Home',
+							path: '#!/home',
+							icon: 'home'
+						}
+					]
+				})
+			)
 		};
 	}
 
-	static get observedAttributes() {
-		return ['user', 'header-background', 'show-menus'];
-	}
-
-	// Element constructor.
-	created() {
+	connectedCallback() {
 		if (document.querySelectorAll('brik-super-nav').length > 1) {
 			throw new Error('Only one <brik-super-nav/> element allowed on a page.');
 		}
 		this.attachShadow({ mode: 'open' });
-		this.$ = {
+		this.dom = {
 			sidebar: this.parentNode,
 			page: this.parentNode.parentNode,
 			viewport: document.querySelector('brik-viewport'),
 			nav: this.shadowRoot.querySelector('.brik-supernav__item')
 		};
 		// Add events.
-		this.$.sidebar.addEventListener('on.toggle-left-sidebar', this.handleToggle);
+		this.dom.sidebar.addEventListener('on.toggle-left-sidebar', this);
 		// Create stylesheet.
 		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-supernav-' });
 		// Render it.
 		this.render();
 	}
 
-	// Clean up.
 	disconnectedCallback() {
-		this.$.sidebar.removeEventListener('on.toggle-left-sidebar', this.handleToggle);
+		this.dom.sidebar.removeEventListener('on.toggle-left-sidebar', this);
 	}
 
-	handleToggle() {
-		this.render();
-		if (this.props.active && !this.props.isMini) {
-			this.shadowRoot.querySelector('.' + this.css.classes.close).focus();
-		}
+	get events() {
+		return {
+			onToggle: () => {
+				this.render();
+				if (this.state.active && !this.state.isMini) {
+					this.shadowRoot.querySelector('.' + this.css.classes.close).focus();
+				}
+			},
+			click: () => {
+				this.dom.sidebar.active = false;
+			}
+		};
 	}
 
-	// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-	// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-	// See https://viperhtml.js.org/hyperhtml/documentation/
 	render() {
-		const sidebar = this.$.sidebar;
-		this.props.active = sidebar.active;
-		this.props.state = sidebar.props.state;
-		this.props.isMini = sidebar.props.state === 'mini';
-		this.props.isPinned = sidebar.props.state === 'pinned';
+		const sidebar = this.dom.sidebar;
+		this.state.active = sidebar.active;
+		this.state.mode = sidebar.state.mode;
+		this.state.isMini = sidebar.state.mode === 'mini';
+		this.state.miniAtQuery = '';
+		this.state.miniAtRule = '';
+		this.state.pinAtQuery = '';
+		this.state.pinAtRule = '';
+		this.state.isPinned = sidebar.state.mode === 'pinned';
+		this.state.theme = 'dark';
 		// Add mini modifier.
-		if (sidebar.props.miniAtQuery && sidebar.props.miniAtQuery !== this.props.miniAtRule) {
-			if (this.props.miniAtRule) this.css.deleteRule(this.props.miniAtRule);
-			this.props.miniAtRule = sidebar.props.miniAtQuery;
-			this.css.addRule(this.props.miniAtRule, miniNav);
+		if (sidebar.state.miniAtQuery && sidebar.state.miniAtQuery !== this.state.miniAtRule) {
+			if (this.state.miniAtRule) this.css.deleteRule(this.state.miniAtRule);
+			this.state.miniAtRule = sidebar.state.miniAtQuery;
+			this.css.addRule(this.state.miniAtRule, miniNav);
 		}
 		// Add pinned modifier.
-		if (sidebar.props.pinAtQuery && sidebar.props.pinAtQuery !== this.props.pinAtRule) {
-			if (this.props.pinAtRule) this.css.deleteRule(this.props.pinAtRule);
-			this.props.pinAtRule = sidebar.props.pinAtQuery;
-			this.css.addRule(this.props.pinAtRule, pinnedNav);
+		if (sidebar.state.pinAtQuery && sidebar.state.pinAtQuery !== this.state.pinAtRule) {
+			if (this.state.pinAtRule) this.css.deleteRule(this.state.pinAtRule);
+			this.state.pinAtRule = sidebar.state.pinAtQuery;
+			this.css.addRule(this.state.pinAtRule, pinnedNav);
 		}
 		this.css.update(this.props);
-		return tpl(this.html, this, { wire: BrikElement.wire });
+		return tpl(this.bind(this.root), this);
 	}
 
 	buildLinks(links = []) {
-		this.props.links = links;
+		this.links = links;
 		this.render();
-	}
-
-	handleClose() {
-		this.$.sidebar.active = false;
 	}
 }

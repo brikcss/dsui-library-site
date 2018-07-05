@@ -1,41 +1,28 @@
-import BrikElement from '../brik-element/brik.js';
+import { Brik, propsMixin, renderMixin, types } from '../brik-element';
 import css from './icon.css.js';
 import styles from '../styles/styles.js';
 
-export default class Icon extends BrikElement {
-	// Sets default props and observedAttributes.
-	static get defaults() {
+export default class Icon extends Brik().with(propsMixin, renderMixin) {
+	static get props() {
 		return {
-			name: '',
-			size: null,
-			fill: null,
-			stroke: null
+			name: types.string,
+			size: types.string,
+			fill: types.string,
+			stroke: types.string
 		};
 	}
 
-	// Element constructor.
-	created() {
+	connectedCallback() {
 		window.brikcss.icons = window.brikcss.icons || {};
-		this.props.name = this.getAttribute('name');
+		this.name = this.getAttribute('name');
 		this.attachShadow({ mode: 'open' });
 		this.updateSvg();
 		this.render();
 	}
 
-	// Called when an observedAttribute (which defaults to Object.keys(this.defaults)) changes.
-	attributeChangedCallback(prop, oldValue, value) {
-		// Make sure created() has been called before this fires. For some icons, sometimes, there this fires before created() is called, which seems to be a bug in brik.js. This is intended as a temporary fix for that.
-		if (!this.props.ready) return;
-		// Update svg and render.
-		if (prop === 'name' && value !== oldValue) {
-			this.updateSvg();
-		}
-		this.render();
-	}
-
 	updateSvg() {
-		let cachedSvg = window.brikcss.icons[this.props.name];
-		this.props.svg = {
+		let cachedSvg = window.brikcss.icons[this.name];
+		this.svg = {
 			placeholder: '',
 			html:
 				typeof cachedSvg === 'string'
@@ -43,7 +30,7 @@ export default class Icon extends BrikElement {
 					: cachedSvg
 						? cachedSvg
 						: (cachedSvg = fetch(
-								new Request('./svg/' + this.props.name + '.svg', {
+								new Request('./svg/' + this.name + '.svg', {
 									method: 'GET',
 									headers: new Headers({
 										'Content-Type': 'text/plain'
@@ -57,23 +44,23 @@ export default class Icon extends BrikElement {
 									return result.text();
 								})
 								.then((svg) => {
-									window.brikcss.icons[this.props.name] = svg.replace(
+									window.brikcss.icons[this.name] = svg.replace(
 										'<svg',
 										'<svg style="width: 100%; height: 100%; max-height: 100%; max-width: 100%; fill: inherit; stroke: inherit;"'
 									);
-									this.props.ready = true;
-									return window.brikcss.icons[this.props.name];
+									this.ready = true;
+									return window.brikcss.icons[this.name];
 								}))
 		};
 
-		return this.props.svg;
+		return this.svg;
 	}
 
-	// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-	// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-	// See https://viperhtml.js.org/hyperhtml/documentation/
-	render() {
+	rendering() {
 		styles.createRule(css(this.props)).applyTo(this);
-		return this.html`${this.props.svg}`;
+	}
+
+	render() {
+		return this.bind(this.root)`${this.svg}`;
 	}
 }

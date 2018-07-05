@@ -1,65 +1,65 @@
-<div class="${`${this.css.classes.supernav} ${this.css.classes['theme-' + (this.props.theme || 'dark')]} ${this.props.showSubmenus ? this.css.classes['show-menus'] : ''}`}">
+<div class="${`${this.css.classes.supernav} ${this.css.classes['theme-' + (this.state.theme)]} ${this.showSubmenus ? this.css.classes['show-menus'] : ''}`}">
 	<div class="${this.css.classes.scroller}" onmouseenter="${() => {this.classList.remove(this.css.classes['inactive-menu'])}}">
 		<!-- Profile header. -->
-		<div class="${this.css.classes.header}" style="${{backgroundImage: `url(${this.props.headerBackground})`}}">
+		<div class="${this.css.classes.header}" style="${{backgroundImage: `url(${this.headerBackground})`}}">
 			<div class="${this.css.classes.toolbar}">
-				<button type="button" class="${this.css.classes.close}" onclick="${this.handleClose}" tabindex="${this.props.active ? 0 : -1}">
+				<button type="button" class="${this.css.classes.close}" onclick="${this}" tabindex="${this.active ? 0 : -1}">
 					<brik-icon name="close" fill="var(--color__light)" size="4rem"></brik-icon>
 				</button>
 			</div>
 			<slot name="header">
 				<img class="${this.css.classes.avatar}" src="assets/images/avatar.jpg" alt="User photo." />
-				<h2 class="${this.css.classes.username}">${this.props.user.name}</h2>
-				<div>ID: ${this.props.user.id}</div>
+				<h2 class="${this.css.classes.username}">${this.user.name}</h2>
+				<div>ID: ${this.user.id}</div>
 			</slot>
 		</div>
 
 		<!-- Links and menus. -->
-		<nav class="${`${this.css.classes.nav} ${this.props.active ? this.css.classes.active : ''}`}">
-			${this.props.links.map((link, i) => hyperhtml.wire(link, ':link')`<div
-				class="${`${this.css.classes.menu} ${link.active && !this.props.isMini ? this.css.classes['active-menu'] : ''}`}"
-				style="${`height: ${link.children && link.active && !this.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
-				${link.children ? hyperhtml.wire(link, ':link-without-path')`<button
+		<nav class="${`${this.css.classes.nav} ${this.active ? this.css.classes.active : ''}`}">
+			${this.links.map((link, i) => this.wire(link, ':link')`<div
+				class="${`${this.css.classes.menu} ${link.active && !this.state.isMini ? this.css.classes['active-menu'] : ''}`}"
+				style="${`height: ${link.children && link.active && !this.state.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
+				${link.children ? this.wire(link, ':link-without-path')`<button
 					type="button"
 					class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}"
 					onclick="${() => {
-						if ((this.props.showSubmenus)) return;
-						const lastActiveLink = this.props.links.find((link, n) => n !== i && link.active);
+						if ((this.showSubmenus)) return;
+						const lastActiveLink = this.links.find((link, n) => n !== i && link.active);
 						if (lastActiveLink) lastActiveLink.active = false;
 						link.active = !link.active;
 						this.render();
 					}}"
 					onfocus="${() => {link.focused = true;}}"
 					onblur="${() => {link.focused = false;}}"
-					tabindex="${(this.props.state === 'off-canvas' && this.props.active) || (this.props.isPinned && !this.props.showSubmenus) ? 0 : -1}">
+					tabindex="${(this.state.mode === 'off-canvas' && this.active) || (this.state.isPinned && !this.showSubmenus) ? 0 : -1}">
 					<brik-icon class="${this.css.classes.icon}" name="${link.icon}"></brik-icon>
 					<span class="${this.css.classes['link-label']}">${link.label}</span>
-					${link.children ? hyperhtml.wire(link, ':link-no-path-button')`<brik-icon class="${this.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
-				</button>` : hyperhtml.wire(link, ':link-with-path')`<a class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}" href="${this.props.linkPrefix + link.path}" tabindex="${this.props.active ? 0 : -1}">
+					${link.children ? this.wire(link, ':link-no-path-button')`<brik-icon class="${this.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
+				</button>` : this.wire(link, ':link-with-path')`<a class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}" href="${this.linkPrefix + link.path}" tabindex="${this.active ? 0 : -1}">
 					<brik-icon class="${this.css.classes.icon}" name="${link.icon}"></brik-icon>
 					<span>${link.label}</span>
-					${link.children ? hyperhtml.wire(link, ':link-path-button')`<brik-icon class="${this.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
+					${link.children ? this.wire(link, ':link-path-button')`<brik-icon class="${this.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
 				</a>`}
-				${link.children ? this.test = hyperhtml.wire(link, ':menu')`<div class="${this.css.classes.submenu}">
+				${link.children ? this.test = this.wire(link, ':menu')`<div class="${this.css.classes.submenu}">
 					<div class="${this.css.classes.title}">${link.label}</div>
-					${link.children.map((sublink, i) => hyperhtml.wire(sublink)`<a class="${`${this.css.classes.sublink} ${sublink.active ? this.css.classes.sublinkActive : ''}`}" href="${this.props.linkPrefix + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.props.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
-						if (this.props.activeMenuLink) this.props.activeMenuLink.active = false;
+					${link.children.map((sublink, i) => this.wire(sublink)`<a class="${`${this.css.classes.sublink} ${sublink.active ? this.css.classes.sublinkActive : ''}`}" href="${this.linkPrefix + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.state.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
+						if (this.activeMenuLink) this.activeMenuLink.active = false;
 						sublink.active = true;
-						this.props.activeMenuLink = sublink;
-						if (this.props.isMini) {
+						this.activeMenuLink = sublink;
+						if (this.state.isMini) {
 							this.classList.add(this.css.classes['inactive-menu']);
 							link.focused = false;
 							event.target.blur();
-							this.$.page.click();
+							this.dom.page.click();
 						}
 						this.render();
-					}}" onblur="${() => {link.focused = false; if (!this.props.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.props.active && (this.props.showSubmenus || this.props.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
+					}}" onblur="${() => {link.focused = false; if (!this.state.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.active && (this.showSubmenus || this.state.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
 				</div>` : ''}
 			</div>`)}
 		</nav>
 	</div>
 
-	<a class="${this.css.classes.logo}" href="${this.props.homePath}" tabindex="-1">
+	<a class="${this.css.classes.logo}" href="${this.homePath}" tabindex="-1">
 		<slot name="logo"><img src="assets/images/logo__directscale.png" /></slot>
 	</a>
 </div>

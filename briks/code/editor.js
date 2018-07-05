@@ -1,26 +1,27 @@
-import BrikElement from '../brik-element/brik.js';
+import { Brik, propsMixin, renderMixin, types } from '../brik-element';
 import tpl from './editor.tplit.html';
 import styles from '../styles/styles.js';
 import css, { paneCss } from './editor.css.js';
 
-export default class Editor extends BrikElement {
-	static get defaults() {
+export default class Editor extends Brik().with(propsMixin, renderMixin) {
+	static get props() {
 		return {
-			livePreview: false,
-			editable: false
+			livePreview: types.boolean,
+			editable: types.boolean
 		};
 	}
 
-	static get observedAttributes() {
-		return ['live-preview', 'editable', 'lang'];
-	}
-
-	// Create the Custom Element.
-	created() {
+	connectedCallback() {
+		// Set default state.
+		this.state = {
+			tabs: [],
+			liveMarkup: '',
+			throttled: false,
+			live: {},
+			dirty: false
+		};
 		// Create dom, styles, and pre-render a skeleton screen.
 		this.attachShadow({ mode: 'open' });
-		this.props.tabs = [];
-		this.props.liveMarkup = '';
 		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-' });
 		this.render();
 
@@ -31,23 +32,16 @@ export default class Editor extends BrikElement {
 			window: this.shadowRoot.querySelector('.' + this.css.classes.window),
 			panes: Array.from(this.children)
 		};
-		if (this.props.editable) {
+		if (this.editable) {
 			this.dom.panes.forEach((pane) => (pane.editable = true));
 		}
 
-		// Set default props.
-		this.props.ticking = false;
-		this.props.throttled = false;
-		this.props.live = {};
-		this.props.dirty = false;
-
 		// Create tabs.
-		this.props.tabs = [];
 		this.dom.panes.forEach((pane, i) => {
 			if (this.dom.panes.length > 1) {
 				styles.createRule(paneCss({ active: false, index: i })).applyTo(pane);
 			}
-			this.props.tabs.push({
+			this.state.tabs.push({
 				id: pane.lang,
 				label: pane.label || pane.getAttribute('label') || pane.lang.toUpperCase(),
 				index: i
@@ -55,50 +49,46 @@ export default class Editor extends BrikElement {
 		});
 
 		// Activate tab.
-		this.activateTab(this.props.tabs[0]);
+		this.activateTab(this.state.tabs[0]);
 
 		// Live preview.
-		if (this.props.livePreview) this.refreshPreview();
+		if (this.livePreview) this.refreshPreview();
 
 		// Render.
 		this.render();
 	}
 
-	/**
-	 *  Activate a tab.
-	 *  @param   {String}  tab  Name of tab to activate.
-	 */
 	activateTab(tab) {
 		// De-activate previously active tab.
-		if (this.props.activeTab) {
+		if (this.state.activeTab) {
 			styles
-				.createRule(paneCss({ active: false, index: this.props.activeTab.index }))
-				.applyTo(this.dom.panes[this.props.activeTab.index]);
+				.createRule(paneCss({ active: false, index: this.state.activeTab.index }))
+				.applyTo(this.dom.panes[this.state.activeTab.index]);
 		}
 		// Activate new tab.
-		this.props.activeTab = tab;
+		this.state.activeTab = tab;
 		styles
-			.createRule(paneCss({ active: true, index: this.props.activeTab.index }))
-			.applyTo(this.dom.panes[this.props.activeTab.index]);
+			.createRule(paneCss({ active: true, index: this.state.activeTab.index }))
+			.applyTo(this.dom.panes[this.state.activeTab.index]);
 		// Re-render.
 		this.render();
 	}
 
 	refreshPreview() {
-		if (!this.props.livePreview) return;
-		if (!this.props.throttled) {
+		if (!this.livePreview) return;
+		if (!this.state.throttled) {
 			let insertScript = false;
-			this.props.liveMarkup = '';
+			this.state.liveMarkup = '';
 			this.dom.panes.forEach((pane, i) => {
-				let code = pane.textContent || pane.props.raw;
+				let code = pane.textContent || pane.state.raw;
 				// Create new content.
-				if (this.props.tabs[i].id === 'html') {
-					this.props.liveMarkup += code;
+				if (this.state.tabs[i].id === 'html') {
+					this.state.liveMarkup += code;
 				}
-				if (this.props.tabs[i].id === 'css') {
-					this.props.liveMarkup += '<style>' + code + '</style>';
+				if (this.state.tabs[i].id === 'css') {
+					this.state.liveMarkup += '<style>' + code + '</style>';
 				}
-				if (this.props.tabs[i].id === 'js') {
+				if (this.state.tabs[i].id === 'js') {
 					insertScript = code;
 				}
 			});
@@ -116,17 +106,14 @@ export default class Editor extends BrikElement {
 				if (currentScript) this.dom.previewer.removeChild(currentScript);
 				this.dom.previewer.appendChild(script);
 			}
-			this.props.throttled = true;
+			this.state.throttled = true;
 			setTimeout(() => {
-				this.props.throttled = false;
+				this.state.throttled = false;
 			}, 200);
 		}
 	}
 
-	// Render the DOM with hyperhtml, a native approach to virtual DOM which efficiently renders
-	// nodes, data or attributes that change. See
-	// https://viperhtml.js.org/hyperhtml/documentation/.
 	render() {
-		return tpl(this.html, this, BrikElement);
+		return tpl(this.bind(this.root), this);
 	}
 }

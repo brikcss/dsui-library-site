@@ -1,21 +1,21 @@
+import { Brik, propsMixin, renderMixin, eventsMixin, types, type } from '../brik-element';
 import prism from 'prismjs';
 import 'prismjs/components/prism-scss';
 import 'prismjs/components/prism-sass';
 import 'prismjs/components/prism-bash';
-import BrikElement from '../brik-element/brik.js';
 import tpl from './code.tplit.html';
 import css from './code.css.js';
 import prismCss from 'prismjs/themes/prism-tomorrow.css';
 import styles from '../styles/styles.js';
 
-export default class Code extends BrikElement {
-	static get defaults() {
+export default class Code extends Brik().with(propsMixin, renderMixin, eventsMixin) {
+	static get props() {
 		return {
-			editable: false,
-			lang: '',
-			label: '',
-			text: '',
-			showHeader: true
+			editable: types.boolean,
+			lang: types.string,
+			label: types.string,
+			text: types.string,
+			showHeader: type(Object.assign({}, types.boolean), { default: true })
 		};
 	}
 
@@ -23,22 +23,14 @@ export default class Code extends BrikElement {
 		return ['editable', 'lang', 'label', 'show-header'];
 	}
 
-	attributeChangedCallback(prop) {
-		if (prop === 'editable') {
-			this.updateEditability();
-		}
-		if (['editable', 'showHeader'].includes(prop) && typeof prop === 'string')
-			prop = prop === 'true';
-		this.render();
-	}
+	connectedCallback() {
+		// Create default state.
+		this.state.raw = '';
 
-	// Create the Custom Element.
-	created() {
 		// Create styles and dom.
 		this.attachShadow({ mode: 'open' });
 		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-' });
-		if (typeof this.props.showHeader === 'string')
-			this.props.showHeader = this.props.showHeader === 'true';
+		if (typeof this.showHeader === 'string') this.showHeader = this.showHeader === 'true';
 		this.render();
 
 		// Build dom.
@@ -47,18 +39,16 @@ export default class Code extends BrikElement {
 			code: this.shadowRoot.querySelector('code'),
 			editor: this.parentNode.tagName === 'BRIK-EDITOR' ? this.parentNode : null
 		};
-		this.dataset.tab = this.props.lang;
-		this.props.raw = this.textContent.trim();
+		this.dataset.tab = this.lang;
+		this.state.raw = this.textContent.trim();
 		this.textContent = '';
 
 		// Set default props.
-		this.props.ticking = false;
-		this.props.label = this.props.label || this.props.lang.toUpperCase();
-		this.props.inputTimeout;
+		this.label = this.label || this.lang.toUpperCase();
 
 		// If this is part of an editor element, create a tab.
 		if (this.dom.editor) {
-			this.props.showHeader = false;
+			this.showHeader = false;
 		}
 
 		// Update editability.
@@ -72,61 +62,64 @@ export default class Code extends BrikElement {
 		this.updateEditability();
 	}
 
+	get events() {
+		return {
+			input: () => {
+				if (this.dom.editor) {
+					this.dom.editor.state.dirty = true;
+					this.dom.editor.render();
+				}
+				this.state.raw = this.dom.code.textContent;
+			},
+			focus: () => {
+				this.text = this.state.raw;
+				this.render();
+			},
+			blur: () => {
+				this.render();
+			},
+			keydown: (event) => {
+				if ((event.ctrlKey || event.metaKey) && event.keyCode == 13) this.refreshPreview();
+			}
+		};
+	}
+
+	updated(prevProps) {
+		if (prevProps.editable !== this.props.editable) {
+			this.updateEditability();
+		}
+	}
+
 	updateEditability() {
-		this.props.editable =
-			this.props.editable || this.dom.editor ? this.dom.editor.editable : false;
+		this.editable = this.editable || this.dom.editor ? this.dom.editor.editable : false;
 		if (!this.dom) return;
-		if (this.props.editable) {
-			this.dom.code.addEventListener('input', this.handleInput);
-			this.dom.code.addEventListener('focus', this.handleFocus);
-			this.dom.code.addEventListener('blur', this.handleBlur);
-			this.dom.code.addEventListener('keydown', this.handleKeydown);
+		if (this.editable) {
+			this.dom.code.addEventListener('input', this);
+			this.dom.code.addEventListener('focus', this);
+			this.dom.code.addEventListener('blur', this);
+			this.dom.code.addEventListener('keydown', this);
 		} else {
-			this.dom.code.removeEventListener('input', this.handleInput);
-			this.dom.code.removeEventListener('focus', this.handleFocus);
-			this.dom.code.removeEventListener('blur', this.handleBlur);
-			this.dom.code.removeEventListener('keydown', this.handleKeydown);
+			this.dom.code.removeEventListener('input', this);
+			this.dom.code.removeEventListener('focus', this);
+			this.dom.code.removeEventListener('blur', this);
+			this.dom.code.removeEventListener('keydown', this);
 		}
-	}
-
-	handleFocus() {
-		this.props.text = this.props.raw;
-		this.render();
-	}
-
-	handleBlur() {
-		this.render();
-	}
-
-	handleInput() {
-		if (this.dom.editor) {
-			this.dom.editor.props.dirty = true;
-			this.dom.editor.render();
-		}
-		this.props.raw = this.dom.code.textContent;
-	}
-
-	handleKeydown(event) {
-		if ((event.ctrlKey || event.metaKey) && event.keyCode == 13) this.refreshPreview();
 	}
 
 	refreshPreview() {
-		this.dom.editor.props.dirty = false;
+		this.dom.editor.state.dirty = false;
 		this.dom.editor.refreshPreview();
 	}
 
-	// Render the DOM with hyperhtml, a native approach to virtual DOM which efficiently renders
-	// nodes, data or attributes that change. See
-	// https://viperhtml.js.org/hyperhtml/documentation/.
 	render() {
-		if (this.props.lang) {
-			this.props.text = this.props.raw
-				? prism.highlight(this.props.raw, prism.languages[this.props.lang])
+		if (this.lang) {
+			this.text = this.state.raw
+				? prism.highlight(this.state.raw, prism.languages[this.lang])
 				: '';
 		} else {
-			this.props.text = (this.props.raw || '').replace(/</g, '&lt;');
+			this.text = (this.state.raw || '').replace(/</g, '&lt;');
 		}
 		this.cssString = [prismCss, this.css.toString()].join('\n');
-		return tpl(this.html, this, BrikElement);
+		return tpl(this.bind(this.root), this);
 	}
 }
