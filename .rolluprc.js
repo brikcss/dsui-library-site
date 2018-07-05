@@ -48,9 +48,9 @@ const isProd = process.env.NODE_ENV === 'production' || process.env.NODE_ENV ===
 let configs = [
 	createConfig(
 		{
-			input: 'src/vanillajs/app.js',
+			input: 'src/app.js',
 			output: {
-				file: 'dist/vanillajs/js/app.js',
+				file: 'dist/js/app.js',
 				format: 'iife'
 			}
 		},
@@ -77,56 +77,18 @@ let configs = [
 			}
 		}
 	)
-	// createConfig(
-	// 	{
-	// 		input: 'src/angularjs/app.js',
-	// 		output: {
-	// 			file: 'dist/angularjs/js/app.js',
-	// 			format: 'iife'
-	// 		}
-	// 	},
-	// 	{
-	// 		babel: {
-	// 			presets: [
-	// 				[
-	// 					'env',
-	// 					{
-	// 						targets: {
-	// 							browsers: [
-	// 								'Chrome >= 60',
-	// 								'Safari >= 10.1',
-	// 								'iOS >= 10.3',
-	// 								'Firefox >= 54',
-	// 								'Edge >= 15'
-	// 							]
-	// 						},
-	// 						modules: false
-	// 					}
-	// 				]
-	// 			],
-	// 			plugins: ['external-helpers']
-	// 		}
-	// 	}
-	// )
 ];
 
 // Add production configs when isProd.
 if (isProd) {
 	configs = configs.concat(
 		createConfig({
-			input: 'src/vanillajs/app.js',
+			input: 'src/app.js',
 			output: {
-				file: 'dist/vanillajs/js/app-legacy.js',
+				file: 'dist/js/app-legacy.js',
 				format: 'iife'
 			}
 		})
-		// createConfig({
-		// 	input: 'src/angularjs/app.js',
-		// 	output: {
-		// 		file: 'dist/angularjs/js/app-legacy.js',
-		// 		format: 'iife'
-		// 	}
-		// })
 	);
 	configs.forEach((config) => {
 		configs.push(createConfig(merge({}, config), { env: 'production' }));

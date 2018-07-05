@@ -1,7 +1,7 @@
 /** ------------------------------------------------------------------------------------------------
  *  @filename  app.js
  *  @author  brikcss  <https://github.com/brikcss>
- *  @description  App entry for the vanillajs site.
+ *  @description  JS entry.
  *  @tutorial  There are a few ways to import and define a Custom Element. Each module exports two
  *      methods, init(config) and define(tag, config). The init method configures the Custom Element
  *      and returns a configured class. The default export simply runs the init method with the
@@ -54,24 +54,24 @@ import listenersPlugin from 'router5/plugins/listeners';
 // ----------------
 // Custom Elements.
 //
-import Page from '../../briks/page/page.js';
-import Viewport from '../../briks/viewport/viewport.js';
-import Content from '../../briks/content/content.js';
-import Overlay from '../../briks/overlay/overlay.js';
-import Sidebar from '../../briks/sidebar/sidebar.js';
-import SuperNav from '../../briks/supernav/supernav.js';
-import Icon from '../../briks/icons/icon.js';
-import Header from '../../briks/header/header.js';
-import BurgerButton from '../../briks/burger-button/burger-button.js';
-import Scroller from '../../briks/scroller/scroller.js';
-import Tabs from '../../briks/tabs/tabs.js';
-import Editor from '../../briks/code/editor.js';
-import Code from '../../briks/code/code.js';
+import Page from '../briks/page/page.js';
+import Viewport from '../briks/viewport/viewport.js';
+import Content from '../briks/content/content.js';
+import Overlay from '../briks/overlay/overlay.js';
+import Sidebar from '../briks/sidebar/sidebar.js';
+import SuperNav from '../briks/supernav/supernav.js';
+import Icon from '../briks/icons/icon.js';
+import Header from '../briks/header/header.js';
+import BurgerButton from '../briks/burger-button/burger-button.js';
+import Scroller from '../briks/scroller/scroller.js';
+import Tabs from '../briks/tabs/tabs.js';
+import Editor from '../briks/code/editor.js';
+import Code from '../briks/code/code.js';
 
 // ------
 // Routes.
 //
-import routes from './routes';
+import routes from './routes.js';
 
 /** ================================================================================================
  *  Global configuration

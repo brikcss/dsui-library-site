@@ -1,8 +1,0 @@
-<header class="<%= data.baseClass %>" data-ng-class="{'rhythm__grid': appCtrl.showRhythmGrid}">
-	<button type="button" class="burger" data-ng-click="appCtrl.sidebars.toggle('left')" data-ng-class="{'--is-active': appCtrl.sidebars.left.active}"><span class="burger__toppings"></span></button>
-	<h1 class="<%= data.baseClass %>__title font__title">
-		{{$state.current.data.pageTitle}}
-		<span class="<%= data.baseClass %>__version" data-ng-if="$state.current.data.version" data-ng-bind="'v' + $state.current.data.version"></span>
-	</h1>
-	<div class="<%= data.baseClass %>__toolbar"><button class="<%= data.baseClass %>__button font__button" ng-click="appCtrl.showRhythmGrid = !appCtrl.showRhythmGrid" type="button">Rhythm</button></div>
-</header>

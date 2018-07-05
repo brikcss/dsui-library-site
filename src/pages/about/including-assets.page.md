@@ -15,7 +15,7 @@ import myModule from 'node_modules/<package-name>/src/esmodule/<my-bundle>.js';
 In `index.html` or `my-page.html`:
 
 ```html
-<script src="node_modules/<package-name>/dist/vanillajs/<my-bundle>.min.js"></script>
+<script src="node_modules/<package-name>/dist/<my-bundle>.min.js"></script>
 ```
 
 ### CommonJS

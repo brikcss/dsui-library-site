@@ -1,5 +1,0 @@
-@import './_camel-case.abstract.scss';
-
-@function pascal-case($string) {
-	@return to-upper-case(str-slice($string, 1, 1)) + camel-case(str-slice($string, 2));
-}

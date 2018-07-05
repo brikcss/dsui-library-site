@@ -5,7 +5,7 @@ module.exports = {
 		// index: 'index.html',
 		// routes: {}
 	},
-	startPath: 'vanillajs/index.html',
+	startPath: 'index.html',
 	files: ['dist'],
 	ignore: [],
 	single: false,

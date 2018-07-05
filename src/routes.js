@@ -3,22 +3,22 @@
  ** ------------ */
 
 // Root level pages.
-import homePage from '../../pages/home.page.md';
-import getStartedPage from '../../pages/getting-started.page.md';
+import homePage from './pages/home.page.md';
+import getStartedPage from './pages/getting-started.page.md';
 // About pages.
-// import includingAssetsPage from '../../pages/about/including-assets.page.md';
-import workingWithNpmPage from '../../pages/about/working-with-npm.page.md';
-import monolithToMicroPage from '../../pages/learn/from-monolith-to-micro.page.md';
-import customElementPage from '../../pages/learn/creating-a-custom-element.page.md';
-// import packageStructurePage from '../../pages/about/package-structure.page.md';
+// import includingAssetsPage from './pages/about/including-assets.page.md';
+import workingWithNpmPage from './pages/about/working-with-npm.page.md';
+import monolithToMicroPage from './pages/learn/from-monolith-to-micro.page.md';
+import customElementPage from './pages/learn/creating-a-custom-element.page.md';
+// import packageStructurePage from './pages/about/package-structure.page.md';
 // Core component pages.
-import browserResetPage from '../../pages/core/browser-reset.html.ejs';
-import typographyPage from '../../pages/core/typography.html.ejs';
-import colorsPage from '../../pages/core/colors.html.ejs';
-import rhythmPage from '../../pages/core/rhythm.html.ejs';
+import browserResetPage from './pages/core/browser-reset.html.ejs';
+import typographyPage from './pages/core/typography.html.ejs';
+import colorsPage from './pages/core/colors.html.ejs';
+import rhythmPage from './pages/core/rhythm.html.ejs';
 // // Component pages.
-import spinnerPage from '../../pages/components/spinner.html.ejs';
-import iconsPage from '../../pages/components/icons.html.ejs';
+import spinnerPage from './pages/components/spinner.html.ejs';
+import iconsPage from './pages/components/icons.html.ejs';
 
 /** ================================================================================================
  *  Routes

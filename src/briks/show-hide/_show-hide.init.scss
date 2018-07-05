@@ -1,5 +1,0 @@
-@if ($showhide-init == true) {
-	.#{$showhide__base} {
-		@include showhide();
-	}
-}
