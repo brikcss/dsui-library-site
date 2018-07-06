@@ -37,11 +37,27 @@
 
 ### `render.js`
 
-- Extends `updated()` callback to 1) Call `super.updated()`; 2) call `this.rendering()`; 3) call `this.renderer()`, which calls `this.render()`; 4) call `this.rendered()`.
-- Adds `renderer()`, which renders to DOM. It will render to `this.root || this.shadowRoot || this`.
 - Adds lifecycle callbacks:
 	- `rendering()`: Called before rendering.
 	- `rendered()`: Called just after rendering.
+
+- Extends `updated()` callback to automatically render when props are updated. When `updated()` is called it goes through the following steps:
+	1. Call `super.updated()`;
+	2. Call `this.rendering()`;
+	3. Call `this.render()`;
+	4. Call `this.rendered()`.
+
+- `render()`: Creates default render() method which makes it easy to render to the DOM. This can be used in one of two ways:
+	1. `tpl()`: If you provide your own `tpl()` function it will automatically render to the DOM. This can be used in tandem with the `rollup-plugin-template-literal` plugin to import external template files.
+	2. If `this.tpl` does not exist, `render()` will instead return the [hyperhtml](https://viperhtml.js.org/hyperhtml/documentation) `bind()` method, allowing you overwrite the `render()` method and call `super.render()<template>`, where `<template>` is a template literal. For example:
+
+		```js
+		render() {
+			return super.render()`Hello ${world}!`;
+		}
+		```
+
+- `bind()` and `wire()`: If the default `render()` method doesn't suit your needs, you can overwrite it and use the `bind()` and/or `wire()` methods, which provide easy access to [`hyperhtml`](https://viperhtml.js.org/hyperhtml/documentation)'s main API methods.
 
 ### `children.js`
 

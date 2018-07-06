@@ -296,6 +296,7 @@ function createConfig(config = {}, options = {}) {
 				if (id.indexOf('.tplit.html') > -1) {
 					return 'context';
 				}
+				return 'context';
 			},
 			watch: {
 				chokidar: true,

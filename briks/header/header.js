@@ -12,14 +12,19 @@ export default class Header extends Brik().with(propsMixin, renderMixin) {
 	}
 
 	connectedCallback() {
+		this.css = {};
 		this.attachShadow({ mode: 'open' });
-		this.render();
 	}
 
-	render() {
+	get tpl() {
+		return tpl;
+	}
+
+	rendering() {
 		this.css = styles.createStyleSheet(css(this.props.hideBurgerAt), {
 			classNamePrefix: 'brik-'
 		});
-		return tpl(this.bind(this.root), this);
 	}
 }
+
+export { css, tpl };

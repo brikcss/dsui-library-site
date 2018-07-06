@@ -111,7 +111,11 @@ export default class Code extends Brik().with(propsMixin, renderMixin, eventsMix
 		this.dom.editor.refreshPreview();
 	}
 
-	render() {
+	get tpl() {
+		return tpl;
+	}
+
+	rendering() {
 		if (this.lang) {
 			this.text = this.state.raw
 				? prism.highlight(this.state.raw, prism.languages[this.lang])
@@ -120,6 +124,5 @@ export default class Code extends Brik().with(propsMixin, renderMixin, eventsMix
 			this.text = (this.state.raw || '').replace(/</g, '&lt;');
 		}
 		this.cssString = [prismCss, this.css.toString()].join('\n');
-		return tpl(this.bind(this.root), this);
 	}
 }

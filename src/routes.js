@@ -7,7 +7,7 @@ import homePage from './pages/home.page.md';
 import getStartedPage from './pages/getting-started.page.md';
 // About pages.
 // import includingAssetsPage from './pages/about/including-assets.page.md';
-import workingWithNpmPage from './pages/about/working-with-npm.page.md';
+import workingWithNpmPage from './pages/learn/working-with-npm.page.md';
 import monolithToMicroPage from './pages/learn/from-monolith-to-micro.page.md';
 import customElementPage from './pages/learn/creating-a-custom-element.page.md';
 // import packageStructurePage from './pages/about/package-structure.page.md';

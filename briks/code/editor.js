@@ -113,7 +113,7 @@ export default class Editor extends Brik().with(propsMixin, renderMixin) {
 		}
 	}
 
-	render() {
-		return tpl(this.bind(this.root), this);
+	get tpl() {
+		return tpl;
 	}
 }

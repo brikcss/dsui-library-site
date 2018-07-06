@@ -85,7 +85,7 @@ export default class Tabs extends Brik().with(propsMixin, renderMixin) {
 		return tab;
 	}
 
-	render() {
-		return tpl(this.bind(this.root), this);
+	get tpl() {
+		return tpl;
 	}
 }

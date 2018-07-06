@@ -61,7 +61,7 @@ import Overlay from '../briks/overlay/overlay.js';
 import Sidebar from '../briks/sidebar/sidebar.js';
 import SuperNav from '../briks/supernav/supernav.js';
 import Icon from '../briks/icons/icon.js';
-import Header from '../briks/header/header.js';
+import Header from './components/header.js';
 import BurgerButton from '../briks/burger-button/burger-button.js';
 import Scroller from '../briks/scroller/scroller.js';
 import Tabs from '../briks/tabs/tabs.js';
@@ -155,6 +155,10 @@ function renderRoute(route, toState, fromState) {
 			  ' <brik-icon name="chevron-right" size="1.2em" fill="hsl(0, 0%, 100%)"></brik-icon> '
 			: ''
 	}${route.title || route.label || 'Unknown'}`;
+	// Update edit page link.
+	app.header.pageEditLink = `https://github.com/brikcss/dsui-library-site/blob/master/src/pages${
+		route.parent ? '/' + route.parent.name : ''
+	}${route.path}.page.md`;
 	// Render route.
 	if (typeof route.render === 'function') route.render(app, toState, fromState);
 }
@@ -175,7 +179,7 @@ Editor.define();
 Code.define();
 Icon.define({ size: '4rem' });
 BurgerButton.define();
-Header.define();
+Header.define('header');
 
 /** ================================================================================================
  *  Build supernav links

@@ -76,7 +76,11 @@ export default class Supernav extends Brik().with(propsMixin, renderMixin, event
 		};
 	}
 
-	render() {
+	get tpl() {
+		return tpl;
+	}
+
+	rendering() {
 		const sidebar = this.dom.sidebar;
 		this.state.active = sidebar.active;
 		this.state.mode = sidebar.state.mode;
@@ -100,7 +104,6 @@ export default class Supernav extends Brik().with(propsMixin, renderMixin, event
 			this.css.addRule(this.state.pinAtRule, pinnedNav);
 		}
 		this.css.update(this.props);
-		return tpl(this.bind(this.root), this);
 	}
 
 	buildLinks(links = []) {
