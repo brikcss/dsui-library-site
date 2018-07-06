@@ -85,7 +85,7 @@ window.brikcss = window.brikcss || {};
 
 const app = {
 	page: document.querySelector('brik-page'),
-	header: document.querySelector('brik-header'),
+	header: document.querySelector('ds-header'),
 	supernav: document.querySelector('brik-supernav'),
 	leftbar: document.querySelector('brik-sidebar[side="left"]'),
 	rightbar: document.querySelector('brik-sidebar[side="right"]'),
@@ -179,7 +179,7 @@ Editor.define();
 Code.define();
 Icon.define({ size: '4rem' });
 BurgerButton.define();
-Header.define('header');
+Header.define('ds-header');
 
 /** ================================================================================================
  *  Build supernav links

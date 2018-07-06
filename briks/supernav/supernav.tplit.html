@@ -1,67 +1,69 @@
-<div class="${`${this.css.classes.supernav} ${this.css.classes['theme-' + (this.state.theme)]} ${this.showSubmenus ? this.css.classes['show-menus'] : ''}`}">
-	<div class="${this.css.classes.scroller}" onmouseenter="${() => {this.classList.remove(this.css.classes['inactive-menu'])}}">
-		<!-- Profile header. -->
-		<div class="${this.css.classes.header}" style="${{backgroundImage: `url(${this.headerBackground})`}}">
-			<div class="${this.css.classes.toolbar}">
-				<button type="button" class="${this.css.classes.close}" onclick="${this}" tabindex="${this.state.active ? 0 : -1}">
-					<brik-icon name="close" fill="var(--color__light)" size="4rem"></brik-icon>
-				</button>
+<div class="${`${this.css.classes.sidebar} ${this.active ? this.css.classes.active : ''}`}">
+	<div class="${`${this.cssNav.classes.supernav} ${this.cssNav.classes['theme-' + (this.state.theme)]} ${this.showSubmenus ? this.cssNav.classes['show-menus'] : ''}`}">
+		<div class="${this.cssNav.classes.scroller}" onmouseenter="${() => {this.classList.remove(this.cssNav.classes['inactive-menu'])}}">
+			<!-- Profile header. -->
+			<div class="${this.cssNav.classes.header}" style="${{backgroundImage: `url(${this.headerBackground})`}}">
+				<div class="${this.cssNav.classes.toolbar}">
+					<button type="button" class="${this.cssNav.classes.close}" onclick="${this}" tabindex="${this.active ? 0 : -1}">
+						<brik-icon name="close" fill="var(--color__light)" size="4rem"></brik-icon>
+					</button>
+				</div>
+				<slot name="header">
+					<img class="${this.cssNav.classes.avatar}" src="assets/images/avatar.jpg" alt="User photo." />
+					<h2 class="${this.cssNav.classes.username}">${this.user.name}</h2>
+					<div>ID: ${this.user.id}</div>
+				</slot>
 			</div>
-			<slot name="header">
-				<img class="${this.css.classes.avatar}" src="assets/images/avatar.jpg" alt="User photo." />
-				<h2 class="${this.css.classes.username}">${this.user.name}</h2>
-				<div>ID: ${this.user.id}</div>
-			</slot>
+
+			<!-- Links and menus. -->
+			<nav class="${`${this.cssNav.classes.nav} ${this.active ? this.cssNav.classes.active : ''}`}">
+				${this.links.map((link, i) => this.wire(link, ':link')`<div
+					class="${`${this.cssNav.classes.menu} ${link.active && !this.state.isMini ? this.cssNav.classes['active-menu'] : ''}`}"
+					style="${`height: ${link.children && link.active && !this.state.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
+					${link.children ? this.wire(link, ':link-without-path')`<button
+						type="button"
+						class="${`${this.cssNav.classes.link} ${link.separator ? this.cssNav.classes.divider : ''}`}"
+						onclick="${() => {
+							if ((this.showSubmenus)) return;
+							const lastActiveLink = this.links.find((link, n) => n !== i && link.active);
+							if (lastActiveLink) lastActiveLink.active = false;
+							link.active = !link.active;
+							this.render();
+						}}"
+						onfocus="${() => {link.focused = true;}}"
+						onblur="${() => {link.focused = false;}}"
+						tabindex="${(this.state.mode === 'off-canvas' && this.active) || (this.state.isPinned && !this.showSubmenus) ? 0 : -1}">
+						<brik-icon class="${this.cssNav.classes.icon}" name="${link.icon}"></brik-icon>
+						<span class="${this.cssNav.classes['link-label']}">${link.label}</span>
+						${link.children ? this.wire(link, ':link-no-path-button')`<brik-icon class="${this.cssNav.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
+					</button>` : this.wire(link, ':link-with-path')`<a class="${`${this.cssNav.classes.link} ${link.separator ? this.cssNav.classes.divider : ''}`}" href="${this.linkPrefix + link.path}" tabindex="${this.active ? 0 : -1}">
+						<brik-icon class="${this.cssNav.classes.icon}" name="${link.icon}"></brik-icon>
+						<span>${link.label}</span>
+						${link.children ? this.wire(link, ':link-path-button')`<brik-icon class="${this.cssNav.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
+					</a>`}
+					${link.children ? this.test = this.wire(link, ':menu')`<div class="${this.cssNav.classes.submenu}">
+						<div class="${this.cssNav.classes.title}">${link.label}</div>
+						${link.children.map((sublink, i) => this.wire(sublink)`<a class="${`${this.cssNav.classes.sublink} ${sublink.active ? this.cssNav.classes.sublinkActive : ''}`}" href="${this.linkPrefix + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.state.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
+							if (this.activeMenuLink) this.activeMenuLink.active = false;
+							sublink.active = true;
+							this.activeMenuLink = sublink;
+							if (this.state.isMini) {
+								this.classList.add(this.cssNav.classes['inactive-menu']);
+								link.focused = false;
+								event.target.blur();
+								this.dom.page.click();
+							}
+							this.render();
+						}}" onblur="${() => {link.focused = false; if (!this.state.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.active && (this.showSubmenus || this.state.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
+					</div>` : ''}
+				</div>`)}
+			</nav>
 		</div>
 
-		<!-- Links and menus. -->
-		<nav class="${`${this.css.classes.nav} ${this.state.active ? this.css.classes.active : ''}`}">
-			${this.links.map((link, i) => this.wire(link, ':link')`<div
-				class="${`${this.css.classes.menu} ${link.active && !this.state.isMini ? this.css.classes['active-menu'] : ''}`}"
-				style="${`height: ${link.children && link.active && !this.state.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
-				${link.children ? this.wire(link, ':link-without-path')`<button
-					type="button"
-					class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}"
-					onclick="${() => {
-						if ((this.showSubmenus)) return;
-						const lastActiveLink = this.links.find((link, n) => n !== i && link.active);
-						if (lastActiveLink) lastActiveLink.active = false;
-						link.active = !link.active;
-						this.render();
-					}}"
-					onfocus="${() => {link.focused = true;}}"
-					onblur="${() => {link.focused = false;}}"
-					tabindex="${(this.state.mode === 'off-canvas' && this.state.active) || (this.state.isPinned && !this.showSubmenus) ? 0 : -1}">
-					<brik-icon class="${this.css.classes.icon}" name="${link.icon}"></brik-icon>
-					<span class="${this.css.classes['link-label']}">${link.label}</span>
-					${link.children ? this.wire(link, ':link-no-path-button')`<brik-icon class="${this.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
-				</button>` : this.wire(link, ':link-with-path')`<a class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}" href="${this.linkPrefix + link.path}" tabindex="${this.state.active ? 0 : -1}">
-					<brik-icon class="${this.css.classes.icon}" name="${link.icon}"></brik-icon>
-					<span>${link.label}</span>
-					${link.children ? this.wire(link, ':link-path-button')`<brik-icon class="${this.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
-				</a>`}
-				${link.children ? this.test = this.wire(link, ':menu')`<div class="${this.css.classes.submenu}">
-					<div class="${this.css.classes.title}">${link.label}</div>
-					${link.children.map((sublink, i) => this.wire(sublink)`<a class="${`${this.css.classes.sublink} ${sublink.active ? this.css.classes.sublinkActive : ''}`}" href="${this.linkPrefix + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.state.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
-						if (this.activeMenuLink) this.activeMenuLink.active = false;
-						sublink.active = true;
-						this.activeMenuLink = sublink;
-						if (this.state.isMini) {
-							this.classList.add(this.css.classes['inactive-menu']);
-							link.focused = false;
-							event.target.blur();
-							this.dom.page.click();
-						}
-						this.render();
-					}}" onblur="${() => {link.focused = false; if (!this.state.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.state.active && (this.showSubmenus || this.state.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
-				</div>` : ''}
-			</div>`)}
-		</nav>
+		<a class="${this.cssNav.classes.logo}" href="${this.homePath}" tabindex="-1">
+			<slot name="logo"><img src="assets/images/logo__directscale.png" /></slot>
+		</a>
 	</div>
-
-	<a class="${this.css.classes.logo}" href="${this.homePath}" tabindex="-1">
-		<slot name="logo"><img src="assets/images/logo__directscale.png" /></slot>
-	</a>
 </div>
 
-<style>${this.css ? this.css.toString() : ''}</style>
+<style>${(this.css ? this.css.toString() : '') + '\n' + (this.cssNav ? this.cssNav.toString() : '')}</style>

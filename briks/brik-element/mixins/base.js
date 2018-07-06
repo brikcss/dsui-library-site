@@ -35,7 +35,8 @@ function Brik(Base = HTMLElement) {
 						: this;
 			const config = Object.assign(
 				{
-					prefix: window.brikcss.prefix || 'brik',
+					prefix:
+						typeof args[0] === 'string' ? undefined : window.brikcss.prefix || 'brik',
 					tagName: typeof args[0] === 'string' ? args[0] : Class.name
 				},
 				args[0] instanceof Object

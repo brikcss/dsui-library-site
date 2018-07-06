@@ -1,11 +1,12 @@
-import { Brik, propsMixin, renderMixin, eventsMixin, types, type } from '../brik-element';
+import BrikSidebar from '../sidebar/sidebar.js';
+import { types, type } from '../brik-element';
 import tpl from './supernav.tplit.html';
 import styles from '../styles/styles.js';
 import css, { miniNav, pinnedNav } from './supernav.css.js';
 
-export default class Supernav extends Brik().with(propsMixin, renderMixin, eventsMixin) {
+export default class Supernav extends BrikSidebar {
 	static get props() {
-		return {
+		return Object.assign({}, super.props, {
 			showSubmenus: types.boolean,
 			homePath: type(Object.assign({}, types.string, { default: '#!/home' })),
 			headerBackground: type(
@@ -36,75 +37,60 @@ export default class Supernav extends Brik().with(propsMixin, renderMixin, event
 					]
 				})
 			)
-		};
+		});
 	}
 
 	connectedCallback() {
+		// Call the sidebar's connectedCallback().
+		super.connectedCallback();
 		if (document.querySelectorAll('brik-super-nav').length > 1) {
 			throw new Error('Only one <brik-super-nav/> element allowed on a page.');
 		}
-		this.attachShadow({ mode: 'open' });
-		this.dom = {
-			sidebar: this.parentNode,
-			page: this.parentNode.parentNode,
-			viewport: document.querySelector('brik-viewport'),
-			nav: this.shadowRoot.querySelector('.brik-supernav__item')
-		};
+		// Extend sidebar's dom.
+		this.dom.nav = this.shadowRoot.querySelector('.brik-supernav__item');
 		// Add events.
-		this.dom.sidebar.addEventListener('on.toggle-left-sidebar', this.events.onToggle);
-		// Create stylesheet.
-		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-supernav-' });
-		// Render it.
-		this.render();
+		this.addEventListener('on.toggle-left-sidebar', this.events.onToggle);
+		// Create supernav stylesheet.
+		this.cssNav = styles.createStyleSheet(css, { classNamePrefix: 'brik-supernav-' });
 	}
 
 	disconnectedCallback() {
-		this.dom.sidebar.removeEventListener('on.toggle-left-sidebar', this.events.onToggle);
+		super.disconnectedCallback();
+		this.removeEventListener('on.toggle-left-sidebar', this.events.onToggle);
 	}
 
 	get events() {
-		return {
+		return Object.assign({}, super.events, {
 			onToggle: () => {
 				this.render();
-				if (this.state.active && !this.state.isMini) {
-					this.shadowRoot.querySelector('.' + this.css.classes.close).focus();
+				if (this.active && !this.state.isMini) {
+					this.shadowRoot.querySelector('.' + this.cssNav.classes.close).focus();
 				}
 			},
 			click: () => {
-				this.dom.sidebar.active = false;
+				this.active = false;
 			}
-		};
-	}
-
-	get tpl() {
-		return tpl;
+		});
 	}
 
 	render() {
-		const sidebar = this.dom.sidebar;
-		this.state.active = sidebar.active;
-		this.state.mode = sidebar.state.mode;
-		this.state.isMini = sidebar.state.mode === 'mini';
-		this.state.miniAtQuery = '';
-		this.state.miniAtRule = '';
-		this.state.pinAtQuery = '';
-		this.state.pinAtRule = '';
-		this.state.isPinned = sidebar.state.mode === 'pinned';
+		this.state.isMini = this.state.mode === 'mini';
+		this.state.isPinned = this.state.mode === 'pinned';
 		this.state.theme = 'dark';
 		// Add mini modifier.
-		if (sidebar.state.miniAtQuery && sidebar.state.miniAtQuery !== this.state.miniAtRule) {
-			if (this.state.miniAtRule) this.css.deleteRule(this.state.miniAtRule);
-			this.state.miniAtRule = sidebar.state.miniAtQuery;
-			this.css.addRule(this.state.miniAtRule, miniNav);
+		if (this.state.miniAtQuery && this.state.miniAtQuery !== this.state.miniAtRule) {
+			if (this.state.miniAtRule) this.cssNav.deleteRule(this.state.miniAtRule);
+			this.state.miniAtRule = this.state.miniAtQuery;
+			this.cssNav.addRule(this.state.miniAtRule, miniNav);
 		}
 		// Add pinned modifier.
-		if (sidebar.state.pinAtQuery && sidebar.state.pinAtQuery !== this.state.pinAtRule) {
-			if (this.state.pinAtRule) this.css.deleteRule(this.state.pinAtRule);
-			this.state.pinAtRule = sidebar.state.pinAtQuery;
-			this.css.addRule(this.state.pinAtRule, pinnedNav);
+		if (this.state.pinAtQuery && this.state.pinAtQuery !== this.state.pinAtRule) {
+			if (this.state.pinAtRule) this.cssNav.deleteRule(this.state.pinAtRule);
+			this.state.pinAtRule = this.state.pinAtQuery;
+			this.cssNav.addRule(this.state.pinAtRule, pinnedNav);
 		}
-		this.css.update(this.props);
-		return super.render();
+		this.cssNav.update(this.props);
+		return tpl(this.bind(this.root), this);
 	}
 
 	buildLinks(links = []) {

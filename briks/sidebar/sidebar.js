@@ -36,18 +36,12 @@ export default class Sidebar extends Brik().with(propsMixin, renderMixin, events
 			this.dom.overlay = document.createElement('brik-overlay');
 			this.dom.parent.appendChild(this.dom.overlay);
 		}
-		// Cache this sidebar to the page element.
-		// if (this.tagName !== 'BRIK-SIDEBAR') {
-		// 	this.dom.parent.$.sidebars[this.side] = this;
-		// }
 		// Update the state.
 		this.updateState(true);
 		// Add events.
 		this.dom.overlay.addEventListener('click', this.events.clickOverlay);
 		window.addEventListener('resize', this);
 		window.addEventListener('sidebar.' + this.side + '.toggle', this.events.toggle);
-		// Render to dom.
-		this.render();
 	}
 
 	disconnectedCallback() {
@@ -61,7 +55,7 @@ export default class Sidebar extends Brik().with(propsMixin, renderMixin, events
 			clickOverlay: () => {
 				window.brikcss.sidebars[this.group].active.active = false;
 			},
-			resizeWindow: () => {
+			resize: () => {
 				if (this._resizeTimeout) {
 					clearTimeout(this._resizeTimeout);
 				}
@@ -71,11 +65,6 @@ export default class Sidebar extends Brik().with(propsMixin, renderMixin, events
 					if (this.active) this.active = false;
 					if (this.state.mode !== wasMini) {
 						this.render();
-						// @todo  For some reason, Firefox was not firing another window resize event listener in the supernav element, which is why this was moved here. This should really be moved back inside supernav somehow, but needs to work with Firefox.
-						const supernav = this.root.querySelector('brik-supernav');
-						if (supernav) {
-							supernav.render();
-						}
 					}
 				}, 200);
 			},
