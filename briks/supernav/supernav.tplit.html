@@ -3,7 +3,7 @@
 		<!-- Profile header. -->
 		<div class="${this.css.classes.header}" style="${{backgroundImage: `url(${this.headerBackground})`}}">
 			<div class="${this.css.classes.toolbar}">
-				<button type="button" class="${this.css.classes.close}" onclick="${this}" tabindex="${this.active ? 0 : -1}">
+				<button type="button" class="${this.css.classes.close}" onclick="${this}" tabindex="${this.state.active ? 0 : -1}">
 					<brik-icon name="close" fill="var(--color__light)" size="4rem"></brik-icon>
 				</button>
 			</div>
@@ -15,7 +15,7 @@
 		</div>
 
 		<!-- Links and menus. -->
-		<nav class="${`${this.css.classes.nav} ${this.active ? this.css.classes.active : ''}`}">
+		<nav class="${`${this.css.classes.nav} ${this.state.active ? this.css.classes.active : ''}`}">
 			${this.links.map((link, i) => this.wire(link, ':link')`<div
 				class="${`${this.css.classes.menu} ${link.active && !this.state.isMini ? this.css.classes['active-menu'] : ''}`}"
 				style="${`height: ${link.children && link.active && !this.state.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
@@ -31,11 +31,11 @@
 					}}"
 					onfocus="${() => {link.focused = true;}}"
 					onblur="${() => {link.focused = false;}}"
-					tabindex="${(this.state.mode === 'off-canvas' && this.active) || (this.state.isPinned && !this.showSubmenus) ? 0 : -1}">
+					tabindex="${(this.state.mode === 'off-canvas' && this.state.active) || (this.state.isPinned && !this.showSubmenus) ? 0 : -1}">
 					<brik-icon class="${this.css.classes.icon}" name="${link.icon}"></brik-icon>
 					<span class="${this.css.classes['link-label']}">${link.label}</span>
 					${link.children ? this.wire(link, ':link-no-path-button')`<brik-icon class="${this.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
-				</button>` : this.wire(link, ':link-with-path')`<a class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}" href="${this.linkPrefix + link.path}" tabindex="${this.active ? 0 : -1}">
+				</button>` : this.wire(link, ':link-with-path')`<a class="${`${this.css.classes.link} ${link.separator ? this.css.classes.divider : ''}`}" href="${this.linkPrefix + link.path}" tabindex="${this.state.active ? 0 : -1}">
 					<brik-icon class="${this.css.classes.icon}" name="${link.icon}"></brik-icon>
 					<span>${link.label}</span>
 					${link.children ? this.wire(link, ':link-path-button')`<brik-icon class="${this.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
@@ -53,7 +53,7 @@
 							this.dom.page.click();
 						}
 						this.render();
-					}}" onblur="${() => {link.focused = false; if (!this.state.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.active && (this.showSubmenus || this.state.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
+					}}" onblur="${() => {link.focused = false; if (!this.state.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.state.active && (this.showSubmenus || this.state.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
 				</div>` : ''}
 			</div>`)}
 		</nav>

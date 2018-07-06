@@ -51,7 +51,7 @@ export default class Supernav extends Brik().with(propsMixin, renderMixin, event
 			nav: this.shadowRoot.querySelector('.brik-supernav__item')
 		};
 		// Add events.
-		this.dom.sidebar.addEventListener('on.toggle-left-sidebar', this);
+		this.dom.sidebar.addEventListener('on.toggle-left-sidebar', this.events.onToggle);
 		// Create stylesheet.
 		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-supernav-' });
 		// Render it.
@@ -59,7 +59,7 @@ export default class Supernav extends Brik().with(propsMixin, renderMixin, event
 	}
 
 	disconnectedCallback() {
-		this.dom.sidebar.removeEventListener('on.toggle-left-sidebar', this);
+		this.dom.sidebar.removeEventListener('on.toggle-left-sidebar', this.events.onToggle);
 	}
 
 	get events() {
@@ -80,7 +80,7 @@ export default class Supernav extends Brik().with(propsMixin, renderMixin, event
 		return tpl;
 	}
 
-	rendering() {
+	render() {
 		const sidebar = this.dom.sidebar;
 		this.state.active = sidebar.active;
 		this.state.mode = sidebar.state.mode;
@@ -104,6 +104,7 @@ export default class Supernav extends Brik().with(propsMixin, renderMixin, event
 			this.css.addRule(this.state.pinAtRule, pinnedNav);
 		}
 		this.css.update(this.props);
+		return super.render();
 	}
 
 	buildLinks(links = []) {

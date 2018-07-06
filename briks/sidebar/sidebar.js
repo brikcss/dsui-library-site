@@ -43,7 +43,7 @@ export default class Sidebar extends Brik().with(propsMixin, renderMixin, events
 		// Update the state.
 		this.updateState(true);
 		// Add events.
-		this.dom.overlay.addEventListener('click', this);
+		this.dom.overlay.addEventListener('click', this.events.clickOverlay);
 		window.addEventListener('resize', this);
 		window.addEventListener('sidebar.' + this.side + '.toggle', this.events.toggle);
 		// Render to dom.
@@ -51,7 +51,7 @@ export default class Sidebar extends Brik().with(propsMixin, renderMixin, events
 	}
 
 	disconnectedCallback() {
-		this.dom.overlay.removeEventListener('click', this);
+		this.dom.overlay.removeEventListener('click', this.events.clickOverlay);
 		window.removeEventListener('resize', this);
 		window.removeEventListener('sidebar.' + this.side + '.toggle', this.events.toggle);
 	}
