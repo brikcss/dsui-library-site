@@ -15,16 +15,16 @@ For the purposes of this document, the usage of the following terms will be defi
 
 ## Why Web Components
 
-Why native Web Components over other potential solutions, such as React or Vue components, or Angular directives? {.font__subtitle}
+Why native Web Components over other potential solutions, such as React, Vue, or Angular? {.font__subtitle}
 
-A large amount of research went into the selection of native JavaScript Web Components as the tech of choice for building our global library of UI components. For a good understanding of the benefits and reasons for Web Components, here are some great reads to understand why Web Components are amazing:
+A large amount of research went into the selection of native JavaScript Web Components as the tech of choice. For a good understanding of the benefits and reasons for Web Components, here are some great reads:
 
 - [Why Web Components are so important](https://blog.revillweb.com/why-web-components-are-so-important-66ad0bd4807a)
 - [From monolith to micro](#!/learn/from-monolith-to-micro)
 
 ## The DSUI Library Web Components tech stack
 
-One of the greatest things about Web Components is they allow you to do just about anything. One of the most challenging things about writing Web Components is they allow you to do just about anything. This leaves open many decisions that need to be made in order to author Web Components. Our Web Components "tech stack" is a small number of libraries we use to make writing or extending components easy, and also helps to achieve full browser support.
+One of the great benefits of Web Components is they allow you to do just about anything. One big challenge in writing Web Components is they allow you to do just about anything. This leaves open many decisions that need to be made in order to author Web Components. Our Web Components "tech stack" is a small number of libraries we use to make writing or extending components easy, and also helps to achieve full browser support.
 
 A brief overview of our Web Components tech stack is as follows:
 
