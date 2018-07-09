@@ -71,6 +71,7 @@ export default class Code extends Brik().with(propsMixin, renderMixin, eventsMix
 				this.render();
 			},
 			blur: () => {
+				this.text = this.state.raw;
 				this.render();
 			},
 			keydown: (event) => {
