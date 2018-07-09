@@ -14,29 +14,23 @@ export default class Code extends Brik().with(propsMixin, renderMixin, eventsMix
 			editable: types.boolean,
 			lang: types.string,
 			label: types.string,
-			text: types.string,
-			showHeader: type(Object.assign({}, types.boolean), { default: true })
+			text: type(Object.assign({}, types.string, { attribute: false })),
+			showHeader: type(Object.assign({}, types.boolean, { default: true }))
 		};
 	}
 
-	static get observedAttributes() {
-		return ['editable', 'lang', 'label', 'show-header'];
-	}
-
 	connectedCallback() {
-		// Create default state.
+		// Set up.
 		this.state.raw = '';
-
-		// Create styles and dom.
+		this.css = { classes: {} };
 		this.attachShadow({ mode: 'open' });
-		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-' });
-		if (typeof this.showHeader === 'string') this.showHeader = this.showHeader === 'true';
 		this.render();
+		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-' });
 
 		// Build dom.
 		this.dom = {
-			pre: this.shadowRoot.querySelector('pre'),
-			code: this.shadowRoot.querySelector('code'),
+			pre: this.root.querySelector('pre'),
+			code: this.root.querySelector('code'),
 			editor: this.parentNode.tagName === 'BRIK-EDITOR' ? this.parentNode : null
 		};
 		this.dataset.tab = this.lang;
@@ -52,14 +46,15 @@ export default class Code extends Brik().with(propsMixin, renderMixin, eventsMix
 		}
 
 		// Update editability.
-		this.updateEditability();
-
-		// Render.
-		this.render();
+		if (this.editable && !this.state.listeners) {
+			this.makeEditable();
+		}
 	}
 
 	disconnectedCallback() {
-		this.updateEditability();
+		if (this.state.listeners) {
+			this.removeEditability();
+		}
 	}
 
 	get events() {
@@ -85,25 +80,30 @@ export default class Code extends Brik().with(propsMixin, renderMixin, eventsMix
 	}
 
 	updated(prevProps) {
-		if (prevProps.editable !== this.props.editable) {
-			this.updateEditability();
+		super.updated && super.updated(...arguments);
+		if (prevProps.editable !== this.editable) {
+			if (this.editable && !this.state.listeners) {
+				this.makeEditable();
+			} else if (!this.editable && this.state.listeners) {
+				this.removeEditability();
+			}
 		}
 	}
 
-	updateEditability() {
-		this.editable = this.editable || this.dom.editor ? this.dom.editor.editable : false;
-		if (!this.dom) return;
-		if (this.editable) {
-			this.dom.code.addEventListener('input', this);
-			this.dom.code.addEventListener('focus', this);
-			this.dom.code.addEventListener('blur', this);
-			this.dom.code.addEventListener('keydown', this);
-		} else {
-			this.dom.code.removeEventListener('input', this);
-			this.dom.code.removeEventListener('focus', this);
-			this.dom.code.removeEventListener('blur', this);
-			this.dom.code.removeEventListener('keydown', this);
-		}
+	makeEditable() {
+		this.dom.code.addEventListener('input', this);
+		this.dom.code.addEventListener('focus', this);
+		this.dom.code.addEventListener('blur', this);
+		this.dom.code.addEventListener('keydown', this);
+		this.state.listeners = true;
+	}
+
+	removeEditability() {
+		this.dom.code.removeEventListener('input', this);
+		this.dom.code.removeEventListener('focus', this);
+		this.dom.code.removeEventListener('blur', this);
+		this.dom.code.removeEventListener('keydown', this);
+		this.state.listeners = false;
 	}
 
 	refreshPreview() {
@@ -123,6 +123,9 @@ export default class Code extends Brik().with(propsMixin, renderMixin, eventsMix
 		} else {
 			this.text = (this.state.raw || '').replace(/</g, '&lt;');
 		}
+		// console.log('HIGHLIGHT:', this.textContent);
+		// console.log('HIGHLIGHT:', prism.highlight(this.textContent, prism.languages[this.lang]));
+		// this.innerHTML = prism.highlight(this.textContent, prism.languages[this.lang]);
 		this.cssString = [prismCss, this.css.toString()].join('\n');
 	}
 }

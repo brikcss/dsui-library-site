@@ -23,7 +23,6 @@ export default class Editor extends Brik().with(propsMixin, renderMixin) {
 		// Create dom, styles, and pre-render a skeleton screen.
 		this.attachShadow({ mode: 'open' });
 		this.css = styles.createStyleSheet(css, { classNamePrefix: 'brik-' });
-		this.render();
 
 		// Cache dom.
 		this.classList.add(this.css.classes.editor);
@@ -53,9 +52,6 @@ export default class Editor extends Brik().with(propsMixin, renderMixin) {
 
 		// Live preview.
 		if (this.livePreview) this.refreshPreview();
-
-		// Render.
-		this.render();
 	}
 
 	activateTab(tab) {
