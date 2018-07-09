@@ -1,8 +1,8 @@
-import { Brik, propsMixin, renderMixin, types, empty } from '../brik-element';
+import { Brik, propsMixin, renderMixin, eventsMixin, types, empty } from '../brik-element';
 import tpl from './tabs.tplit.html';
 import css from './tabs.shadow.css';
 
-export default class Tabs extends Brik().with(propsMixin, renderMixin) {
+export default class Tabs extends Brik().with(propsMixin, renderMixin, eventsMixin) {
 	static get props() {
 		return {
 			tabs: {
@@ -38,7 +38,15 @@ export default class Tabs extends Brik().with(propsMixin, renderMixin) {
 	}
 
 	disconnectedCallback() {
-		this.removeEventListener('click');
+		this.removeEventListener('click', this.events.onButtonClick);
+	}
+
+	get events() {
+		return {
+			onButtonClick: (event) => {
+				this.activeTab = event.currentTarget.dataset.tab;
+			}
+		};
 	}
 
 	updated(prevProps) {

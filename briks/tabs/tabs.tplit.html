@@ -3,9 +3,7 @@
 		(tab) => this.wire(tab)`<div class="${`brik-tabs__button-wrap ${
 				tab.active ? 'brik-tabs__button--active' : ''
 			}`}">
-			<button class="brik-tabs__button" type="button" onclick="${() => {
-				this.activeTab = tab.id;
-			}}"><span class="brik-tabs__button-label">${tab.label || tab.id}</span></button>
+			<button class="brik-tabs__button" type="button" onclick="${this.events.onButtonClick}" data-tab="${tab.id}"><span class="brik-tabs__button-label">${tab.label || tab.id}</span></button>
 		</div>
 	`
 	)}
