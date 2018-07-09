@@ -157,8 +157,10 @@ function renderRoute(route, toState, fromState) {
 	}${route.title || route.label || 'Unknown'}`;
 	// Update edit page link.
 	app.header.pageEditLink = `https://github.com/brikcss/dsui-library-site/blob/master/src/pages${
-		route.parent ? '/' + route.parent.name : ''
-	}${route.path}.page.md`;
+		route.editUrl
+			? '/' + route.editUrl
+			: (route.parent ? '/' + route.parent.name : '') + route.path
+	}.page.md`;
 	// Render route.
 	if (typeof route.render === 'function') route.render(app, toState, fromState);
 }
