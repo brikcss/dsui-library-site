@@ -120,6 +120,7 @@ const styles = {
 	},
 	active: {},
 	'active-menu': {
+		color: 'hsl(0, 0%, 100%) !important',
 		backgroundColor: 'hsla(0, 0%, 0%, 0.14)',
 		'& $chevron': {
 			fill: 'var(--color__light)',
@@ -260,6 +261,13 @@ const miniNav = {
 		height: '8rem',
 		transition: 'background-color 250ms'
 	},
+	'active-menu': {
+		backgroundColor: 'transparent'
+	},
+	'inactive-menu': {
+		transform: 'translate3d(0, 0, 0) !important',
+		boxShadow: 'none !important'
+	},
 	submenu: {
 		backgroundColor: 'var(--color__supernav--dark)',
 		height: '100vh',
@@ -272,6 +280,7 @@ const miniNav = {
 		transform: 'translate3d(0, 0, 0)',
 		transitionProperty: 'transform, box-shadow, color',
 		transitionDuration: '350ms',
+		transitionDelay: '250ms',
 		transitionTimingFunction: 'cubic-bezier(0.6, 0, 0.2, 1.2)',
 		'&:before': {
 			content: '""',
@@ -284,7 +293,8 @@ const miniNav = {
 		},
 		'$menu:hover &, $menu:focus &': {
 			boxShadow: '0 3rem 8rem hsla(0, 0%, 0%, 0.6)',
-			transform: 'translate3d(30rem, 0, 0)'
+			transform: 'translate3d(30rem, 0, 0)',
+			transitionDelay: '0ms'
 		}
 	},
 	sublink: {

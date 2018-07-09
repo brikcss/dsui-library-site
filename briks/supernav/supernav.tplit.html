@@ -1,6 +1,6 @@
 <div class="${`${this.css.classes.sidebar} ${this.active ? this.css.classes.active : ''}`}">
-	<div class="${`${this.cssNav.classes.supernav} ${this.cssNav.classes['theme-' + (this.state.theme)]} ${this.showSubmenus ? this.cssNav.classes['show-menus'] : ''}`}">
-		<div class="${this.cssNav.classes.scroller}" onmouseenter="${() => {this.classList.remove(this.cssNav.classes['inactive-menu'])}}">
+	<div class="${`${this.cssNav.classes.supernav} ${this.cssNav.classes['theme-' + (this.state.theme)]} ${this.showSubmenus ? this.cssNav.classes['show-menus'] : ''}`}" onmouseenter="${this.events.onHoverNav}">
+		<div class="${this.cssNav.classes.scroller}">
 			<!-- Profile header. -->
 			<div class="${this.cssNav.classes.header}" style="${{backgroundImage: `url(${this.headerBackground})`}}">
 				<div class="${this.cssNav.classes.toolbar}">
@@ -23,15 +23,10 @@
 					${link.children ? this.wire(link, ':link-without-path')`<button
 						type="button"
 						class="${`${this.cssNav.classes.link} ${link.separator ? this.cssNav.classes.divider : ''}`}"
-						onclick="${() => {
-							if ((this.showSubmenus)) return;
-							const lastActiveLink = this.links.find((link, n) => n !== i && link.active);
-							if (lastActiveLink) lastActiveLink.active = false;
-							link.active = !link.active;
-							this.render();
-						}}"
-						onfocus="${() => {link.focused = true;}}"
-						onblur="${() => {link.focused = false;}}"
+						data-index="${i}"
+						onclick="${this.events.onClickLink}"
+						onfocus="${this.events.onFocusLink}"
+						onblur="${this.events.onBlurLink}"
 						tabindex="${(this.state.mode === 'off-canvas' && this.active) || (this.state.isPinned && !this.showSubmenus) ? 0 : -1}">
 						<brik-icon class="${this.cssNav.classes.icon}" name="${link.icon}"></brik-icon>
 						<span class="${this.cssNav.classes['link-label']}">${link.label}</span>
@@ -41,20 +36,9 @@
 						<span>${link.label}</span>
 						${link.children ? this.wire(link, ':link-path-button')`<brik-icon class="${this.cssNav.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
 					</a>`}
-					${link.children ? this.test = this.wire(link, ':menu')`<div class="${this.cssNav.classes.submenu}">
+					${link.children ? this.test = this.wire(link, ':menu')`<div class="${`${this.cssNav.classes.submenu} ${this.state.inactiveMenu ? this.cssNav.classes['inactive-menu'] : ''}`}">
 						<div class="${this.cssNav.classes.title}">${link.label}</div>
-						${link.children.map((sublink, i) => this.wire(sublink)`<a class="${`${this.cssNav.classes.sublink} ${sublink.active ? this.cssNav.classes.sublinkActive : ''}`}" href="${this.linkPrefix + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!this.state.isMini) {return;} link.active = true; this.render();}}" onclick="${(event) => {
-							if (this.activeMenuLink) this.activeMenuLink.active = false;
-							sublink.active = true;
-							this.activeMenuLink = sublink;
-							if (this.state.isMini) {
-								this.classList.add(this.cssNav.classes['inactive-menu']);
-								link.focused = false;
-								event.target.blur();
-								this.dom.parent.click();
-							}
-							this.render();
-						}}" onblur="${() => {link.focused = false; if (!this.state.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.active && (this.showSubmenus || this.state.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
+						${link.children.map((sublink, n) => this.wire(sublink)`<a class="${`${this.cssNav.classes.sublink} ${sublink.active ? this.cssNav.classes['active-menu'] : ''}`}" href="${this.linkPrefix + [link.path, sublink.path].join('')}" data-index="${n}" data-parent="${i}" onfocus="${this.events.onFocusSublink}" onclick="${this.events.onClickSublink}" onblur="${this.events.onBlurSublink}" tabindex="${this.active && (this.showSubmenus || this.state.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
 					</div>` : ''}
 				</div>`)}
 			</nav>

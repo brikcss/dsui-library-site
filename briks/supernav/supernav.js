@@ -69,6 +69,52 @@ export default class Supernav extends BrikSidebar {
 			},
 			click: () => {
 				this.active = false;
+			},
+			onClickLink: (event) => {
+				if (this.showSubmenus) return;
+				const link = this.links[event.currentTarget.dataset.index];
+				const lastActiveLink = this.links.find(
+					(link, n) => n !== event.currentTarget.dataset.index && link.active
+				);
+				if (lastActiveLink) lastActiveLink.active = false;
+				link.active = !link.active;
+				this.render();
+			},
+			onFocusLink: (event) => {
+				this.links[event.currentTarget.dataset.index].focused = true;
+			},
+			onBlurLink: (event) => {
+				this.links[event.currentTarget.dataset.index].focused = false;
+			},
+			onFocusSublink: (event) => {
+				const data = event.currentTarget.dataset;
+				this.links[data.parent].focused = true;
+				if (!this.state.isMini) return;
+				this.links[data.parent].active = true;
+				this.render();
+			},
+			onBlurSublink: (event) => {
+				const data = event.currentTarget.dataset;
+				this.links[data.parent].focused = false;
+				if (!this.state.isMini) return;
+				this.links[data.parent].active = false;
+				this.render();
+			},
+			onClickSublink: (event) => {
+				const data = event.currentTarget.dataset;
+				if (this.activeMenuLink) this.activeMenuLink.active = false;
+				this.links[data.parent].children[data.index].active = true;
+				this.activeMenuLink = this.links[data.parent].children[data.index];
+				if (this.state.isMini) {
+					this.links[data.parent].focused = false;
+					this.state.inactiveMenu = true;
+					event.currentTarget.blur();
+				}
+				this.render();
+			},
+			onHoverNav: () => {
+				this.state.inactiveMenu = false;
+				this.render();
 			}
 		});
 	}
