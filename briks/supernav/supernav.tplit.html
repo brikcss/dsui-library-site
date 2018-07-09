@@ -51,7 +51,7 @@
 								this.classList.add(this.cssNav.classes['inactive-menu']);
 								link.focused = false;
 								event.target.blur();
-								this.dom.page.click();
+								this.dom.parent.click();
 							}
 							this.render();
 						}}" onblur="${() => {link.focused = false; if (!this.state.isMini) {return;} link.active = false; this.render();}}" tabindex="${this.active && (this.showSubmenus || this.state.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
