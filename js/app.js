@@ -8105,6 +8105,382 @@
 
 	var listenersPlugin = unwrapExports(listeners);
 
+	function dashCase(str) {
+		return typeof str === 'string' ? str.split(/([_A-Z])/).reduce((one, two, idx) => {
+			const dash = !one || idx % 2 === 0 ? '' : '-';
+			two = two === '_' ? '' : two;
+			return `${one}${dash}${two.toLowerCase()}`;
+		}) : str;
+	}
+
+	const empty = val => val == null;
+
+	function keys(obj) {
+		obj = obj || {};
+		const names = Object.getOwnPropertyNames(obj);
+		return Object.getOwnPropertySymbols ? names.concat(Object.getOwnPropertySymbols(obj)) : names;
+	}
+
+	function Brik(Base = HTMLElement) {
+		return class extends Base {
+			/**
+	   *  Extend base `with` other mixins.
+	   *
+	   *  @param   {...Function}  mixins  Mixin Classes to extend base element with.
+	   *  @return  {Function}  Extended Class.
+	   */
+			static with(...mixins) {
+				mixins.unshift(Brik);
+				return mixins.reduce((context, mixin) => mixin(context), Base);
+			}
+
+			/**
+	   *  Define and register the Custom Element to the DOM.
+	   *  @description  The following are valid ways to call it:
+	   *    1) element.define(tagName, Class, config);
+	   *    2) element.define(Class, config);
+	   *    3) element.define(config);
+	   *
+	   *  @string  tagName  (Class.name)  Tag name of the Custom Element. Can be omitted.
+	   *  @function  Class  (this)  Class to register as a Custom Element. Can be omitted.
+	   *  @object  config  ({})  Configuration options. Can be omitted.
+	   *  @return  {Object}  Class constructor.
+	   */
+			static define(...args) {
+				window.brikcss = window.brikcss || {};
+				const Class = typeof args[0] === 'function' ? args[0] : typeof args[1] === 'function' ? args[1] : this;
+				const config = Object.assign({
+					prefix: typeof args[0] === 'string' ? undefined : window.brikcss.prefix || 'brik',
+					tagName: typeof args[0] === 'string' ? args[0] : Class.name
+				}, args[0] instanceof Object ? args[0] : args[1] instanceof Object ? args[2] : args[2] instanceof Object ? args[2] : {});
+
+				// Define and register the Custom Element to the DOM.
+				window.customElements.define(`${config.prefix ? config.prefix + '-' : ''}${dashCase(config.tagName)}`, Class, config);
+
+				return Class;
+			}
+
+			/**
+	   *  Getter/setter to get/set root element, which is shadowRoot or root element.
+	   *  @return  {Object}  Root element.
+	   */
+			get root() {
+				return this._root || (this._root = this.shadowRoot || this);
+			}
+			set root(value) {
+				Object.defineProperty(this, '_root', {
+					configurable: true,
+					value
+				});
+			}
+		};
+	}
+
+	// handleEvent() lets you pass element as an EventListener, i.e.: `onclick="${}this"`. See
+	// https://medium.com/@WebReflection/dom-handleevent-a-cross-platform-standard-since-year-2000-5bf17287fd38
+	// When an event is triggered, it will call either: 1) this.events[name] or 2) 'on' + EventName
+	// (first letter capitalized), whichever it finds first.
+	const eventsMixin = (Base = HTMLElement) => {
+		return class extends Base {
+			handleEvent(event) {
+				const name = (event.currentTarget.dataset || {}).call || event.type;
+				if (this.events && this.events[name]) {
+					this.events[name](event);
+				} else if (this['on' + name.charAt(0).toUpperCase() + name.slice(1)]) {
+					this['on' + name.charAt(0).toUpperCase() + name.slice(1)](event);
+				}
+			}
+		};
+	};
+
+	function normaliseAttributeDefinition(name, prop) {
+		const attribute = prop.attribute;
+
+		const obj = typeof attribute === 'object' ? Object.assign({}, attribute) : {
+			source: attribute,
+			target: attribute
+		};
+		if (obj.source === true) {
+			obj.source = dashCase(name);
+		}
+		if (obj.target === true) {
+			obj.target = dashCase(name);
+		}
+		return obj;
+	}
+
+	function normalisePropertyDefinition(name, prop) {
+		const coerce = prop.coerce,
+		      def = prop.default,
+		      deserialize = prop.deserialize,
+		      serialize = prop.serialize;
+
+		return {
+			attribute: normaliseAttributeDefinition(name, prop),
+			coerce: coerce || (v => v),
+			default: def,
+			deserialize: deserialize || (v => v),
+			serialize: serialize || (v => v)
+		};
+	}
+
+	function defineProps(constructor) {
+		if (constructor.hasOwnProperty('_propsNormalised')) return;
+		const props = constructor.props;
+
+		keys(props).forEach(name => {
+			let func = props[name];
+			if (!['function', 'object'].includes(typeof func) || func instanceof Array) {
+				func = Object.assign(types[func instanceof Array ? 'array' : typeof func], {
+					default: func
+				});
+			}
+			if (typeof func !== 'function') func = type(func);
+			func({ constructor }, name);
+		});
+	}
+
+	function delay(fn) {
+		if (window.Promise) {
+			Promise.resolve().then(fn);
+		} else {
+			setTimeout(fn);
+		}
+	}
+
+	function type(definition) {
+		const propertyDefinition = definition || {};
+
+		// Allows decorators, or imperative definitions.
+		const func = function func({ constructor }, name) {
+			const normalised = normalisePropertyDefinition(name, propertyDefinition);
+
+			// Ensure that we can cache properties. We have to do this so the _props object literal doesn't modify parent
+			// classes or share the instance anywhere where it's not intended to be shared explicitly in userland code.
+			if (!constructor.hasOwnProperty('_propsNormalised')) {
+				constructor._propsNormalised = {};
+			}
+
+			// Cache the value so we can reference when syncing the attribute to the property.
+			constructor._propsNormalised[name] = normalised;
+			var _normalised$attribute = normalised.attribute;
+			const source = _normalised$attribute.source,
+			      target = _normalised$attribute.target;
+
+
+			if (source) {
+				constructor._observedAttributes.push(source);
+				constructor._attributeToPropertyMap[source] = name;
+				if (source !== target) {
+					constructor._attributeToAttributeMap[source] = target;
+				}
+			}
+
+			Object.defineProperty(constructor.prototype, name, {
+				configurable: true,
+				get() {
+					const val = this._props[name];
+					return val == null ? normalised.default : val;
+				},
+				set(val) {
+					const target = normalised.attribute.target,
+					      serialize = normalised.serialize;
+
+					if (target) {
+						const serializedVal = serialize ? serialize(val) : val;
+						if (serializedVal == null) {
+							this.removeAttribute(target);
+						} else {
+							this.setAttribute(target, serializedVal);
+						}
+					}
+					this._props[name] = normalised.coerce(val);
+					this.triggerUpdate();
+				}
+			});
+		};
+
+		// Allows easy extension of pre-defined props { ...prop(), ...{} }.
+		Object.keys(propertyDefinition).forEach(key => func[key] = propertyDefinition[key]);
+
+		return func;
+	}
+
+	const propsMixin = (Base = HTMLElement) => {
+		var _class, _temp2;
+
+		return _temp2 = _class = class extends Base {
+			constructor(...args) {
+				var _temp;
+
+				return (
+					// eslint-disable-next-line constructor-super
+					_temp = super(...args), this._prevProps = {}, this._prevState = {}, this._props = {}, this._state = {}, _temp
+				);
+			}
+
+			static get observedAttributes() {
+				// We have to define props here because observedAttributes are retrieved
+				// only once when the custom element is defined. If we did this only in
+				// the constructor, then props would not link to attributes.
+				defineProps(this);
+				return this._observedAttributes;
+			}
+
+			static get props() {
+				return this._props;
+			}
+
+			static set props(props) {
+				this._props = props;
+			}
+
+			get props() {
+				return keys(this.constructor.props).reduce((prev, curr) => {
+					prev[curr] = this[curr];
+					return prev;
+				}, {});
+			}
+
+			set props(props) {
+				const ctorProps = this.constructor.props;
+				keys(props).forEach(k => k in ctorProps && (this[k] = props[k]));
+			}
+
+			get state() {
+				return this._state;
+			}
+
+			set state(state) {
+				this._state = state;
+				this.triggerUpdate();
+			}
+
+			attributeChangedCallback(name, oldValue, newValue) {
+				var _constructor = this.constructor;
+				const _attributeToAttributeMap = _constructor._attributeToAttributeMap,
+				      _attributeToPropertyMap = _constructor._attributeToPropertyMap,
+				      props = _constructor.props;
+
+
+				if (super.attributeChangedCallback) {
+					super.attributeChangedCallback(name, oldValue, newValue);
+				}
+
+				const propertyName = _attributeToPropertyMap[name];
+				if (propertyName) {
+					const propertyDefinition = props[propertyName];
+					if (propertyDefinition) {
+						const defaultValue = propertyDefinition.default,
+						      deserialize = propertyDefinition.deserialize;
+
+						const propertyValue = deserialize ? deserialize(newValue) : newValue;
+						this._props[propertyName] = propertyValue == null ? defaultValue : propertyValue;
+						this.triggerUpdate();
+					}
+				}
+
+				const targetAttributeName = _attributeToAttributeMap[name];
+				if (targetAttributeName) {
+					if (newValue == null) {
+						this.removeAttribute(targetAttributeName);
+					} else {
+						this.setAttribute(targetAttributeName, newValue);
+					}
+				}
+			}
+
+			connectedCallback() {
+				if (super.connectedCallback) {
+					super.connectedCallback();
+				}
+				this.triggerUpdate();
+			}
+
+			shouldUpdate() {
+				return true;
+			}
+
+			triggerUpdate() {
+				if (this._updating) {
+					return;
+				}
+				this._updating = true;
+				delay(() => {
+					const _prevProps = this._prevProps,
+					      _prevState = this._prevState;
+
+					if (this.updating) {
+						this.updating(_prevProps, _prevState);
+					}
+					if (this.updated && this.shouldUpdate(_prevProps, _prevState)) {
+						this.updated(_prevProps, _prevState);
+					}
+					this._prevProps = this.props;
+					this._prevState = this.state;
+					this._updating = false;
+				});
+			}
+		}, _class._attributeToAttributeMap = {}, _class._attributeToPropertyMap = {}, _class._observedAttributes = [], _class._props = {}, _temp2;
+	};
+
+	const parse = JSON.parse,
+	      stringify = JSON.stringify;
+
+	const attribute = Object.freeze({ source: true, target: true });
+	const zeroOrNumber = val => empty(val) ? 0 : Number(val);
+
+	const any = type({
+		attribute
+	});
+
+	const array = type({
+		attribute,
+		coerce: val => Array.isArray(val) ? val : empty(val) ? null : [val],
+		default: Object.freeze([]),
+		deserialize: parse,
+		serialize: stringify
+	});
+
+	const boolean = type({
+		attribute,
+		coerce: Boolean,
+		default: false,
+		deserialize: val => !empty(val),
+		serialize: val => val ? '' : null
+	});
+
+	const number = type({
+		attribute,
+		default: 0,
+		coerce: zeroOrNumber,
+		deserialize: zeroOrNumber,
+		serialize: val => empty(val) ? null : String(Number(val))
+	});
+
+	const object = type({
+		attribute,
+		default: Object.freeze({}),
+		deserialize: parse,
+		serialize: stringify
+	});
+
+	const string = type({
+		attribute,
+		default: '',
+		coerce: String,
+		serialize: val => empty(val) ? null : String(val)
+	});
+
+	const types = {
+		any,
+		array,
+		boolean,
+		number,
+		object,
+		string
+	};
+
 	const G = document.defaultView;
 
 	// Node.CONSTANTS
@@ -8317,7 +8693,7 @@
 	};
 
 	const intents = {};
-	const keys = [];
+	const keys$1 = [];
 	const hasOwnProperty = intents.hasOwnProperty;
 
 	let length = 0;
@@ -8331,7 +8707,7 @@
 	  // hyper(node)`<p>${{user}}</p>`;
 	  define: (intent, callback) => {
 	    if (!(intent in intents)) {
-	      length = keys.push(intent);
+	      length = keys$1.push(intent);
 	    }
 	    intents[intent] = callback;
 	  },
@@ -8340,7 +8716,7 @@
 	  // to retrieve a value out of an object
 	  invoke: (object, callback) => {
 	    for (let i = 0; i < length; i++) {
-	      let key = keys[i];
+	      let key = keys$1[i];
 	      if (hasOwnProperty.call(object, key)) {
 	        return intents[key](object[key], callback);
 	      }
@@ -9504,342 +9880,38 @@
 	// const {bind, wire} = hyperHTML;
 	// and use them right away: bind(node)`hello!`;
 	const bind = context => render.bind(context);
-	const define = Intent.define;
-
-	hyper.Component = Component;
-	hyper.bind = bind;
-	hyper.define = define;
-	hyper.diff = domdiff;
-	hyper.hyper = hyper;
-	hyper.wire = wire;
 
 	// the wire content is the lazy defined
 	// html or svg property of each hyper.Component
 	setup(content$1);
 
-	// by default, hyperHTML is a smart function
-	// that "magically" understands what's the best
-	// thing to do with passed arguments
-	function hyper(HTML) {
-	  return arguments.length < 2 ?
-	    (HTML == null ?
-	      content$1('html') :
-	      (typeof HTML === 'string' ?
-	        hyper.wire(null, HTML) :
-	        ('raw' in HTML ?
-	          content$1('html')(HTML) :
-	          ('nodeType' in HTML ?
-	            hyper.bind(HTML) :
-	            weakly(HTML, 'html')
-	          )
-	        )
-	      )) :
-	    ('raw' in HTML ?
-	      content$1('html') : hyper.wire
-	    ).apply(null, arguments);
-	}
-
-	/** ------------------------------------------------------------------------------------------------
-	 *  @filename  brik.js
-	 *  @author  brikcss  <https://github.com/brikcss>
-	 *  @description  Extensible class to assist in creating Brikcss Custom Elements.
-	 *  @credit  Thank you to @WebReflection for the awesome HyperHTML set of libraries. Much of the
-	 *      inspiration for BrikElement was drawn from this work:
-	 *      https://github.com/WebReflection/hyperHTML-Element.
-	 ** --------------------------------------------------------------------------------------------- */
-
-	class BrikElement extends HTMLElement {
-		// Defines a Custom Element. Extensible with `class element extends BrikElement {}`. Define with
-		// element.define('my-element', {...});
-		static define(config = {}, Class) {
-			// Allow flexible ways of passing arguments.
-			if (typeof config === 'function') {
-				Class = config;
-				config = {};
-			} else {
-				Class = Class || this;
-				if (typeof config === 'string') config = { tag: config };
+	const renderMixin = (Base = HTMLElement) => {
+		return class extends Base {
+			render(root, id) {
+				root = root || this.root || this.shadowRoot || this;
+				// If this.tpl doesn't exist, return the hyperhtml render (bind) function.
+				if (!this.tpl) return this.bind(root, id);
+				// Otherwise, this.tpl() is called with a custom render function.
+				const html = this.tpl((string, ...values) => ({ string, values }), this);
+				return this.bind(root, id)(html.string, ...html.values);
 			}
 
-			// Set default config.
-			window.brikcss = window.brikcss || {};
-			config = Object.assign({
-				prefix: window.brikcss.prefix || 'brik',
-				tag: Class.name ? camelToKebabCase(Class.name) : '',
-				define: !Class.prototype.define
-			}, config);
-
-			// observedAttributes create a mechanism to reflect attributes to props and vice versa. For
-			// each observedAttributes, an accessor is defined at `this[prop]` which, when set, will
-			// reflect the value to props. Note: attributes are converted to kebab-case, while props are
-			// converted to camelCase.
-			if (!Class.observedAttributes) {
-				const defaults = Object.assign({}, Class.prototype.defaults, Class.defaults);
-				Class.observedAttributes = Object.keys(defaults).map(prop => {
-					return camelToKebabCase(prop);
-				});
-			}
-			(Class.observedAttributes || []).forEach(attr => {
-				const prop = kebabToCamelCase(attr);
-				if (!(prop in Class.prototype)) {
-					Object.defineProperty(Class.prototype, prop, {
-						configurable: true,
-						get() {
-							return this.props[prop];
-						},
-						set(value) {
-							this.props[prop] = value;
-							this.setAttribute(attr, value);
-						}
-					});
-				}
-			});
-
-			// Wrapper around child's attributeChangedCallback to reflect attribute changes to props. It
-			// also upgrade the child's attributeChangedCallback to only run if the value has changed,
-			// which prevents triggering attributeChangedCallback more than once.
-			// NOTE: In the initial render, attributes are not set in the DOM. This is because it
-			// creates unnecessary renders and can bloat the markup. As soon as any attribute or prop
-			// changes, however, it gets reflected in the DOM.
-			const created = Class.prototype.created;
-			const onChanged = Class.prototype.attributeChangedCallback;
-			const hasChange = !!onChanged;
-			if (created || hasChange) {
-				Object.defineProperty(Class.prototype, 'attributeChangedCallback', {
-					configurable: true,
-					value(attr, oldValue, value) {
-						if (created && !this._initialized) {
-							checkReady.call(this, created);
-						}
-						if (this._initialized && oldValue !== value) {
-							const prop = kebabToCamelCase(attr);
-							const propCapitalized = prop.replace(/(?:^|\s)\S/g, function (a) {
-								return a.toUpperCase();
-							});
-							if (value === 'true') this.props[prop] = true;else if (['false', 'null', 'undefined'].includes(value)) {
-								this.props[prop] = false;
-							} else this.props[prop] = value;
-							if (hasChange) onChanged.call(this, prop, oldValue, value, attr);
-							if (typeof this['on' + propCapitalized] === 'function') {
-								this['on' + propCapitalized].call(this, value, oldValue, prop, attr);
-							}
-						}
-					}
-				});
+			updated(...args) {
+				super.updated && super.updated(...args);
+				this.rendering && this.rendering(this._prevProps, this._prevState);
+				this.render();
+				this.rendered && this.rendered(this._prevProps, this._prevState);
 			}
 
-			// Created() replaces constructor() and ensures the node is fully known to the browser. It
-			// is ensured to run either after DOMContentLoaded or once there is a next sibling. This
-			// ensures you have full access to element attributes and/or childNodes.
-			if (created) {
-				// Ensures create() is only called once.
-				Object.defineProperty(Class.prototype, '_initialized', {
-					configurable: true,
-					writable: true,
-					value: false
-				});
-
-				// Wrapper around child's connectedCallback to check if element has initialized.
-				const onConnected = Class.prototype.connectedCallback;
-				const hasConnect = !!onConnected;
-				Object.defineProperty(Class.prototype, 'connectedCallback', {
-					configurable: true,
-					writable: true,
-					value() {
-						if (!this._initialized) {
-							checkReady.call(this, created);
-						}
-						if (hasConnect) {
-							onConnected.apply(this, arguments);
-						}
-					}
-				});
+			bind(...args) {
+				return bind(...args);
 			}
 
-			// Define lazily all handlers:
-			// class { handleClick() { ... }
-			// render() { `<a onclick=${this.handleClick}>` } }
-			Object.getOwnPropertyNames(Class.prototype).forEach(key => {
-				if (/^handle[A-Z]/.test(key)) {
-					const _key = '_' + key;
-					const method = Class.prototype[key];
-					Object.defineProperty(Class.prototype, key, {
-						configurable: true,
-						get() {
-							return this[_key] || (this[_key] = method.bind(this));
-						}
-					});
-				}
-			});
-
-			// handleEvent() allows you to pass the element itself as an EventListener:
-			// https://medium.com/@WebReflection/dom-handleevent-a-cross-platform-standard-since-year-2000-5bf17287fd38
-			// class Reactive extends BrikElement {
-			//   oninput(e) { console.log(this, 'changed', e.target.value); }
-			//   render() { this.html`<input oninput="${this}">`; }
-			// }
-			if (!('handleEvent' in Class.prototype)) {
-				Object.defineProperty(Class.prototype, 'handleEvent', {
-					configurable: true,
-					value(event) {
-						this[(event.currentTarget.dataset || {}).call || 'on' + event.type](event);
-					}
-				});
+			wire(...args) {
+				return wire(...args);
 			}
-
-			// If child has a define method, run it now. Also, in this case config.define will be set to
-			// false, unless it is explicitly set to true. This means customElements.define() must be
-			// called manually if child.define() exists (unless config.define is set to true).
-			const onDefine = Class.prototype.define;
-			const hasDefine = !!onDefine;
-			if (hasDefine) {
-				// Call child's define method.
-				onDefine.apply(Class, arguments);
-			}
-
-			// Define the Custom Element.
-			if (config.define) {
-				customElements.define(`${config.prefix ? config.prefix + '-' : ''}${config.tag}`, Class);
-			}
-
-			return Class;
-		}
-
-		// Lazily bind hyperhtml to the element. This attaches to Shadow DOM element, if present, or the
-		// element itself if no Shadow DOM is used. NOTE: If using a closed Shadow DOM, do this:
-		// `this._shadowRoot = this.attachShadow({mode: 'close'});`
-		get html() {
-			return this._html || (this.html = bind(this.shadowRoot || this._shadowRoot || this));
-		}
-
-		// `html` can be set, if necessary. It won't invoke render().
-		set html(value) {
-			Object.defineProperty(this, '_html', { configurable: true, value: value });
-		}
-
-		// Default props.
-		get defaults() {
-			return {};
-		}
-
-		// Overwrite this method with your own render
-		render() {}
-
-		// the state with a default
-		get props() {
-			return this._props || (this.props = this.defaults);
-		}
-
-		// it can be set too if necessary, it won't invoke render()
-		set props(value) {
-			Object.defineProperty(this, '_props', { configurable: true, value });
-		}
-
-		// Shallow copies props to this.props, and (by default) calls this.render() after updating
-		// props. It can optionally set each element property, in which case it will not render.
-		update(props, { render = true, setAttr = false } = {}) {
-			const target = this.props;
-			const source = typeof props === 'function' ? props.call(this, target) : props || this.props;
-			for (const key in source) {
-				const attr = kebabToCamelCase(key);
-				if (setAttr && this.getAttribute(attr) !== source[key]) {
-					this.setAttribute(attr, source[key]);
-				}
-				if (target[key] !== source[key]) target[key] = source[key];
-			}
-			if (render && !setAttr) this.render();
-			return this;
-		}
-	}
-
-	// Expose hyperhtml methods.
-	BrikElement.Component = Component;
-	BrikElement.bind = bind;
-	BrikElement.intent = define;
-	BrikElement.wire = wire;
-	BrikElement.hyper = hyper;
-
-	// ----------
-	// DOM ready.
-	// Allows created() method to ensure the element is fully known to the browser.
-	const dom = {
-		handleEvent: function handleEvent(e) {
-			if (dom.ready) {
-				document.removeEventListener(e.type, dom, false);
-				dom.list.splice(0).forEach(function (fn) {
-					fn();
-				});
-			}
-		},
-		get ready() {
-			return document.readyState === 'complete';
-		},
-		list: []
+		};
 	};
-
-	if (!dom.ready) {
-		document.addEventListener('DOMContentLoaded', dom, false);
-	}
-
-	/**
-	 *  Check if DOM is ready.
-	 *
-	 *  @param   {Function}  created  created().
-	 */
-	function checkReady(created) {
-		if (dom.ready || isReady.call(this, created)) {
-			if (!this._initialized) {
-				init.call(this);
-				created.call(Object.defineProperty(this, '_initialized', { value: true }));
-			}
-		} else {
-			dom.list.push(checkReady.bind(this, created));
-		}
-	}
-
-	/**
-	 *  Helper to check if DOM is ready.
-	 *
-	 *  @param   {Function}  created  created().
-	 *  @return  {Boolean}  Whether DOM is ready.
-	 */
-	function isReady(created) {
-		let el = this;
-		do {
-			if (el.nextSibling) return true;
-		} while (el = el.parentNode);
-		setTimeout(checkReady.bind(this, created));
-		return false;
-	}
-
-	function init() {
-		// Set up defaults.
-		this.props = Object.assign({}, this.props, this.constructor.defaults, this.defaults);
-		Object.keys(this.props).forEach(prop => {
-			this.props[prop] = this.getAttribute(camelToKebabCase(prop)) || this.props[prop];
-		});
-		Object.defineProperty(this, '_initialized', { value: true });
-	}
-
-	/**
-	 *  Convert string from camelCase to kebab-case.
-	 *
-	 *  @param   {String}  string  String to convert.
-	 *  @return  {String}  kebab-case string.
-	 */
-	function camelToKebabCase(string) {
-		return string.replace(/\W+/g, '-').replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
-	}
-
-	/**
-	 *  Convert string from kebab-case to camelCase.
-	 *
-	 *  @param   {String}  string  String to convert.
-	 *  @return  {String}  camelCase string.
-	 */
-	function kebabToCamelCase(string) {
-		return string.replace(/\W+(.)/g, (x, char) => char.toUpperCase());
-	}
 
 	var getDynamicStyles_1 = createCommonjsModule(function (module, exports) {
 
@@ -12730,7 +12802,7 @@
 	var lib_7 = lib.toCssValue;
 	var lib_8 = lib.getDynamicStyles;
 
-	var parse = createCommonjsModule(function (module, exports) {
+	var parse$1 = createCommonjsModule(function (module, exports) {
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -12771,7 +12843,7 @@
 	};
 	});
 
-	unwrapExports(parse);
+	unwrapExports(parse$1);
 
 	var lib$1 = createCommonjsModule(function (module, exports) {
 
@@ -12781,7 +12853,7 @@
 
 
 
-	var _parse2 = _interopRequireDefault(parse);
+	var _parse2 = _interopRequireDefault(parse$1);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -14505,13 +14577,8 @@
 	// styles.main.attach();
 	styles.sheets = {};
 
-	class Page extends BrikElement {
-		static get defaults() {
-			return {};
-		}
-
-		// Create the Custom Element.
-		created() {
+	class Page extends Brik().with(renderMixin) {
+		connectedCallback() {
 			if (!document.querySelector('brik-page')) {
 				throw new Error('Only one <brik-page/> element allowed on a page.');
 			}
@@ -14526,16 +14593,19 @@
 			this.render();
 		}
 
-		// Render the DOM with hyperhtml, a native approach to virtual DOM which efficiently renders
-		// nodes, data or attributes that change. See
-		// https://viperhtml.js.org/hyperhtml/documentation/.
 		render() {
-			return this.html`<slot></slot>`;
+			return this.bind(this.root)`<slot></slot>`;
 		}
 	}
 
-	class Viewport extends BrikElement {
-		created() {
+	class Viewport extends Brik().with(renderMixin, propsMixin) {
+		static get props() {
+			return {
+				width: type(Object.assign({}, types.string, { default: '100%' }))
+			};
+		}
+
+		connectedCallback() {
 			this.attachShadow({ mode: 'open' });
 			this.css = styles.createRule({
 				boxSizing: 'border-box',
@@ -14543,24 +14613,26 @@
 				flexDirection: 'column',
 				flex: 1,
 				minHeight: '100vh',
-				width: '100%',
+				width: this.width,
 				transform: 'translate3d(0, 0, 0)',
 				transition: 'transform 350ms cubic-bezier(0.6, 0, 0.2, 1.2)'
 			}).applyTo(this);
 			this.render();
 		}
 
-		// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-		// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-		// See https://viperhtml.js.org/hyperhtml/documentation/
-		render(activeSidebar = '') {
+		rendering(activeSidebar = '') {
 			this.css.prop('transform', activeSidebar === 'left' ? 'translate3d(var(--sidebar-left-push), 0, 0);' : activeSidebar === 'right' ? 'translate3d(calc(-1 * var(--sidebar-right-push)), 0, 0);' : '');
-			return this.html`<slot></slot>`;
+			this.css.prop('width', this.width);
+			this.css.applyTo(this);
+		}
+
+		render() {
+			return super.render()`<slot></slot>`;
 		}
 	}
 
-	class Content extends BrikElement {
-		created() {
+	class Content extends Brik().with(renderMixin) {
+		connectedCallback() {
 			this.css = styles.createStyleSheet({
 				content: {
 					boxSizing: 'border-box',
@@ -14573,44 +14645,41 @@
 			this.render();
 		}
 
-		// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-		// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-		// See https://viperhtml.js.org/hyperhtml/documentation/
 		render(content = '', padding = '4rem') {
 			this.css.update({ padding });
-			this.props.content = content;
-			return this.html`${[content]}<style>${this.css.toString()}</style>`;
+			return this.bind(this.root)`${[content]}<style>${this.css.toString()}</style>`;
 		}
 	}
 
-	class Overlay extends BrikElement {
-		// Sets default props and observedAttributes.
-		static get defaults() {
+	class Overlay extends Brik().with(propsMixin, renderMixin) {
+		static get props() {
 			return {
-				active: false,
-				styles: {
-					backgroundColor: 'transparent',
-					position: 'fixed',
-					left: 0,
-					right: 0,
-					bottom: 0,
-					top: 0,
-					zIndex: -1,
-					transition: 'background-color 350ms, z-index 0ms 350ms'
-				},
-				activeStyles: {
-					backgroundColor: 'hsla(0, 0%, 0%, 0.5)',
-					zIndex: 9,
-					transition: 'background-color 350ms, z-index 350ms 0ms'
-				}
+				active: types.boolean,
+				styles: type(Object.assign({}, types.object, {
+					attribute: false,
+					default: {
+						backgroundColor: 'transparent',
+						position: 'fixed',
+						left: 0,
+						right: 0,
+						bottom: 0,
+						top: 0,
+						zIndex: -1,
+						transition: 'background-color 350ms, z-index 0ms 350ms'
+					}
+				})),
+				activeStyles: type(Object.assign({}, types.object, {
+					attribute: false,
+					default: {
+						backgroundColor: 'hsla(0, 0%, 0%, 0.5)',
+						zIndex: 9,
+						transition: 'background-color 350ms, z-index 350ms 0ms'
+					}
+				}))
 			};
 		}
 
-		static get observedAttributes() {
-			return ['active'];
-		}
-
-		created() {
+		connectedCallback() {
 			this.css = styles.createStyleSheet({
 				overlay: this.props.styles,
 				active: this.props.activeStyles
@@ -14619,17 +14688,12 @@
 			this.render();
 		}
 
-		// Called when an observedAttribute (which defaults to Object.keys(this.defaults)) changes.
-		attributeChangedCallback() {
-			this.render();
+		rendering() {
+			this.classList[this.active ? 'add' : 'remove'](this.css.classes.active);
 		}
 
-		// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-		// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-		// See https://viperhtml.js.org/hyperhtml/documentation/
 		render() {
-			this.classList[this.active ? 'add' : 'remove'](this.css.classes.active);
-			this.html`<style>${this.css.toString()}</style>`;
+			return this.bind(this.root)`<style>${this.css.toString()}</style>`;
 		}
 	}
 
@@ -14699,47 +14763,29 @@
 		return styles;
 	});
 
-	class Sidebar extends BrikElement {
-		static get defaults() {
+	class Sidebar extends Brik().with(propsMixin, renderMixin, eventsMixin) {
+		static get props() {
 			return {
-				side: 'left',
-				active: false,
-				group: 'page',
-				pinAt: '',
-				pinAtMax: '',
-				miniAt: '',
-				miniAtMax: '',
-				state: '' // 'mini' || 'pinned' || 'off-canvas'
+				side: type(Object.assign({}, types.string, { default: 'left' })),
+				active: types.boolean,
+				group: type(Object.assign({}, types.string, { default: 'page' })),
+				pinAt: types.string,
+				pinAtMax: types.string,
+				miniAt: types.string,
+				miniAtMax: types.string
 			};
 		}
 
-		static get observedAttributes() {
-			return ['active'];
-		}
-
-		attributeChangedCallback() {
-			const activeSidebar = window.brikcss.sidebars[this.props.group].active;
-			if (activeSidebar && (activeSidebar.props.group !== this.props.group || activeSidebar.props.side !== this.props.side)) {
-				activeSidebar.active = false;
-				window.brikcss.sidebars[this.props.group].active = null;
-			}
-			// this.active = value === true || value === 'true';
-			if (this.active) window.brikcss.sidebars[this.props.group].active = this;
-			this.render();
-			this.dom.overlay.active = this.active;
-			this.dispatchEvent(this._toggleEvent);
-		}
-
-		// Element constructor.
-		created() {
+		connectedCallback() {
 			// Set up.
 			window.brikcss.sidebars = window.brikcss.sidebars || {};
-			window.brikcss.sidebars[this.props.group] = window.brikcss.sidebars[this.props.group] || {
+			window.brikcss.sidebars[this.group] = window.brikcss.sidebars[this.group] || {
 				active: null,
 				all: []
 			};
+			this.state.mode = 'off-canvas'; // 'mini' || 'pinned' || 'off-canvas'
 			// Create stylesheet and build dom.
-			this.css = styles.createStyleSheet(css(this.props), { classNamePrefix: 'brik-' });
+			this.css = styles.createStyleSheet(css(this), { classNamePrefix: 'brik-' });
 			this.attachShadow({ mode: 'open' });
 			this.style.display = 'inline-flex';
 			this.dom = {
@@ -14751,169 +14797,162 @@
 				this.dom.overlay = document.createElement('brik-overlay');
 				this.dom.parent.appendChild(this.dom.overlay);
 			}
-			// Cache this sidebar to the page element.
-			if (this.tagName !== 'BRIK-SIDEBAR') {
-				this.dom.parent.$.sidebars[this.props.side] = this;
-			}
 			// Update the state.
 			this.updateState(true);
 			// Add events.
-			this._toggleEvent = new CustomEvent('on.toggle-' + this.props.side + '-sidebar', {
-				detail: this.props.side,
-				composed: true,
-				bubbles: true
-			});
-			this.dom.overlay.addEventListener('click', this.handleOverlayClick);
-			window.addEventListener('resize', this.handleWindowResize);
-			window.addEventListener('sidebar.' + this.props.side + '.toggle', this.handleToggle);
-			// Render to dom.
-			this.render();
+			this.dom.overlay.addEventListener('click', this.events.clickOverlay);
+			window.addEventListener('resize', this);
+			window.addEventListener('sidebar.' + this.side + '.toggle', this.events.toggle);
 		}
 
 		disconnectedCallback() {
-			this.dom.overlay.removeEventListener('click', this.handleOverlayClick);
-			window.removeEventListener('resize', this.handleWindowResize);
-			window.removeEventListener('sidebar.' + this.props.side + '.toggle', this.handleToggle);
+			this.dom.overlay.removeEventListener('click', this.events.clickOverlay);
+			window.removeEventListener('resize', this);
+			window.removeEventListener('sidebar.' + this.side + '.toggle', this.events.toggle);
 		}
 
-		handleToggle(event) {
-			this.active = typeof event.detail === 'boolean' ? event.detail : !this.active;
-		}
-
-		handleOverlayClick() {
-			window.brikcss.sidebars[this.props.group].active.active = false;
-		}
-
-		handleWindowResize() {
-			if (this._resizeTimeout) {
-				clearTimeout(this._resizeTimeout);
-			}
-			this._resizeTimeout = setTimeout(() => {
-				const wasMini = this.props.state === 'mini';
-				this.updateState();
-				if (this.active) this.active = false;
-				if (this.props.state !== wasMini) {
-					this.render();
-					// @todo  For some reason, Firefox was not firing another window resize event listener in the supernav element, which is why this was moved here. This should really be moved back inside supernav somehow, but needs to work with Firefox.
-					const supernav = this.querySelector('brik-super-nav') || this.shadowRoot.querySelector('brik-super-nav');
-					if (supernav) {
-						supernav.render();
+		get events() {
+			return {
+				clickOverlay: () => {
+					window.brikcss.sidebars[this.group].active.active = false;
+				},
+				resize: () => {
+					if (this._resizeTimeout) {
+						clearTimeout(this._resizeTimeout);
 					}
+					this._resizeTimeout = setTimeout(() => {
+						const wasMini = this.state.mode === 'mini';
+						this.updateState();
+						if (this.active) this.active = false;
+						if (this.state.mode !== wasMini) {
+							this.render();
+						}
+					}, 200);
+				},
+				toggle: event => {
+					this.active = typeof event.detail === 'boolean' ? event.detail : !this.active;
+				},
+				onToggle: () => {
+					this.dispatchEvent(new CustomEvent('on.toggle-' + this.side + '-sidebar', {
+						detail: this.side,
+						composed: true,
+						bubbles: true
+					}));
 				}
-			}, 200);
+			};
 		}
 
 		updateState(buildQueries) {
 			const windowWidth = window.innerWidth;
-			this.props.miniAtMax = this.props.miniAtMax || this.props.pinAt ? parseInt(this.props.pinAt, 10) - 1 + 'px' : undefined;
+			this.miniAtMax = this.miniAtMax || this.pinAt ? parseInt(this.pinAt, 10) - 1 + 'px' : undefined;
 			// Build queries.
 			if (buildQueries) {
-				this.props.miniAtMax = this.props.miniAtMax || this.props.pinAt ? parseInt(this.props.pinAt, 10) - 1 + 'px' : undefined;
+				this.miniAtMax = this.miniAtMax || this.pinAt ? parseInt(this.pinAt, 10) - 1 + 'px' : undefined;
 				['mini', 'pin'].forEach(key => {
-					if (!this.props[key + 'At']) return;
-					this.props[key + 'AtQuery'] = `@media (min-width: ${this.props[key + 'At']})${this.props[key + 'AtMax'] ? ` and (max-width: ${this.props[key + 'AtMax']})` : ''}`;
+					if (!this[key + 'At']) return;
+					this.state[key + 'AtQuery'] = `@media (min-width: ${this[key + 'At']})${this[key + 'AtMax'] ? ` and (max-width: ${this[key + 'AtMax']})` : ''}`;
 				});
 			}
 			// Determine current state.
-			if (windowWidth >= parseInt(this.props.miniAt, 10) && (!this.props.miniAtMax || windowWidth <= parseInt(this.props.miniAtMax, 10))) {
-				this.props.state = 'mini';
-			} else if (windowWidth >= parseInt(this.props.pinAt, 10) && (!this.props.pinAtMax || windowWidth <= parseInt(this.props.pinAtMax, 10))) {
-				this.props.state = 'pinned';
+			if (windowWidth >= parseInt(this.miniAt, 10) && (!this.miniAtMax || windowWidth <= parseInt(this.miniAtMax, 10))) {
+				this.state.mode = 'mini';
+			} else if (windowWidth >= parseInt(this.pinAt, 10) && (!this.pinAtMax || windowWidth <= parseInt(this.pinAtMax, 10))) {
+				this.state.mode = 'pinned';
 			} else {
-				this.props.state = 'off-canvas';
+				this.state.mode = 'off-canvas';
 			}
 			// Determine if it is currently active.
-			if (['mini', 'pinned'].includes(this.props.state)) {
-				this.dom.viewport.width = `calc(100% - var(--sidebar-${this.props.state}-width))`;
+			if (['mini', 'pinned'].includes(this.state.mode)) {
+				this.dom.viewport.width = `calc(100% - var(--sidebar-${this.state.mode}-width))`;
 			} else {
 				this.dom.viewport.width = '100%';
 			}
 			// If active menu does not have focus, close it.
 			// @todo Need to fix this.
 			// this.props.links.filter((link) => link.active).map((link) => {
-			// 	if (!link.focused || this.props.state === 'default') link.active = false;
+			// 	if (!link.focused || this.state.mode === 'default') link.active = false;
 			// 	return link;
 			// });
 		}
 
-		// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-		// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-		// See https://viperhtml.js.org/hyperhtml/documentation/
+		rendering() {
+			const activeSidebar = window.brikcss.sidebars[this.group].active;
+			if (activeSidebar && (activeSidebar.group !== this.group || activeSidebar.side !== this.side)) {
+				activeSidebar.active = false;
+				window.brikcss.sidebars[this.group].active = null;
+			}
+			// this.active = value === true || value === 'true';
+			if (this.active) window.brikcss.sidebars[this.group].active = this;
+		}
+
+		rendered(prevProps) {
+			if (Boolean(prevProps.active) !== Boolean(this.active)) {
+				this.dom.overlay.active = this.active;
+				this.events.onToggle();
+			}
+		}
+
 		render() {
-			return this.html`<div class="${`${this.css.classes.sidebar} ${this.active ? this.css.classes.active : ''}`}">
+			return this.bind(this.root)`<div class="${`${this.css.classes.sidebar} ${this.active ? this.css.classes.active : ''}`}">
 			<slot></slot>
 		</div>
 		<style>${this.css.toString()}</style>`;
 		}
 	}
 
-	var tpl = (render, context = {}, hyperhtml = {}, _ = {}) => render`<div class="${`${context.css.classes.supernav} ${context.css.classes['theme-' + (context.props.theme || 'dark')]} ${context.props.showSubmenus ? context.css.classes['show-menus'] : ''}`}">
-	<div class="${context.css.classes.scroller}" onmouseenter="${() => {context.classList.remove(context.css.classes['inactive-menu']);}}">
-		<!-- Profile header. -->
-		<div class="${context.css.classes.header}" style="${{backgroundImage: `url(${context.props.headerBackground})`}}">
-			<div class="${context.css.classes.toolbar}">
-				<button type="button" class="${context.css.classes.close}" onclick="${context.handleClose}" tabindex="${context.props.active ? 0 : -1}">
-					<brik-icon name="close" fill="var(--color__light)" size="4rem"></brik-icon>
-				</button>
+	var tpl = (render, context = {}, _ = {}) => render`<div class="${`${context.css.classes.sidebar} ${context.active ? context.css.classes.active : ''}`}">
+	<div class="${`${context.cssNav.classes.supernav} ${context.cssNav.classes['theme-' + (context.state.theme)]} ${context.showSubmenus ? context.cssNav.classes['show-menus'] : ''}`}" onmouseenter="${context.events.onHoverNav}">
+		<div class="${context.cssNav.classes.scroller}">
+			<!-- Profile header. -->
+			<div class="${context.cssNav.classes.header}" style="${{backgroundImage: `url(${context.headerBackground})`}}">
+				<div class="${context.cssNav.classes.toolbar}">
+					<button type="button" class="${context.cssNav.classes.close}" onclick="${context}" tabindex="${context.active ? 0 : -1}">
+						<brik-icon name="close" fill="var(--color__light)" size="4rem"></brik-icon>
+					</button>
+				</div>
+				<slot name="header">
+					<img class="${context.cssNav.classes.avatar}" src="assets/images/avatar.jpg" alt="User photo." />
+					<h2 class="${context.cssNav.classes.username}">${context.user.name}</h2>
+					<div>ID: ${context.user.id}</div>
+				</slot>
 			</div>
-			<slot name="header">
-				<img class="${context.css.classes.avatar}" src="assets/images/avatar.jpg" alt="User photo." />
-				<h2 class="${context.css.classes.username}">${context.props.user.name}</h2>
-				<div>ID: ${context.props.user.id}</div>
-			</slot>
+
+			<!-- Links and menus. -->
+			<nav class="${`${context.cssNav.classes.nav} ${context.active ? context.cssNav.classes.active : ''}`}">
+				${context.links.map((link, i) => context.wire(link, ':link')`<div
+					class="${`${context.cssNav.classes.menu} ${link.active && !context.state.isMini ? context.cssNav.classes['active-menu'] : ''}`}"
+					style="${`height: ${link.children && link.active && !context.state.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
+					${link.children ? context.wire(link, ':link-without-path')`<button
+						type="button"
+						class="${`${context.cssNav.classes.link} ${link.separator ? context.cssNav.classes.divider : ''}`}"
+						data-index="${i}"
+						onclick="${context.events.onClickLink}"
+						onfocus="${context.events.onFocusLink}"
+						onblur="${context.events.onBlurLink}"
+						tabindex="${(context.state.mode === 'off-canvas' && context.active) || (context.state.isPinned && !context.showSubmenus) ? 0 : -1}">
+						<brik-icon class="${context.cssNav.classes.icon}" name="${link.icon}"></brik-icon>
+						<span class="${context.cssNav.classes['link-label']}">${link.label}</span>
+						${link.children ? context.wire(link, ':link-no-path-button')`<brik-icon class="${context.cssNav.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
+					</button>` : context.wire(link, ':link-with-path')`<a class="${`${context.cssNav.classes.link} ${link.separator ? context.cssNav.classes.divider : ''}`}" href="${context.linkPrefix + link.path}" tabindex="${context.active ? 0 : -1}">
+						<brik-icon class="${context.cssNav.classes.icon}" name="${link.icon}"></brik-icon>
+						<span>${link.label}</span>
+						${link.children ? context.wire(link, ':link-path-button')`<brik-icon class="${context.cssNav.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
+					</a>`}
+					${link.children ? context.test = context.wire(link, ':menu')`<div class="${`${context.cssNav.classes.submenu} ${context.state.inactiveMenu ? context.cssNav.classes['inactive-menu'] : ''}`}">
+						<div class="${context.cssNav.classes.title}">${link.label}</div>
+						${link.children.map((sublink, n) => context.wire(sublink)`<a class="${`${context.cssNav.classes.sublink} ${sublink.active ? context.cssNav.classes['active-menu'] : ''}`}" href="${context.linkPrefix + [link.path, sublink.path].join('')}" data-index="${n}" data-parent="${i}" onfocus="${context.events.onFocusSublink}" onclick="${context.events.onClickSublink}" onblur="${context.events.onBlurSublink}" tabindex="${context.active && (context.showSubmenus || context.state.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
+					</div>` : ''}
+				</div>`)}
+			</nav>
 		</div>
 
-		<!-- Links and menus. -->
-		<nav class="${`${context.css.classes.nav} ${context.props.active ? context.css.classes.active : ''}`}">
-			${context.props.links.map((link, i) => hyperhtml.wire(link, ':link')`<div
-				class="${`${context.css.classes.menu} ${link.active && !context.props.isMini ? context.css.classes['active-menu'] : ''}`}"
-				style="${`height: ${link.children && link.active && !context.props.isMini ? `${(link.children.length + 1) * 6}rem;` : ''}`}">
-				${link.children ? hyperhtml.wire(link, ':link-without-path')`<button
-					type="button"
-					class="${`${context.css.classes.link} ${link.separator ? context.css.classes.divider : ''}`}"
-					onclick="${() => {
-						if ((context.props.showSubmenus)) return;
-						const lastActiveLink = context.props.links.find((link, n) => n !== i && link.active);
-						if (lastActiveLink) lastActiveLink.active = false;
-						link.active = !link.active;
-						context.render();
-					}}"
-					onfocus="${() => {link.focused = true;}}"
-					onblur="${() => {link.focused = false;}}"
-					tabindex="${(context.props.state === 'off-canvas' && context.props.active) || (context.props.isPinned && !context.props.showSubmenus) ? 0 : -1}">
-					<brik-icon class="${context.css.classes.icon}" name="${link.icon}"></brik-icon>
-					<span class="${context.css.classes['link-label']}">${link.label}</span>
-					${link.children ? hyperhtml.wire(link, ':link-no-path-button')`<brik-icon class="${context.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
-				</button>` : hyperhtml.wire(link, ':link-with-path')`<a class="${`${context.css.classes.link} ${link.separator ? context.css.classes.divider : ''}`}" href="${context.props.linkPrefix + link.path}" tabindex="${context.props.active ? 0 : -1}">
-					<brik-icon class="${context.css.classes.icon}" name="${link.icon}"></brik-icon>
-					<span>${link.label}</span>
-					${link.children ? hyperhtml.wire(link, ':link-path-button')`<brik-icon class="${context.css.classes.chevron}" name="chevron-down"></brik-icon>` : ''}
-				</a>`}
-				${link.children ? context.test = hyperhtml.wire(link, ':menu')`<div class="${context.css.classes.submenu}">
-					<div class="${context.css.classes.title}">${link.label}</div>
-					${link.children.map((sublink, i) => hyperhtml.wire(sublink)`<a class="${`${context.css.classes.sublink} ${sublink.active ? context.css.classes.sublinkActive : ''}`}" href="${context.props.linkPrefix + [link.path, sublink.path].join('')}" onfocus="${() => {link.focused = true; if (!context.props.isMini) {return;} link.active = true; context.render();}}" onclick="${(event) => {
-						if (context.props.activeMenuLink) context.props.activeMenuLink.active = false;
-						sublink.active = true;
-						context.props.activeMenuLink = sublink;
-						if (context.props.isMini) {
-							context.classList.add(context.css.classes['inactive-menu']);
-							link.focused = false;
-							event.target.blur();
-							context.$.page.click();
-						}
-						context.render();
-					}}" onblur="${() => {link.focused = false; if (!context.props.isMini) {return;} link.active = false; context.render();}}" tabindex="${context.props.active && (context.props.showSubmenus || context.props.isMini || link.active) ? 0 : -1}"> ${sublink.label} </a>`)}
-				</div>` : ''}
-			</div>`)}
-		</nav>
+		<a class="${context.cssNav.classes.logo}" href="${context.homePath}" tabindex="-1">
+			<slot name="logo"><img src="assets/images/logo__directscale.png" /></slot>
+		</a>
 	</div>
-
-	<a class="${context.css.classes.logo}" href="${context.props.homePath}" tabindex="-1">
-		<slot name="logo"><img src="assets/images/logo__directscale.png" /></slot>
-	</a>
 </div>
 
-<style>${context.css ? context.css.toString() : ''}</style>
+<style>${(context.css ? context.css.toString() : '') + '\n' + (context.cssNav ? context.cssNav.toString() : '')}</style>
 `;
 
 	const link = {
@@ -15038,6 +15077,7 @@
 		},
 		active: {},
 		'active-menu': {
+			color: 'hsl(0, 0%, 100%) !important',
 			backgroundColor: 'hsla(0, 0%, 0%, 0.14)',
 			'& $chevron': {
 				fill: 'var(--color__light)',
@@ -15177,6 +15217,13 @@
 			height: '8rem',
 			transition: 'background-color 250ms'
 		},
+		'active-menu': {
+			backgroundColor: 'transparent'
+		},
+		'inactive-menu': {
+			transform: 'translate3d(0, 0, 0) !important',
+			boxShadow: 'none !important'
+		},
 		submenu: {
 			backgroundColor: 'var(--color__supernav--dark)',
 			height: '100vh',
@@ -15189,6 +15236,7 @@
 			transform: 'translate3d(0, 0, 0)',
 			transitionProperty: 'transform, box-shadow, color',
 			transitionDuration: '350ms',
+			transitionDelay: '250ms',
 			transitionTimingFunction: 'cubic-bezier(0.6, 0, 0.2, 1.2)',
 			'&:before': {
 				content: '""',
@@ -15201,7 +15249,8 @@
 			},
 			'$menu:hover &, $menu:focus &': {
 				boxShadow: '0 3rem 8rem hsla(0, 0%, 0%, 0.6)',
-				transform: 'translate3d(30rem, 0, 0)'
+				transform: 'translate3d(30rem, 0, 0)',
+				transitionDelay: '0ms'
 			}
 		},
 		sublink: {
@@ -15224,97 +15273,133 @@
 		}
 	};
 
-	// import baseStyles from './supernav.css';
-	// import miniStyles from './supernav--mini.css';
-	// import pinnedStyles from './supernav--pinned.css';
-
-	class Supernav extends BrikElement {
-		static get defaults() {
-			return {
-				showSubmenus: false,
-				homePath: '#!/home',
-				headerBackground: 'https://az706994.vo.msecnd.net/wakaya/images/3751a9f5-5ea2-4f60-8b9d-71ab358d59cd',
-				user: {
-					name: 'Sam Space',
-					id: '16D21'
-				},
-				linkPrefix: '#!',
-				links: [{
-					name: 'Home',
-					path: '#!/home',
-					icon: 'home'
-				}]
-			};
+	class Supernav extends Sidebar {
+		static get props() {
+			return Object.assign({}, super.props, {
+				showSubmenus: types.boolean,
+				homePath: type(Object.assign({}, types.string, { default: '#!/home' })),
+				headerBackground: type(Object.assign({}, types.string, {
+					default: 'https://az706994.vo.msecnd.net/wakaya/images/3751a9f5-5ea2-4f60-8b9d-71ab358d59cd'
+				})),
+				user: type(Object.assign({}, types.object, {
+					attribute: false,
+					default: {
+						name: 'Sam Space',
+						id: '16D21'
+					}
+				})),
+				linkPrefix: type(Object.assign({}, types.string, { default: '#!' })),
+				links: type(Object.assign({}, types.array, {
+					attribute: false,
+					default: [{
+						name: 'Home',
+						path: '#!/home',
+						icon: 'home'
+					}]
+				}))
+			});
 		}
 
-		static get observedAttributes() {
-			return ['user', 'header-background', 'show-menus'];
-		}
-
-		// Element constructor.
-		created() {
+		connectedCallback() {
+			// Call the sidebar's connectedCallback().
+			super.connectedCallback();
 			if (document.querySelectorAll('brik-super-nav').length > 1) {
 				throw new Error('Only one <brik-super-nav/> element allowed on a page.');
 			}
-			this.attachShadow({ mode: 'open' });
-			this.$ = {
-				sidebar: this.parentNode,
-				page: this.parentNode.parentNode,
-				viewport: document.querySelector('brik-viewport'),
-				nav: this.shadowRoot.querySelector('.brik-supernav__item')
-			};
+			// Extend sidebar's dom.
+			this.dom.nav = this.shadowRoot.querySelector('.brik-supernav__item');
 			// Add events.
-			this.$.sidebar.addEventListener('on.toggle-left-sidebar', this.handleToggle);
-			// Create stylesheet.
-			this.css = styles.createStyleSheet(styles$1, { classNamePrefix: 'brik-supernav-' });
-			// Render it.
-			this.render();
+			this.addEventListener('on.toggle-left-sidebar', this.events.onToggle);
+			// Create supernav stylesheet.
+			this.cssNav = styles.createStyleSheet(styles$1, { classNamePrefix: 'brik-supernav-' });
 		}
 
-		// Clean up.
 		disconnectedCallback() {
-			this.$.sidebar.removeEventListener('on.toggle-left-sidebar', this.handleToggle);
+			super.disconnectedCallback();
+			this.removeEventListener('on.toggle-left-sidebar', this.events.onToggle);
 		}
 
-		handleToggle() {
-			this.render();
-			if (this.props.active && !this.props.isMini) {
-				this.shadowRoot.querySelector('.' + this.css.classes.close).focus();
-			}
+		get events() {
+			return Object.assign({}, super.events, {
+				onToggle: () => {
+					this.render();
+					if (this.active && !this.state.isMini) {
+						this.shadowRoot.querySelector('.' + this.cssNav.classes.close).focus();
+					}
+				},
+				click: () => {
+					this.active = false;
+				},
+				onClickLink: event => {
+					if (this.showSubmenus) return;
+					const link = this.links[event.currentTarget.dataset.index];
+					const lastActiveLink = this.links.find((link, n) => n !== event.currentTarget.dataset.index && link.active);
+					if (lastActiveLink) lastActiveLink.active = false;
+					link.active = !link.active;
+					this.render();
+				},
+				onFocusLink: event => {
+					this.links[event.currentTarget.dataset.index].focused = true;
+				},
+				onBlurLink: event => {
+					this.links[event.currentTarget.dataset.index].focused = false;
+				},
+				onFocusSublink: event => {
+					const data = event.currentTarget.dataset;
+					this.links[data.parent].focused = true;
+					if (!this.state.isMini) return;
+					this.links[data.parent].active = true;
+					this.render();
+				},
+				onBlurSublink: event => {
+					const data = event.currentTarget.dataset;
+					this.links[data.parent].focused = false;
+					if (!this.state.isMini) return;
+					this.links[data.parent].active = false;
+					this.render();
+				},
+				onClickSublink: event => {
+					const data = event.currentTarget.dataset;
+					if (this.activeMenuLink) this.activeMenuLink.active = false;
+					this.links[data.parent].children[data.index].active = true;
+					this.activeMenuLink = this.links[data.parent].children[data.index];
+					if (this.state.isMini) {
+						this.links[data.parent].focused = false;
+						this.state.inactiveMenu = true;
+						event.currentTarget.blur();
+					}
+					this.render();
+				},
+				onHoverNav: () => {
+					this.state.inactiveMenu = false;
+					this.render();
+				}
+			});
 		}
 
-		// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-		// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-		// See https://viperhtml.js.org/hyperhtml/documentation/
 		render() {
-			const sidebar = this.$.sidebar;
-			this.props.active = sidebar.active;
-			this.props.state = sidebar.props.state;
-			this.props.isMini = sidebar.props.state === 'mini';
-			this.props.isPinned = sidebar.props.state === 'pinned';
+			this.state.isMini = this.state.mode === 'mini';
+			this.state.isPinned = this.state.mode === 'pinned';
+			this.state.theme = 'dark';
 			// Add mini modifier.
-			if (sidebar.props.miniAtQuery && sidebar.props.miniAtQuery !== this.props.miniAtRule) {
-				if (this.props.miniAtRule) this.css.deleteRule(this.props.miniAtRule);
-				this.props.miniAtRule = sidebar.props.miniAtQuery;
-				this.css.addRule(this.props.miniAtRule, miniNav);
+			if (this.state.miniAtQuery && this.state.miniAtQuery !== this.state.miniAtRule) {
+				if (this.state.miniAtRule) this.cssNav.deleteRule(this.state.miniAtRule);
+				this.state.miniAtRule = this.state.miniAtQuery;
+				this.cssNav.addRule(this.state.miniAtRule, miniNav);
 			}
 			// Add pinned modifier.
-			if (sidebar.props.pinAtQuery && sidebar.props.pinAtQuery !== this.props.pinAtRule) {
-				if (this.props.pinAtRule) this.css.deleteRule(this.props.pinAtRule);
-				this.props.pinAtRule = sidebar.props.pinAtQuery;
-				this.css.addRule(this.props.pinAtRule, pinnedNav);
+			if (this.state.pinAtQuery && this.state.pinAtQuery !== this.state.pinAtRule) {
+				if (this.state.pinAtRule) this.cssNav.deleteRule(this.state.pinAtRule);
+				this.state.pinAtRule = this.state.pinAtQuery;
+				this.cssNav.addRule(this.state.pinAtRule, pinnedNav);
 			}
-			this.css.update(this.props);
-			return tpl(this.html, this, { wire: BrikElement.wire });
+			this.cssNav.update(this.props);
+			return tpl(this.bind(this.root), this);
 		}
 
 		buildLinks(links = []) {
-			this.props.links = links;
+			this.links = links;
 			this.render();
-		}
-
-		handleClose() {
-			this.$.sidebar.active = false;
 		}
 	}
 
@@ -15329,42 +15414,29 @@
 		};
 	});
 
-	class Icon extends BrikElement {
-		// Sets default props and observedAttributes.
-		static get defaults() {
+	class Icon extends Brik().with(propsMixin, renderMixin) {
+		static get props() {
 			return {
-				name: '',
-				size: null,
-				fill: null,
-				stroke: null
+				name: types.string,
+				size: types.string,
+				fill: types.string,
+				stroke: types.string
 			};
 		}
 
-		// Element constructor.
-		created() {
+		connectedCallback() {
 			window.brikcss.icons = window.brikcss.icons || {};
-			this.props.name = this.getAttribute('name');
+			this.name = this.getAttribute('name');
 			this.attachShadow({ mode: 'open' });
 			this.updateSvg();
 			this.render();
 		}
 
-		// Called when an observedAttribute (which defaults to Object.keys(this.defaults)) changes.
-		attributeChangedCallback(prop, oldValue, value) {
-			// Make sure created() has been called before this fires. For some icons, sometimes, there this fires before created() is called, which seems to be a bug in brik.js. This is intended as a temporary fix for that.
-			if (!this.props.ready) return;
-			// Update svg and render.
-			if (prop === 'name' && value !== oldValue) {
-				this.updateSvg();
-			}
-			this.render();
-		}
-
 		updateSvg() {
-			let cachedSvg = window.brikcss.icons[this.props.name];
-			this.props.svg = {
+			let cachedSvg = window.brikcss.icons[this.name];
+			this.svg = {
 				placeholder: '',
-				html: typeof cachedSvg === 'string' ? cachedSvg : cachedSvg ? cachedSvg : cachedSvg = fetch(new Request('./svg/' + this.props.name + '.svg', {
+				html: typeof cachedSvg === 'string' ? cachedSvg : cachedSvg ? cachedSvg : cachedSvg = fetch(new Request('./svg/' + this.name + '.svg', {
 					method: 'GET',
 					headers: new Headers({
 						'Content-Type': 'text/plain'
@@ -15375,34 +15447,48 @@
 					}
 					return result.text();
 				}).then(svg => {
-					window.brikcss.icons[this.props.name] = svg.replace('<svg', '<svg style="width: 100%; height: 100%; max-height: 100%; max-width: 100%; fill: inherit; stroke: inherit;"');
-					this.props.ready = true;
-					return window.brikcss.icons[this.props.name];
+					window.brikcss.icons[this.name] = svg.replace('<svg', '<svg style="width: 100%; height: 100%; max-height: 100%; max-width: 100%; fill: inherit; stroke: inherit;"');
+					this.ready = true;
+					return window.brikcss.icons[this.name];
 				})
 			};
 
-			return this.props.svg;
+			return this.svg;
 		}
 
-		// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-		// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-		// See https://viperhtml.js.org/hyperhtml/documentation/
-		render() {
+		rendering() {
 			styles.createRule(css$1(this.props)).applyTo(this);
-			return this.html`${this.props.svg}`;
+		}
+
+		render() {
+			return this.bind(this.root)`${this.svg}`;
 		}
 	}
 
-	var tpl$1 = (render, context = {}, hyperhtml = {}, _ = {}) => render`<div class="${context.props.css.classes.header}">
-	<div class="${context.props.css.classes.left}">
-		<brik-burger-button class="${context.props.css.classes.burger}" sidebar="left"></brik-burger-button>
-		<div class="${context.props.css.classes.title}">${hyperhtml.wire()`${[context.props.title]}`}</div>
+	var tpl$1 = (render, context = {}, _ = {}) => render`<div class="${context.css.classes.header}">
+	<div class="${context.css.classes.left}">
+		<brik-burger-button class="${context.css.classes.burger}" sidebar="left"></brik-burger-button>
+		<div class="${context.css.classes.title}">${context.wire()`${[context.props.title]}`}</div>
 	</div>
 
-	<slot name="content" class="${context.props.css.classes.content}"></slot>
+	<div slot="content" class="${context.css.classes.content}">
+		<a href="${context.pageEditLink || 'https://github.com/brikcss/dsui-library-site'}" title="Edit this page." target="_blank"><brik-icon name="square-edit-outline" fill="hsl(0, 0%, 100%)" size="3rem"></brik-icon></a>
+	</div>
 </div>
 
-${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</style>`] : ''}
+${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : ''}
+`;
+
+	var tpl$2 = (render, context = {}, _ = {}) => render`<div class="${context.css.classes.header}">
+	<div class="${context.css.classes.left}">
+		<brik-burger-button class="${context.css.classes.burger}" sidebar="left"></brik-burger-button>
+		<div class="${context.css.classes.title}">${context.wire()`${[context.props.title]}`}</div>
+	</div>
+
+	<slot name="content" class="${context.css.classes.content}"></slot>
+</div>
+
+${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : ''}
 `;
 
 	const header = hideAt => {
@@ -15449,33 +15535,39 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 		};
 	};
 
-	class Header extends BrikElement {
-		// Sets default props and observedAttributes.
-		static get defaults() {
+	class Header extends Brik().with(propsMixin, renderMixin) {
+		static get props() {
 			return {
-				title: 'Header',
-				hideBurgerAt: '768px'
+				title: types.string,
+				hideBurgerAt: type(Object.assign(types.string, { default: '768px' }))
 			};
 		}
 
-		attributeChangedCallback() {
-			this.render();
-		}
-
-		// Element constructor.
-		created() {
+		connectedCallback() {
+			this.css = {};
 			this.attachShadow({ mode: 'open' });
-			this.render();
 		}
 
-		// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-		// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-		// See https://viperhtml.js.org/hyperhtml/documentation/
-		render() {
-			this.props.css = jss.createStyleSheet(header(this.props.hideBurgerAt), {
+		get tpl() {
+			return tpl$2;
+		}
+
+		rendering() {
+			this.css = styles.createStyleSheet(header(this.props.hideBurgerAt), {
 				classNamePrefix: 'brik-'
 			});
-			return tpl$1(this.html, this, BrikElement);
+		}
+	}
+
+	class Header$1 extends Header {
+		static get props() {
+			return Object.assign({}, super.props, {
+				pageEditLink: types.string
+			});
+		}
+
+		get tpl() {
+			return tpl$1;
 		}
 	}
 
@@ -15532,90 +15624,78 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 		}
 	};
 
-	class BurgerButton extends BrikElement {
-		static get defaults() {
+	class BurgerButton extends Brik().with(propsMixin, renderMixin, eventsMixin) {
+		static get props() {
 			return {
-				active: false,
-				sidebar: 'left'
+				active: types.boolean,
+				sidebar: types.string
 			};
 		}
 
-		// Element constructor.
-		created() {
+		connectedCallback() {
 			this.attachShadow({ mode: 'open' });
 			this.setAttribute('style', 'height: var(--burger-size, 3rem); width: var(--burger-size, 3rem); display: flex;');
-			this.props.sheet = jss.createStyleSheet(burger, {
+			this.stylesheet = styles.createStyleSheet(burger, {
 				meta: 'burger-button',
 				classNamePrefix: 'brik-'
 			});
-			this.props.classes = this.props.sheet.classes;
-			this.props.css = this.props.sheet.toString();
-			window.addEventListener('on.toggle-' + this.props.sidebar + '-sidebar', this.handleToggle);
+			this.classes = this.stylesheet.classes;
+			this.css = this.stylesheet.toString();
+			window.addEventListener('on.toggle-' + this.sidebar + '-sidebar', this.events.toggle);
 			this.render();
 		}
 
 		disconnectedCallback() {
-			window.removeEventListener('on.toggle-' + this.props.sidebar + '-sidebar', this.handleToggle);
+			window.removeEventListener('on.toggle-' + this.sidebar + '-sidebar', this.events.toggle);
+			window.removeEventListener('click', this);
 		}
 
-		// Called when an observedAttribute (which defaults to Object.keys(this.defaults)) changes.
-		attributeChangedCallback() {
-			this.render();
+		get events() {
+			return {
+				click: () => {
+					this.dispatchEvent(new CustomEvent('sidebar.' + this.sidebar + '.toggle', {
+						detail: !this.active,
+						composed: true,
+						bubbles: true
+					}));
+				},
+				toggle: () => {
+					this.active = !this.active;
+					this.render();
+				}
+			};
 		}
 
-		handleToggle() {
-			this.active = !this.active;
-			this.render();
-		}
-
-		onclick() {
-			this.dispatchEvent(new CustomEvent('sidebar.' + this.props.sidebar + '.toggle', {
-				detail: !this.active,
-				composed: true,
-				bubbles: true
-			}));
-		}
-
-		// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-		// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-		// See https://viperhtml.js.org/hyperhtml/documentation/
 		render() {
-			this.props.sidebar = this.getAttribute('sidebar');
-			return this.html`<button class="${this.props.classes.button + (this.active ? ` ${this.props.classes.active}` : '')}" type="button" onclick="${this}">
-				<span class=${this.props.classes.top} />
-				<span class=${this.props.classes.toppings} />
-				<span class=${this.props.classes.bottom} />
+			this.sidebar = this.getAttribute('sidebar');
+			return this.bind(this.root)`<button class="${this.classes.button + (this.active ? ` ${this.classes.active}` : '')}" type="button" onclick="${this}">
+				<span class=${this.classes.top} />
+				<span class=${this.classes.toppings} />
+				<span class=${this.classes.bottom} />
 			</button>
-			<style>${this.props.css}</style>`;
+			<style>${this.css}</style>`;
 		}
 	}
 
-	class Scroller extends BrikElement {
-		// Element constructor.
-		created() {
+	class Scroller extends Brik().with(renderMixin) {
+		connectedCallback() {
 			this.attachShadow({ mode: 'open' });
 			this.render();
 		}
 
-		// Render the DOM efficiently with hyperhtml, a native react/preact/virtualdom alternative.
-		// this.html = hyperhtml.bind. All hyperhtml methods are attached to BrikElement.
-		// See https://viperhtml.js.org/hyperhtml/documentation/
 		render() {
-			this.props.css = ``;
-			return this.html`<slot></slot><style>:host {
+			return this.bind(this.root)`<slot></slot><style>:host {
 			overflow-y: auto;
 		}</style>`;
 		}
 	}
 
-	var tpl$2 = (render, context = {}, hyperhtml = {}, _ = {}) => render`<div class="brik-tabs__buttons">
-	${context.props.tabs.map(
-		(tab) => hyperhtml.wire(tab)`<div class="${`brik-tabs__button-wrap ${
+	var tpl$3 = (render, context = {}, _ = {}) => render`<div class="brik-tabs__buttons">
+	${context.tabs.map(
+		(tab) => context.wire(tab)`<div class="${`brik-tabs__button-wrap ${
 				tab.active ? 'brik-tabs__button--active' : ''
 			}`}">
-			<button class="brik-tabs__button" type="button" onclick="${() => {
-				context.activateTab(tab);
-			}}"><span class="brik-tabs__button-label">${tab.label || tab.id}</span></button>
+			<button class="brik-tabs__button" type="button" onclick="${context.events.onButtonClick}" data-tab="${tab.id}"><span class="brik-tabs__button-label">${tab.label || tab.id}</span></button>
 		</div>
 	`
 	)}
@@ -15623,79 +15703,83 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 
 <div class="brik-tabs__contents"><slot></slot></div>
 
-<style type="text/css">${context.props.css}</style>
+<style type="text/css">${context.css}</style>
 `;
 
 	var css$2 = "/*! tabs.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/*! typography.css | MIT License | brikcss  <https://github.com/brikcss> */\n\n/** Define font styles.\n    ============================================================================================= */\n\n/* stylelint-disable max-nesting-depth */\n\n/** Font defaults.\n    ============================================================================================= */\n\n/* stylelint-disable-next-line selector-max-type */\n\nhtml {\n\tfont-size: var(--base-rhythm, 8px);\n}\n\nbody {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n\tfont-family: 'Roboto', sans-serif;\n\tfont-size: var(--base-font__size, 16px);\n}\n\n/** Font helper classes.\n    ============================================================================================= */\n\n.font__overline {\n  font-size: 1.25rem;\n  letter-spacing: 0.3rem;\n  line-height: 2rem;\n  text-transform: uppercase;\n}\n\n.font__caption {\n  font-size: 1.5rem;\n  line-height: 2rem;\n  letter-spacing: 0.06667rem;\n}\n\n.font__button {\n  font-size: 1.75rem;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 2rem;\n  letter-spacing: 0.10714rem;\n}\n\n.font__body2 {\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.28571px;\n}\n\n.font__body {\n  color: var(--color__dark, hsla(0, 0%, 0%, 0.87));\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.5px;\n}\n\n.font__subtitle2 {\n  font-size: 1.75rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.01429rem;\n}\n\n.font__subtitle {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 3rem;\n  letter-spacing: 0.01875rem;\n}\n\n.font__h6 {\n  font-size: 2.5rem;\n  font-weight: 500;\n  line-height: 3rem;\n  letter-spacing: 0.015rem;\n}\n\n.font__h5 {\n  font-size: 3rem;\n  font-weight: 400;\n  line-height: 4rem;\n}\n\n.font__h4 {\n  font-size: 4.25rem;\n  font-weight: 400;\n  line-height: 5rem;\n  letter-spacing: 0.01471rem;\n}\n\n.font__h3 {\n  font-size: 6rem;\n  font-weight: 400;\n  line-height: 6rem;\n}\n\n.font__h2 {\n  font-size: 7.5rem;\n  font-weight: 300;\n  line-height: 8rem;\n  letter-spacing: -0.01667rem;\n}\n\n.font__h1 {\n  font-size: 12rem;\n  font-weight: 300;\n  line-height: 12rem;\n  letter-spacing: -0.03125rem;\n}\n\n.brik-tabs__buttons {\n\tbackground-color: hsl(0, 0%, 100%);\n\tborder-bottom: 0.125rem solid var(--color__dark4);\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\theight: 6rem;\n\tposition: relative;\n}\n\n.brik-tabs__button-wrap {\n\tposition: relative;\n}\n\n.brik-tabs__button-wrap:before {\n\tcontent: ' ';\n\tborder-color: var(--color__brand1) transparent transparent transparent;\n\tborder-width: 0;\n\tborder-style: solid;\n\theight: 0;\n\twidth: 0;\n\tposition: absolute;\n\tleft: 50%;\n\ttop: 0;\n\t-webkit-transition-property: border-width, left;\n\ttransition-property: border-width, left;\n\t-webkit-transition-duration: 250ms;\n\t        transition-duration: 250ms;\n\t-webkit-transition-timing-function: cubic-bezier(0.3, 0.2, 0.2, 1.3);\n\t        transition-timing-function: cubic-bezier(0.3, 0.2, 0.2, 1.3);\n}\n\n.brik-tabs__button-wrap:after {\n\tcontent: ' ';\n\tbackground-color: transparent;\n\topacity: 0.7;\n\tposition: absolute;\n\tleft: 0;\n\tright: 0;\n\tbottom: 0;\n\ttop: 0;\n\t-webkit-transition: background-color 200ms;\n\ttransition: background-color 200ms;\n}\n\n.brik-tabs__button--active:before {\n\tborder-width: 1.25rem 1rem 0;\n\tleft: calc(50% - 1rem);\n}\n\n.brik-tabs__button--active:after {\n\tbackground-color: var(--color__brand1);\n}\n\n.brik-tabs__button {\n  font-size: 1.75rem;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 2rem;\n  letter-spacing: 0.10714rem;\n\t-webkit-appearance: none;\n\t   -moz-appearance: none;\n\t        appearance: none;\n\tborder: none;\n\tcolor: var(--color__dark2, hsla(0, 0%, 0%, 0.54));\n\tbackground-color: transparent;\n\theight: 100%;\n\tpadding-left: 4rem;\n\tpadding-right: 4rem;\n\tposition: relative;\n\tmargin-left: 0;\n\tz-index: 1;\n\t-webkit-transition: color 200ms;\n\ttransition: color 200ms;\n}\n\n.brik-tabs__button:focus {\n\toutline-width: 0.25rem;\n\toutline-style: solid;\n}\n\n.brik-tabs__button--active .brik-tabs__button {\n\tcolor: var(--color__light, hsla(0, 0%, 100%, 1));\n}\n\n.brik-tabs__button-label {\n\tposition: relative;\n\tz-index: 1;\n}\n\n/* .page-tabs {\n\tmargin-left: -4rem;\n\tmargin-right: -4rem;\n\tmargin-top: -4rem;\n} */\n";
 
-	class Tabs extends BrikElement {
-		static get defaults() {
+	class Tabs extends Brik().with(propsMixin, renderMixin, eventsMixin) {
+		static get props() {
 			return {
-				tabs: [],
-				activeTab: ''
+				tabs: {
+					attribute: true,
+					default: [],
+					coerce: val => Array.isArray(val) ? val : empty(val) ? null : [val],
+					deserialize: value => value.split(/,\s+/),
+					serialize: values => values.map(value => value.label || value.id).join(',')
+				},
+				activeTab: types.string
 			};
 		}
 
-		static get observedAttributes() {
-			return ['active-tab'];
-		}
-
-		attributeChangedCallback(prop, oldValue, value) {
-			if (prop === 'tabs') {
-				this.props.tabs = this.parseTabs(value);
-			}
-			this.activateTab();
-		}
-
-		// Create the Custom Element.
-		created() {
+		connectedCallback() {
+			// Set up state.
+			this.state.tabNames = [];
 			// Create shadow dom.
 			this.attachShadow({ mode: 'open' });
-			// Render tabs/
-			// this.render();
-		}
-
-		connectedCallback() {
 			// Set the css.
-			this.props.css = css$2;
+			this.css = css$2;
 			// Parse tabs.
-			this.props.tabs = this.parseTabs(this.props.tabs);
+			this.tabs = this.parseTabs(this.tabs);
 			// Default active tab to the first one.
-			if (!this.props.activeTab) {
-				this.props.activeTab = this.props.tabs[0].id;
+			if (!this.activeTab && this.tabs.length) {
+				this.activeTab = this.tabs[0].id;
 			}
 			// Add class to tab content elements.
 			Array.from(this.children).forEach(child => {
 				child.classList.add('brik-tabs__content');
 			});
-			// Activate tab.
-			if (this.props.tabs.length) {
-				this.activateTab(this.props.activeTab);
-			}
 			// Render.
 			this.render();
 		}
 
+		disconnectedCallback() {
+			this.removeEventListener('click', this.events.onButtonClick);
+		}
+
+		get events() {
+			return {
+				onButtonClick: event => {
+					this.activeTab = event.currentTarget.dataset.tab;
+				}
+			};
+		}
+
+		updated(prevProps) {
+			if (prevProps.activeTab !== this.activeTab) {
+				this.activateTab();
+			}
+		}
+
 		parseTabs(tabs) {
 			// Cache tabs as an Array of Objects.
-			tabs = tabs.split(/,\s+/);
-			this.props.tabNames = [];
+			this.state.tabNames = [];
 			tabs.forEach((tab, i) => {
 				tab = tab.split(':');
 				tabs[i] = {
 					id: tab[0].toLowerCase(),
 					label: tab[1] || tab[0]
 				};
-				this.props.tabNames.push(tabs[i].id);
+				this.state.tabNames.push(tabs[i].id);
 			});
-			return this.props.tabs = tabs;
+			return this.tabs = tabs;
 		}
 
 		activateTab(tab) {
 			tab = this.getActiveTab(tab);
-			this.props.activeTab = tab.id;
-			const tabIndex = this.props.tabNames.indexOf(tab.id);
-			const activeTab = this.props.tabs.find(tab => tab.active);
+			this.activeTab = tab.id;
+			const tabIndex = this.state.tabNames.indexOf(tab.id);
+			const activeTab = this.tabs.find(tab => tab.active);
 			const activeContentEl = this.querySelector('.brik-tabs__content--active');
 			if (activeTab) activeTab.active = false;
 			tab.active = true;
@@ -15706,35 +15790,32 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 
 		getActiveTab(tab) {
 			if (tab instanceof Object) return tab;
-			if (typeof tab === 'string') tab = this.props.tabs.find(tab => tab.id === tab);
+			if (typeof tab === 'string') tab = this.tabs.find(tab => tab.id === tab);
 			if (!tab) {
-				tab = this.props.activeTab ? this.props.tabs.find(tab => tab.id === this.props.activeTab) : this.props.tabs[0];
+				tab = this.activeTab ? this.tabs.find(tab => tab.id === this.activeTab) : this.tabs[0];
 			}
 			return tab;
 		}
 
-		// Render the DOM with hyperhtml, a native approach to virtual DOM which efficiently renders
-		// nodes, data or attributes that change. See
-		// https://viperhtml.js.org/hyperhtml/documentation/.
-		render() {
-			return tpl$2(this.html, this, BrikElement);
+		get tpl() {
+			return tpl$3;
 		}
 	}
 
-	var tpl$3 = (render, context = {}, hyperhtml = {}, _ = {}) => render`${context.props.livePreview ? hyperhtml.wire(context.props, ':previewer')`<div class="${context.css.classes.preview}">
-	${[context.props.liveMarkup]}
+	var tpl$4 = (render, context = {}, _ = {}) => render`${context.livePreview ? context.wire(context.props, ':previewer')`<div class="${context.css.classes.preview}">
+	${[context.state.liveMarkup]}
 </div>` : ''}
 
 <div class="${context.css.classes.header}">
 	<div class="${context.css.classes.tabs}">
-		${context.props.tabs.map((tab) => hyperhtml.wire(tab)`
+		${context.state.tabs.map((tab) => context.wire(tab)`
 			<button onclick="${() => {
-				if (context.props.tabs.length > 1) context.activateTab(tab);
-			}}" class="${`${context.css.classes.tab} ${context.props.activeTab[context.props.activeTab.label ? 'label' : 'id'] === tab[context.props.activeTab.label ? 'label' : 'id'] ? context.css.classes['tab--active'] : ''}`}" type="button">${tab.label}</button>
+				if (context.state.tabs.length > 1) context.activateTab(tab);
+			}}" class="${`${context.css.classes.tab} ${context.state.activeTab[context.state.activeTab.label ? 'label' : 'id'] === tab[context.state.activeTab.label ? 'label' : 'id'] ? context.css.classes['tab--active'] : ''}`}" type="button">${tab.label}</button>
 		`)}
 	</div>
 
-	${context.props.dirty ? hyperhtml.wire(context.props, ':dirty-note')`<div class="${context.css.classes.toolbar}"><button class="${context.css.classes.refresh}" type="button" onclick="${context.refreshPreview}">Refresh</button> <kbd>ctrl</kbd> | <kbd>cmd</kbd>+<kbd>enter</kbd> to refresh preview</div>` : ''}
+	${context.state.dirty ? context.wire(context.state, ':dirty-note')`<div class="${context.css.classes.toolbar}"><button class="${context.css.classes.refresh}" type="button" onclick="${context.refreshPreview}">Refresh</button> <kbd>ctrl</kbd> | <kbd>cmd</kbd>+<kbd>enter</kbd> to refresh</div>` : ''}
 </div>
 
 <div class="${context.css.classes.window}"><slot></slot></div>
@@ -15818,26 +15899,26 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 		};
 	};
 
-	class Editor extends BrikElement {
-		static get defaults() {
+	class Editor extends Brik().with(propsMixin, renderMixin) {
+		static get props() {
 			return {
-				livePreview: false,
-				editable: false
+				livePreview: types.boolean,
+				editable: types.boolean
 			};
 		}
 
-		static get observedAttributes() {
-			return ['live-preview', 'editable', 'lang'];
-		}
-
-		// Create the Custom Element.
-		created() {
+		connectedCallback() {
+			// Set default state.
+			this.state = {
+				tabs: [],
+				liveMarkup: '',
+				throttled: false,
+				live: {},
+				dirty: false
+			};
 			// Create dom, styles, and pre-render a skeleton screen.
 			this.attachShadow({ mode: 'open' });
-			this.props.tabs = [];
-			this.props.liveMarkup = '';
 			this.css = styles.createStyleSheet(css$3, { classNamePrefix: 'brik-' });
-			this.render();
 
 			// Cache dom.
 			this.classList.add(this.css.classes.editor);
@@ -15846,23 +15927,16 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 				window: this.shadowRoot.querySelector('.' + this.css.classes.window),
 				panes: Array.from(this.children)
 			};
-			if (this.props.editable) {
+			if (this.editable) {
 				this.dom.panes.forEach(pane => pane.editable = true);
 			}
 
-			// Set default props.
-			this.props.ticking = false;
-			this.props.throttled = false;
-			this.props.live = {};
-			this.props.dirty = false;
-
 			// Create tabs.
-			this.props.tabs = [];
 			this.dom.panes.forEach((pane, i) => {
 				if (this.dom.panes.length > 1) {
 					styles.createRule(paneCss({ active: false, index: i })).applyTo(pane);
 				}
-				this.props.tabs.push({
+				this.state.tabs.push({
 					id: pane.lang,
 					label: pane.label || pane.getAttribute('label') || pane.lang.toUpperCase(),
 					index: i
@@ -15870,46 +15944,39 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 			});
 
 			// Activate tab.
-			this.activateTab(this.props.tabs[0]);
+			this.activateTab(this.state.tabs[0]);
 
 			// Live preview.
-			if (this.props.livePreview) this.refreshPreview();
-
-			// Render.
-			this.render();
+			if (this.livePreview) this.refreshPreview();
 		}
 
-		/**
-	  *  Activate a tab.
-	  *  @param   {String}  tab  Name of tab to activate.
-	  */
 		activateTab(tab) {
 			// De-activate previously active tab.
-			if (this.props.activeTab) {
-				styles.createRule(paneCss({ active: false, index: this.props.activeTab.index })).applyTo(this.dom.panes[this.props.activeTab.index]);
+			if (this.state.activeTab) {
+				styles.createRule(paneCss({ active: false, index: this.state.activeTab.index })).applyTo(this.dom.panes[this.state.activeTab.index]);
 			}
 			// Activate new tab.
-			this.props.activeTab = tab;
-			styles.createRule(paneCss({ active: true, index: this.props.activeTab.index })).applyTo(this.dom.panes[this.props.activeTab.index]);
+			this.state.activeTab = tab;
+			styles.createRule(paneCss({ active: true, index: this.state.activeTab.index })).applyTo(this.dom.panes[this.state.activeTab.index]);
 			// Re-render.
 			this.render();
 		}
 
 		refreshPreview() {
-			if (!this.props.livePreview) return;
-			if (!this.props.throttled) {
+			if (!this.livePreview) return;
+			if (!this.state.throttled) {
 				let insertScript = false;
-				this.props.liveMarkup = '';
+				this.state.liveMarkup = '';
 				this.dom.panes.forEach((pane, i) => {
-					let code = pane.textContent || pane.props.raw;
+					let code = pane.textContent || pane.state.raw;
 					// Create new content.
-					if (this.props.tabs[i].id === 'html') {
-						this.props.liveMarkup += code;
+					if (this.state.tabs[i].id === 'html') {
+						this.state.liveMarkup += code;
 					}
-					if (this.props.tabs[i].id === 'css') {
-						this.props.liveMarkup += '<style>' + code + '</style>';
+					if (this.state.tabs[i].id === 'css') {
+						this.state.liveMarkup += '<style>' + code + '</style>';
 					}
-					if (this.props.tabs[i].id === 'js') {
+					if (this.state.tabs[i].id === 'js') {
 						insertScript = code;
 					}
 				});
@@ -15927,18 +15994,15 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 					if (currentScript) this.dom.previewer.removeChild(currentScript);
 					this.dom.previewer.appendChild(script);
 				}
-				this.props.throttled = true;
+				this.state.throttled = true;
 				setTimeout(() => {
-					this.props.throttled = false;
+					this.state.throttled = false;
 				}, 200);
 			}
 		}
 
-		// Render the DOM with hyperhtml, a native approach to virtual DOM which efficiently renders
-		// nodes, data or attributes that change. See
-		// https://viperhtml.js.org/hyperhtml/documentation/.
-		render() {
-			return tpl$3(this.html, this, BrikElement);
+		get tpl() {
+			return tpl$4;
 		}
 	}
 
@@ -17048,15 +17112,15 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 		Prism.languages.shell = Prism.languages.bash;
 	})(Prism);
 
-	var tpl$4 = (render, context = {}, hyperhtml = {}, _ = {}) => render`${
-	context.props.label && context.props.showHeader
-		? hyperhtml.wire()`<div class="${context.css.classes.header}">${context.props.label}</div>`
+	var tpl$5 = (render, context = {}, _ = {}) => render`${
+	context.label && context.showHeader
+		? context.wire()`<div class="${context.css.classes.header}">${context.label}</div>`
 		: ''
 }
 
 <pre class="${`${context.css.classes.pre} language-${
-	context.props.lang
-}`}"><code class="${context.css.classes.code}" contenteditable="${context.props.editable}">${[context.props.text]}</code></pre>
+	context.lang
+}`}"><code class="${context.css.classes.code}" contenteditable="${context.editable}">${[context.text]}</code></pre>
 
 <style>${context.cssString}</style>
 `;
@@ -17088,121 +17152,124 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 
 	var css$5 = "/**\n * prism.js tomorrow night eighties for JavaScript, CoffeeScript, CSS and HTML\n * Based on https://github.com/chriskempson/tomorrow-theme\n * @author Rose Pritchard\n */\n\ncode[class*=\"language-\"],\npre[class*=\"language-\"] {\n\tcolor: #ccc;\n\tbackground: none;\n\tfont-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;\n\ttext-align: left;\n\twhite-space: pre;\n\tword-spacing: normal;\n\tword-break: normal;\n\tword-wrap: normal;\n\tline-height: 1.5;\n\n\t-moz-tab-size: 4;\n\t-o-tab-size: 4;\n\ttab-size: 4;\n\n\t-webkit-hyphens: none;\n\t-ms-hyphens: none;\n\thyphens: none;\n\n}\n\n/* Code blocks */\n\npre[class*=\"language-\"] {\n\tpadding: 1em;\n\tmargin: .5em 0;\n\toverflow: auto;\n}\n\n:not(pre) > code[class*=\"language-\"],\npre[class*=\"language-\"] {\n\tbackground: #2d2d2d;\n}\n\n/* Inline code */\n\n:not(pre) > code[class*=\"language-\"] {\n\tpadding: .1em;\n\tborder-radius: .3em;\n\twhite-space: normal;\n}\n\n.token.comment,\n.token.block-comment,\n.token.prolog,\n.token.doctype,\n.token.cdata {\n\tcolor: #999;\n}\n\n.token.punctuation {\n\tcolor: #ccc;\n}\n\n.token.tag,\n.token.attr-name,\n.token.namespace,\n.token.deleted {\n\tcolor: #e2777a;\n}\n\n.token.function-name {\n\tcolor: #6196cc;\n}\n\n.token.boolean,\n.token.number,\n.token.function {\n\tcolor: #f08d49;\n}\n\n.token.property,\n.token.class-name,\n.token.constant,\n.token.symbol {\n\tcolor: #f8c555;\n}\n\n.token.selector,\n.token.important,\n.token.atrule,\n.token.keyword,\n.token.builtin {\n\tcolor: #cc99cd;\n}\n\n.token.string,\n.token.char,\n.token.attr-value,\n.token.regex,\n.token.variable {\n\tcolor: #7ec699;\n}\n\n.token.operator,\n.token.entity,\n.token.url {\n\tcolor: #67cdcc;\n}\n\n.token.important,\n.token.bold {\n\tfont-weight: bold;\n}\n\n.token.italic {\n\tfont-style: italic;\n}\n\n.token.entity {\n\tcursor: help;\n}\n\n.token.inserted {\n\tcolor: green;\n}\n";
 
-	class Code extends BrikElement {
-		static get defaults() {
+	class Code extends Brik().with(propsMixin, renderMixin, eventsMixin) {
+		static get props() {
 			return {
-				editable: false,
-				lang: '',
-				label: '',
-				text: '',
-				showHeader: true
+				editable: types.boolean,
+				lang: types.string,
+				label: types.string,
+				text: type(Object.assign({}, types.string, { attribute: false })),
+				showHeader: type(Object.assign({}, types.boolean, { default: true }))
 			};
 		}
 
-		static get observedAttributes() {
-			return ['editable', 'lang', 'label', 'show-header'];
-		}
-
-		attributeChangedCallback(prop) {
-			if (prop === 'editable') {
-				this.updateEditability();
-			}
-			if (['editable', 'showHeader'].includes(prop) && typeof prop === 'string') prop = prop === 'true';
-			this.render();
-		}
-
-		// Create the Custom Element.
-		created() {
-			// Create styles and dom.
+		connectedCallback() {
+			// Set up.
+			this.state.raw = '';
+			this.css = { classes: {} };
 			this.attachShadow({ mode: 'open' });
-			this.css = styles.createStyleSheet(css$4, { classNamePrefix: 'brik-' });
-			if (typeof this.props.showHeader === 'string') this.props.showHeader = this.props.showHeader === 'true';
 			this.render();
+			this.css = styles.createStyleSheet(css$4, { classNamePrefix: 'brik-' });
 
 			// Build dom.
 			this.dom = {
-				pre: this.shadowRoot.querySelector('pre'),
-				code: this.shadowRoot.querySelector('code'),
+				pre: this.root.querySelector('pre'),
+				code: this.root.querySelector('code'),
 				editor: this.parentNode.tagName === 'BRIK-EDITOR' ? this.parentNode : null
 			};
-			this.dataset.tab = this.props.lang;
-			this.props.raw = this.textContent.trim();
+			this.dataset.tab = this.lang;
+			this.state.raw = this.textContent.trim();
 			this.textContent = '';
 
 			// Set default props.
-			this.props.ticking = false;
-			this.props.label = this.props.label || this.props.lang.toUpperCase();
-			this.props.inputTimeout;
+			this.label = this.label || this.lang.toUpperCase();
 
 			// If this is part of an editor element, create a tab.
 			if (this.dom.editor) {
-				this.props.showHeader = false;
+				this.showHeader = false;
 			}
 
 			// Update editability.
-			this.updateEditability();
-
-			// Render.
-			this.render();
+			if (this.editable && !this.state.listeners) {
+				this.makeEditable();
+			}
 		}
 
 		disconnectedCallback() {
-			this.updateEditability();
-		}
-
-		updateEditability() {
-			this.props.editable = this.props.editable || this.dom.editor ? this.dom.editor.editable : false;
-			if (!this.dom) return;
-			if (this.props.editable) {
-				this.dom.code.addEventListener('input', this.handleInput);
-				this.dom.code.addEventListener('focus', this.handleFocus);
-				this.dom.code.addEventListener('blur', this.handleBlur);
-				this.dom.code.addEventListener('keydown', this.handleKeydown);
-			} else {
-				this.dom.code.removeEventListener('input', this.handleInput);
-				this.dom.code.removeEventListener('focus', this.handleFocus);
-				this.dom.code.removeEventListener('blur', this.handleBlur);
-				this.dom.code.removeEventListener('keydown', this.handleKeydown);
+			if (this.state.listeners) {
+				this.removeEditability();
 			}
 		}
 
-		handleFocus() {
-			this.props.text = this.props.raw;
-			this.render();
+		get events() {
+			return {
+				input: () => {
+					if (this.dom.editor) {
+						this.dom.editor.state.dirty = true;
+						this.dom.editor.render();
+					}
+					this.state.raw = this.dom.code.textContent;
+				},
+				focus: () => {
+					this.text = this.state.raw;
+					this.render();
+				},
+				blur: () => {
+					this.text = this.state.raw;
+					this.render();
+				},
+				keydown: event => {
+					if ((event.ctrlKey || event.metaKey) && event.keyCode == 13) this.refreshPreview();
+				}
+			};
 		}
 
-		handleBlur() {
-			this.render();
-		}
-
-		handleInput() {
-			if (this.dom.editor) {
-				this.dom.editor.props.dirty = true;
-				this.dom.editor.render();
+		updated(prevProps) {
+			super.updated && super.updated(...arguments);
+			if (prevProps.editable !== this.editable) {
+				if (this.editable && !this.state.listeners) {
+					this.makeEditable();
+				} else if (!this.editable && this.state.listeners) {
+					this.removeEditability();
+				}
 			}
-			this.props.raw = this.dom.code.textContent;
 		}
 
-		handleKeydown(event) {
-			if ((event.ctrlKey || event.metaKey) && event.keyCode == 13) this.refreshPreview();
+		makeEditable() {
+			this.dom.code.addEventListener('input', this);
+			this.dom.code.addEventListener('focus', this);
+			this.dom.code.addEventListener('blur', this);
+			this.dom.code.addEventListener('keydown', this);
+			this.state.listeners = true;
+		}
+
+		removeEditability() {
+			this.dom.code.removeEventListener('input', this);
+			this.dom.code.removeEventListener('focus', this);
+			this.dom.code.removeEventListener('blur', this);
+			this.dom.code.removeEventListener('keydown', this);
+			this.state.listeners = false;
 		}
 
 		refreshPreview() {
-			this.dom.editor.props.dirty = false;
+			this.dom.editor.state.dirty = false;
 			this.dom.editor.refreshPreview();
 		}
 
-		// Render the DOM with hyperhtml, a native approach to virtual DOM which efficiently renders
-		// nodes, data or attributes that change. See
-		// https://viperhtml.js.org/hyperhtml/documentation/.
-		render() {
-			if (this.props.lang) {
-				this.props.text = this.props.raw ? prism.highlight(this.props.raw, prism.languages[this.props.lang]) : '';
+		get tpl() {
+			return tpl$5;
+		}
+
+		rendering() {
+			if (this.lang) {
+				this.text = this.state.raw ? prism.highlight(this.state.raw, prism.languages[this.lang]) : '';
 			} else {
-				this.props.text = (this.props.raw || '').replace(/</g, '&lt;');
+				this.text = (this.state.raw || '').replace(/</g, '&lt;');
 			}
+			// console.log('HIGHLIGHT:', this.textContent);
+			// console.log('HIGHLIGHT:', prism.highlight(this.textContent, prism.languages[this.lang]));
+			// this.innerHTML = prism.highlight(this.textContent, prism.languages[this.lang]);
 			this.cssString = [css$5, this.css.toString()].join('\n');
-			return tpl$4(this.html, this, BrikElement);
 		}
 	}
 
@@ -17214,7 +17281,7 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 
 	var monolithToMicroPage = "<div class=\"markdown\"><h1>Taking a Front End from Monolith to Micro</h1>\n<h2>The problem: The Monolith</h2>\n<p>Originally our Dev team was looking for a way to split up monolithic front end codebases into smaller, cohesive pieces. These pieces needed to be:</p>\n<ul>\n<li>Roll independent.</li>\n<li>Source control independent.</li>\n<li>Share infrastructure, where possible.</li>\n</ul>\n<p>Eventually I created my own wish list:</p>\n<ul>\n<li><em>Modular / self-contained</em>:\n<ul>\n<li>Fits into the microservice/modular approach. Each microservice does one thing well.</li>\n<li>Each piece deploys independently.</li>\n<li>If a library becomes obsolete, we only need to rewrite/replace the library, not the entire app or framework.</li>\n</ul>\n</li>\n<li><em>Interoperable</em>. Parts that might be reusable by other teams should be built in a way that allows other teams to use it and fit it into their technology/environment.\n<ul>\n<li>Works with any popular framework or environment.</li>\n<li>Perhaps even works with multiple frameworks on the same page with no reload.</li>\n</ul>\n</li>\n<li>Embraces <em>ES6/ES2015</em>. Take advantage of cool new features such as modules, promises, template literals, etc. Most ES6 features meet our browser support policy, and others can be polyfilled as needed.</li>\n<li>Favors <em>native</em> JS/DOM APIs over custom APIs.</li>\n<li>Embraces (or enables you to embrace) <em>web standards</em> and <a href=\"https://developers.google.com/web/progressive-web-apps/\">progressive web app standards</a>.</li>\n<li><em>Flexible</em> tooling. Not tied to a specific toolset.</li>\n</ul>\n<h2>The solution: Micro Front Ends</h2>\n<p>From my research, which mirrored the research of another Developer assigned to the researching this issue, the phrase “<a href=\"https://medium.com/@tomsoderlund/micro-frontends-a-microservice-approach-to-front-end-web-development-f325ebdadc16\">Micro Front Ends</a>” kept appearing, and seemed to meet all of our criteria.</p>\n<h3>What is a Micro Front End?</h3>\n<p>The phrase is relatively new, and its definition seems to vary slightly from Developer to Developer. I will define it as:</p>\n<blockquote>\n<p>A larger front-end app or system which is composed of smaller, self-contained components or apps which can be developed and deployed independently of each other.</p>\n</blockquote>\n<h2>What makes up a Micro Front End?</h2>\n<p>There are <a href=\"https://medium.com/@tomsoderlund/micro-frontends-a-microservice-approach-to-front-end-web-development-f325ebdadc16\">many ways to adopt a Micro Front End architecture</a>. Generally speaking, each approach has the following code layers:</p>\n<ul>\n<li><em>Page Composition:</em> Smaller components that make up a page.</li>\n<li><em>App Shell:</em> Provides an entry point to an app and organizes page components to present to a user.</li>\n<li><em>Page Transitions / Routing:</em> Enables and controls page transitions.</li>\n<li><em>The Build:</em> Bundles an app together, prepares for production, and deploys.</li>\n</ul>\n<h3>Layer 1: Page Composition</h3>\n<p><em>Page Composition</em> is the biggest layer of an app. It consists of the various components that will reside on a page. These components must be:</p>\n<ul>\n<li>Independently packaged and deployed.</li>\n<li>Source control independent.</li>\n<li>Framework agnostic.</li>\n</ul>\n<h4>Web Components</h4>\n<p><strong>Web Components perfectly fit in with the Micro Front End architecture and fulfill all of our listed requirements.</strong></p>\n<p><a href=\"https://developer.mozilla.org/en-US/docs/Web/Web_Components\">Web Components</a> is a suite of native web technologies which allow you to create reusable custom elements (components) that can be reused anywhere. A Web Component can provide a public API for interacting with a component, which is abstracted away from everything else under the hood that its consumers do not need to know. Write once, share anywhere, easy to interact with, update as needed, isolated from everything else. Some benefits:</p>\n<ul>\n<li><a href=\"https://custom-elements-everywhere.com/\">Can be used anywhere</a>, regardless of framework or environment.</li>\n<li>Write once. Share anywhere. Update once. Deploy everywhere.</li>\n<li>Native technology. JS/DOM acts as the public API.</li>\n<li>Modular, self-contained, and independently deployable.</li>\n<li>Future proof.</li>\n<li>Works seamlessly with ES modules (ES6). Dependencies are imported, the build system glues it together.</li>\n<li>Embraces web standards, progressive web app standards, and native technologies.</li>\n</ul>\n<h4>Browser support</h4>\n<p>Currently Chrome and Safari (including mobile) support Web Components. Firefox has experimental support underneath a flag, which is set to be enabled soon. Edge is working on its implementation. There are polyfills available which have been used in production for some time – used by Polymer, GitHub, and others – which will bring browser support to our requirements.</p>\n<h4>JS Components</h4>\n<p>I am defining a JS component as an ES Module which exports certain functionality that can be imported elsewhere. JS Components also perfectly fit in with the Micro Front End architecture and fulfill all of our listed requirements.</p>\n<p>Web Components are instantiated as custom HTML elements, and they may rely on other JS scripts or components which you might want to reuse in multiple places. This includes any JS script that isn’t a Web Component, such as helper or utility scripts, and even libraries. Examples might be a merge utility, a virtual DOM library, or any other script that might be needed. Typically these scripts would be included globally (like in index.html), which would make them part of the App Shell. <em>However, in Micro Front Ends, including JS components in the App Shell layer should be avoided as much as possible.</em> Instead, JS components (scripts) should be included in the Page Composition layer. This is accomplished with ES Modules, by importing JS components into each Web Component that relies on it. The build system will de-duplicate components that are imported multiple times and glue it all together.</p>\n<p><em>See “Dependency handling” in “Part 5: Other Considerations” for more details.</em></p>\n<h3>Layer 2: App Shell</h3>\n<p>The <em>App Shell</em> is a larger codebase which glues components together in an organized fashion to present to the user. The App Shell always includes:</p>\n<ul>\n<li>Entry point (index.html).</li>\n<li>Global CSS/JS.</li>\n</ul>\n<p>The App Shell <em>may or may not</em> include app-specific features such as:</p>\n<ul>\n<li>Routing</li>\n<li>User sessions</li>\n<li>Custom events bus</li>\n<li>etc.</li>\n</ul>\n<p>The App Shell should be thin. As thin as possible. Serious thought should be given before including anything in the App Shell. <strong>Always favor building a feature as a Web Component or reusable library over putting it into the App Shell. There should be good reasons for something to be part of the App Shell.</strong></p>\n<p>Remember, almost anything can be a component.</p>\n<h3>Layer 3: Page Transitions / Routing</h3>\n<p>The router is a big part of any app since it enables and controls transitioning from page to page. In Micro Front Ends, the router might be part of the App Shell or it might be part of Page Composition (its own component). It might be created in-house or imported as a third party library. It might even be part of a larger framework.</p>\n<p>The reason this is listed out separately is because the router is a big enough part of any app that it deserves its own special considerations. How you implement the router should depend on the needs of the app, but <em>any routing solution should favor the native history API and work with Custom Elements (part of the Web Components spec).</em></p>\n<h3>Layer 4: The Build System</h3>\n<p>The purpose of the build process is to glue everything together, prepare the app for production, and deploy. No specific build system is required, but, for our purposes, it must:</p>\n<ul>\n<li>Glue all of the components together, along with their dependencies.</li>\n<li>Compile ES6+ syntax to browser supported JS, and hopefully auto-include polyfills based on browser support policy (babel).</li>\n<li>Split the app into code bundles (code splitting / multiple entry files). This significantly helps app performance, especially on initial load.</li>\n<li>Be fast.</li>\n<li>Prepare the app for production.</li>\n</ul>\n<p>Most browsers now support most ES6 features (which is awesome). Browsers expect Web Components to be written using ES6 classes; ES5 syntax does not work. <a href=\"https://www.polymer-project.org/2.0/toolbox/build-for-production\">Polymer recommends compiling both an ES6 and an ES5 bundle for production</a>, and using browser feature detection to serve the correct bundle.</p>\n<p>Potential build tooling options:</p>\n<ul>\n<li><a href=\"https://webpack.js.org/\">Webpack</a></li>\n<li><a href=\"https://rollupjs.org/\">RollupJS</a></li>\n<li><a href=\"https://parceljs.org/\">ParcelJS</a></li>\n<li><a href=\"https://babeljs.io/\">Babel</a> (Note: Babel is typically used in tandem with another build tool to transpile from ES6 source to your list of supported browsers)</li>\n</ul>\n<h3>Other Important Considerations</h3>\n<h4>Dependency handling</h4>\n<h5>Import dependencies to the Web Component which relies on it, not the App Shell</h5>\n<p>With the ES module system, dependencies can be easily imported to a Web Component or to the App Shell. However, dependencies should typically be imported to the Web Component which relies on it, not to the App Shell. The build system will de-duplicate code for you, so do not worry about the same dependency being imported to multiple Web Components in an App; the build system will make sure it is only included once.</p>\n<h5>Use extreme caution when importing dependencies</h5>\n<p><strong>A library or framework should only be included if it adds a feature we need that isn’t natively available.</strong> For example, Angular directives are unnecessary because Custom Elements (part of Web Components) do the same thing natively. This makes Angular less useful since it provides many features we don’t need. However, including a library for reactive data binding would be useful, since it is something we need that is not natively available.</p>\n<h5>Avoid importing dependencies to the App Shell</h5>\n<p>Remember, almost everything can be a Web Component or a library, and Web Components and libraries manage their own dependencies while the build system glues it all together. Just because a framework <em>can</em> live in the App Shell doesn’t mean it <em>should</em>. This is a shift in how we think about frameworks like Angular, React, or Vue, which or often the first thing to include in an app. Instead, these should be treated like any other library: as a Web Component or library dependency.</p>\n<h4>Shared events bus</h4>\n<p>Custom Elements (part of Web Components) can and should communicate via properties, attributes, and events. It may or may not be useful to include a <a href=\"https://www.quora.com/Is-there-a-micro-service-architecture-approach-for-front-end-development/answer/Mohamed-Abdel-Maksoud\">shared events bus</a> for components that need it. Something like <a href=\"https://github.com/chrisdavies/eev\">Eev</a>.</p>\n<h2>The Prototype</h2>\n<p><a href=\"https://github.com/brikcss/dsui-library-site\">Live code</a> | <a href=\"https://brikcss.github.io/dsui-library-site\">App repo</a></p>\n<p>Micro Front Ends sound great, on paper. But we wanted to prove it out with a prototype to see how that transitioned over to the real world. I started by building a single Web Component. It worked so well I built the UI Library entirely as Web Components.</p>\n<h3>File Structure</h3>\n<ul>\n<li><code>/node_modules</code>: Web Components imported as NPM Packages. Installed with <code>npm install</code>.</li>\n<li><code>/src/</code>\n<ul>\n<li><code>index.html</code>: Entry point.</li>\n<li><code>app.css</code>: App Shell styles.</li>\n<li><code>app.js</code>: App Shell scripts.</li>\n<li><code>routes.js</code>: Page / view routes.</li>\n</ul>\n</li>\n<li>Approximately 600 lines of JS/CSS in the App Shell, which mostly consist of the router setup and routes data.</li>\n</ul>\n<h3>The Tech</h3>\n<ul>\n<li><em>Custom Elements</em>: A set of JavaScript APIs that allow you to define custom elements and their behaviour, which can then be used as desired in your user interface.</li>\n<li><em>Shadow DOM</em>: A set of JavaScript APIs for attaching an encapsulated “shadow” DOM tree to an element — which is rendered separately from the main document DOM — and controlling associated functionality. In this way you can keep an element’s features private, so they can be scripted and styled without the fear of collision with other parts of the document.</li>\n<li><a href=\"http://cssinjs.org/\">JSS</a>: 6kb library which allows you to use CSS in JS. Used as a Shadow DOM fallback since it creates scoped CSS selectors. Once Shadow DOM is fully supported this will become less necessary.</li>\n<li><a href=\"https://viperhtml.js.org/hyperhtml/documentation/\">HyperHTML</a>: 4kb library. Think of it as an alternative to “virtual dom” made popular by React, only built with native JS/ES/DOM technologies.</li>\n<li><a href=\"https://router5.js.org/\">Router5</a>: A framework and library agnostic universal router.</li>\n<li>The build:\n<ul>\n<li><a href=\"https://rollupjs.org/guide/en\">RollupJS</a>: A JS module bundler, similar to Webpack.</li>\n<li><a href=\"https://github.com/postcss/postcss\">PostCSS</a>: A CSS post processor, allowing you to process CSS with JS plugins. You probably already use it with Autoprefixer.</li>\n<li>NPM with NPM scripts: Task runner which allows you to run JS scripts from the command line. Also provides access to NPM’s enormous JS ecosystem.</li>\n</ul>\n</li>\n</ul>\n<h3>Conclusions</h3>\n<p>Once you master the ins and outs and are familiar with the technologies, building Web Components is easy and straight forward. The most challenging part to it is creating the build system to tie it all together and achieve maximum browser support. Overall there are some tricky phases, but the end experience and outcome has been more than satisfying. <em>So satisfying, in fact, that I recommend we adopt this approach everywhere on the front end.</em></p>\n<h2>Step by step to adopting a Micro Front End</h2>\n<p>The thought of tearing down a Monolith and turning it into a Micro Front End is daunting. However, with some simple changes in how we all approach front end work in general, the Monolith can be broken down, over time, as part of your normal, everyday routine.</p>\n<h3>Step 1: Adopt a components-based approach to front end development</h3>\n<p>An app is no longer made up of “pages”. It consists of reusable components. The Platform Team has adopted <a href=\"https://docs.google.com/document/d/1XYjuG8ddnDezwP0ojcpLuDVgcUdCA_bWXInXvusio2Q/edit?usp=sharing\">Style Guide Driven Design and Development (SGDDD)</a>, a proven, components-based approach to front-end development based on the success and failures of other companies.</p>\n<p>A simplified step by step approach to SGDDD is as outlined in the two phases below.</p>\n<h4>Phase one: The Interface Inventory</h4>\n<ol>\n<li>Take screenshots of the entire UI (each screen where the UI changes).</li>\n<li>From the screenshots build a “master list” of UI patterns.</li>\n<li>Use the Master List to prioritize components to be built.</li>\n</ol>\n<h4>Phase two: Building the Style Guide</h4>\n<p>Phase two is about changing how UX Designers and Developers work together on a daily basis. <em>This process should be followed not only for every pattern in the components Master List, but also for every feature or page or design discussed or created in the future.</em></p>\n<ol>\n<li>Define the pattern / feature. Write down its purpose and requirements.</li>\n<li>Break the pattern down into components. Compare with existing Style Guide components and create a list:\n<ul>\n<li>What existing component(s) / patterns can be reused?</li>\n<li>What existing component(s) / patterns need to be extended?</li>\n<li>What component(s) need to be created?</li>\n<li>Create stories and tasks from this list of components.</li>\n</ul>\n</li>\n<li>Build a design prototype.</li>\n<li>Build a code prototype <em>in an isolated environment</em> (UI Library / Style Guide site). Iterate with UX until prototype is approved.</li>\n<li>Prepare component(s) for production and integrate.</li>\n</ol>\n<p>Each team should adopt this approach. <strong>This approach requires “buy in” from all of UX an Developers.</strong> Note: See the <a href=\"https://docs.google.com/document/d/1XYjuG8ddnDezwP0ojcpLuDVgcUdCA_bWXInXvusio2Q/edit#heading=h.8dazjiktil\">full detailed explanation of SGDDD here</a>.</p>\n<h4>Coordinating work with the Platform team</h4>\n<p>All teams should coordinate with and work together with the Platform team before building any component. This will prevent work from being duplicated, and also determine how each component or pattern fits in to the global UI. Components that should end up in the global UI Library can be prioritized into the Platform team’s work. At the same time, teams won’t have to wait for the Platform team’s limited resources to build a component they need. Components can be initially created by teams and later adopted into the UI Library by the Platform team.</p>\n<h4>Benefits of adopting this approach</h4>\n<ul>\n<li>Go from monolith to micro front end one small step at a time (eat the elephant one bite at a time).</li>\n<li>Speed up the work of creating the DS UI Library / Style Guide of components.</li>\n<li>Solve challenges which were identified in discovery such as:\n<ul>\n<li>Unnecessary time spent on front end development.</li>\n<li>Too much time fixing bugs. This often is related to inconsistent, hacky, or redundant front-end code. I call this the “whack-a-mole” affect, where it is difficult or impossible to know what other bugs will pop up as a result of fixing another.</li>\n<li>Slow and sluggish performance.</li>\n<li>Broken functionality. Some features don’t work as intended, especially on mobile.</li>\n<li>Inconsistent UI between apps.</li>\n<li>Mobile and responsive optimization. Many features are not optimized for mobile.</li>\n<li>Unmaintainable code. Code is frequently duplicated, not reusable. Code bloat.\n<ul>\n<li>Back Office on 6/15/2016 (Wakaya):\n<ul>\n<li>CSS = 827kb</li>\n<li>JS = 4.7mb</li>\n</ul>\n</li>\n<li>Back Office on 3/1/2017 (Wakaya):\n<ul>\n<li>CSS = 1.5mb</li>\n<li>JS = 7.4mb</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n<h3>Step 2: Build the App Shell</h3>\n<p>Once a components-based approach to UI development is adopted, the App Shell must be created. This be a simple or more involved process, depending on the codebase. The goal of this step is to prepare the codebase for Web Components. It might be decided to build the App Shell before any component is integrated into the app, or in correlation with the integration of the first component. Either way, here are some considerations:</p>\n<ul>\n<li>Will a JS framework be used? It seems the main reason we would use it with the Web Components approach is for developer comfort and familiarity. Is that enough to add a framework? Or are there other benefits it may provide?</li>\n<li>Create global CSS and JS (app.css and app.js). At this point, these should both likely be extremely thin, possibly empty.</li>\n<li>Move temporary styles/scripts to a separate “temp” folder so they are “marked” for deprecation and eventual removal. No new styles or scripts should be added to these files anymore.</li>\n<li>Prepare entry file (index.html). Add app.css and app.js. Clean it up as needed. Mark sections for deprecation and removal. Mark what needs to be built as a component.</li>\n<li>Build out the router and/or any other pieces that will be included in the App Shell instead of integrated as its own component.</li>\n</ul>\n<h3>Step 3: Build the build</h3>\n<p>The build system should glue everything together and prepare the app for production. There are many ways this can be done. It is recommended to use NPM Scripts as the task runner, since it provides the most flexibility in building and running custom scripts, and also provides an enormous ecosystem of libraries, helpers, and build tools.</p>\n<h3>Step 4: Use the Master List to build one component at a time</h3>\n<p>This process is detailed in <a href=\"https://docs.google.com/document/d/1XYjuG8ddnDezwP0ojcpLuDVgcUdCA_bWXInXvusio2Q/edit#heading=h.8dazjiktil\">“Phase Two” of the SGDDD documentation</a>. The purpose is to phase out the old (the Monolith) and bring in the new (the Micro Front End). As each new Web Component is built, old code must be removed. Over time the old goes away completely, and the app morphs into something new and beautiful.</p>\n<h4>Suggestions on building components</h4>\n<ul>\n<li>Each component must reside in its own repo.</li>\n<li>Each component should be published to NPM.</li>\n<li>Each component should be tested in isolation, including unit tests and UI screenshot regression tests.</li>\n<li>In UI screenshot tests, make sure to remove unimportant elements before taking a screenshot so as to only test the things that are important and shouldn’t change frequently.</li>\n<li>Each component should also be cross browser tested in its own environment, such as the UI Library / Style Guide site.</li>\n</ul>\n<h2>References</h2>\n<h3>Why Web Components</h3>\n<ul>\n<li><a href=\"https://medium.com/@tomsoderlund/micro-frontends-a-microservice-approach-to-front-end-web-development-f325ebdadc16\">A microservice approach to front end web development</a></li>\n<li><a href=\"https://medium.com/dev-channel/the-case-for-custom-elements-part-2-2efe42ce9133\">The Case for Custom Elements</a> (also <a href=\"https://medium.com/dev-channel/the-case-for-custom-elements-part-1-65d807b4b439\">part 1</a>)</li>\n<li><a href=\"https://dmitriid.com/blog/2017/03/the-broken-promise-of-web-components/\">Complaints against Web Components</a> and <a href=\"https://robdodson.me/regarding-the-broken-promise-of-web-components/\">a rebuttle</a> (great conversation which outlines two different perspectives)</li>\n<li><a href=\"http://www.backalleycoder.com/2016/08/26/demythstifying-web-components/\">Demythstifying Web Components</a></li>\n<li><a href=\"https://micro-frontends.org/\">Micro Front-Ends</a> with Web Components</li>\n<li><a href=\"https://speakerdeck.com/naltatis/micro-frontends-building-a-modern-webapp-with-multiple-teams\">Slideshow on Micro Front-Ends</a></li>\n<li><a href=\"https://medium.com/dev-channel/custom-elements-that-work-anywhere-898e1dd2bc48\">Custom Elements that work anywhere</a></li>\n<li><a href=\"https://custom-elements-everywhere.com/\">Does framework “x” support custom elements?</a></li>\n</ul>\n<h3>Style Guide Driven Design and Development (SGDDD)</h3>\n<ul>\n<li><a href=\"https://docs.google.com/document/d/1XYjuG8ddnDezwP0ojcpLuDVgcUdCA_bWXInXvusio2Q/edit?usp=sharing\">Summary of SGDDD</a></li>\n<li><a href=\"https://drive.google.com/open?id=1ZMjUQOEDbX5t5AEZ6RQi5CPZrlvYPvu5\">Design Systems book</a></li>\n<li><a href=\"https://www.smashingmagazine.com/2016/06/designing-modular-ui-systems-via-style-guide-driven-development/\">Designing Modular UI Systems via SGDDD - Smashing Magazine</a></li>\n<li><a href=\"https://www.bitovi.com/blog/style-guide-driven-development\">Style Guide Driven Development - Bitovi</a></li>\n<li><a href=\"https://www.invisionapp.com/blog/guide-to-design-systems/\">Comprehensive Guide to Design Systems - Invision</a></li>\n<li><a href=\"http://standards.ancestry.com/\">Ancestry Style Guide site</a></li>\n<li><a href=\"https://www.ancestry.com/cs/standards/getting-started#try-it-out\">Illustration of problems that Ancestry’s Style Guide site resolves</a></li>\n<li><a href=\"http://design-system.pluralsight.com/\">PluralSight’s Style Guide site</a></li>\n<li><a href=\"http://atomicdesign.bradfrost.com/table-of-contents/\">Atomic Design System - Brad Frost</a></li>\n</ul>\n<h3>Working with Web Components</h3>\n<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/Web_Components\">MDN Web Components with Tutorials</a></li>\n<li><a href=\"https://developers.google.com/web/fundamentals/web-components/\">Google Web Components Fundamentals</a></li>\n<li><a href=\"https://github.com/GoogleChromeLabs/ui-element-samples\">Google Web Component examples</a></li>\n<li><a href=\"https://alligator.io/web-components/\">Web Components tutorials</a></li>\n<li><a href=\"https://blog.revillweb.com/write-web-components-with-es2015-es6-75585e1f2584\">Write Web Components with ES5</a></li>\n<li><a href=\"https://philipwalton.com/articles/deploying-es2015-code-in-production-today/\">Deploying ES6 code in production</a></li>\n<li><a href=\"https://slides.com/sara_harkousse/web-components-talk-devoxx-france-2018#/\">Slideshow on Web Components</a></li>\n<li><a href=\"https://www.pluralsight.com/courses/vanilla-web-components-practical-guide?irgwc=1&amp;mpid=1216269&amp;utm_source=impactradius&amp;utm_medium=digital_affiliate&amp;utm_campaign=1216269&amp;aid=7010a000001xAKZAA2\">Guide to Web Components - PluralSight</a></li>\n<li><a href=\"https://github.com/shprink/web-components-todo\">Comparison of Web Components in different technologies</a></li>\n<li><a href=\"https://github.com/shawnbot/custom-elements\">Custom Elements helpful resources</a></li>\n<li><a href=\"https://medium.com/dev-channel/custom-elements-that-work-anywhere-898e1dd2bc48\">Favor a declarative API</a></li>\n</ul>\n<h3>The build</h3>\n<ul>\n<li><a href=\"https://www.polymer-project.org/2.0/toolbox/build-for-production\">How Polymer compiles for production</a></li>\n<li><a href=\"https://webpack.js.org/\">Webpack</a></li>\n<li><a href=\"https://rollupjs.org/\">RollupJS</a></li>\n<li><a href=\"https://parceljs.org/\">ParcelJS</a></li>\n<li><a href=\"https://babeljs.io/\">Babel</a> (Note: Babel is typically used in tandem with another build tool to transpile from ES6 source to your list of supported browsers)</li>\n</ul>\n<h3>Polyfills</h3>\n<ul>\n<li><a href=\"https://github.com/WebReflection/document-register-element\">Custom Elements polyfill</a> using mutation observers.</li>\n<li><a href=\"https://github.com/WebComponents/webcomponentsjs\">Suite of polyfills for Web Components</a> (can be automated) and a tutorial.</li>\n<li><a href=\"https://polyfill.io/v2/docs/\">On-demand automatic polyfill delivery system</a> for all the things.</li>\n<li><a href=\"https://www.polymer-project.org/\">Polymer</a> (Google)</li>\n<li><a href=\"http://x-tag.github.io/\">X-Tag</a> (Microsoft)</li>\n<li><a href=\"https://github.com/zloirock/core-js\">Core-js</a> suite of es6 polyfills</li>\n</ul>\n<h3>Potentially useful libraries</h3>\n<ul>\n<li>Web Component authoring libraries:\n<ul>\n<li><a href=\"http://skatejs.netlify.com/\">SkateJS</a></li>\n<li><a href=\"http://slimjs.com/\">SlimJS</a></li>\n<li><a href=\"https://stenciljs.com/\">StencilJS</a></li>\n</ul>\n</li>\n<li>Virtual DOM libraries:\n<ul>\n<li><a href=\"https://viperhtml.js.org/hyper.html\">HyperHTML</a></li>\n<li><a href=\"https://github.com/snabbdom/snabbdom\">Snabbdom</a></li>\n</ul>\n</li>\n<li>Universal routers:\n<ul>\n<li><a href=\"http://router5.github.io/\">Router5</a></li>\n<li><a href=\"https://github.com/krasimir/navigo\">Navigo</a></li>\n<li><a href=\"https://www.kriasoft.com/universal-router/\">Universal Router</a></li>\n</ul>\n</li>\n<li>Other libraries:\n<ul>\n<li><a href=\"https://github.com/chrisdavies/eev\">Eev</a> - Shared event bus.</li>\n</ul>\n</li>\n</ul>\n</div>";
 
-	var customElementPage = "<div class=\"markdown\"><h1>Creating a Web Component</h1>\n<p class=\"font__subtitle\">Come back soon! This page is being worked on.</p>\n<!-- The task of creating a Web Component is fairly straight forward. The most challenging part is ensuring the Web Component is cross-browser compatible, and becoming familiar with the tools involved in doing so. The purpose of this document is to outline the process of how UI Library components are created, including the tools and libraries involved, so that other Developers can, on their own, create Web Components in a way that is cohesive with the global UI Library components. {.font__subtitle} -->\n</div>";
+	var customElementPage = "<div class=\"markdown\"><h1>Authoring Web Components</h1>\n<h2>Terminology</h2>\n<p>For the purposes of this document, the usage of the following terms will be defined as follows:</p>\n<ul>\n<li><em>Web Components</em>: The native set of web APIs which allow you to create custom, reusable, encapsulated DOM elements (tags).</li>\n<li><em>Web Component</em>: An individual element (or tag) which is authored using the <em>Web Components</em> spec.</li>\n<li><em>Custom Element</em>: The native DOM specification / APIs for creating custom DOM elements, one part of a Web Component.</li>\n<li><em>Shadow DOM</em>: The native DOM specification / APIs for creating encapsulated styles and markup in a Web Component, which is rendered separately from the main DOM (Light DOM).</li>\n<li><em>Light DOM</em>: The traditional part of the DOM, not part of an element’s Shadow DOM.</li>\n<li><em>Host</em>: The DOM element which a shadow root is attached to.</li>\n<li><em>Shadow Root</em>: The root node of a Shadow DOM subtree, which is rendered separately from the main DOM (Light DOM).</li>\n<li><em>Shadow Tree</em>: An element’s Shadow DOM, or subtree, rendered separately from the main DOM (Light DOM).</li>\n</ul>\n<h2>Why Web Components</h2>\n<p class=\"font__subtitle\">Why native Web Components over other potential solutions, such as React, Vue, or Angular?</p>\n<p>A large amount of research went into the selection of native JavaScript Web Components as the tech of choice. For a good understanding of the benefits and reasons for Web Components, here are some great reads:</p>\n<ul>\n<li><a href=\"https://blog.revillweb.com/why-web-components-are-so-important-66ad0bd4807a\">Why Web Components are so important</a></li>\n<li><a href=\"#!/learn/from-monolith-to-micro\">From monolith to micro</a></li>\n</ul>\n<h2>The DSUI Library Web Components tech stack</h2>\n<p>One of the great benefits of Web Components is they allow you to do just about anything. One big challenge in writing Web Components is they allow you to do just about anything. This leaves open many decisions that need to be made in order to author Web Components. Our Web Components “tech stack” is a small number of libraries we use to make writing or extending components easy, and also helps to achieve full browser support.</p>\n<p>A brief overview of our Web Components tech stack is as follows:</p>\n<ul>\n<li>\n<p><strong>ECMAScript 2015 (ES2015/ES6)</strong>: ECMAScript sets the standard for JavaScript implementations. ECMAScript 2015 is the version of ECMAScript we use in authoring Web Components. <a href=\"https://kangax.github.io/compat-table/es6/\">Most features of ES2015 are already supported in web browsers</a>, though ES2015 can be easily transpiled for greater browser support. While you are likely already familiar with many ES2015 specs, in authoring Web Components it is especially important to be familiar with <a href=\"https://ponyfoo.com/articles/es6#modules\">Modules</a>, <a href=\"https://ponyfoo.com/articles/es6#classes\">Classes</a>, and <a href=\"https://ponyfoo.com/articles/es6#template-literals\">Template Literals</a>.</p>\n</li>\n<li>\n<p><strong>Brik Element</strong>: A thin abstraction over native Web Components which removes boilerplate, simplifies and standardizes the authoring of Web Components, and makes them extremely extensible. Brik Element is at the core of each individual Web Component, and uses the two primary specs contained in native Web Components: <em>Custom Elements</em> and <em>Shadow DOM</em>.</p>\n</li>\n<li>\n<p><strong><a href=\"https://viperhtml.js.org/hyperhtml/documentation/\">HyperHTML</a></strong>: Think of it as an alternative to the “virtual DOM” made popular by ReactJS, only built with native JS/ECMAScript. Its job is to efficiently render the DOM and should be used anywhere nodes will be rendered to the DOM.</p>\n</li>\n<li>\n<p><strong><a href=\"http://cssinjs.org/\">JSS</a></strong>: A library which allows you to use CSS in JavaScript. JSS creates scoped CSS selectors, so we use this primarily as a Shadow DOM fallback. Though there are other benefits JSS provides, once Shadow DOM is fully supported in all required browsers we can remove this library from the stack.</p>\n</li>\n</ul>\n<p>While these are the main libraries used for authoring Web Components, other tech we use is as follows:</p>\n<ul>\n<li>\n<p><strong><a href=\"#!/learn/working-with-npm\">NPM</a></strong>: NPM (Node Package Manager) is Node’s public package manager which also provides many amazing tools to work with JavaScript. DSUI Library uses NPM Scripts – an NPM tool to run JS scripts from the command line – as a task runner to run all of its build steps.</p>\n</li>\n<li>\n<p><strong><a href=\"https://rollupjs.org/guide/en\">RollupJS</a></strong>: Rollup is a module bundler – similar to Webpack – which compiles small pieces of code into something larger and more complex, such as a library or application. It is perfect for use with Web Components. Combined with <a href=\"https://babeljs.io/\">Babel</a>, you can configure which browsers you wish to support and RollupJS will automatically transpile the latest ECMAScript to JavaScript that is understood by your configured browsers.</p>\n</li>\n<li>\n<p><strong><a href=\"https://github.com/postcss/postcss\">PostCSS</a></strong>: If you already use <a href=\"https://github.com/postcss/autoprefixer\">Autoprefixer</a>, you already use PostCSS. PostCSS is a tool for transforming CSS with JavaScript. While not currently used for CSS in Web Components (JSS is used for that), DSUI Library uses PostCSS to compile global styles.</p>\n</li>\n<li>\n<p><strong><a href=\"https://router5.js.org/\">Router5</a></strong>: While a router is not required to author Web Components it is an important part of any web app. Router5 is a framework agnostic router which is used by the DSUI Library website, though your web app can use any router.</p>\n</li>\n</ul>\n<h2>Brik Element</h2>\n<p>Brik Element is a thin abstraction over native Web Components, and is the core of our authoring of Web Components. A Brik Element extends a native Web Component (Custom Element), so it can do everything a native Custom Element can do, while also removing a lot of boilerplate for common Web Component features and making composing Web Components easier. Brik Element consists of:</p>\n<ol>\n<li><em>Base</em>: A thin Base Class.</li>\n<li><em>Mixins</em>: <a href=\"http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/\">JS mixins</a>, which can be used to extend any element with specific behavior. JS mixins make Brik Elements extensible, allowing you to build and apply custom features through your own custom mixins.</li>\n</ol>\n<p>Full documentation is available for Brik Element, which you will want to be familiar with.</p>\n<h2>Creating a Brik Element</h2>\n<p>Consider the following example:</p>\n<brik-code lang=\"js\"  label=\"my-element.js\">// 1) Import components of Brik Element we'd like to use.\nimport { Brik, propsMixin, renderMixin, types, type } from 'brik-element';\n\n// 2) Export a Class which extends Brik() and also includes the props and render mixins.\nexport default class MyElement extends Brik().with(propsMixin, renderMixin) {\n\t// 3) Use the props mixin to defines props `name` (a string) and `active` (a boolean).\n\tstatic get props() {\n\t\treturn {\n\t\t\tname: type(Object.assign({}, types.string, {default: 'World'})),\n\t\t\tactive: types.boolean\n\t\t};\n\t}\n\n\t// 4) Create Shadow DOM.\n\tconnectedCallback() {\n\t\tthis.attachShadow({mode: 'true'});\n\t}\n\n\t// 5) Use the render mixin to render the element.\n\trender() {\n\t\treturn super.render()`&lt;div class=\"${this.active ? 'active' : ''}\">Hello ${this.name}!&lt;/div>&lt;style>div { background-color: blue; }&lt;/style>`;\n\t}\n}\n</brik-code><p>This is a very simple component that display “Hello {name}!” in the DOM, and toggles a class based on whether it is <code>active</code> or not. Despite the simplicity of its code, a lot is going on:</p>\n<ol>\n<li><code>import</code>: This element is importing its own dependencies with ES2015 modules. This gives us everything we need while keeping the component modular and self contained.</li>\n<li><code>export</code>: A lot is happening on this line:\n<ul>\n<li>Again we are using ES2015 modules to export the functionality we want users to have…</li>\n<li>…which, in this case, is a <code>Class</code>…</li>\n<li>…which extends <code>Brik()</code>…</li>\n<li>…which is also extended with the <code>props</code> and <code>render</code> mixins.</li>\n</ul>\n</li>\n<li><code>props</code>: Inside of the element’s Class, we define properties using the <code>props</code> mixin syntax. This will make the <code>name</code> and <code>active</code> properties reflective and reactive. In other words, you can change properties by changing its corresponding DOM attribute, and vice versa.</li>\n<li><code>attachShadow()</code>: This creates the Shadow DOM, which encapsulates the styles and makes them local to the component.</li>\n<li><code>render()</code>: Using the <code>render</code> mixin we call <code>super.render()</code> with our HTML template inside of a template literal. This works with the <code>props</code> mixin so whenever a property is updated (via DOM or programmatically), the DOM will be re-rendered as efficiently as possible.</li>\n</ol>\n<h2>Using Web Components</h2>\n<p>Now let’s take the component we created and put it inside our app:</p>\n<brik-code lang=\"html\"  label=\"index.html\">&lt;!-- Create an instance with its own properties. -->\n&lt;brik-my-element name=\"World\" active=\"true\">&lt;/brik-my-element>\n</brik-code><brik-code lang=\"js\"  label=\"app.js\">// 1) Import the element.\nimport MyElement from '../path/to/my-element.js';\n\n// 2) Register the Custom Element to the DOM. By default the element / tagName\n// registered will be `brik-&lt;dashCase(Class.name)>` (which, in this case,\n// would be 'brik-my-element' since the Class name defined in the last section\n// is MyElement).\nMyElement.define();\n\n// OR: You can also register the element with a custom tagName:\n// MyElement.define('my-element');\n\n// 3) Grab an element instance to be able to interact with it.\nconst myElementInstance = document.querySelector('brik-my-element');\n\n// 4) Interact with it. Each prop defines a getter/setter on the element itself. This allows you to easily get/set properties in a declarative way.\nconsole.log('NAME:', myElementInstance.name); // Grabs element's `name` attribute, or 'World' by default.\nconsole.log('ACTIVE?', myElementInstance.active); // Grabs element's `active` attribute, or `false` by default.\n// Change element properties, which are automatically reflected to the DOM.\nmyElementInstance.active = true;\nmyElementInstance.name = 'Jonny';\n</brik-code><h3>Understanding how Shadow DOM renders</h3>\n<p>Styles inside a shadow tree are scoped to that subtree and <em>do not affect elements outside the shadow tree</em>. Styles outside the shadow tree do not match selectors inside the shadow tree, though certain inheritable style properties still inherit from host to shadow tree.</p>\n<p>Let’s build on the previous example and put it in a greater context. It might look something like this:</p>\n<brik-code lang=\"html\"  label=\"index.html\">&lt;style>\n\tbody {\n\t\tcolor: white;\n\t}\n\t.active {\n\t\tbackground-color: red;\n\t}\n&lt;/style>\n\n&lt;brik-my-element name=\"World\" active=\"true\">\n\t#shadow-root\n\t\t&lt;div class=\"active\">Hello, World!&lt;/div>\n\t\t&lt;style>\n\t\t\tdiv {\n\t\t\t\tbackground-color: blue;\n\t\t\t}\n\t\t&lt;/style>\n&lt;/brik-my-element>\n</brik-code><p>Take notice of the following:</p>\n<ul>\n<li>The Shadow Root is contained in its own tree, though the element’s host is outside the shadow tree.</li>\n<li>The element’s <code>&lt;div&gt;</code> will have a blue background, not red. This is because <em>main document selectors do not match elements in the Shadow DOM</em>, so the global <code>.active</code> selector will not be applied.</li>\n<li>However, the text color for <code>&lt;div&gt;</code> will be white, because <em>Shadow DOM elements do inherit style properties which are inheritable</em>.</li>\n</ul>\n<h3>CSS Custom Properties</h3>\n<p>If global / outside selectors do not get applied to elements inside a Shadow DOM, how can authors allow users to style elements inside a Web Component’s shadow tree? The answer is <em>CSS Custom Properties</em> (variables). CSS Custom Properties are an exception to the rule, and get inherited down the tree, even through the shadow tree. In other words, elements inside a shadow tree inherit CSS Custom properties. This allows Web Component authors to provide “style hooks”, which give users the ability to modify style properties in controlled way. It essentially provides a styling API for your element.</p>\n<p>To illustrate, let’s modify the previous example to allow the user to style the <code>background-color</code> of the element when it is active:</p>\n<brik-code lang=\"html\"  label=\"index.html\">&lt;style>\n\t:root {\n\t\t--active-color: purple;\n\t}\n\tbody {\n\t\tcolor: white;\n\t}\n&lt;/style>\n\n&lt;brik-my-element name=\"World\" active=\"true\">\n\t#shadow-root\n\t\t&lt;div class=\"active\">Hello, World!&lt;/div>\n\t\t&lt;style>\n\t\t\tdiv {\n\t\t\t\tbackground-color: var(--active-color, red);\n\t\t\t}\n\t\t&lt;/style>\n&lt;/brik-my-element>\n</brik-code><p>Notice the following:</p>\n<ul>\n<li>The web component’s author set the <code>background-color</code> property of the element’s <code>div</code> to: <code>var(--active-color, red)</code>. This means:\n<ul>\n<li>A user can use the <code>--active-color</code> custom property to modify the <code>background-color</code> property.</li>\n<li>If the <code>--active-color</code> custom property does not exist elsewhere, the author set a default value of <code>red</code>.</li>\n</ul>\n</li>\n<li>In this example, the <code>background-color</code> of the <code>&lt;div&gt;</code> will be purple, which is the value of the <code>--active-color</code> set globally in the <code>:root</code> selector.</li>\n<li>The <code>color</code> of the <code>&lt;div&gt;</code> will still be white.</li>\n</ul>\n<h2>Other Considerations for authoring Web Components</h2>\n<p>This is intended to be a high level overview for getting started in authoring Web Components. To take a deeper dive, consider the following:</p>\n<p class=\"font__subtitle\"><em>Understand the Brik Element library and its mixins.</em></p>\n<p>This is the quickest and easiest way to start authoring Web Components. Understand its API and the callbacks that are provided and/or extended.</p>\n<p class=\"font__subtitle\"><em>In particular, learn about the render mixin, and how it can be used to efficiently render elements.</em></p>\n<p>The <code>render()</code> function uses <a href=\"https://viperhtml.js.org/hyperhtml/documentation/\">HyperHTML</a> to efficiently render (and re-render) elements to the DOM. This works efficiently for many use cases. <em>However, the responsibility is on the Web Component author to ensure the component gets rendered as efficiently as possible.</em> Not understanding how HyperHTML works, and how the render mixin utilizes it in correlation with the <code>updated()</code> callback can result in poor rendering performance. This can easily be resolved by extending or overwriting the default <code>render()</code> method with HyperHTML’s API, which is also provided as part of the render mixin.</p>\n<p class=\"font__subtitle\"><em>The build process for your web app is vital.</em></p>\n<p>The build is less important for the actual authoring of web components, but vital for bringing web components in to a larger system of components (a web app). Once the build process is set up you can largely forget about it. But great care should be taken to ensure the build properly compiles web components into code your target browsers understand. For setting up a build inside of a web app you may use the <a href=\"https://github.com/brikcss/dsui-library-site\">DSUI Library Site</a> as an example to follow. <a href=\"mailto:tyson@directscale.com\">Contact a FED</a> for help as needed.</p>\n<p class=\"font__subtitle\"><em>Don’t forget the polyfills!</em></p>\n<p>This step is also less important for authoring web components, but important when optimizing your web app for production. Make sure web components work in your targeted browsers! For starters, you will likely need to include polyfills for <a href=\"https://github.com/WebReflection/document-register-element\">Custom Elements</a> and <a href=\"https://github.com/webcomponents/shadydom\">Shadow DOM</a> in order to support all browsers. It is recommended to use the <a href=\"https://github.com/babel/babel-preset-env\">Babel preset plugin</a>, an awesome tool which ensures compiled code works for your targeted browsers. For our purposes, this will be all you need if you stick to using ES2015 and below.</p>\n</div>";
 
 	var browserResetPage = "\n<brik-tabs class=\"page-tabs\" tabs=\"About, Setup\">\n\t<div>\n\t\t<div class=\"dsui-page__intro\">\n\t<div class=\"dsui-page__about\">\n\t\t<h2 class=\"font__title2 mt-0\">Browser Reset</h2>\n\t\t<p>Default styles for HTML elements can differ from browser to browser. The browser reset is a set of CSS rules that <em>resets</em> styles for all HTML elements so all browsers start with a consistent baseline.</p><p><em>Every DS app should include Browser Reset as the first stylesheet in their app.</em></p>\n\t</div>\n\n\t<div class=\"dsui-page__related\">\n\t\t<h2 class=\"font__title2 mt-0\">Related</h2>\n\t\t<ul class=\"bullets dsui-page__related-links\">\n\t\t\t\n\t\t\t\t<li><a href=\"#!/core/typography\">Typography</a></li>\n\t\t\t\n\t\t\t\t<li><a href=\"#!/\">Links</a></li>\n\t\t\t\n\t\t\t\t<li><a href=\"#!/core/spacing\">Spacing</a></li>\n\t\t\t\n\t\t</ul>\n\t</div>\n</div>\n\n\t</div>\n\n\t<div>\n\t\t<h3 class=\"font__title2 mt-0 heading__separator\">Browser support</h3>\n<table class=\"browsers-table\">\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Chrome</th>\n\t\t\t<th>Firefox</th>\n\t\t\t<th>Safari</th>\n\t\t\t<th>Edge</th>\n\t\t\t<th>IE</th>\n\t\t\t<th>iOS</th>\n\t\t\t<th>Android</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n\t\t<tr>\n\t\t\t<td><brik-icon name=\"google-chrome\" size=\"4rem\" fill=\"hsla(0, 0%, 0%, 0.5\"></brik-icon> </td>\n\t\t\t<td><brik-icon name=\"firefox\" size=\"4rem\" fill=\"hsla(0, 0%, 0%, 0.5\"></brik-icon> </td>\n\t\t\t<td><brik-icon name=\"apple-safari\" size=\"4rem\" fill=\"hsla(0, 0%, 0%, 0.5\"></brik-icon> </td>\n\t\t\t<td><brik-icon name=\"edge\" size=\"4rem\" fill=\"hsla(0, 0%, 0%, 0.5\"></brik-icon> </td>\n\t\t\t<td><brik-icon name=\"edge\" size=\"4rem\" fill=\"hsla(0, 0%, 0%, 0.5\"></brik-icon> <div class=\"browsers-table__icon-label\">11</div></td>\n\t\t\t<td><brik-icon name=\"apple-ios\" size=\"4rem\" fill=\"hsla(0, 0%, 0%, 0.5\"></brik-icon> </td>\n\t\t\t<td><brik-icon name=\"android\" size=\"4rem\" fill=\"hsla(0, 0%, 0%, 0.5\"></brik-icon> </td>\n\t\t</tr>\n\t</tbody>\n</table>\n\n<h3 class=\"font__title2 heading__separator\">Install</h3>\n\n<p>It is encouraged to install Browser Reset with DSUI Core:</p>\n<brik-code lang=\"bash\">npm install @brikcss/core --save-dev</brik-code>\n\n<p>You may install Browser Reset as a standalone package:</p>\n<brik-code lang=\"bash\">npm install @brikcss/browser-reset --save-dev</brik-code>\n\n\n\t<h3 class=\"font__title2 heading__separator\">Setup</h3>\n\t<p>Include one of the following as the first stylesheet in your app:</p>\n\t\t\t<ol>\n\t\t\t\t<li><em>PostCSS</em>: <code>@import '@brikcss/browser-reset';</code> with <a href=\"https://github.com/postcss/postcss-import\" title=\"postcss-import\">postcss-import</a>.</li>\n\t\t\t\t<li><em>Precompiled</em>: <code>./dist/browser-reset.min.css</code> for precompiled vanilla CSS.</li>\n\t\t\t\t<li><em>(optional) Customize</em> CSS variables in your app, as desired (see <a href=\"https://github.com/brikcss/browser-reset/blob/master/src/browser-reset.css\" title=\"browser-reset.css\">browser-reset.css</a> for available variables).</li>\n\t\t\t</ol>\n\n\t</div>\n</brik-tabs>\n";
 
@@ -17270,12 +17337,12 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 		}, {
 			name: 'monolith-to-micro',
 			label: 'From Monolith to Micro',
-			path: '/monolith-to-micro',
+			path: '/from-monolith-to-micro',
 			render: app => app.content.render(monolithToMicroPage)
 		}, {
-			name: 'custom-element',
-			label: 'Creating a custom element',
-			path: '/creating-a-custom-element',
+			name: 'authoring-web-components',
+			label: 'Authoring Web Components',
+			path: '/authoring-web-components',
 			render: app => app.content.render(customElementPage)
 			// {
 			// 	name: 'structure',
@@ -17342,7 +17409,7 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 	/** ------------------------------------------------------------------------------------------------
 	 *  @filename  app.js
 	 *  @author  brikcss  <https://github.com/brikcss>
-	 *  @description  App entry for the vanillajs site.
+	 *  @description  JS entry.
 	 *  @tutorial  There are a few ways to import and define a Custom Element. Each module exports two
 	 *      methods, init(config) and define(tag, config). The init method configures the Custom Element
 	 *      and returns a configured class. The default export simply runs the init method with the
@@ -17387,7 +17454,7 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 
 	const app = {
 		page: document.querySelector('brik-page'),
-		header: document.querySelector('brik-header'),
+		header: document.querySelector('ds-header'),
 		supernav: document.querySelector('brik-supernav'),
 		leftbar: document.querySelector('brik-sidebar[side="left"]'),
 		rightbar: document.querySelector('brik-sidebar[side="right"]'),
@@ -17440,13 +17507,15 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 
 	function renderRoute(route, toState, fromState) {
 		// Close sidebars.
-		Object.keys(window.brikcss.sidebars).forEach(group => {
+		(Object.keys(window.brikcss.sidebars) || []).forEach(group => {
 			if (window.brikcss.sidebars[group].active) {
 				window.brikcss.sidebars[group].active.active = false;
 			}
 		});
 		// Update header.
 		app.header.title = `${route.parent ? (route.parent.title || route.parent.label) + ' <brik-icon name="chevron-right" size="1.2em" fill="hsl(0, 0%, 100%)"></brik-icon> ' : ''}${route.title || route.label || 'Unknown'}`;
+		// Update edit page link.
+		app.header.pageEditLink = `https://github.com/brikcss/dsui-library-site/blob/master/src/pages${route.editUrl ? '/' + route.editUrl : (route.parent ? '/' + route.parent.name : '') + route.path}.page.md`;
 		// Render route.
 		if (typeof route.render === 'function') route.render(app, toState, fromState);
 	}
@@ -17467,13 +17536,13 @@ ${context.props.css ? [`<style type="text/css">${context.props.css.toString()}</
 	Code.define();
 	Icon.define({ size: '4rem' });
 	BurgerButton.define();
-	Header.define();
+	Header$1.define('ds-header');
 
 	/** ================================================================================================
 	 *  Build supernav links
 	 ** -------------------- */
 
-	app.supernav.props.links = routes.filter(route => !route.hide);
+	app.supernav.links = routes.filter(route => !route.hide);
 	app.supernav.render();
 
 	/** ================================================================================================
