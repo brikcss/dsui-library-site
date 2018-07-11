@@ -143,11 +143,13 @@ routes.forEach((route) => {
 
 function renderRoute(route, toState, fromState) {
 	// Close sidebars.
-	(Object.keys(window.brikcss.sidebars) || []).forEach((group) => {
-		if (window.brikcss.sidebars[group].active) {
-			window.brikcss.sidebars[group].active.active = false;
-		}
-	});
+	if (window.brikcss.sidebars) {
+		Object.keys(window.brikcss.sidebars).forEach((group) => {
+			if (window.brikcss.sidebars[group].active) {
+				window.brikcss.sidebars[group].active.active = false;
+			}
+		});
+	}
 	// Update header.
 	app.header.title = `${
 		route.parent
@@ -169,18 +171,18 @@ function renderRoute(route, toState, fromState) {
  *  Define custom elements
  ** ---------------------- */
 
-Page.define();
-Viewport.define();
-Content.define();
-Overlay.define();
-Sidebar.define();
-SuperNav.define();
-Scroller.define();
-Tabs.define();
-Editor.define();
-Code.define();
-Icon.define({ size: '4rem' });
-BurgerButton.define();
+Page.define('brik-page');
+Viewport.define('brik-viewport');
+Content.define('brik-content');
+Overlay.define('brik-overlay');
+Sidebar.define('brik-sidebar');
+SuperNav.define('brik-supernav');
+Scroller.define('brik-scroller');
+Tabs.define('brik-tabs');
+Editor.define('brik-editor');
+Code.define('brik-code');
+Icon.define('brik-icon');
+BurgerButton.define('brik-burger-button');
 Header.define('ds-header');
 
 /** ================================================================================================
@@ -188,7 +190,6 @@ Header.define('ds-header');
  ** -------------------- */
 
 app.supernav.links = routes.filter((route) => !route.hide);
-app.supernav.render();
 
 /** ================================================================================================
  *  Temporary

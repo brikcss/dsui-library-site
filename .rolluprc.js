@@ -35,7 +35,7 @@ import postcssPx2Rem from 'postcss-pxtorem';
 const postcssConfig = require('./.postcssrc.js');
 // import prettier from 'rollup-plugin-prettier';
 // const prettierConfig = require('./.prettierrc.js');
-import uglify from 'rollup-plugin-uglify';
+import minify from 'rollup-plugin-babel-minify';
 
 // Flags.
 const isProd = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test';
@@ -90,9 +90,9 @@ if (isProd) {
 			}
 		})
 	);
-	configs.forEach((config) => {
-		configs.push(createConfig(merge({}, config), { env: 'production' }));
-	});
+	// configs.forEach((config) => {
+	// 	configs.push(createConfig(merge({}, config), { env: 'production' }));
+	// });
 }
 
 /**
@@ -111,7 +111,7 @@ function createConfig(config = {}, options = {}) {
 				commonjs: true,
 				replace: {
 					// @NOTE: This is required to transpile jss from its source.
-					'process.env.NODE_ENV': process.env.NODE_ENV
+					'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`
 				},
 				md: {
 					include: '**/*.md',
@@ -282,6 +282,9 @@ function createConfig(config = {}, options = {}) {
 						]
 					],
 					plugins: ['external-helpers']
+				},
+				minify: {
+					comments: false
 				}
 			},
 			options
@@ -321,8 +324,8 @@ function createConfig(config = {}, options = {}) {
 		ejs(options.ejs),
 		babel(options.babel)
 	];
-	if (options.env === 'production') {
-		config.plugins = config.plugins.concat(uglify(options.uglify));
+	if (isProd) {
+		config.plugins = config.plugins.concat(minify(options.minify));
 	}
 
 	return config;

@@ -2,12 +2,13 @@
 
 ## In Progress
 
-- Create the "template" and document the process for creating Web Components.
 - Split core components up into smaller pieces with abstracts and css producing code so they can be imported to shadow doms as well as consumed by the app layer.
 	- Core components will need JSS files for CSS modules.
 - Update typography font styles.
 - Review: pages and documentation for accuracy.
+- Docs: Document how to extend a web component with authoring web components page.
 - Consider moving from JSS to a compile-time CSS-in-JS solution like [modular-css](https://github.com/tivac/modular-css) (which supports PostCSS, Rollup, Webpack, etc.), or [rollup-plugin-embed-css](https://www.npmjs.com/package/rollup-plugin-embed-css).
+- Fix: When transitioning pages, scroll to top of new page.
 
 ## Next
 
