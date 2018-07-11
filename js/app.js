@@ -657,6 +657,7 @@
 	  
 	    // replaced later on
 	    createElement = document.createElement,
+	    importNode = document.importNode,
 	    patchedCreateElement = createElement,
 	  
 	    // shared observer for all attributes
@@ -988,14 +989,26 @@
 	        document[ADD_EVENT_LISTENER](DOM_CONTENT_LOADED, onReadyStateChange);
 	        document[ADD_EVENT_LISTENER]('readystatechange', onReadyStateChange);
 	  
+	        document.importNode = function (node, deep) {
+	          switch (node.nodeType) {
+	            case 1:
+	              return setupAll(document, importNode, [node, !!deep]);
+	            case 11:
+	              for (var
+	                fragment = document.createDocumentFragment(),
+	                childNodes = node.childNodes,
+	                length = childNodes.length,
+	                i = 0; i < length; i++
+	              )
+	                fragment.appendChild(document.importNode(childNodes[i], !!deep));
+	              return fragment;
+	            default:
+	              return cloneNode.call(node, !!deep);
+	          }
+	        };
+	  
 	        HTMLElementPrototype.cloneNode = function (deep) {
-	          var
-	            node = cloneNode.call(this, !!deep),
-	            i = getTypeIndex(node)
-	          ;
-	          if (-1 < i) patch(node, protos[i]);
-	          if (deep && query.length) loopAndSetup(node.querySelectorAll(query));
-	          return node;
+	          return setupAll(this, cloneNode, [!!deep]);
 	        };
 	      }
 	  
@@ -1188,6 +1201,17 @@
 	    onSubtreeModified.call(self, {target: self});
 	  }
 	  
+	  function setupAll(context, callback, args) {
+	    var
+	      node = callback.apply(context, args),
+	      i = getTypeIndex(node)
+	    ;
+	    if (-1 < i) patch(node, protos[i]);
+	    if (args.pop() && query.length)
+	      loopAndSetup(node.querySelectorAll(query));
+	    return node;
+	  }
+	  
 	  function setupNode(node, proto) {
 	    setPrototype(node, proto);
 	    if (observer) {
@@ -1322,8 +1346,10 @@
 	    });
 	    safeProperty(proto, ATTRIBUTE_CHANGED_CALLBACK, {
 	      value: function (name) {
-	        if (-1 < indexOf.call(attributes, name))
-	          CProto[ATTRIBUTE_CHANGED_CALLBACK].apply(this, arguments);
+	        if (-1 < indexOf.call(attributes, name)) {
+	          if (CProto[ATTRIBUTE_CHANGED_CALLBACK])
+	            CProto[ATTRIBUTE_CHANGED_CALLBACK].apply(this, arguments);
+	        }
 	      }
 	    });
 	    if (CProto[CONNECTED_CALLBACK]) {
@@ -5358,10 +5384,10 @@
 	        }
 	    }
 	    else if (opts.booleanFormat === 'unicode') {
-	        if (value === '✓') {
+	        if (decodeValue(value) === '✓') {
 	            return true;
 	        }
-	        if (value === '✗') {
+	        if (decodeValue(value) === '✗') {
 	            return false;
 	        }
 	    }
@@ -5918,7 +5944,8 @@
 	        if (!match) {
 	            match = child.parser.partialTest(segment, {
 	                delimited: strongMatching,
-	                caseSensitive: caseSensitive
+	                caseSensitive: caseSensitive,
+	                queryParams: options.queryParams
 	            });
 	        }
 	        if (match) {
@@ -8828,6 +8855,19 @@
 	  /* istanbul ignore next */
 	  node => node.cloneNode(true);
 
+	// IE and Edge do not support children in SVG nodes
+	/* istanbul ignore next */
+	const getChildren = node => {
+	  const children = [];
+	  const childNodes = node.childNodes;
+	  const length = childNodes.length;
+	  for (let i = 0; i < length; i++) {
+	    if (childNodes[i].nodeType === ELEMENT_NODE)
+	      children.push(childNodes[i]);
+	  }
+	  return children;
+	};
+
 	// used to import html into fragments
 	const importNode$2 = hasImportNode ?
 	  (doc$$1, node) => doc$$1.importNode(node, true) :
@@ -8856,10 +8896,10 @@
 	    // TypeScript template literals are not standard
 	    t.propertyIsEnumerable('raw') ||
 	    (
-	      // Firefox < 55 has not standard implementation neither
-	      /Firefox\/(\d+)/.test((G.navigator || {}).userAgent) &&
-	      parseFloat(RegExp.$1) < 55
-	    )
+	        // Firefox < 55 has not standard implementation neither
+	        /Firefox\/(\d+)/.test((G.navigator || {}).userAgent) &&
+	          parseFloat(RegExp.$1) < 55
+	        )
 	  ) {
 	    const T = {};
 	    TL = t => {
@@ -8871,6 +8911,23 @@
 	    TL = t => t;
 	  }
 	  return TL(t);
+	};
+
+	// used to store templates objects
+	// since neither Map nor WeakMap are safe
+	const TemplateMap = () => {
+	  try {
+	    const wm = new WeakMap;
+	    const o_O = Object.freeze([]);
+	    wm.set(o_O, true);
+	    if (!wm.get(o_O))
+	      throw o_O;
+	    return wm;
+	  } catch(o_O) {
+	    // inevitable legacy code leaks due
+	    // https://github.com/tc39/ecma262/pull/890
+	    return new Map$1;
+	  }
 	};
 
 	// create document fragments via native template
@@ -9076,24 +9133,35 @@
 	 * @credits https://github.com/snabbdom/snabbdom
 	 */
 
+	const eqeq = (a, b) => a == b;
+
 	const identity$1 = O => O;
 
-	const remove = (parentNode, before, after) => {
-	  const range = parentNode.ownerDocument.createRange();
-	  range.setStartBefore(before);
-	  range.setEndAfter(after);
-	  range.deleteContents();
+	const remove = (get, parentNode, before, after) => {
+	  if (after == null) {
+	    parentNode.removeChild(get(before, -1));
+	  } else {
+	    const range = parentNode.ownerDocument.createRange();
+	    range.setStartBefore(get(before, -1));
+	    range.setEndAfter(get(after, -1));
+	    range.deleteContents();
+	  }
 	};
 
 	const domdiff = (
 	  parentNode,     // where changes happen
 	  currentNodes,   // Array of current items/nodes
 	  futureNodes,    // Array of future items/nodes
-	  getNode,        // optional way to retrieve a node from an item
-	  beforeNode      // optional item/node to use as insertBefore delimiter
+	  options         // optional object with one of the following properties
+	                  //  before: domNode
+	                  //  compare(generic, generic) => true if same generic
+	                  //  node(generic) => Node
 	) => {
-	  const get = getNode || identity$1;
-	  const before = beforeNode == null ? null : get(beforeNode, 0);
+	  if (!options)
+	    options = {};
+	  const compare = options.compare || eqeq;
+	  const get = options.node || identity$1;
+	  const before = options.before == null ? null : get(options.before, 0);
 	  let currentStart = 0, futureStart = 0;
 	  let currentEnd = currentNodes.length - 1;
 	  let currentStartNode = currentNodes[0];
@@ -9114,15 +9182,15 @@
 	    else if (futureEndNode == null) {
 	      futureEndNode = futureNodes[--futureEnd];
 	    }
-	    else if (currentStartNode == futureStartNode) {
+	    else if (compare(currentStartNode, futureStartNode)) {
 	      currentStartNode = currentNodes[++currentStart];
 	      futureStartNode = futureNodes[++futureStart];
 	    }
-	    else if (currentEndNode == futureEndNode) {
+	    else if (compare(currentEndNode, futureEndNode)) {
 	      currentEndNode = currentNodes[--currentEnd];
 	      futureEndNode = futureNodes[--futureEnd];
 	    }
-	    else if (currentStartNode == futureEndNode) {
+	    else if (compare(currentStartNode, futureEndNode)) {
 	      parentNode.insertBefore(
 	        get(currentStartNode, 1),
 	        get(currentEndNode, -0).nextSibling
@@ -9130,7 +9198,7 @@
 	      currentStartNode = currentNodes[++currentStart];
 	      futureEndNode = futureNodes[--futureEnd];
 	    }
-	    else if (currentEndNode == futureStartNode) {
+	    else if (compare(currentEndNode, futureStartNode)) {
 	      parentNode.insertBefore(
 	        get(currentEndNode, 1),
 	        get(currentStartNode, 0)
@@ -9163,9 +9231,10 @@
 	            parentNode.removeChild(get(currentStartNode, -1));
 	          } else {
 	            remove(
+	              get,
 	              parentNode,
-	              get(currentStartNode, -1),
-	              get(currentNodes[index], -1)
+	              currentStartNode,
+	              currentNodes[index]
 	            );
 	          }
 	          currentStart = i;
@@ -9197,15 +9266,17 @@
 	      }
 	    }
 	    else {
-	      if (currentNodes[currentStart] == null) currentStart++;
+	      if (currentNodes[currentStart] == null)
+	        currentStart++;
 	      if (currentStart === currentEnd) {
 	        parentNode.removeChild(get(currentNodes[currentStart], -1));
 	      }
 	      else {
 	        remove(
+	          get,
 	          parentNode,
-	          get(currentNodes[currentStart], -1),
-	          get(currentNodes[currentEnd], -1)
+	          currentNodes[currentStart],
+	          currentNodes[currentEnd]
 	        );
 	      }
 	    }
@@ -9422,6 +9493,7 @@
 	//  * it's an Array, resolve all values if Promises and/or
 	//    update the node with the resulting list of content
 	const setAnyContent = (node, childNodes) => {
+	  const diffOptions = {node: asNode, before: node};
 	  let fastPath = false;
 	  let oldValue;
 	  const anyContent = value => {
@@ -9441,8 +9513,7 @@
 	            node.parentNode,
 	            childNodes,
 	            [text(node, value)],
-	            asNode,
-	            node
+	            diffOptions
 	          );
 	        }
 	        break;
@@ -9454,8 +9525,7 @@
 	            node.parentNode,
 	            childNodes,
 	            [],
-	            asNode,
-	            node
+	            diffOptions
 	          );
 	          break;
 	        }
@@ -9469,8 +9539,7 @@
 	                node.parentNode,
 	                childNodes,
 	                [],
-	                asNode,
-	                node
+	                diffOptions
 	              );
 	            }
 	          } else {
@@ -9493,8 +9562,7 @@
 	                  node.parentNode,
 	                  childNodes,
 	                  value,
-	                  asNode,
-	                  node
+	                  diffOptions
 	                );
 	                break;
 	            }
@@ -9506,8 +9574,7 @@
 	            value.nodeType === DOCUMENT_FRAGMENT_NODE ?
 	              slice.call(value.childNodes) :
 	              [value],
-	            asNode,
-	            node
+	            diffOptions
 	          );
 	        } else if (isPromise_ish(value)) {
 	          value.then(anyContent);
@@ -9527,8 +9594,7 @@
 	                [].concat(value.html).join('')
 	              ).childNodes
 	            ),
-	            asNode,
-	            node
+	            diffOptions
 	          );
 	        } else if ('length' in value) {
 	          anyContent(slice.call(value));
@@ -9688,7 +9754,8 @@
 	      node.dispatchEvent(event);
 	    }
 
-	    const children = node.children;
+	    /* istanbul ignore next */
+	    const children = node.children || getChildren(node);
 	    const length = children.length;
 	    for (let i = 0; i < length; i++) {
 	      dispatchTarget(children[i], event);
@@ -9722,10 +9789,7 @@
 	const bewitched = new WeakMap;
 
 	// all unique template literals
-	// if the WeakMap is the global one, use it
-	// otherwise uses a Map because polyfilled WeakMaps
-	// cannot set any property to frozen objects (templates)
-	const templates = WeakMap === G.WeakMap ? new WeakMap : new Map$1;
+	const templates = TemplateMap();
 
 	// better known as hyper.bind(node), the render is
 	// the main tag function in charge of fully upgrading
@@ -10113,18 +10177,9 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 
-	/**
-	 * Similar to invariant but only logs a warning if the condition is not met.
-	 * This can be used to log issues in development environments in critical
-	 * paths. Removing the logging code for production environments will keep the
-	 * same logic and follow the same code paths.
-	 */
-
-	var __DEV__ = undefined !== 'production';
-
 	var warning = function() {};
 
-	if (__DEV__) {
+	{
 	  warning = function(condition, format, args) {
 	    var len = arguments.length;
 	    args = new Array(len > 2 ? len - 2 : 0);
@@ -10654,14 +10709,9 @@
 	});
 	var CSS = commonjsGlobal.CSS;
 
-	var env = undefined;
-
 	var escapeRegex = /([[\].#*$><+~=|^:(),"'`])/g;
 
 	exports['default'] = function (str) {
-	  // We don't need to escape it in production, because we are not using user's
-	  // input for selectors, we are generating a valid selector.
-	  if (env === 'production') return str;
 
 	  if (!CSS || !CSS.escape) {
 	    return str.replace(escapeRegex, '\\$1');
@@ -11230,9 +11280,6 @@
 
 	var maxRules = 1e10;
 
-
-	var env = undefined;
-
 	/**
 	 * Returns a function which generates unique class names based on counters.
 	 * When new generator function is created, rule counter is reseted.
@@ -11241,7 +11288,7 @@
 
 	exports['default'] = function () {
 	  var ruleCounter = 0;
-	  var defaultPrefix = env === 'production' ? 'c' : '';
+	  var defaultPrefix = '';
 
 	  return function (rule, sheet) {
 	    ruleCounter += 1;
@@ -11256,10 +11303,6 @@
 	    if (sheet) {
 	      prefix = sheet.options.classNamePrefix || defaultPrefix;
 	      if (sheet.options.jss.id != null) jssId += sheet.options.jss.id;
-	    }
-
-	    if (env === 'production') {
-	      return '' + prefix + _moduleId2['default'] + jssId + ruleCounter;
 	    }
 
 	    return prefix + rule.key + '-' + _moduleId2['default'] + (jssId && '-' + jssId) + '-' + ruleCounter;
@@ -12258,7 +12301,6 @@
 	        element = _ref.element;
 
 	    this.element = element || document.createElement('style');
-	    this.element.type = 'text/css';
 	    this.element.setAttribute('data-jss', '');
 	    if (media) this.element.setAttribute('media', media);
 	    if (meta) this.element.setAttribute('data-meta', meta);
@@ -12561,7 +12603,7 @@
 	    _classCallCheck(this, Jss);
 
 	    this.id = instanceCounter++;
-	    this.version = "9.8.3";
+	    this.version = "9.8.7";
 	    this.plugins = new _PluginsRegistry2['default']();
 	    this.options = {
 	      createGenerateClassName: _createGenerateClassName2['default'],
@@ -16739,7 +16781,7 @@ ${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : '
 
 	Prism.languages.insertBefore('javascript', 'keyword', {
 		'regex': {
-			pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
+			pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})\]]))/,
 			lookbehind: true,
 			greedy: true
 		},
@@ -16753,23 +16795,24 @@ ${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : '
 
 	Prism.languages.insertBefore('javascript', 'string', {
 		'template-string': {
-			pattern: /`(?:\\[\s\S]|[^\\`])*`/,
+			pattern: /`(?:\\[\s\S]|\${[^}]+}|[^\\`])*`/,
 			greedy: true,
 			inside: {
 				'interpolation': {
-					pattern: /\$\{[^}]+\}/,
+					pattern: /\${[^}]+}/,
 					inside: {
 						'interpolation-punctuation': {
-							pattern: /^\$\{|\}$/,
+							pattern: /^\${|}$/,
 							alias: 'punctuation'
 						},
-						rest: Prism.languages.javascript
+						rest: null // See below
 					}
 				},
 				'string': /[\s\S]+/
 			}
 		}
 	});
+	Prism.languages.javascript['template-string'].inside['interpolation'].inside.rest = Prism.languages.javascript;
 
 	if (Prism.languages.markup) {
 		Prism.languages.insertBefore('markup', 'tag', {
@@ -16813,7 +16856,7 @@ ${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : '
 				var src = pre.getAttribute('data-src');
 
 				var language, parent = pre;
-				var lang = /\blang(?:uage)?-(?!\*)([\w-]+)\b/i;
+				var lang = /\blang(?:uage)?-([\w-]+)\b/i;
 				while (parent && !lang.test(parent.className)) {
 					parent = parent.parentNode;
 				}
@@ -16857,18 +16900,23 @@ ${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : '
 					}
 				};
 
-				if (pre.hasAttribute('data-download-link') && Prism.plugins.toolbar) {
-					Prism.plugins.toolbar.registerButton('download-file', function () {
-						var a = document.createElement('a');
-						a.textContent = pre.getAttribute('data-download-link-label') || 'Download';
-						a.setAttribute('download', '');
-						a.href = src;
-						return a;
-					});
-				}
-
 				xhr.send(null);
 			});
+
+			if (Prism.plugins.toolbar) {
+				Prism.plugins.toolbar.registerButton('download-file', function (env) {
+					var pre = env.element.parentNode;
+					if (!pre || !/pre/i.test(pre.nodeName) || !pre.hasAttribute('data-src') || !pre.hasAttribute('data-download-link')) {
+						return;
+					}
+					var src = pre.getAttribute('data-src');
+					var a = document.createElement('a');
+					a.textContent = pre.getAttribute('data-download-link-label') || 'Download';
+					a.setAttribute('download', '');
+					a.href = src;
+					return a;
+				});
+			}
 
 		};
 
@@ -17105,7 +17153,7 @@ ${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : '
 		inside.string = Prism.languages.bash.string;
 		inside['function'] = Prism.languages.bash['function'];
 		inside.keyword = Prism.languages.bash.keyword;
-		inside.boolean = Prism.languages.bash.boolean;
+		inside['boolean'] = Prism.languages.bash['boolean'];
 		inside.operator = Prism.languages.bash.operator;
 		inside.punctuation = Prism.languages.bash.punctuation;
 		
@@ -17507,11 +17555,13 @@ ${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : '
 
 	function renderRoute(route, toState, fromState) {
 		// Close sidebars.
-		(Object.keys(window.brikcss.sidebars) || []).forEach(group => {
-			if (window.brikcss.sidebars[group].active) {
-				window.brikcss.sidebars[group].active.active = false;
-			}
-		});
+		if (window.brikcss.sidebars) {
+			Object.keys(window.brikcss.sidebars).forEach(group => {
+				if (window.brikcss.sidebars[group].active) {
+					window.brikcss.sidebars[group].active.active = false;
+				}
+			});
+		}
 		// Update header.
 		app.header.title = `${route.parent ? (route.parent.title || route.parent.label) + ' <brik-icon name="chevron-right" size="1.2em" fill="hsl(0, 0%, 100%)"></brik-icon> ' : ''}${route.title || route.label || 'Unknown'}`;
 		// Update edit page link.
@@ -17524,18 +17574,18 @@ ${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : '
 	 *  Define custom elements
 	 ** ---------------------- */
 
-	Page.define();
-	Viewport.define();
-	Content.define();
-	Overlay.define();
-	Sidebar.define();
-	Supernav.define();
-	Scroller.define();
-	Tabs.define();
-	Editor.define();
-	Code.define();
-	Icon.define({ size: '4rem' });
-	BurgerButton.define();
+	Page.define('brik-page');
+	Viewport.define('brik-viewport');
+	Content.define('brik-content');
+	Overlay.define('brik-overlay');
+	Sidebar.define('brik-sidebar');
+	Supernav.define('brik-supernav');
+	Scroller.define('brik-scroller');
+	Tabs.define('brik-tabs');
+	Editor.define('brik-editor');
+	Code.define('brik-code');
+	Icon.define('brik-icon');
+	BurgerButton.define('brik-burger-button');
 	Header$1.define('ds-header');
 
 	/** ================================================================================================
@@ -17543,7 +17593,6 @@ ${context.css ? [`<style type="text/css">${context.css.toString()}</style>`] : '
 	 ** -------------------- */
 
 	app.supernav.links = routes.filter(route => !route.hide);
-	app.supernav.render();
 
 	/** ================================================================================================
 	 *  Temporary
