@@ -1,5 +1,7 @@
 # DirectScale UI Library
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/brikcss/dsui-library-site.svg)](https://greenkeeper.io/)
+
 > DS UI offers a well-defined _"design system"_ of standards along with a library of independently deployable, front end building blocks to benefit all who interact with DS UI.
 
 <!-- Shields. -->
